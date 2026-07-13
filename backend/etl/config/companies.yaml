@@ -1,0 +1,25 @@
+# parsers.parse_company_info()의 static_df → companies 테이블
+# key: 원본(파서 산출) 컬럼명, db: DB 컬럼명, dtype: int|float|str|date|bool
+table: companies
+key: 기업일련번호
+columns:
+  기업일련번호: {db: company_id, dtype: int}
+  지역: {db: region, dtype: str}
+  설립일자: {db: founded_date, dtype: date}
+  "기업유형(법인/개인)": {db: corp_type, dtype: str}
+  "기업규모(대/중/소)": {db: company_size, dtype: str}
+  "기업공개(코스피, 코스닥)": {db: listing_type, dtype: str}
+  "기업형태(주식/개인)": {db: corp_form, dtype: str}
+  "KSIC코드(11차)": {db: ksic_code, dtype: str}
+  "업종명(11차)": {db: industry_name, dtype: str}
+  주요제품: {db: main_products, dtype: str}
+  기업상태_휴폐업여부: {db: is_closed, dtype: bool}
+  기업상태_폐업일자: {db: closed_date, dtype: date}
+  기업상태_조회일자: {db: inquiry_date, dtype: date}
+  기업상태_휴폐업구분: {db: closure_type, dtype: str}
+  기업상태: {db: company_status, dtype: str}
+  "연구원(최근)": {db: researcher_count_recent, dtype: int}
+  기업부설연구소_유무: {db: has_research_institute, dtype: bool}
+  기업부설연구소_등록일: {db: research_institute_registered_date, dtype: date}
+  연구개발전담부서_유무: {db: has_research_dept, dtype: bool}
+  연구개발전담부서_등록일: {db: research_dept_registered_date, dtype: date}

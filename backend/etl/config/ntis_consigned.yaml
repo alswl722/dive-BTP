@@ -1,0 +1,21 @@
+table: ntis_consigned_projects
+sheet: "3-2. NTIS(위탁)"
+header_row: 2
+key: 기업일련번호
+drop_empty_except_key: true
+columns:
+  기업일련번호: {db: company_id, dtype: int}
+  기준연도: {db: base_year, dtype: int}
+  기준일자: {db: base_date, dtype: date}
+  외국연구기관공동연구여부: {db: foreign_joint_research, dtype: bool}
+  기타공동연구여부: {db: other_joint_research, dtype: bool}
+  연구형태명: {db: research_type, dtype: str}
+  공동연구참여형태명: {db: joint_participation_type, dtype: str}
+  공동연구참여국가명: {db: joint_country, dtype: str}
+  연구수행주체명: {db: research_entity_type, dtype: str}
+  위탁과제연구비: {db: consigned_funding_krw, dtype: float}
+  공동연구비지출금액: {db: joint_expense_krw, dtype: float}
+  공동연구비수입금액: {db: joint_income_krw, dtype: float}
+  기업공동연구여부: {db: company_joint_research, dtype: bool}
+  대학공동연구여부: {db: university_joint_research, dtype: bool}
+  국공립공동연구여부: {db: public_joint_research, dtype: bool}

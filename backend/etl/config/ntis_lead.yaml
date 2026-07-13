@@ -1,0 +1,20 @@
+table: ntis_lead_projects
+sheet: "3-1. NTIS(주관)"
+header_row: 2
+key: 기업일련번호
+drop_empty_except_key: true
+columns:
+  기업일련번호: {db: company_id, dtype: int}
+  기준연도: {db: base_year, dtype: int}
+  기준일자: {db: base_date, dtype: date}
+  국가과학기술지식정보서비스사업명: {db: project_name, dtype: str}
+  주관부처명: {db: ministry, dtype: str}
+  지역구분명: {db: region, dtype: str}
+  총연구기간시작일자: {db: period_start_date, dtype: date}
+  총연구기간종료일자: {db: period_end_date, dtype: date}
+  당해연구기간시작일자: {db: current_period_start_date, dtype: date}
+  당해연구기간종료일자: {db: current_period_end_date, dtype: date}
+  과학기술표준분류명: {db: tech_classification, dtype: str}
+  정부투자연구비: {db: gov_funding_krw, dtype: float}
+  민간연구비합계: {db: private_funding_krw, dtype: float}
+  연구비합계: {db: total_funding_krw, dtype: float}

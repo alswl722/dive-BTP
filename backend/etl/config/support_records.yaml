@@ -1,0 +1,23 @@
+# 2022~2024_기업지원목록 시트 통합. year 컬럼은 run_etl.py가 시트명에서 추출해 주입한다.
+table: support_records
+sheets: ["2022_기업지원목록", "2023_기업지원목록", "2024_기업지원목록"]
+header_row: 2
+key: [year, 코드, 기업일련번호]
+columns:
+  year: {db: year, dtype: int}
+  코드: {db: program_code, dtype: str}
+  기업일련번호: {db: company_id, dtype: int}
+  사업유형: {db: business_type, dtype: str}
+  지원구분(주요지원): {db: support_detail_main, dtype: str}
+  지원구분(주요지원 외 작성 *패키지지원만): {db: support_detail_other, dtype: str}
+  지원품목: {db: support_item, dtype: str}
+  선정일: {db: selected_date, dtype: date}
+  선정결과: {db: selection_result, dtype: str}
+  지원금(천원): {db: support_amount_thousand_krw, dtype: float}
+  시작일: {db: start_date, dtype: date}
+  종료일: {db: end_date, dtype: date}
+  업종코드: {db: industry_code_raw, dtype: str}
+  광역: {db: region_wide, dtype: str}
+  기초: {db: region_base, dtype: str}
+  주생산품: {db: main_product_raw, dtype: str}
+  설립연도: {db: founded_year_raw, dtype: str}

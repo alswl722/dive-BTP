@@ -1,0 +1,9 @@
+table: company_business_purposes
+sheet: "4. 법인사업목적"
+header_row: 2
+key: 기업일련번호
+columns:
+  기업일련번호: {db: company_id, dtype: int}
+  순서: {db: seq, dtype: int}
+  사업목적항목내용: {db: purpose_text, dtype: str}
+  등기일자: {db: registered_date, dtype: date}

@@ -2,28 +2,32 @@
   "totalCompanies": 11,
   "bizTypeDist": [
     {
-      "type": "마케팅지원",
-      "count": 14
+      "type": "패키지지원",
+      "count": 39
     },
     {
-      "type": "R&D",
-      "count": 14
+      "type": "사업화지원",
+      "count": 25
     },
     {
-      "type": "수출지원",
-      "count": 14
+      "type": "일자리창출or인력양성",
+      "count": 10
     },
     {
-      "type": "인증지원",
-      "count": 14
-    },
-    {
-      "type": "시제품제작",
-      "count": 14
+      "type": "기술지원",
+      "count": 8
     },
     {
       "type": "스마트공장",
-      "count": 13
+      "count": 3
+    },
+    {
+      "type": "기반구축",
+      "count": 2
+    },
+    {
+      "type": "기타",
+      "count": 2
     }
   ],
   "regionDist": [
@@ -34,16 +38,16 @@
   ],
   "resultDist": [
     {
-      "result": "포기",
-      "count": 17
-    },
-    {
       "result": "선정",
-      "count": 51
+      "count": 80
     },
     {
       "result": "탈락",
-      "count": 15
+      "count": 8
+    },
+    {
+      "result": "포기",
+      "count": 1
     }
   ],
   "dataQualityIssues": 0

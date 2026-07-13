@@ -1,9 +1,9 @@
 """프론트 뼈대용 fixture 생성: parquet → frontend/lib/fixtures/*.json.
 
-재무 축 산출물(features_score/features_finance)과 master_table을 읽어
-프론트가 API 없이 렌더할 수 있는 JSON fixture를 만든다.
-- 실데이터: 4축 점수·백분위·5개년 재무추세·인증·특허·NTIS·지원 집계
-- 목업(타 팀원 데이터 미완): 지원이력 상세 타임라인·사업목적 정합성
+재무 축 산출물(features_score/features_finance)과 master_table, support_records를
+읽어 프론트가 API 없이 렌더할 수 있는 JSON fixture를 만든다.
+- 실데이터: 4축 점수·백분위·5개년 재무추세·인증·특허·NTIS·지원 집계·지원이력 타임라인
+- 목업(아직 미구현): 사업목적-지원사업 정합성(businessFit)
 
 ※ 스코어링/파생 모듈에 의존하지 않는 standalone 스크립트(프론트 브랜치에서도 실행).
 """
@@ -23,8 +23,8 @@ OUT_DIR = Path(__file__).resolve().parents[1].parent / "frontend" / "lib" / "fix
 YEARS = [2020, 2021, 2022, 2023, 2024]
 
 CERTS = ["이노비즈", "메인비즈", "벤처기업", "소재부품", "NET", "NEP"]
-BIZ_TYPES = ["시제품제작", "수출지원", "마케팅지원", "인증지원", "R&D", "스마트공장"]
 AXES = ["성장성", "수익성", "효율성", "안정성"]
+RESULT_MAP = {"지원대상": "선정", "탈락": "탈락", "포기": "포기"}
 
 
 def clean(v):
@@ -60,23 +60,25 @@ def yn(v):
     return str(v).strip().upper() in {"Y", "1", "TRUE", "유", "T"}
 
 
-def mock_support_history(cid: int, n: int, n_years: int):
-    """지원 집계로부터 그럴듯한 이력 타임라인 목업(결정적). 타 팀원 축9 데이터 오면 교체."""
-    n = int(n) if n and not math.isnan(n) else 0
+def support_history(cid: int, sr: pd.DataFrame):
+    """support_records(부산TP 2022~2024_기업지원목록 통합)에서 기업별 실제 지원이력 타임라인.
+
+    선정일(selected_date)이 없으면 시작일(start_date)로 대체. 둘 다 없는 행은
+    타임라인에 날짜를 못 매길 근거가 없어 제외(원본 결측 그대로 반영, 임의값 대체 안 함).
+    """
+    rows = sr[sr["company_id"] == cid]  # support_records는 DB 원본 컬럼명(영문)이라 KEY와 다름
     records = []
-    base_year = 2024 - max(int(n_years) - 1, 0) if n_years and not math.isnan(n_years) else 2022
-    for i in range(min(n, 12)):
-        # 결정적 패턴: 대부분 선정, 주기적으로 탈락/포기
-        r = (cid + i) % 5
-        result = "탈락" if r == 3 else ("포기" if r == 4 else "선정")
-        yr = base_year + (i % max(2024 - base_year + 1, 1))
-        month = 1 + (cid + i * 7) % 12
-        amount = 20000 + (cid * 137 + i * 911) % 80000 if result == "선정" else 0  # 천원
+    for _, r in rows.iterrows():
+        date = r["selected_date"] if pd.notna(r["selected_date"]) else r["start_date"]
+        if pd.isna(date):
+            continue
+        result = RESULT_MAP.get(str(r["selection_result"]).strip(), str(r["selection_result"]).strip())
+        amount = pd.to_numeric(r["support_amount_thousand_krw"], errors="coerce")
         records.append({
-            "date": f"{yr}-{month:02d}-{(1 + (i * 13) % 28):02d}",
+            "date": pd.Timestamp(date).strftime("%Y-%m-%d"),
             "result": result,
-            "bizType": BIZ_TYPES[(cid + i) % len(BIZ_TYPES)],
-            "amount": amount,
+            "bizType": clean(r["business_type"]) or "기타",
+            "amount": clean(amount) or 0,
         })
     records.sort(key=lambda x: x["date"], reverse=True)
     return records
@@ -86,6 +88,7 @@ def main():
     score = pd.read_parquet(DATA_DIR / "features_score.parquet")
     feat = pd.read_parquet(DATA_DIR / "features_finance.parquet")
     master = pd.read_parquet(DATA_DIR / "master_table.parquet")
+    sr = pd.read_parquet(DATA_DIR / "support_records.parquet")
 
     def mcol(hint):
         return next((c for c in master.columns if hint in str(c)), None)
@@ -137,14 +140,14 @@ def main():
                 "총지원금_천원": clean(m.get("총지원금_천원")),
                 "지원연도수": clean(m.get("지원연도수")),
             },
-            "supportHistory": mock_support_history(cid, m.get("지원건수"), m.get("지원연도수")),
+            "supportHistory": support_history(cid, sr),
             "passthrough": {
                 "영업외손익비중": clean(s.get("영업외손익비중")),
                 "자본잠식_플래그": clean(s.get("자본잠식_플래그")),
             },
             "percentileBasis": clean(s.get("백분위기준")),
             "dataQuality": {"missing": missing, "ok": len(missing) == 0},
-            "_mock": ["supportHistory", "businessFit"],  # 목업 표기(투명성)
+            "_mock": ["businessFit"],  # 목업 표기(투명성) — 사업목적 정합성만 아직 미구현
         })
 
     # 반복선정 랭킹 (건수/금액 분리) — 실 집계
@@ -156,7 +159,7 @@ def main():
         "byAmount": sorted(rank_base, key=lambda x: (x["총지원금_천원"] or 0), reverse=True),
     }
 
-    # 대시보드 집계 — 사업유형 분포(목업 이력 기반)·지역 분포·데이터품질
+    # 대시보드 집계 — 사업유형 분포(실 지원이력 기반)·지역 분포·데이터품질
     from collections import Counter
     biz_counter, region_counter = Counter(), Counter()
     result_counter = Counter()

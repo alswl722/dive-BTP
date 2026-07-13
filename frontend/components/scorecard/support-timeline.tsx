@@ -24,7 +24,6 @@ export function SupportTimeline({ company }: { company: Company }) {
         <CardTitle>
           지원 이력 <span className="font-normal">· 선정률 {rate}% ({selected}/{total})</span>
         </CardTitle>
-        <Badge variant="secondary">목업 데이터</Badge>
       </CardHeader>
       <CardContent className="grid gap-5 md:grid-cols-[1fr_200px]">
         <ol className="relative space-y-3 border-l pl-4">

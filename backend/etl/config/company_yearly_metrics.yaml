@@ -1,0 +1,23 @@
+# parsers.parse_company_info()의 yearly_long_df → company_yearly_metrics 테이블
+table: company_yearly_metrics
+key: [기업일련번호, year]
+columns:
+  기업일련번호: {db: company_id, dtype: int}
+  year: {db: year, dtype: int}
+  종업원수: {db: employee_count, dtype: int}
+  "국민연금 가입자수": {db: pension_subscribers, dtype: int}
+  "국민연금 취업자수": {db: pension_employed, dtype: int}
+  "국민연금 퇴직자수": {db: pension_retired, dtype: int}
+  "1인평균년간급여(합계)_단위:원": {db: avg_annual_salary_krw, dtype: float}
+  매출액: {db: revenue_thousand_krw, dtype: float}
+  영업이익손실: {db: operating_profit_thousand_krw, dtype: float}
+  매출원가: {db: cogs_thousand_krw, dtype: float}
+  당기순이익손실: {db: net_income_thousand_krw, dtype: float}
+  영업이익률: {db: operating_margin_pct, dtype: float}
+  자산총계: {db: total_assets_thousand_krw, dtype: float}
+  부채총계: {db: total_liabilities_thousand_krw, dtype: float}
+  자본총계: {db: total_equity_thousand_krw, dtype: float}
+  납입자본금: {db: paid_in_capital_thousand_krw, dtype: float}
+  연구개발비: {db: rnd_expense_thousand_krw, dtype: float}
+  "특허등록건수(최종건수 누적)": {db: patents_registered_cum, dtype: int}
+  "특허출원건수(최종건수 누적)": {db: patents_applied_cum, dtype: int}

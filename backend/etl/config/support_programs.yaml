@@ -1,0 +1,16 @@
+# 2022~2024_사업목록 시트 통합. year 컬럼은 run_etl.py가 시트명에서 추출해 주입한다.
+table: support_programs
+sheets: ["2022_사업목록", "2023_사업목록", "2024_사업목록"]
+header_row: 2
+key: [year, 코드]
+columns:
+  year: {db: year, dtype: int}
+  코드: {db: program_code, dtype: str}
+  부산TP 예산서의 사업명: {db: program_name, dtype: str}
+  사업구분: {db: macro_category, dtype: str}
+  사업유형: {db: business_type, dtype: str}
+  시작일: {db: start_date, dtype: date}
+  종료일: {db: end_date, dtype: date}
+  부처명: {db: ministry, dtype: str}
+  지자체: {db: local_gov, dtype: str}
+  주요내용: {db: description, dtype: str}

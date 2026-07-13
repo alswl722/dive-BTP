@@ -1,0 +1,12 @@
+table: patents
+sheet: "2. 특허및실용신안"
+header_row: 2
+key: 기업일련번호
+columns:
+  기업일련번호: {db: company_id, dtype: int}
+  지적재산권 종류: {db: ip_type, dtype: str}
+  등록상태: {db: reg_status, dtype: str}
+  출원일자: {db: applied_date, dtype: date}
+  등록일자: {db: registered_date, dtype: date}
+  회사와의관계코드: {db: relation_code, dtype: str}
+  등록유효여부: {db: is_valid, dtype: bool}

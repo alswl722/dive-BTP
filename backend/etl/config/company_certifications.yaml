@@ -1,0 +1,4 @@
+# parsers.parse_company_info()의 static_df 중 인증 6개 컬럼 → company_certifications (row 단위 unpivot)
+table: company_certifications
+key: 기업일련번호
+cert_columns: [이노비즈, 메인비즈, 벤처기업, 소재부품, NET, NEP]

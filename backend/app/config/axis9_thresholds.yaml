@@ -1,0 +1,28 @@
+# 축9 BTP 지원이력 flagging 임계값 (하드코딩 방지, 원칙3 config 기반)
+#
+# 샘플 11개 편향 — 절대값 대신 대부분 percentile로 파라미터화.
+# 본선 데이터에서 실측 후 재산정. axis9.py:load_config()이 이 파일을 읽는다.
+
+segment_thresholds:
+  # 소액다건/대형소수/... 4분면 판정용 percentile
+  support_count_percentile: 75      # 지원건수 상위 25% → "다건"
+  total_amount_percentile: 75       # 총지원금 상위 25% → "대형"
+
+consecutive_years:
+  # "연속수혜" 판정 — 최장 연속수혜연수 이 값 이상이면 연속
+  # 샘플에서 전원 3년 연속 (변별력 없음) → 본선에서 percentile 방식으로 전환 검토
+  min_years: 2
+
+diversity:
+  # 사업유형(business_type) 종류 수 상위 percentile → "여러 부서 반복선정" 신호
+  # 샘플 P90=4, max=5 (기업 1786 outlier)
+  high_percentile: 90
+
+flag_logic:
+  # 성장률 정체 threshold — 축1(민지) growth_score 하위 (0~100 백분위 스케일)
+  # 인터페이스 계약: docs/성장률_인터페이스.md
+  growth_score_stagnant: 30.0       # score < 30 = 정체
+  # "반복" 판정 metric 후보 — OR 조건. 하나라도 percentile 초과면 반복 지원 판정
+  repeat_metrics:
+    - support_count
+    - total_amount_thousand_krw

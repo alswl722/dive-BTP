@@ -7,3 +7,4 @@ openpyxl
 pyarrow
 sqlalchemy
 pyyaml
+anthropic

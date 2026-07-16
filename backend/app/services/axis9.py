@@ -197,25 +197,42 @@ def mock_growth_signal(company_id: int, mode: str = "unknown") -> GrowthSignal:
 
 
 def growth_signals_from_axis1(axis1_df: pd.DataFrame) -> dict[int, GrowthSignal]:
-    """민지 산출 DataFrame → dict[company_id, GrowthSignal].
+    """민지 축1 산출 DataFrame → dict[company_id, GrowthSignal].
 
-    Expected columns (docs/성장률_인터페이스.md):
-      company_id, growth_score, revenue_cagr, revenue_delta
+    민지 실제 산출 (scoring_finance.py:compute_scores + features_finance.py):
+      - 기업일련번호  (필수, 조인 키)
+      - 성장성점수    (필수, 축9 flag 판정에 사용)
+      - 매출_CAGR    (옵션, features_finance 컬럼. join된 상태로 넘어오면 소비)
+      - 매출_증가액   (옵션, 있으면 revenue_delta로 매핑)
+
+    자본잠식·재무 결측 케이스는 민지 finance_utils.safe_cagr/safe_ratio가
+    NaN 반환 → 여기서 None으로 매핑 → flag 판정 시 status="unknown".
     """
-    required = {"company_id", "growth_score", "revenue_cagr", "revenue_delta"}
-    missing = required - set(axis1_df.columns)
-    if missing:
-        raise ValueError(
-            f"축1 인터페이스 컬럼 누락: {missing}. docs/성장률_인터페이스.md 참조"
-        )
+    KEY_COL = "기업일련번호"
+    SCORE_COL = "성장성점수"
+    CAGR_COL = "매출_CAGR"        # 옵션
+    DELTA_COL = "매출_증가액"      # 옵션
+
+    for required in (KEY_COL, SCORE_COL):
+        if required not in axis1_df.columns:
+            raise ValueError(
+                f"축1 산출 필수 컬럼 '{required}' 없음. docs/성장률_인터페이스.md 참조"
+            )
+
+    has_cagr = CAGR_COL in axis1_df.columns
+    has_delta = DELTA_COL in axis1_df.columns
+
     out: dict[int, GrowthSignal] = {}
     for _, row in axis1_df.iterrows():
-        cid = int(row["company_id"])
+        cid = int(row[KEY_COL])
+        score = None if pd.isna(row[SCORE_COL]) else float(row[SCORE_COL])
+        cagr = float(row[CAGR_COL]) if has_cagr and pd.notna(row[CAGR_COL]) else None
+        delta = float(row[DELTA_COL]) if has_delta and pd.notna(row[DELTA_COL]) else None
         out[cid] = GrowthSignal(
             company_id=cid,
-            growth_score=None if pd.isna(row["growth_score"]) else float(row["growth_score"]),
-            revenue_cagr=None if pd.isna(row["revenue_cagr"]) else float(row["revenue_cagr"]),
-            revenue_delta=None if pd.isna(row["revenue_delta"]) else float(row["revenue_delta"]),
+            growth_score=score,
+            revenue_cagr=cagr,
+            revenue_delta=delta,
         )
     return out
 
@@ -364,3 +381,17 @@ if __name__ == "__main__":
     flag_df_no_growth = classify_flags_batch(metrics_df, None, config)
     print("\n=== flags (성장률 mock=None, 축1 대기) ===")
     print(flag_df_no_growth.to_string(index=False))
+
+    # 민지 실제 컬럼(한글)을 흉내낸 DataFrame으로 growth_signals_from_axis1 검증
+    axis1_sample = pd.DataFrame([
+        {"기업일련번호": 1786, "성장성점수": 15.0, "매출_CAGR": -0.02},   # 정체
+        {"기업일련번호": 1178, "성장성점수": 82.5, "매출_CAGR":  0.18},   # 성장
+        {"기업일련번호": 1878, "성장성점수":  float("nan"), "매출_CAGR": float("nan")},  # 자본잠식 등
+    ])
+    signals_from_axis1 = growth_signals_from_axis1(axis1_sample)
+    print("\n=== growth_signals_from_axis1 (민지 실 컬럼 매핑) ===")
+    for cid, sig in signals_from_axis1.items():
+        print(f"  {cid}: score={sig.growth_score} cagr={sig.revenue_cagr}")
+    flag_df_axis1 = classify_flags_batch(metrics_df, signals_from_axis1, config)
+    print("\n=== flags (민지 산출 실 컬럼 소비) ===")
+    print(flag_df_axis1.to_string(index=False))

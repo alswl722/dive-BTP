@@ -61,18 +61,36 @@ def norm_cols(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def find_year_cols(df: pd.DataFrame, hint: str) -> dict:
-    """hint를 포함하는 연도별 컬럼을 {연도: 컬럼명}으로 반환.
+    """hint의 연도별 컬럼을 {연도: 컬럼명}으로 반환. 2단계 매칭:
 
-    '매출액_2020'처럼 지표명_연도 형태를 잡는다. 실제 매핑된 연도만 담기므로
-    연도 범위가 달라도(본선) 그대로 동작.
+    1) **엄격**: 연도 접미사를 제거한 스템이 hint와 정확히 일치('매출액_2020'
+       → 스템 '매출액'). '매출액증가율_2024' 같은 파생 컬럼이 진짜 매핑을
+       덮어쓰는 사고(연도 키 충돌)를 차단.
+    2) **fallback**: 엄격 매칭이 0개면 부분일치(hint in 컬럼명)로 완화하고
+       ⚠️ 경고 — 본선 데이터 컬럼명이 장식('(최종건수누적)' 등)을 달고 올 때
+       조용히 전멸하지 않기 위한 안전망.
+
+    실제 매핑된 연도만 담기므로 연도 범위가 달라도(본선) 그대로 동작.
     """
-    out = {}
+    strict, loose = {}, {}
     for c in df.columns:
-        if hint in str(c):
-            m = re.search(r"(20\d{2})", str(c))
-            if m:
-                out[int(m.group(1))] = c
-    return dict(sorted(out.items()))
+        s = str(c)
+        m = re.search(r"(20\d{2})", s)
+        if not m:
+            continue
+        y = int(m.group(1))
+        if hint in s:
+            loose[y] = c
+        stem = re.sub(r"[_\s]*20\d{2}.*$", "", s)  # 연도 접미사부터 끝까지 제거
+        if stem == hint:
+            strict[y] = c
+    if strict:
+        return dict(sorted(strict.items()))
+    if loose:
+        print(f"  ⚠️ '{hint}' 엄격 매칭 실패 → 부분일치 fallback 사용: "
+              f"{list(loose.values())[:3]}{'...' if len(loose) > 3 else ''} — 컬럼명 확인 권장")
+        return dict(sorted(loose.items()))
+    return {}
 
 
 def _year_series(df: pd.DataFrame, ycols: dict, year: int) -> pd.Series:
@@ -90,13 +108,24 @@ def compute_features(df: pd.DataFrame, verbose: bool = True) -> pd.DataFrame:
     if KEY not in df.columns:
         raise KeyError(f"조인 키 '{KEY}' 컬럼이 입력에 없음. 컬럼: {list(df.columns)[:10]}...")
 
+    # 기업일련번호 중복 가드: 중복 행은 백분위·조인을 오염시킴 → 첫 행만 유지 + 경고
+    dup = df[KEY].duplicated()
+    if dup.any():
+        print(f"  ⚠️ {KEY} 중복 {int(dup.sum())}건 감지 → 각 기업 첫 행만 유지 (ETL 중복 적재 여부 확인 필요)")
+        df = df[~dup].reset_index(drop=True)
+
     # 지표별 연도 컬럼 매핑 + 로그
     ymap = {name: find_year_cols(df, hint) for name, hint in METRIC_HINTS.items()}
     if verbose:
-        print("[컬럼 매핑] (부분일치)")
+        print("[컬럼 매핑] (엄격 → 부분일치 fallback)")
         for name, yc in ymap.items():
             status = ", ".join(f"{y}:{c}" for y, c in yc.items()) or "⚠️ 매칭 없음"
             print(f"  {name:12s} → {status}")
+    # 매핑 실패 요약 — 본선 컬럼명 변형의 조용한 전멸 방지 (가장 위험한 단일 실패 지점)
+    missing_hints = [n for n, yc in ymap.items() if not yc]
+    if missing_hints:
+        print(f"  ⚠️⚠️ 매핑 실패 지표 {len(missing_hints)}개: {missing_hints}")
+        print(f"       → 관련 파생컬럼이 전부 NaN이 됩니다. METRIC_HINTS와 실제 컬럼명을 대조하세요!")
 
     def sat(name: str, year: int) -> pd.Series:  # series-at-year
         return _year_series(df, ymap[name], year)
@@ -116,17 +145,29 @@ def compute_features(df: pd.DataFrame, verbose: bool = True) -> pd.DataFrame:
         ys = years_of(metric)
         if len(ys) < 2:
             return np.nan, np.nan, np.nan
+        W = wide(metric)  # 기업 × 연도
         # 전년대비 성장률(YoY): 시작값 0 방어 → safe_ratio
         yoy = pd.DataFrame(
-            {ys[i]: safe_ratio(sat(metric, ys[i]), sat(metric, ys[i - 1])) - 1
-             for i in range(1, len(ys))},
+            {ys[i]: safe_ratio(W[ys[i]], W[ys[i - 1]]) - 1 for i in range(1, len(ys))},
             index=df.index,
         )
-        cagr = safe_cagr(sat(metric, ys[0]), sat(metric, ys[-1]), ys[-1] - ys[0])
+        # CAGR: 기업별 첫/끝 "유효" 연도 사용 — 가장자리 1년 결측만으로 전체 NaN이
+        # 되는 것 방지(중간 연도로 계산 가능하면 계산, span은 실제 유효연도 차이).
+        def _cagr_row(row):
+            valid = row.dropna()
+            if len(valid) < 2:
+                return np.nan
+            y0, y1 = valid.index[0], valid.index[-1]
+            return safe_cagr(valid.iloc[0], valid.iloc[-1], y1 - y0)
+        cagr = W.apply(_cagr_row, axis=1)
         stab = yoy.std(axis=1, skipna=True)  # 낮을수록 안정. 유효 전이 1개면 NaN.
         # 가속도: 최근 구간(마지막 전이) − 이전 구간(앞 2개 전이 평균)
         #   지시서 라벨 그대로: recent=23→24, prior=mean(20→21, 21→22)
-        accel = yoy.iloc[:, -1] - yoy.iloc[:, :2].mean(axis=1, skipna=True)
+        #   유효 전이 < 3개면 NaN — recent·prior 창이 겹치거나(연도 3개) 동일해져
+        #   (연도 2개 → 가속도 0) "정보 부족"이 "변화 없음"으로 오독되는 것 방지.
+        n_trans = yoy.notna().sum(axis=1)
+        accel_raw = yoy.iloc[:, -1] - yoy.iloc[:, :2].mean(axis=1, skipna=True)
+        accel = accel_raw.where(n_trans >= 3)
         return cagr, stab, accel
 
     out["매출_CAGR"], out["매출_성장안정성"], out["매출_성장가속도"] = growth_block("매출액")
@@ -139,29 +180,59 @@ def compute_features(df: pd.DataFrame, verbose: bool = True) -> pd.DataFrame:
         out["순이익률_최근"] = safe_ratio(sat("당기순이익손실", L), sat("매출액", L))
         out["매출총이익률_최근"] = safe_ratio(sat("매출액", L) - sat("매출원가", L), sat("매출액", L))
         # 자본 대비 수익 (매출 기준 마진이 못 잡는 관점): 자산·자기자본이 얼마나 벌어들이나
-        out["ROA"] = safe_ratio(sat("당기순이익손실", L), sat("자산총계", L))   # 총자산이익률
-        out["ROE"] = safe_ratio(sat("당기순이익손실", L), sat("자본총계", L))   # 자기자본이익률(자본≤0→NaN)
+        # 기준연도는 매출 최신(L)이 아니라 두 지표의 "자체 최신 공통연도" — 매출과
+        # 자산·자본의 연도 커버리지가 다를 때 불필요한 NaN 방지.
+        def _latest_common(a: str, b: str):
+            common = set(ymap[a]) & set(ymap[b])
+            return max(common) if common else None
+        La = _latest_common("당기순이익손실", "자산총계")
+        Le = _latest_common("당기순이익손실", "자본총계")
+        out["ROA"] = safe_ratio(sat("당기순이익손실", La), sat("자산총계", La)) if La else np.nan
+        out["ROE"] = safe_ratio(sat("당기순이익손실", Le), sat("자본총계", Le)) if Le else np.nan  # 자본≤0→NaN
         # 본업(영업) vs 최종(순이익) 갭 = 영업외손익 비중. 음수 크면 영업외에서 이익을 까먹음.
         out["영업외손익비중"] = out["순이익률_최근"] - out["영업이익률_최근"]
         # 판관비율: 판관비 = 매출총이익 − 영업이익 = (매출−매출원가) − 영업이익
         _sga = (sat("매출액", L) - sat("매출원가", L)) - sat("영업이익손실", L)
         out["판관비율"] = safe_ratio(_sga, sat("매출액", L))
+        # 데이터 모순 감지: 판관비 음수(영업이익 > 매출총이익)는 회계상 불가 → 원본 오류 신호.
+        # 점수엔 미반영(passthrough), 대시보드 데이터품질 경고용. 1=모순, 0=정상, NaN=판단불가.
+        out["데이터모순_판관비음수"] = (_sga < 0).astype(float).where(_sga.notna())
         # 효율성: 자산을 얼마나 매출로 돌리나 (성장·수익과 독립 축)
         out["총자산회전율"] = safe_ratio(sat("매출액", L), sat("자산총계", L))
     else:
         for _c in ["영업이익률_최근", "순이익률_최근", "매출총이익률_최근",
-                   "ROA", "ROE", "영업외손익비중", "판관비율", "총자산회전율"]:
+                   "ROA", "ROE", "영업외손익비중", "판관비율",
+                   "데이터모순_판관비음수", "총자산회전율"]:
             out[_c] = np.nan
 
-    # 흑자지속성: 영업이익 > 0 인 연수 (NaN은 미카운트 → False)
+    # 흑자지속성: 관측된 연도 중 영업이익 > 0 인 연수.
+    # 관측 0년(전결측)이면 NaN — "데이터 없음"과 "5년 내내 적자"를 구분(결측→0 오인 방지).
+    # 흑자관측연수를 병기해 "3년 관측 중 2년 흑자"처럼 분모를 드러냄.
     op_mat = wide("영업이익손실")
-    out["흑자지속성"] = (op_mat > 0).sum(axis=1).astype(int) if not op_mat.empty else 0
+    if not op_mat.empty:
+        obs_years = op_mat.notna().sum(axis=1)
+        black_cnt = (op_mat > 0).sum(axis=1).astype(float)
+        out["흑자관측연수"] = obs_years.astype(int)
+        out["흑자지속성"] = black_cnt.where(obs_years > 0)
+    else:
+        out["흑자관측연수"] = 0
+        out["흑자지속성"] = np.nan
 
-    # 수익성추세: 영업이익률을 연도별 횡단면 winsorize 후 기업별 기울기
+    # 수익성추세: 영업이익률을 연도별 횡단면 winsorize 후 기업별 기울기.
+    # 원본 영업이익률 컬럼이 없으면(본선 변형) 영업이익/매출×100으로 대체 계산(%-스케일 유지).
     opm = wide("영업이익률")
+    if opm.shape[1] < 2:
+        yrs_f = sorted(set(ymap["영업이익손실"]) & set(ymap["매출액"]))
+        if len(yrs_f) >= 2:
+            print("  ⚠️ 영업이익률 원본 부족 → 영업이익/매출로 대체 계산(수익성추세)")
+            opm = pd.DataFrame(
+                {y: safe_ratio(sat("영업이익손실", y), sat("매출액", y)) * 100 for y in yrs_f},
+                index=df.index,
+            )
     if opm.shape[1] >= 2:
         opm_w = opm.apply(lambda col: winsorize(col), axis=0)  # 각 연도 컬럼 = 기업들 사이
-        out["수익성추세"] = opm_w.apply(lambda row: slope(row.to_numpy()), axis=1)
+        _opm_years = list(opm_w.columns)  # 실제 연도 x축 — 연도 컬럼이 띄엄띄엄이어도 간격 유지
+        out["수익성추세"] = opm_w.apply(lambda row: slope(row.to_numpy(), x=_opm_years), axis=1)
     else:
         out["수익성추세"] = np.nan
 
@@ -174,7 +245,7 @@ def compute_features(df: pd.DataFrame, verbose: bool = True) -> pd.DataFrame:
             {y: safe_ratio(sat(num_metric, y), sat(den_metric, y)) for y in yrs},
             index=df.index,
         )
-        return mat.apply(lambda row: slope(row.to_numpy()), axis=1)
+        return mat.apply(lambda row: slope(row.to_numpy(), x=yrs), axis=1)  # 실제 연도 x축
 
     out["ROA추세"] = ratio_trend("당기순이익손실", "자산총계")
     out["ROE추세"] = ratio_trend("당기순이익손실", "자본총계")
@@ -203,7 +274,7 @@ def compute_features(df: pd.DataFrame, verbose: bool = True) -> pd.DataFrame:
             {y: safe_ratio(sat("부채총계", y), sat("자본총계", y)) for y in dy},
             index=df.index,
         )
-        out["부채비율추세"] = dr.apply(lambda row: slope(row.to_numpy()), axis=1)
+        out["부채비율추세"] = dr.apply(lambda row: slope(row.to_numpy(), x=dy), axis=1)  # 실제 연도 x축
     else:
         out["부채비율추세"] = np.nan
 

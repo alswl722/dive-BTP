@@ -136,25 +136,33 @@ def winsorize(series, lower: float = 0.05, upper: float = 0.95):
     return s.clip(lower=lo, upper=hi)
 
 
-def slope(values):
+def slope(values, x=None):
     """연도별 값 시퀀스의 선형회귀 기울기(추세). 1차 최소제곱.
 
-    - values: 시간순 값 시퀀스(리스트/배열/Series). x는 위치 인덱스(0,1,2…)로
-      두어 등간격 가정. 결측은 위치를 유지한 채 제외하므로 [10, NaN, 30]은
-      점 (0,10),(2,30) → 기울기 10.
-    - 결측 제거 후 유효점 2개 미만이면 NaN(회귀 불가).
+    - values: 시간순 값 시퀀스(리스트/배열/Series).
+    - x: 각 값의 실제 x좌표(예: 연도 [2020, 2022, 2024]). 생략하면 위치
+      인덱스(0,1,2…) 등간격 가정. **연도 컬럼이 띄엄띄엄이면 반드시 x를
+      넘겨야** 간격 왜곡이 없다(위치 기반은 2020,2022,2024를 1년 간격으로
+      취급해 기울기를 2배 과대평가).
+    - 결측은 위치(또는 x)를 유지한 채 제외: [10, NaN, 30] → 점 (0,10),(2,30) → 10.
+    - 결측 제거 후 유효점 2개 미만이거나 x 길이 불일치면 NaN.
     - 부호: 양수면 상승 추세, 음수면 하락 추세.
     """
     s = _num(values)
     if not isinstance(s, pd.Series):
         s = pd.Series(s)
     y = s.to_numpy(dtype="float64")
-    x = np.arange(len(y), dtype="float64")
+    if x is None:
+        xs = np.arange(len(y), dtype="float64")
+    else:
+        xs = np.asarray(pd.to_numeric(pd.Series(list(x)), errors="coerce"), dtype="float64")
+        if len(xs) != len(y) or np.isnan(xs).any():
+            return np.nan  # x 좌표 불량 → 회귀 불가
     mask = ~np.isnan(y)
     if mask.sum() < 2:
         return np.nan
     with np.errstate(all="ignore"):
-        return float(np.polyfit(x[mask], y[mask], 1)[0])
+        return float(np.polyfit(xs[mask], y[mask], 1)[0])
 
 
 # --- 방어 자체 테스트 -------------------------------------------------------
@@ -205,6 +213,8 @@ if __name__ == "__main__":
         ("[10,NaN,30] → 10.0", slope([10, np.nan, 30])),
         ("[NaN,NaN] → NaN", slope([np.nan, np.nan])),
         ("유효 1개 → NaN", slope([np.nan, 5, np.nan])),
+        ("연도 x축(2020,2022,2024) → 10.0", slope([100, 120, 140], x=[2020, 2022, 2024])),
+        ("x 길이 불일치 → NaN", slope([1, 2, 3], x=[2020, 2021])),
     ]
     for name, val in cases:
         print(f"  {name:24s}: {val}")

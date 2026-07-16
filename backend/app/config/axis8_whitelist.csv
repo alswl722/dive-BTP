@@ -1,0 +1,21 @@
+﻿# 축8 정합성 판정 whitelist — positive only
+# 미관측 (ksic_major, business_type) 조합은 '이상' 아님. 판단유보 → LLM 2단 호출 대상.
+# confidence=low(관측 1~2건)도 자기참조 편향 방어 위해 LLM 재확인 대상 (axis8_thresholds.yaml:accept_confidence).
+# 샘플 11개 편향 — 임계값·조합 확정 금지. 본선 데이터에서 build_axis8_whitelist.py 재실행.
+ksic_major,business_type,sample_count,source,confidence,notes
+C,패키지지원,32,observed_sample,high,
+C,사업화지원,13,observed_sample,high,
+C,일자리창출or인력양성,9,observed_sample,medium,
+C,기술지원,8,observed_sample,medium,
+C,스마트공장,4,observed_sample,medium,
+C,기반구축,1,observed_sample,low,
+C,기타,1,observed_sample,low,
+J,패키지지원,2,observed_sample,low,
+J,사업화지원,1,observed_sample,low,
+Q,사업화지원,11,observed_sample,high,
+Q,패키지지원,7,observed_sample,medium,
+Q,기반구축,1,observed_sample,low,
+Q,기타,1,observed_sample,low,
+Q,일자리창출or인력양성,1,observed_sample,low,
+,RnD,0,reference_sheet_only,low,참고시트 등재·샘플 미관측 → 본선 재확인 필요
+,사업기획,0,reference_sheet_only,low,참고시트 등재·샘플 미관측 → 본선 재확인 필요

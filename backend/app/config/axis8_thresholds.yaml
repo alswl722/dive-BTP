@@ -1,0 +1,19 @@
+# 축8 판정 임계값 — 하드코딩 방지 (원칙3 config 기반)
+#
+# 관측 빈도 기반 신뢰도 tier. 통계적 관례를 참고해 초기값 설정.
+# - high: 반복 관측으로 정상 패턴 확립 → whitelist 즉시 통과 (score=100)
+# - medium: 다회 관측, 신호 있음 → whitelist 통과
+# - low: 소량 관측(1~2건) = 우연 가능성 → LLM 재확인 대상 (판단유보)
+#
+# 샘플 11개 기준 초기값. 본선 데이터 크기에 비례해 재산정 필요.
+# (예: 본선 기업 500개면 threshold도 비례 상향 검토)
+
+confidence_tiers:
+  high_count: 10   # 관측 ≥10건 → high
+  medium_count: 3  # 관측 ≥3건 → medium (이 미만 = low)
+
+# whitelist 통과 판정에 인정할 신뢰도
+# low를 여기 넣으면 자기참조 편향 완화 안 됨(모든 관측 조합 통과)
+accept_confidence:
+  - high
+  - medium

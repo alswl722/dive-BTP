@@ -1,76 +1,82 @@
-# 축8 LLM 인터페이스 설계 (Phase 3, 실 호출 없이 확정)
+# 축8 LLM 인터페이스 설계 (DeepSeek 채택 · 실 호출 활성)
 
-> 담당: 팀원 D (형우, 기술리드) · 관련 코드: `backend/app/services/axis8_llm.py`(스텁)
-> 결제 승인 후 활성화. 설계·프롬프트·스키마·캐싱·재시도는 현재 확정.
+> 담당: 팀원 D (형우, 기술리드) · 관련 코드: `backend/app/services/axis8_llm.py`
+> 상태: **DeepSeek 실 호출 활성화** (2026-07-16). Claude 결제 대기가 아니었던 이유·최종 결정은 `docs/축8_비용시뮬.md`.
 
 ---
 
 ## 1. 목적·범위
 
-Phase 2 규칙기반 1단 필터에서 **판단유보(`undetermined`/`unknown_ksic`)** 로 분류된 조합만 LLM(Claude)에 넘겨 시맨틱 정합성 판정을 받는다.
+Phase 2 규칙기반 1단 필터에서 **판단유보(`undetermined`/`unknown_ksic`)** 로 분류된 조합만 LLM에 넘겨 시맨틱 정합성 판정을 받는다.
 
 - **미호출**: `whitelisted`, `missing_input`
-- **호출 대상**: `undetermined`(관측 없거나 신뢰도 low), `unknown_ksic`(대분류 추출 불가)
-- **샘플 실측 호출율**: 92건 중 8건(8.7%). 본선에서는 신규 조합 증가 예상 → 20~40% 가정 (docs/축8_비용시뮬.md)
+- **호출 대상**: `undetermined`, `unknown_ksic`
+- **샘플 실측 호출율**: 92건 중 8건(8.7%). 본선 20~40% 가정
 
 ---
 
-## 2. 프롬프트 설계
+## 2. 프로바이더 · 모델
 
-### 2.1 원칙
+### 2.1 기본 선택 — DeepSeek V3 (`deepseek-chat`)
 
-- **시스템 프롬프트 고정** — Anthropic prompt cache 프리픽스로 쓰기 위해 절대 변경 없음
-- **기업 사업목적 텍스트 재사용 캐시** — 기업당 1회 write, 이후 read (5분 TTL). 같은 기업의 여러 지원사업 판정 시 큰 절감
-- **가변부(user turn)는 지원사업 정보만** — 캐시 breakpoint 뒤에 배치
+**채택 근거** (docs/축8_비용시뮬.md 요약):
+- 파일럿 4건 정확도 4/4 (gpt-4o 동률, gpt-4o-mini 우위)
+- 최저 비용 (5000기업 시나리오 $0.17, gpt-4o 대비 24배 저렴)
+- 극단값 점수 분포 (85·15·50·10) → 심사 도구 UX에 유리
 
-### 2.2 시스템 프롬프트 (고정, 캐시 대상)
+### 2.2 옵션 프로바이더
 
-```
-<role>
-부산테크노파크 심사 담당자 지원 도구의 사업정체성 정합성 판정 assistant.
-</role>
+`AXIS8_LLM_PROVIDER` env로 스위칭 가능:
 
-<task>
-주어진 기업의 등기부등본 사업목적 텍스트와 실제 받은 정부 지원사업의 의미 정합성을 0~100 점수로 판정한다.
-어휘 일치가 아닌 의미 일치를 본다.
-</task>
+| 프로바이더 | env 값 | 모델 default | 상태 |
+| --- | --- | --- | --- |
+| **DeepSeek** | `deepseek` | `deepseek-chat` | ✅ 결제·활성 |
+| OpenAI | `openai` | `gpt-4o` | ✅ 결제·활성 (옵션) |
+| Claude | `claude` | `claude-opus-4-7` | 결제 미승인 (철회) |
 
-<scoring_guide>
-- 71~100 (직접일치): 사업목적 핵심 영역에 해당
-- 31~70  (간접관련): 직접 서비스는 아니지만 사업목적 지원 가능
-- 0~30   (무관):    사업목적과 지원사업 영역이 다름
-</scoring_guide>
+**미지정 시 자동 감지 순서** (`axis8_llm._detect_provider`):
+`deepseek` → `openai` → `claude` — 유효 API 키가 있는 첫 프로바이더 선택.
 
-<output_rules>
-- score: 0~100 정수
-- match_type: "직접일치" | "간접관련" | "무관"
-- matched_keywords: 정합성 근거가 되는 사업목적 텍스트 내 키워드 최대 3개
-- reasoning: 담당자가 즉시 이해할 수 있는 한 문장
-</output_rules>
+### 2.3 프로바이더별 호출 스타일
 
-<caution>
-- 어휘 겹침 부재를 근거로 무관 판정 금지 (샘플에서 jaccard 평균 0.005 관측)
-  예: "밸브·산업기계 제조" 사업목적 기업이 "스마트공장 구축 지원"을 받은 것은
-     어휘 안 겹치지만 정합. score 71+ 부여 정상.
-- 사업목적이 10개 항목으로 다각화된 경우 각 지원사업별 개별 판정, 관련된 항목만 근거로 인용
-- 정보 부족 시 score 40~60 중립값 + reasoning에 부족 정보 명시
-</caution>
-```
+| 프로바이더 | SDK | Structured Output | 캐싱 | 재시도 |
+| --- | --- | --- | --- | --- |
+| DeepSeek | `openai` + `base_url` | JSON mode + Pydantic 수동 검증 | 자동 prefix 매칭 | 필요 (2회) |
+| OpenAI | `openai` | `beta.chat.completions.parse()` — SDK 자동 매핑 | 자동 (1024+ 토큰) | 불필요 |
+| Claude | `anthropic` | `messages.parse()` — SDK 자동 매핑 | 명시적 `cache_control` | 불필요 |
 
-### 2.3 User 메시지 (가변, 캐시 대상 + 캐시 무관 부분 분리)
+---
 
-**블록1 (캐시 대상)** — 기업 사업목적 컨텍스트:
+## 3. 프롬프트 설계
+
+### 3.1 원칙 (프로바이더 무관)
+
+- **시스템 프롬프트 고정** — 캐싱 prefix로 사용 (변경 금지)
+- **기업 사업목적 재사용 캐시** — 기업당 write 1회 후 read
+- **가변부 마지막** — 지원사업 정보는 캐시 뒤에 배치
+
+### 3.2 시스템 프롬프트 (고정)
+
+`axis8_llm.SYSTEM_PROMPT` 상수. 구조:
+- `<role>` 부산TP 심사 담당자 지원 도구 assistant
+- `<task>` 사업목적 vs 지원사업 정합성 0~100 판정, 어휘가 아닌 의미 매칭
+- `<scoring_guide>` 71~100 직접일치 · 31~70 간접관련 · 0~30 무관
+- `<output_rules>` 4개 필드 (score, match_type, matched_keywords, reasoning)
+- `<caution>` 어휘 겹침 부재로 무관 판정 금지 등 3항목 (기업 1178 사례 인용)
+
+### 3.3 User 메시지 (가변)
+
+**블록1 (캐시 대상, `_build_business_purpose_block`)**:
 ```
 <company id={company_id}>
 <business_purposes>
   1. {purpose_1}
-  2. {purpose_2}
   ...
 </business_purposes>
 </company>
 ```
 
-**블록2 (캐시 무관)** — 지원사업 정보:
+**블록2 (fresh, `_build_support_block`)**:
 ```
 다음 지원사업과 위 사업목적의 정합성을 판정해줘.
 
@@ -82,143 +88,142 @@ Phase 2 규칙기반 1단 필터에서 **판단유보(`undetermined`/`unknown_ks
 </support_program>
 ```
 
-`cache_control`은 `system` 마지막 블록·`user` content 블록1 끝에 부여 (Anthropic 4 breakpoint 제한 준수).
+**DeepSeek JSON mode 추가 hint** (`JSON_SCHEMA_HINT`): 스키마 예시 명시하여 자유 텍스트 방지.
 
 ---
 
-## 3. Structured Output 스키마
-
-`client.messages.parse()` + Pydantic 모델로 응답 검증 자동화 (claude-api 스킬 권장 패턴).
+## 4. Structured Output 스키마
 
 ```python
 class LLMAlignmentJudgment(BaseModel):
     score: int = Field(ge=0, le=100)
     match_type: Literal["직접일치", "간접관련", "무관"]
-    matched_keywords: list[str] = Field(default_factory=list)
+    matched_keywords: list[str] = Field(default_factory=list, max_length=3)
     reasoning: str
 ```
 
-- **`matched_keywords`**: 담당자 화면 근거 표시용 — 발표에서도 "왜 이 점수인가" 대응
-- **`reasoning`**: 스코어카드 tooltip / 상세보기 노출
-- **자유 텍스트 미허용**: 스코어링 재현성 확보
+- **`matched_keywords`**: 담당자 화면 근거 표시 · 발표 "왜 이 점수?" 대응
+- **`reasoning`**: 스코어카드 tooltip / 상세보기
+
+DeepSeek는 JSON mode 응답 → `LLMAlignmentJudgment.model_validate()` 수동 검증. 실패 시 최대 2회 재시도.
+OpenAI/Claude는 SDK가 자동 검증.
 
 ---
 
-## 4. 캐싱 아키텍처 (2단)
+## 5. 캐싱 아키텍처 (2단)
 
-### 4.1 앱 레벨 dedup 캐시 (LLM 호출 자체 제거)
+### 5.1 앱 레벨 dedup 캐시 (LLM 호출 자체 제거)
 
-**키**: `(company_id, program_code, purposes_sha12)`
-- `purposes_sha12`: 사업목적 문자열 정렬 후 SHA-256의 앞 12자 (기업 사업목적 변경 감지)
-- **저장소**: Phase 5 통합 시 결정 (SQLite/Redis/dict). 스텁은 in-memory dict
+- **키**: `(company_id, program_code, purposes_sha12)`
+- **저장소**: in-memory dict (Phase 5b에서 SQLite/Redis로 승격 결정)
+- **효과**: 같은 조합 재호출 시 LLM 호출 완전 스킵 → 비용·지연 0
+- **예상 히트율**: 40%
 
-**히트 시**: LLM 호출 없이 이전 판정 재사용 → 비용·지연 완전 절감
-**예상 히트율**: 40% — 같은 기업이 유사한 지원사업 조합에 반복 신청하는 패턴
+### 5.2 프로바이더 prompt cache
 
-### 4.2 Anthropic prompt cache (호출은 하지만 저렴하게)
+**DeepSeek** — 자동 prefix 매칭:
+- System prompt (~500t) + 기업 사업목적 (~200t) 자동 캐시
+- Cache read 비용: 입력의 10% ($0.014 vs $0.14 per 1M)
+- 스모크 테스트 실측: 3, 4번째 호출부터 384 tokens hit
 
-**Cache write 대상**:
-- System prompt (~500 tokens, 전체 요청에서 1회만 write)
-- 기업 사업목적 컨텍스트 (~200 tokens, 기업당 1회 write)
-
-**Cache read 요금**: 기본 input × 0.1 (예: Opus 4.7 $5/1M → $0.5/1M)
-**Cache write 요금**: 기본 input × 1.25 (5분 TTL)
-**TTL**: 5분(기본). 판정은 batch로 몰아치기 때문에 5분이 적절
-
-**히트 조건 방어** (claude-api 스킬 silent-invalidator 목록 준수):
-- ✅ System prompt 상수 (타임스탬프·UUID 없음)
-- ✅ 사업목적 텍스트 정렬 후 hashing
-- ✅ 모델·`thinking`·`effort` 고정
-- ❌ `datetime.now()` 삽입 금지
-- ❌ non-deterministic dict serialize 금지
+**OpenAI** — 자동 캐싱 (1024+ tokens prefix, 50% 할인)
+**Claude** — 명시적 `cache_control: {"type":"ephemeral"}`
 
 ---
 
-## 5. 호출 흐름 (End-to-End)
+## 6. 호출 흐름 (End-to-End)
 
 ```
 [Phase 2 axis8.classify_alignment]
      │
-     ├── whitelisted    → score=100 확정, return  ─┐
-     ├── missing_input  → score=None, return       ├─→ Company._mock 교체
-     ├── unknown_ksic   → LLM 호출                 │
-     └── undetermined   → LLM 호출 ──┐             │
-                                     │             │
-                                     ▼             │
-                        [4.1 app dedup 캐시 조회]  │
-                            │                      │
-                    hit ────┴──── miss             │
-                    │             │                │
-                    │             ▼                │
-                    │  [4.2 Anthropic prompt cache 포함 호출]
-                    │             │                │
-                    │             ▼                │
-                    │      [LLMAlignmentJudgment]  │
-                    │             │                │
-                    │             ▼                │
-                    └──── [dedup 캐시 저장] ───────┘
+     ├── whitelisted     → score=100 확정, return  ─┐
+     ├── missing_input   → score=None, return       ├─→ Company._mock 교체
+     ├── unknown_ksic    → LLM 호출                 │
+     └── undetermined    → LLM 호출 ──┐             │
+                                      │             │
+                                      ▼             │
+                         [axis8_llm.judge_alignment]│
+                                      │             │
+                              [dedup 캐시 조회]     │
+                                      │             │
+                             hit ─────┴──── miss    │
+                             │              │       │
+                             │              ▼       │
+                             │      [프로바이더 선택]│
+                             │      (env or 자동감지)│
+                             │              │       │
+                             │              ▼       │
+                             │      [_call_deepseek](default)
+                             │      또는 _call_openai / _call_claude
+                             │              │       │
+                             │              ▼       │
+                             │      [LLMAlignmentJudgment]
+                             │              │       │
+                             │              ▼       │
+                             └──── [dedup 캐시 저장] ─┘
 ```
 
-**반환 값 통합** (Phase 5에서 API 응답 스키마 확정 시):
+**반환 값 통합** (Phase 5b):
 ```python
-AlignmentResult(
-    status="whitelisted",       # or "llm_judged"
-    score=100,                  # or LLM score
-    confidence="high",          # or match_type (직접일치/간접관련/무관)
-    matched_keywords=[...],     # LLM 판정 시만
-    reasoning="...",            # LLM 판정 시만
+BusinessFit(
+    score=judgment.score,
+    match_type=judgment.match_type,
+    matched_keywords=judgment.matched_keywords,
+    reasoning=judgment.reasoning,
+    source="llm",   # "whitelist" | "llm" | "pending"
 )
 ```
 
 ---
 
-## 6. 재시도·에러 처리
+## 7. 재시도·에러 처리
 
-**Anthropic SDK 기본 재시도** 활용 — `max_retries=2` 기본. 429/5xx 자동 exponential backoff.
+**OpenAI SDK 기본 재시도** — 429/5xx 자동 exponential backoff.
+
+**DeepSeek 응답 검증 실패** (JSON mode 파싱 or Pydantic 검증):
+- `_call_deepseek`에 재시도 로직 (`max_retries=2`)
+- 최종 실패 시 `RuntimeError` (상위 계층에서 판정 유예 저장)
 
 **명시 catch 대상**:
-- `anthropic.BadRequestError` — 프롬프트 스키마 오류. Phase 3에서 못 잡으면 프로덕션에서 회복 불가 → 스텁 유닛테스트에서 검증
-- `anthropic.RateLimitError` — SDK 재시도 후에도 실패 시 → **판정 유예 상태로 저장 후 배치 재시도**
-- `anthropic.APIStatusError` (5xx 잔여) — 같음
-- `anthropic.APIConnectionError` — 네트워크 오류. 로그 남기고 재시도 큐로
+- `openai.BadRequestError` — 프롬프트 스키마 오류 (프로덕션 회복 불가)
+- `openai.RateLimitError` — SDK 재시도 후에도 실패 시 → 판정 유예 저장 · 배치 재시도
+- `openai.APIConnectionError` — 네트워크 오류 · 로그 후 재시도 큐
 
-**응답 검증 실패** (Pydantic ValidationError):
-- 극히 드물지만 발생 시 `reasoning` 필드에 "판정 실패" 기록 · score=None 저장 · 담당자 화면에 "정합성 판정 재시도 필요" 표시
-
-**추가 방어**:
-- `max_tokens=1024` — output이 아무리 커도 초과 없음 (JSON 150~300 tokens 예상)
-- `output_config.effort="medium"` — 이 판정은 복잡 추론 아니므로 medium 충분. Opus 4.7 max/xhigh 낭비
+**응답 refusal** (OpenAI): `response.choices[0].message.refusal` 있으면 `RuntimeError`.
 
 ---
 
-## 7. 스텁 동작 (현재 상태)
+## 8. 활성화 상태 (2026-07-16)
 
 `backend/app/services/axis8_llm.py`:
+- ✅ **`DEEPSEEK_API_KEY` 세팅됨** → DeepSeek 실 호출 활성
+- ✅ **`OPENAI_API_KEY` 세팅됨** → OpenAI 옵션 활성
+- ❌ `ANTHROPIC_API_KEY=API_HERE` → Claude 미활성
 
-- **`ANTHROPIC_API_KEY` 미설정 시 `NotImplementedError`** — 실 호출 방지
-- 프롬프트 문자열·스키마·캐싱 함수 시그니처는 확정 상태
-- Phase 5 통합 시 `AlignmentResult(needs_llm=True)` 케이스를 이 서비스에 위임
+`.env` 파일 (gitignored). `.env.example`은 팀 공유 템플릿.
 
-**활성화 절차** (결제 승인 후):
-1. `.env`에 `ANTHROPIC_API_KEY=sk-ant-...` 추가
-2. `pip install -r backend/requirements.txt` (anthropic 패키지 이미 명시됨)
-3. Phase 5에서 라우터가 `judge_alignment_llm()` 호출
+**Phase 5b 통합 준비 완료**:
+- `judge_alignment()` public entrypoint 시그니처 확정
+- `judge_alignment_full()` — usage metrics도 반환 (비용 로깅용)
+- dedup 캐시 자동 동작
 
 ---
 
-## 8. Phase 3 산출물 체크
+## 9. Phase 5b 통합 예정 사항
 
-- [x] 프롬프트 텍스트 확정 (system·user 2블록 구조)
-- [x] Structured output 스키마 (`LLMAlignmentJudgment` Pydantic)
-- [x] 2단 캐싱 아키텍처 (앱 dedup + Anthropic prompt cache)
-- [x] 재시도·에러 처리 정책
-- [x] SDK 호출 스텁 (`axis8_llm.py`, API 키 없으면 NotImplementedError)
-- [x] 비용 시뮬 근거표 → `docs/축8_비용시뮬.md`
-- [x] `Company._mock: ["businessFit"]` 교체 지점 명시 (Phase 5)
+- `axis8.classify_alignment(needs_llm=True)` 케이스를 `axis8_llm.judge_alignment()`에 위임
+- `services/companies.py:build_business_fit()` 헬퍼가 whitelist 결과 or LLM 결과를 `BusinessFit`으로 변환
+- `Company._mock: ["businessFit"]`에서 "businessFit" 제거 (실데이터 활성)
+- 배치 로깅으로 실측 비용·캐시 히트율 수집 → `docs/축8_비용시뮬.md` §4 재산정
 
-## 9. 한계 & 다음 단계
+---
 
-- **실 호출 검증 미완**: 결제 승인 후 gold label 5건으로 프롬프트 튜닝, `effort`·`thinking` 파라미터 실측
-- **캐시 TTL 최적화**: 5분 TTL이 batch 판정에 적합하지만, 실 트래픽 패턴 확인 후 조정 가능(1시간 TTL은 write 비용 2배지만 오래 유지)
-- **모델 선택**: 결제 승인 시 Opus 4.7 default. 비용·품질 tradeoff에 따라 Sonnet 4.6/Haiku 4.5 스위치 가능 (비용시뮬 참조). 팀 결정 사항
-- **본선 gold label 확장**: 20~30건 손판정 → 프롬프트 few-shot 예시 추가 검토
+## 10. 한계 & 다음 단계
+
+- **파일럿 gold label 부족** — 4건에서 20~30건으로 확장 (본선 대비 프롬프트 튜닝)
+- **DeepSeek 한국어 뉘앙스 한계** — 지금까지 파일럿에서는 안 나옴. 본선 대량 판정에서 관찰 필요
+- **Ensemble 로드맵** — DeepSeek + gpt-4o 병렬, 이견 시 human review flag (docs/축8_비용시뮬.md §5)
+- **본선 당일**:
+  - dedup 캐시 hit rate 실측 → 비용 재산정
+  - 프롬프트 caution 항목에 본선 실 사례 추가
+  - AXIS8_LLM_PROVIDER 최종 선택 확정

@@ -301,7 +301,7 @@ interface FlagListResponse {
 
 | 항목 | 대기 대상 | 블록 사유 |
 | --- | --- | --- |
-| Claude API 결제 승인 | 팀 결정 | 축8 `source: "pending"` 상태 해제 → `source: "llm"` 활성 |
+| ~~Claude API 결제 승인~~ → **DeepSeek 채택** | ✅ 해결 (2026-07-16) | DeepSeek V3 결제·활성 (파일럿 4/4). `source: "llm"` 즉시 사용 가능. Claude 요청 철회 |
 | 민지 성장률 인터페이스 컬럼명·null 정책 합의 | 민지 | `axis9.growth_signals_from_axis1` 실데이터 결합 (`docs/성장률_인터페이스.md`) |
 | 유환 축4·5·6 산출 → `Axis` literal 확장 여부 | 유환 | 스코어카드 `scores` 확장 · 신규 축 이름 확정 |
 | `Company.businessFit`·`duplicateFlag` 배치 실행 시점 | (형우 결정) | ETL 후 배치? API 요청 시 lazy? — 캐시 전략 (Phase 5b) |

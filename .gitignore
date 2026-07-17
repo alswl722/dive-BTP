@@ -19,6 +19,14 @@ backend/etl/data/
 *.parquet
 *.xlsx
 
+# 발제/OT 자료 (브리핑 이미지 등 — 배포 자산 아님)
+/ot파일/
+
+# 설계 작업용 스크래치 (커밋 금지 — 샘플 데이터 파생 수치 포함, 외부 공개 불가)
+/설계.md
+/기술축_작업계획.md
+/기술축_설계노트.md
+
 # Node (frontend)
 node_modules/
 .next/

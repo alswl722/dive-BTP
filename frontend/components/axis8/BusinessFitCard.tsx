@@ -13,7 +13,7 @@ const MATCH_STYLE: Record<MatchType, { badge: "good" | "info" | "warn" | "bad" |
   판단유보: { badge: "slate", dot: "bg-slate-400" },
 };
 
-export function BusinessFitCard({ fit }: { fit: BusinessFit | null }) {
+export function BusinessFitCard({ fit, compact = false }: { fit: BusinessFit | null; compact?: boolean }) {
   const [expanded, setExpanded] = useState(false);
 
   if (!fit) {
@@ -67,7 +67,7 @@ export function BusinessFitCard({ fit }: { fit: BusinessFit | null }) {
         </div>
       )}
 
-      {fit.judgments.length > 0 && (
+      {!compact && fit.judgments.length > 0 && (
         <div>
           <button
             onClick={() => setExpanded(!expanded)}

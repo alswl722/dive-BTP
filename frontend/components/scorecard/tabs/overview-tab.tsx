@@ -73,7 +73,7 @@ export function OverviewTab({ company }: { company: Company }) {
         <StatCard label="지원 이력" value={`${company.support.건수 ?? 0}건`} sub={`${company.support.지원연도수 ?? 0}개년`} />
       </div>
 
-      <BusinessFitCard fit={company.businessFit} />
+      <BusinessFitCard fit={company.businessFit} compact />
     </div>
   );
 }

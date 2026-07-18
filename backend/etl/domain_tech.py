@@ -30,12 +30,44 @@ import yaml
 
 from aggregate_tech import KEY, _dedup_lead
 
-CONFIG_PATH = Path(__file__).resolve().parent / "config" / "tech_domain.yaml"
+CONFIG_DIR = Path(__file__).resolve().parent / "config"
+CONFIG_PATH = CONFIG_DIR / "tech_domain.yaml"
+EXTERNAL_DIR = CONFIG_DIR / "external"
 
 
 def load_config() -> dict:
     with open(CONFIG_PATH, encoding="utf-8") as f:
         return yaml.safe_load(f)
+
+
+def load_external(name: str) -> dict:
+    """외부 데이터 참조표 로드 (config/external/). 없으면 빈 dict."""
+    path = EXTERNAL_DIR / f"{name}.yaml"
+    if not path.exists():
+        print(f"  ⚠️ 외부 참조표 없음: {path.name} — 해당 지표 생략")
+        return {}
+    with open(path, encoding="utf-8") as f:
+        return yaml.safe_load(f)
+
+
+def tech_intensity(ksic: str, table: dict) -> str | None:
+    """KSIC 코드 → 기술수준 등급(OECD 기준). 제조업 외는 지식기반서비스 여부로.
+
+    소분류 예외(항공기 등)를 중분류 등급보다 우선 적용한다.
+    """
+    if not table or not ksic:
+        return None
+    code = str(ksic).strip().upper()
+    for prefix, level in (table.get("exceptions") or {}).items():
+        if code.startswith(prefix):
+            return level
+    mid = code[:3]
+    for level, codes in (table.get("levels") or {}).items():
+        if mid in codes:
+            return level
+    if mid in (table.get("knowledge_intensive_services") or []):
+        return "지식기반서비스"
+    return table.get("unknown_label")
 
 
 def _match_keywords(text: str, mapping: dict[str, list[str]]) -> list[str]:
@@ -64,6 +96,10 @@ def build(tables: dict[str, pd.DataFrame]) -> pd.DataFrame:
     focus_map = cfg["btp_focus"]
     ksic_fb = cfg["ksic_fallback"]
     unknown = cfg["unknown_label"]
+
+    # --- 외부 참조표 ---
+    strat_map = (load_external("national_strategic_tech") or {}).get("strategic_tech", {})
+    intensity_tbl = load_external("tech_intensity_ksic")
 
     comp = tables["companies"].set_index(KEY)
     lead = _dedup_lead(tables["ntis_lead_projects"])  # 스냅샷 중복 제거 후 과제 단위
@@ -98,6 +134,16 @@ def build(tables: dict[str, pd.DataFrame]) -> pd.DataFrame:
             focus = _match_keywords(주력, focus_map) if 주력 != unknown else []
             집중도 = float("nan")
 
+        # --- 외부 데이터 ① 12대 국가전략기술 부합 (NTIS 분류명 기준, 보수적 매칭) ---
+        strat: list[str] = []
+        for c in cls:
+            strat.extend(_match_keywords(str(c), strat_map))
+        strat = sorted(set(strat))
+
+        # --- 외부 데이터 ② 기술수준 등급 (KSIC → OECD 기술집약도) ---
+        # 표준분류가 없는 기업도 업종만 있으면 나오므로 폴백 역할을 한다.
+        등급 = tech_intensity(str(comp.at[cid, "ksic_code"] or ""), intensity_tbl)
+
         ministries = g["ministry"].dropna()
         rows.append({
             KEY: cid,
@@ -107,6 +153,9 @@ def build(tables: dict[str, pd.DataFrame]) -> pd.DataFrame:
             "기술집중도": round(집중도, 3) if pd.notna(집중도) else None,
             "기술분야_목록": "; ".join(분야목록) if 분야목록 else None,
             "BTP중점사업": "; ".join(focus) if focus else None,
+            "국가전략기술": "; ".join(strat) if strat else None,
+            "국가전략기술_부합": bool(strat),
+            "기술수준등급": 등급,
             "주력부처": ministries.value_counts().index[0] if len(ministries) else None,
             "부처다양성": ministries.nunique(),
         })
@@ -120,13 +169,21 @@ def main() -> None:
     df = build(load_tables())
     pd.set_option("display.width", 250, "display.max_colwidth", 60)
     print(f"기술 도메인: shape={df.shape}\n")
-    print(df[[KEY, "주력기술분야", "도메인_출처", "기술분야_수", "기술집중도",
-              "BTP중점사업", "주력부처"]].to_string(index=False))
+    print(df[[KEY, "주력기술분야", "도메인_출처", "기술수준등급",
+              "국가전략기술", "BTP중점사업"]].to_string(index=False))
 
     print("\n[도메인 출처 분포]")
     print(df["도메인_출처"].value_counts().to_string())
-    print("\n[주력 기술분야 분포]")
-    print(df["주력기술분야"].value_counts().to_string())
+    print("\n[기술수준 등급 분포] (외부: OECD 기술집약도 × KSIC)")
+    print(df["기술수준등급"].value_counts(dropna=False).to_string())
+    print("\n[12대 국가전략기술 부합] (외부: 국가전략기술육성특별법)")
+    print(f"  부합 {int(df['국가전략기술_부합'].sum())}곳 / 전체 {len(df)}곳")
+    strat_counts: dict[str, int] = {}
+    for v in df["국가전략기술"].dropna():
+        for s in v.split("; "):
+            strat_counts[s] = strat_counts.get(s, 0) + 1
+    for k, v in sorted(strat_counts.items(), key=lambda x: -x[1]):
+        print(f"  {k}: {v}곳")
     print("\n[BTP 4대 중점사업 정렬]")
     focus_counts: dict[str, int] = {}
     for v in df["BTP중점사업"].dropna():

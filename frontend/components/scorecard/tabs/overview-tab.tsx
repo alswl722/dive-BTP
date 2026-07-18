@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/ui/stat-card";
 import { AxisRadar } from "@/components/charts/axis-radar";
+import { BusinessFitCard } from "@/components/axis8/BusinessFitCard";
 import { AXES, type Company } from "@/types";
 import { formatKRW, cn } from "@/lib/utils";
 
@@ -71,6 +72,8 @@ export function OverviewTab({ company }: { company: Company }) {
         <StatCard label="NTIS(주관/위탁)" value={`${company.ntis.주관 ?? 0} / ${company.ntis.위탁 ?? 0}`} />
         <StatCard label="지원 이력" value={`${company.support.건수 ?? 0}건`} sub={`${company.support.지원연도수 ?? 0}개년`} />
       </div>
+
+      <BusinessFitCard fit={company.businessFit} />
     </div>
   );
 }

@@ -13,6 +13,14 @@ from pydantic import BaseModel, ConfigDict, Field
 Axis = Literal["성장성", "수익성", "효율성", "안정성"]
 ReviewStatus = Literal["후보", "선정", "보류", "제외"]
 
+# 축8 사업정체성 정합성 판정 (LLM 기반)
+MatchType = Literal["직접일치", "간접관련", "무관", "판단유보"]
+AlignmentSource = Literal["whitelist", "llm", "pending"]
+
+# 축9 BTP 지원이력 flag (반복지원 이상탐지, 스코어 미포함)
+FlagStatus = Literal["flag", "cleared", "observe", "normal", "unknown"]
+Segment = Literal["소액다건", "대형소수", "대형다건", "소액소수"]
+
 
 class TrendPoint(BaseModel):
     year: int
@@ -54,6 +62,47 @@ class DataQuality(BaseModel):
     ok: bool
 
 
+class AlignmentJudgment(BaseModel):
+    """축8 개별 지원사업 정합성 판정 (스코어카드 상세용)."""
+
+    programCode: str
+    year: int
+    programName: str | None = None
+    businessType: str | None = None
+    score: float | None = Field(None, ge=0, le=100)
+    matchType: MatchType
+    matchedKeywords: list[str] = Field(default_factory=list)
+    reasoning: str
+    source: AlignmentSource
+
+
+class BusinessFit(BaseModel):
+    """축8 종합 정합성 (스코어카드 상단·리스트용)."""
+
+    score: float | None = Field(None, ge=0, le=100)  # 판정 완료분 평균
+    matchType: MatchType   # 대표 판정 (majority)
+    summary: str            # 자연어 요약 (담당자용 한 문장)
+    totalJudged: int        # 정합성 판정 완료 건수
+    totalPending: int       # LLM 판정 대기 건수
+    breakdown: dict[str, int] = Field(default_factory=dict)  # {직접일치: N, 간접관련: N, 무관: N, 판단유보: N}
+    judgments: list[AlignmentJudgment] = Field(default_factory=list)  # 지원사업별 상세
+
+
+class DuplicateFlag(BaseModel):
+    """축9 반복지원 flag 판정 (스코어 미포함, 배지·경고용)."""
+
+    status: FlagStatus
+    label: str                                  # 발표·화면 한 줄 라벨
+    isRepeat: bool
+    growthState: Literal["stagnant", "growing", "unknown"]
+    segment: Segment | None = None
+    isHighDiversity: bool = False               # 사업유형 다양성 상위 percentile
+    supportCount: int
+    totalAmountThousand: float
+    businessTypeDiversity: int
+    maxConsecutiveYears: int
+
+
 class Company(BaseModel):
     id: int
     name: str
@@ -75,6 +124,8 @@ class Company(BaseModel):
     percentileBasis: str | None = None
     dataQuality: DataQuality
     reviewStatus: ReviewStatus = "후보"
+    businessFit: BusinessFit | None = None       # 축8 (LLM 정합성 판정)
+    duplicateFlag: DuplicateFlag | None = None   # 축9 (반복지원 flag)
     # company_view.py 산출물의 키는 "_mock"(밑줄 시작 = pydantic이 private로 취급하는
     # 이름이라 그대로 필드명으로 못 씀) → alias로 매핑. populate_by_name=True로 입력 시
     # "_mock"/"mock" 둘 다 받고, response_model_by_alias 기본값(True)이라 출력 JSON은

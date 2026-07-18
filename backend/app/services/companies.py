@@ -46,20 +46,55 @@ def _load_source():
     feat = pd.read_sql_table("features_finance", engine)
     score = pd.read_sql_table("features_score", engine)
     sr = pd.read_sql_table("support_records", engine)
-    return score, feat, master, sr
+    sp = pd.read_sql_table("support_programs", engine)  # 축8 프로그램명·설명 조인용
+    bp = pd.read_sql_table("company_business_purposes", engine)  # 축8 LLM 캐시 조회용
+    llm_cache = _load_llm_cache(engine)
+    return score, feat, master, sr, sp, bp, llm_cache
+
+
+def _load_llm_cache(engine) -> dict:
+    """axis8_llm_cache 테이블에서 판정 결과 로드.
+
+    반환: {(company_id, program_code, purposes_hash): {match_type, score, matched_keywords, reasoning}}
+    테이블 없으면 빈 dict (배치 미실행 상태).
+    """
+    import json
+    try:
+        rows = pd.read_sql_query(text("""
+            SELECT company_id, program_code, purposes_hash,
+                   score, match_type, matched_keywords, reasoning
+            FROM axis8_llm_cache
+        """), engine)
+    except Exception:
+        return {}
+    cache: dict = {}
+    for _, r in rows.iterrows():
+        try:
+            keywords = json.loads(r["matched_keywords"]) if r["matched_keywords"] else []
+        except (TypeError, ValueError):
+            keywords = []
+        cache[(int(r["company_id"]), str(r["program_code"]), str(r["purposes_hash"]))] = {
+            "match_type": r["match_type"],
+            "score": r["score"],
+            "matched_keywords": keywords,
+            "reasoning": r["reasoning"] or "",
+        }
+    return cache
 
 
 def list_companies() -> list[dict]:
-    score, feat, master, sr = _load_source()
-    return _with_review_status(build_companies(score, feat, master, sr))
+    score, feat, master, sr, sp, bp, llm_cache = _load_source()
+    return _with_review_status(
+        build_companies(score, feat, master, sr, sp, bp, llm_cache)
+    )
 
 
 def get_company(company_id: int) -> dict | None:
-    score, feat, master, sr = _load_source()
+    score, feat, master, sr, sp, bp, llm_cache = _load_source()
     score = score[score[KEY] == company_id]
     if score.empty:
         return None
-    company = build_companies(score, feat, master, sr)[0]
+    company = build_companies(score, feat, master, sr, sp, bp, llm_cache)[0]
     company["reviewStatus"] = review_status_service.get_status(company_id)
     return company
 

@@ -22,7 +22,7 @@ export function Tabs({
           onClick={() => onChange(t)}
           className={cn(
             "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
-            active === t ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+            active === t ? "bg-card text-accent shadow-sm" : "text-muted-foreground hover:text-foreground"
           )}
         >
           {t}

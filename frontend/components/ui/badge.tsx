@@ -1,15 +1,17 @@
 import { cn } from "@/lib/utils";
 import type { HTMLAttributes } from "react";
 
-type Variant = "default" | "secondary" | "good" | "warn" | "bad" | "outline";
+type Variant = "default" | "secondary" | "good" | "info" | "warn" | "bad";
 
+// 보더 없이 은은한 배경 틴트만 — 뱃지가 "버튼처럼" 눌러야 할 것 같은 느낌을 줄임.
+// good/info/warn/bad는 opacity 틴트가 아니라 디자인 토큰의 실제 bg hex 쌍 사용(고충실도).
 const styles: Record<Variant, string> = {
   default: "bg-primary text-primary-foreground",
   secondary: "bg-muted text-muted-foreground",
-  good: "bg-good/15 text-good border border-good/30",
-  warn: "bg-warn/15 text-[hsl(30_80%_35%)] border border-warn/30",
-  bad: "bg-bad/15 text-bad border border-bad/30",
-  outline: "border text-foreground",
+  good: "bg-good-bg text-good",
+  info: "bg-info-bg text-info",
+  warn: "bg-warn-bg text-[hsl(30_75%_38%)]",
+  bad: "bg-bad-bg text-bad",
 };
 
 export function Badge({
@@ -20,7 +22,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium",
+        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
         styles[variant],
         className
       )}

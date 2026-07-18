@@ -72,6 +72,8 @@ def support_history(cid: int, sr: pd.DataFrame):
             "result": result,
             "bizType": clean(r["business_type"]) or "기타",
             "amount": clean(amount) or 0,
+            "programCode": clean(r["program_code"]),
+            "year": clean(int(r["year"])) if pd.notna(r["year"]) else None,
         })
     records.sort(key=lambda x: x["date"], reverse=True)
     return records
@@ -93,6 +95,9 @@ def build_companies(score: pd.DataFrame, feat: pd.DataFrame, master: pd.DataFram
         rev = col_year_map(master, "매출액")
         rev_latest = pd.to_numeric(m[rev[max(rev)]], errors="coerce") if rev else None
 
+        salary = col_year_map(master, "1인평균연간급여")
+        salary_latest = pd.to_numeric(m[salary[max(salary)]], errors="coerce") if salary else None
+
         # 데이터 품질: 재무 핵심 연도 결측 체크
         missing = []
         for hint in ["매출액", "영업이익손실", "자본총계"]:
@@ -108,6 +113,9 @@ def build_companies(score: pd.DataFrame, feat: pd.DataFrame, master: pd.DataFram
             "industryCode": clean(m[ksic_col]) if ksic_col else None,
             "region": clean(m[region_col]) if region_col else None,
             "revenueLatest": clean(rev_latest),
+            # CLAUDE.md 알려진 이슈: 1인평균연간급여 원본 단위는 "원"(다른 재무지표는 "천원") → /1000으로
+            # 스케일 통일해서 revenueLatest 등과 같은 "_천원" 관례로 맞춘다.
+            "avgSalaryLatest": clean(salary_latest / 1000) if salary_latest is not None and pd.notna(salary_latest) else None,
             "scores": {a: clean(s.get(f"{a}점수")) for a in AXES},
             "percentiles": {c.replace("pct_", ""): clean(s[c]) for c in pct_cols},
             "rawMetrics": {c: clean(f[c]) for c in feat.columns if c != KEY},

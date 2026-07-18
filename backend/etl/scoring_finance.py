@@ -36,6 +36,10 @@ SCORES_TABLE = "features_score"
 KSIC_HINT = "KSIC"      # 업종 그룹 컬럼 부분일치
 KSIC_PREFIX = 3         # 그룹 단위: 앞 3자(알파벳+2자리 = 중분류, 예 'C29')
 MIN_GROUP = 5           # 업종내 백분위 최소 그룹 크기. 미만이면 전체 fallback.
+KSIC_PATTERN = r"^[A-Z]\d{2}"  # 정상 그룹키 포맷(11차 중분류). 아니면 fallback.
+# 통계 신뢰 가드 (데이터 판단 임계값이 아니라 등수 산출의 최소 표본 조건)
+MIN_VALID = 3           # 컬럼 유효값이 이보다 적으면 백분위 산출 안 함(단독 100점 방지)
+MIN_AXIS_RATIO = 0.5    # 축 점수에 필요한 최소 유효 컬럼 비율(결측이 점수를 왜곡하는 것 방지)
 
 AXES = ["성장성", "수익성", "효율성", "안정성"]
 
@@ -68,8 +72,8 @@ SCORE_COLS = {
     "이익잉여금축적": ("안정성", "up"),
     "부채비율추세": ("안정성", "down"),
 }
-# 점수 제외, 원값 유지 (맥락·리스크)
-PASSTHROUGH = ["영업외손익비중", "자본잠식_플래그"]
+# 점수 제외, 원값 유지 (맥락·리스크·데이터품질)
+PASSTHROUGH = ["영업외손익비중", "자본잠식_플래그", "흑자관측연수", "데이터모순_판관비음수"]
 
 
 # --- 순수 계산 --------------------------------------------------------------
@@ -81,11 +85,19 @@ def compute_scores(feat: pd.DataFrame, ksic: pd.Series) -> pd.DataFrame:
     feat = norm_cols(feat).reset_index(drop=True)
     ksic = pd.Series(np.asarray(ksic), index=feat.index)
 
-    # 업종 그룹키(중분류) + 그룹 크기
+    # 업종 그룹키(중분류): 결측은 명시적으로 __NA__ 처리.
+    # ※ pandas 3부터 astype(str)이 NaN을 문자열 'nan'으로 바꾸지 않고 NaN으로
+    #   유지하므로, 문자열 치환이 아니라 isna() 마스크로 처리해야 한다.
     group = ksic.astype(str).str.strip().str.upper().str[:KSIC_PREFIX]
-    group = group.replace({"": "__NA__", "NONE": "__NA__", "NAN": "__NA__"})
+    group = group.where(ksic.notna() & (group != ""), "__NA__")
+    # 포맷 검증: 11차 중분류 패턴(알파벳+2자리)이 아니면(숫자형 42500 등) 그룹
+    # 스킴이 섞여 조각나므로 __NA__로 강등 → 무조건 전체 fallback.
+    bad_fmt = (group != "__NA__") & ~group.str.match(KSIC_PATTERN, na=False)
+    if bad_fmt.any():
+        print(f"  ⚠️ KSIC 포맷 비정상 {int(bad_fmt.sum())}건(예: {group[bad_fmt].iloc[0]}) → 전체 fallback 처리")
+        group = group.where(~bad_fmt, "__NA__")
     gsize = group.map(group.value_counts())
-    big = gsize >= MIN_GROUP  # 업종내 백분위 가능 여부
+    big = (gsize >= MIN_GROUP) & (group != "__NA__")  # __NA__는 크기 무관 전체 fallback
 
     out = pd.DataFrame({KEY: feat[KEY].values})
     axis_members: dict[str, list] = {a: [] for a in AXES}
@@ -95,6 +107,13 @@ def compute_scores(feat: pd.DataFrame, ksic: pd.Series) -> pd.DataFrame:
             print(f"  ⚠️ '{col}' 파생컬럼 없음 — 건너뜀")
             continue
         v = pd.to_numeric(feat[col], errors="coerce")
+        # 희소 컬럼 가드: 유효값이 MIN_VALID 미만이면 등수 자체가 무의미
+        # (유효 1개면 그 기업이 근거 없이 백분위 100) → 컬럼 전체 NaN.
+        if int(v.notna().sum()) < MIN_VALID:
+            print(f"  ⚠️ '{col}' 유효값 {int(v.notna().sum())}개 < {MIN_VALID} → 백분위 제외")
+            out[f"pct_{col}"] = np.nan
+            axis_members[axis].append(f"pct_{col}")
+            continue
         # 업종내 백분위 vs 전체 백분위 (원값 NaN은 백분위도 NaN 유지)
         within = v.groupby(group).rank(pct=True) * 100
         whole = v.rank(pct=True) * 100
@@ -104,10 +123,20 @@ def compute_scores(feat: pd.DataFrame, ksic: pd.Series) -> pd.DataFrame:
         out[f"pct_{col}"] = pct.values
         axis_members[axis].append(f"pct_{col}")
 
-    # 축 점수 = 소속 컬럼 백분위 평균(NaN 제외). 전부 NaN이면 NaN.
+    # 축 점수 = 소속 컬럼 백분위 평균(NaN 제외).
+    # 유효 컬럼이 절반 미만이면 NaN — 결측 제외 평균은 점수를 올릴 수도 있어(실증:
+    # CAGR만 NaN인 기업의 성장성 52→69) 부분 데이터 점수를 정상 점수처럼 내보내지 않는다.
+    # 유효컬럼수_*를 함께 출력해 프론트가 "정보부족" 배지를 달 수 있게 한다.
     for axis in AXES:
         cols = axis_members[axis]
-        out[f"{axis}점수"] = out[cols].mean(axis=1, skipna=True) if cols else np.nan
+        if cols:
+            valid_n = out[cols].notna().sum(axis=1)
+            need = max(1, int(np.ceil(len(cols) * MIN_AXIS_RATIO)))
+            out[f"{axis}점수"] = out[cols].mean(axis=1, skipna=True).where(valid_n >= need)
+            out[f"유효컬럼수_{axis}"] = valid_n.astype(int)
+        else:
+            out[f"{axis}점수"] = np.nan
+            out[f"유효컬럼수_{axis}"] = 0
 
     # 특수컬럼 passthrough (점수 미반영)
     for col in PASSTHROUGH:
@@ -118,11 +147,12 @@ def compute_scores(feat: pd.DataFrame, ksic: pd.Series) -> pd.DataFrame:
     out["업종그룹"] = group.values
     out["백분위기준"] = np.where(big, "업종내", "전체fallback")
 
-    # 컬럼 순서: KEY → 축점수 → pct_* → passthrough → 메타
+    # 컬럼 순서: KEY → 축점수 → 유효컬럼수 → pct_* → passthrough → 메타
     score_cols = [f"{a}점수" for a in AXES]
+    valid_cols = [f"유효컬럼수_{a}" for a in AXES]
     pct_cols = [c for c in out.columns if c.startswith("pct_")]
     meta = [c for c in PASSTHROUGH if c in out.columns] + ["업종그룹", "백분위기준"]
-    return out[[KEY] + score_cols + pct_cols + meta]
+    return out[[KEY] + score_cols + valid_cols + pct_cols + meta]
 
 
 # --- I/O 어댑터 -------------------------------------------------------------

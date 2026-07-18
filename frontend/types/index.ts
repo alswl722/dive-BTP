@@ -4,6 +4,9 @@
 export const AXES = ["성장성", "수익성", "효율성", "안정성"] as const;
 export type Axis = (typeof AXES)[number];
 
+export const REVIEW_STATUSES = ["후보", "선정", "보류", "제외"] as const;
+export type ReviewStatus = (typeof REVIEW_STATUSES)[number];
+
 export type AxisScores = Record<Axis, number | null>;
 
 export interface TrendPoint {
@@ -16,6 +19,8 @@ export interface SupportRecord {
   result: "선정" | "탈락" | "포기";
   bizType: string;
   amount: number; // 천원 (탈락/포기는 0)
+  programCode: string | null; // support_programs.program_code 조인키(연도+코드가 PK)
+  year: number | null;
 }
 
 export interface Company {
@@ -25,6 +30,7 @@ export interface Company {
   industryCode: string | null;
   region: string | null;
   revenueLatest: number | null; // 천원
+  avgSalaryLatest: number | null; // 천원(원본 "원" 단위를 /1000으로 통일)
   scores: AxisScores;
   percentiles: Record<string, number | null>; // 파생컬럼 → 0~100 백분위
   rawMetrics: Record<string, number | null>; // 파생컬럼 원값
@@ -38,6 +44,27 @@ export interface Company {
   percentileBasis: string | null; // "업종내" | "전체fallback"
   dataQuality: { missing: string[]; ok: boolean };
   _mock: string[]; // 목업으로 채운 필드(투명성)
+  reviewStatus: ReviewStatus; // 찜 상태. company_review_status 테이블에 영속화(PATCH /companies/{id}/review-status)
+}
+
+// support_programs(실사업 목록) + support_records 집계. macroCategory는 원본 시트 간
+// 표기가 혼재돼 있어(예: support_records.business_type엔 없는 'RnD'가 여기 있음) 필터는
+// businessType 기준으로 쓴다.
+export interface Program {
+  year: number;
+  programCode: string;
+  name: string | null;
+  macroCategory: string | null;
+  businessType: string | null;
+  startDate: string | null; // YYYY-MM-DD
+  endDate: string | null;
+  ministry: string | null;
+  localGov: string | null;
+  description: string | null;
+  applicantCount: number;
+  selectedCount: number;
+  totalAmountThousand: number;
+  detailItems: string[]; // 세부품목(support_detail_main) distinct. 신청이력 없으면 빈 배열.
 }
 
 export interface RankingRow {
@@ -60,11 +87,3 @@ export interface Dashboard {
   resultDist: { result: string; count: number }[];
   dataQualityIssues: number;
 }
-
-// 각 축에 속한 파생컬럼(백분위 드릴다운용) — scoring_finance.py의 SCORE_COLS와 동일
-export const AXIS_METRICS: Record<Axis, string[]> = {
-  성장성: ["매출_CAGR", "매출_성장안정성", "매출_성장가속도", "자산_CAGR", "자산_성장안정성", "자산_성장가속도"],
-  수익성: ["영업이익률_최근", "순이익률_최근", "매출총이익률_최근", "ROA", "ROE", "판관비율", "흑자지속성", "수익성추세", "ROA추세", "ROE추세"],
-  효율성: ["총자산회전율"],
-  안정성: ["부채비율_최근", "자기자본비율", "자본잠식정도", "이익잉여금축적", "부채비율추세"],
-};

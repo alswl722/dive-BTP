@@ -6,6 +6,7 @@
     "industryCode": "C29133",
     "region": "부산",
     "revenueLatest": 31875004.0,
+    "avgSalaryLatest": 45839.804,
     "scores": {
       "성장성": 59.09090909090909,
       "수익성": 69.54545454545455,
@@ -178,43 +179,57 @@
         "date": "2024-05-17",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 25000.0
+        "amount": 25000.0,
+        "programCode": "B1_1_3",
+        "year": 2024
       },
       {
         "date": "2024-04-15",
         "result": "선정",
         "bizType": "기반구축",
-        "amount": 5900.0
+        "amount": 5900.0,
+        "programCode": "E3_1_1",
+        "year": 2024
       },
       {
         "date": "2023-06-20",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 50000.0
+        "amount": 50000.0,
+        "programCode": "B1_311",
+        "year": 2023
       },
       {
         "date": "2022-11-07",
         "result": "선정",
         "bizType": "스마트공장",
-        "amount": 50000.0
+        "amount": 50000.0,
+        "programCode": "L2_321",
+        "year": 2022
       },
       {
         "date": "2022-08-01",
         "result": "선정",
         "bizType": "스마트공장",
-        "amount": 10000.0
+        "amount": 10000.0,
+        "programCode": "L2_319",
+        "year": 2022
       },
       {
         "date": "2022-07-22",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 15000.0
+        "amount": 15000.0,
+        "programCode": "B4_304",
+        "year": 2022
       },
       {
         "date": "2022-05-13",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 28800.0
+        "amount": 28800.0,
+        "programCode": "B4_304",
+        "year": 2022
       }
     ],
     "passthrough": {
@@ -228,7 +243,8 @@
     },
     "_mock": [
       "businessFit"
-    ]
+    ],
+    "reviewStatus": "후보"
   },
   {
     "id": 616,
@@ -237,6 +253,7 @@
     "industryCode": "C24122",
     "region": "부산",
     "revenueLatest": 1011509.0,
+    "avgSalaryLatest": 39270.476,
     "scores": {
       "성장성": 31.818181818181817,
       "수익성": 33.18181818181817,
@@ -409,43 +426,57 @@
         "date": "2024-05-24",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 20000.0
+        "amount": 20000.0,
+        "programCode": "B1_1_3",
+        "year": 2024
       },
       {
         "date": "2024-05-24",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 10000.0
+        "amount": 10000.0,
+        "programCode": "B1_1_3",
+        "year": 2024
       },
       {
         "date": "2023-05-16",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 6000.0
+        "amount": 6000.0,
+        "programCode": "B5_301",
+        "year": 2023
       },
       {
         "date": "2023-01-24",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 9026.0
+        "amount": 9026.0,
+        "programCode": "E2_1_8",
+        "year": 2024
       },
       {
         "date": "2023-01-24",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 7397.0
+        "amount": 7397.0,
+        "programCode": "E2_1_8",
+        "year": 2024
       },
       {
         "date": "2022-08-26",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 13400.0
+        "amount": 13400.0,
+        "programCode": "H2_313",
+        "year": 2022
       },
       {
         "date": "2022-08-26",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 13400.0
+        "amount": 13400.0,
+        "programCode": "H2_313",
+        "year": 2023
       }
     ],
     "passthrough": {
@@ -459,7 +490,8 @@
     },
     "_mock": [
       "businessFit"
-    ]
+    ],
+    "reviewStatus": "후보"
   },
   {
     "id": 117,
@@ -468,6 +500,7 @@
     "industryCode": "C29199",
     "region": "부산",
     "revenueLatest": 1477987.0,
+    "avgSalaryLatest": 40480.0,
     "scores": {
       "성장성": 48.48484848484849,
       "수익성": 67.72727272727273,
@@ -640,55 +673,73 @@
         "date": "2024-05-24",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 20000.0
+        "amount": 20000.0,
+        "programCode": "B1_1_3",
+        "year": 2024
       },
       {
         "date": "2023-09-19",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 20000.0
+        "amount": 20000.0,
+        "programCode": "B1_311",
+        "year": 2023
       },
       {
         "date": "2023-08-22",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 3850.0
+        "amount": 3850.0,
+        "programCode": "B1_311",
+        "year": 2023
       },
       {
         "date": "2023-06-15",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 4730.0
+        "amount": 4730.0,
+        "programCode": "H2_318",
+        "year": 2023
       },
       {
         "date": "2023-06-15",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 4730.0
+        "amount": 4730.0,
+        "programCode": "E2_1_8",
+        "year": 2024
       },
       {
         "date": "2022-08-26",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 13400.0
+        "amount": 13400.0,
+        "programCode": "H2_313",
+        "year": 2022
       },
       {
         "date": "2022-08-26",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 13400.0
+        "amount": 13400.0,
+        "programCode": "H2_313",
+        "year": 2023
       },
       {
         "date": "2022-05-18",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 13200.0
+        "amount": 13200.0,
+        "programCode": "B2_306",
+        "year": 2022
       },
       {
         "date": "2021-12-23",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 10377.0
+        "amount": 10377.0,
+        "programCode": "B2_321",
+        "year": 2022
       }
     ],
     "passthrough": {
@@ -702,7 +753,8 @@
     },
     "_mock": [
       "businessFit"
-    ]
+    ],
+    "reviewStatus": "후보"
   },
   {
     "id": 1878,
@@ -711,6 +763,7 @@
     "industryCode": "C25113",
     "region": "부산",
     "revenueLatest": 1835991.0,
+    "avgSalaryLatest": 37481.333,
     "scores": {
       "성장성": 30.303030303030308,
       "수익성": 49.54545454545455,
@@ -883,19 +936,25 @@
         "date": "2024-05-24",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 20000.0
+        "amount": 20000.0,
+        "programCode": "B1_1_3",
+        "year": 2024
       },
       {
         "date": "2024-05-24",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 5000.0
+        "amount": 5000.0,
+        "programCode": "B1_1_3",
+        "year": 2024
       },
       {
         "date": "2024-05-24",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 2000.0
+        "amount": 2000.0,
+        "programCode": "B1_1_3",
+        "year": 2024
       }
     ],
     "passthrough": {
@@ -909,7 +968,8 @@
     },
     "_mock": [
       "businessFit"
-    ]
+    ],
+    "reviewStatus": "후보"
   },
   {
     "id": 1786,
@@ -918,6 +978,7 @@
     "industryCode": "Q87299",
     "region": "부산",
     "revenueLatest": 299866.0,
+    "avgSalaryLatest": 29569.6,
     "scores": {
       "성장성": 45.45454545454546,
       "수익성": 55.45454545454545,
@@ -1090,121 +1151,161 @@
         "date": "2024-07-12",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 2600.0
+        "amount": 2600.0,
+        "programCode": "F1_1_2",
+        "year": 2024
       },
       {
         "date": "2024-06-21",
         "result": "선정",
         "bizType": "기타",
-        "amount": 6000.0
+        "amount": 6000.0,
+        "programCode": "B1_1_1",
+        "year": 2024
       },
       {
         "date": "2024-04-09",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 3000.0
+        "amount": 3000.0,
+        "programCode": "F1_1_2",
+        "year": 2024
       },
       {
         "date": "2024-02-16",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 2000.0
+        "amount": 2000.0,
+        "programCode": "F1_1_5",
+        "year": 2024
       },
       {
         "date": "2023-09-19",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 25000.0
+        "amount": 25000.0,
+        "programCode": "B1_311",
+        "year": 2023
       },
       {
         "date": "2023-09-18",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 7500.0
+        "amount": 7500.0,
+        "programCode": "T1_332",
+        "year": 2023
       },
       {
         "date": "2023-07-21",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 0
+        "amount": 0,
+        "programCode": "T1_305",
+        "year": 2023
       },
       {
         "date": "2023-05-30",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 10000.0
+        "amount": 10000.0,
+        "programCode": "C3_303",
+        "year": 2023
       },
       {
         "date": "2023-03-24",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 25000.0
+        "amount": 25000.0,
+        "programCode": "C1_310",
+        "year": 2023
       },
       {
         "date": "2022-11-24",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 5555.0
+        "amount": 5555.0,
+        "programCode": "T2_311",
+        "year": 2022
       },
       {
         "date": "2022-11-24",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 25555.0
+        "amount": 25555.0,
+        "programCode": "T2_311",
+        "year": 2022
       },
       {
         "date": "2022-07-13",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 0
+        "amount": 0,
+        "programCode": "T1_305",
+        "year": 2022
       },
       {
         "date": "2022-05-24",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 4750.0
+        "amount": 4750.0,
+        "programCode": "B2_308",
+        "year": 2022
       },
       {
         "date": "2022-05-19",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 15000.0
+        "amount": 15000.0,
+        "programCode": "B1_303",
+        "year": 2022
       },
       {
         "date": "2022-05-18",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 7000.0
+        "amount": 7000.0,
+        "programCode": "B2_306",
+        "year": 2022
       },
       {
         "date": "2022-04-28",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 10000.0
+        "amount": 10000.0,
+        "programCode": "B2_301",
+        "year": 2022
       },
       {
         "date": "2022-02-14",
         "result": "선정",
         "bizType": "기반구축",
-        "amount": 5800.0
+        "amount": 5800.0,
+        "programCode": "T1_201",
+        "year": 2022
       },
       {
         "date": "2021-11-26",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 4000.0
+        "amount": 4000.0,
+        "programCode": "X2_307",
+        "year": 2022
       },
       {
         "date": "2021-10-28",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 5000.0
+        "amount": 5000.0,
+        "programCode": "T2_316",
+        "year": 2022
       },
       {
         "date": "2021-05-01",
         "result": "선정",
         "bizType": "일자리창출or인력양성",
-        "amount": 3200.0
+        "amount": 3200.0,
+        "programCode": "B2_314",
+        "year": 2022
       }
     ],
     "passthrough": {
@@ -1218,7 +1319,8 @@
     },
     "_mock": [
       "businessFit"
-    ]
+    ],
+    "reviewStatus": "후보"
   },
   {
     "id": 2379,
@@ -1227,6 +1329,7 @@
     "industryCode": "C31114",
     "region": "부산",
     "revenueLatest": 1826481.0,
+    "avgSalaryLatest": 40628.364,
     "scores": {
       "성장성": 46.96969696969697,
       "수익성": 19.090909090909093,
@@ -1399,49 +1502,65 @@
         "date": "2024-08-12",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 20000.0
+        "amount": 20000.0,
+        "programCode": "B1_1_3",
+        "year": 2024
       },
       {
         "date": "2024-05-28",
         "result": "선정",
         "bizType": "기술지원",
-        "amount": 28000.0
+        "amount": 28000.0,
+        "programCode": "E2_1_6",
+        "year": 2024
       },
       {
         "date": "2024-05-28",
         "result": "선정",
         "bizType": "기술지원",
-        "amount": 2000.0
+        "amount": 2000.0,
+        "programCode": "E2_1_6",
+        "year": 2024
       },
       {
         "date": "2024-04-04",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 23880.0
+        "amount": 23880.0,
+        "programCode": "B1_1_4",
+        "year": 2024
       },
       {
         "date": "2023-02-21",
         "result": "선정",
         "bizType": "기술지원",
-        "amount": 32000.0
+        "amount": 32000.0,
+        "programCode": "H2_315",
+        "year": 2023
       },
       {
         "date": "2022-07-15",
         "result": "탈락",
         "bizType": "일자리창출or인력양성",
-        "amount": 0
+        "amount": 0,
+        "programCode": "C1_308",
+        "year": 2022
       },
       {
         "date": "2022-06-22",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 15000.0
+        "amount": 15000.0,
+        "programCode": "B1_302",
+        "year": 2022
       },
       {
         "date": "2022-06-22",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 15000.0
+        "amount": 15000.0,
+        "programCode": "B1_302",
+        "year": 2022
       }
     ],
     "passthrough": {
@@ -1455,7 +1574,8 @@
     },
     "_mock": [
       "businessFit"
-    ]
+    ],
+    "reviewStatus": "후보"
   },
   {
     "id": 672,
@@ -1464,6 +1584,7 @@
     "industryCode": "C29177",
     "region": "부산",
     "revenueLatest": 43035757.0,
+    "avgSalaryLatest": 46688.858,
     "scores": {
       "성장성": 66.66666666666667,
       "수익성": 56.81818181818183,
@@ -1636,25 +1757,33 @@
         "date": "2024-02-06",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 9775.0
+        "amount": 9775.0,
+        "programCode": "B4_1_13",
+        "year": 2024
       },
       {
         "date": "2023-08-28",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 17143.0
+        "amount": 17143.0,
+        "programCode": "C3_302",
+        "year": 2023
       },
       {
         "date": "2023-06-20",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 50000.0
+        "amount": 50000.0,
+        "programCode": "B1_311",
+        "year": 2023
       },
       {
         "date": "2023-04-04",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 15341.0
+        "amount": 15341.0,
+        "programCode": "C3_302",
+        "year": 2023
       }
     ],
     "passthrough": {
@@ -1668,7 +1797,8 @@
     },
     "_mock": [
       "businessFit"
-    ]
+    ],
+    "reviewStatus": "후보"
   },
   {
     "id": 1730,
@@ -1677,6 +1807,7 @@
     "industryCode": "C31114",
     "region": "부산",
     "revenueLatest": 20881164.0,
+    "avgSalaryLatest": 39722.462,
     "scores": {
       "성장성": 57.57575757575757,
       "수익성": 66.81818181818183,
@@ -1849,49 +1980,65 @@
         "date": "2024-08-12",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 20000.0
+        "amount": 20000.0,
+        "programCode": "B1_1_3",
+        "year": 2024
       },
       {
         "date": "2024-08-12",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 5000.0
+        "amount": 5000.0,
+        "programCode": "B1_1_3",
+        "year": 2024
       },
       {
         "date": "2024-04-25",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 37000.0
+        "amount": 37000.0,
+        "programCode": "B2_1_7",
+        "year": 2024
       },
       {
         "date": "2024-04-11",
         "result": "선정",
         "bizType": "기술지원",
-        "amount": 30000.0
+        "amount": 30000.0,
+        "programCode": "D1_1_11",
+        "year": 2024
       },
       {
         "date": "2023-07-14",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 27000.0
+        "amount": 27000.0,
+        "programCode": "B1_311",
+        "year": 2023
       },
       {
         "date": "2023-05-30",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 20000.0
+        "amount": 20000.0,
+        "programCode": "C3_303",
+        "year": 2023
       },
       {
         "date": "2023-05-23",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 66000.0
+        "amount": 66000.0,
+        "programCode": "B4_302",
+        "year": 2023
       },
       {
         "date": "2020-04-10",
         "result": "선정",
         "bizType": "일자리창출or인력양성",
-        "amount": 8354.0
+        "amount": 8354.0,
+        "programCode": "P2_301",
+        "year": 2022
       }
     ],
     "passthrough": {
@@ -1905,7 +2052,8 @@
     },
     "_mock": [
       "businessFit"
-    ]
+    ],
+    "reviewStatus": "후보"
   },
   {
     "id": 2080,
@@ -1914,6 +2062,7 @@
     "industryCode": "C29192",
     "region": "부산",
     "revenueLatest": 10509397.0,
+    "avgSalaryLatest": 38772.108,
     "scores": {
       "성장성": 48.48484848484848,
       "수익성": 38.63636363636364,
@@ -2086,61 +2235,81 @@
         "date": "2024-05-28",
         "result": "탈락",
         "bizType": "기술지원",
-        "amount": 0
+        "amount": 0,
+        "programCode": "E2_1_6",
+        "year": 2024
       },
       {
         "date": "2024-05-28",
         "result": "탈락",
         "bizType": "기술지원",
-        "amount": 0
+        "amount": 0,
+        "programCode": "E2_1_6",
+        "year": 2024
       },
       {
         "date": "2024-05-24",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 20000.0
+        "amount": 20000.0,
+        "programCode": "B1_1_3",
+        "year": 2024
       },
       {
         "date": "2024-05-24",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 8000.0
+        "amount": 8000.0,
+        "programCode": "B1_1_3",
+        "year": 2024
       },
       {
         "date": "2024-01-17",
         "result": "탈락",
         "bizType": "기술지원",
-        "amount": 0
+        "amount": 0,
+        "programCode": "E2_1_6",
+        "year": 2024
       },
       {
         "date": "2024-01-17",
         "result": "선정",
         "bizType": "기술지원",
-        "amount": 0
+        "amount": 0,
+        "programCode": "E2_1_6",
+        "year": 2024
       },
       {
         "date": "2023-09-26",
         "result": "탈락",
         "bizType": "기타",
-        "amount": 0
+        "amount": 0,
+        "programCode": "B4_303",
+        "year": 2023
       },
       {
         "date": "2023-07-14",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 30000.0
+        "amount": 30000.0,
+        "programCode": "B1_311",
+        "year": 2023
       },
       {
         "date": "2023-05-30",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 14000.0
+        "amount": 14000.0,
+        "programCode": "C3_303",
+        "year": 2023
       },
       {
         "date": "2022-01-01",
         "result": "선정",
         "bizType": "스마트공장",
-        "amount": 14000.0
+        "amount": 14000.0,
+        "programCode": "L2_319",
+        "year": 2022
       }
     ],
     "passthrough": {
@@ -2154,7 +2323,8 @@
     },
     "_mock": [
       "businessFit"
-    ]
+    ],
+    "reviewStatus": "후보"
   },
   {
     "id": 695,
@@ -2163,6 +2333,7 @@
     "industryCode": "C21309",
     "region": "부산",
     "revenueLatest": 12615422.0,
+    "avgSalaryLatest": 46106.177,
     "scores": {
       "성장성": 60.6060606060606,
       "수익성": 63.63636363636364,
@@ -2335,61 +2506,81 @@
         "date": "2024-10-11",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 12000.0
+        "amount": 12000.0,
+        "programCode": "F1_1_19",
+        "year": 2024
       },
       {
         "date": "2023-01-27",
         "result": "탈락",
         "bizType": "일자리창출or인력양성",
-        "amount": 0
+        "amount": 0,
+        "programCode": "C1_308",
+        "year": 2023
       },
       {
         "date": "2022-07-15",
         "result": "탈락",
         "bizType": "일자리창출or인력양성",
-        "amount": 0
+        "amount": 0,
+        "programCode": "C1_308",
+        "year": 2022
       },
       {
         "date": "2022-07-05",
         "result": "포기",
         "bizType": "사업화지원",
-        "amount": 7000.0
+        "amount": 7000.0,
+        "programCode": "T2_319",
+        "year": 2023
       },
       {
         "date": "2022-05-18",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 20000.0
+        "amount": 20000.0,
+        "programCode": "B2_306",
+        "year": 2022
       },
       {
         "date": "2022-02-28",
         "result": "탈락",
         "bizType": "일자리창출or인력양성",
-        "amount": 0
+        "amount": 0,
+        "programCode": "C1_308",
+        "year": 2022
       },
       {
         "date": "2022-02-16",
         "result": "선정",
         "bizType": "일자리창출or인력양성",
-        "amount": 18000.0
+        "amount": 18000.0,
+        "programCode": "T2_318",
+        "year": 2022
       },
       {
         "date": "2022-02-16",
         "result": "선정",
         "bizType": "일자리창출or인력양성",
-        "amount": 18000.0
+        "amount": 18000.0,
+        "programCode": "T2_318",
+        "year": 2023
       },
       {
         "date": "2022-02-16",
         "result": "선정",
         "bizType": "일자리창출or인력양성",
-        "amount": 18000.0
+        "amount": 18000.0,
+        "programCode": "F1_1_22",
+        "year": 2024
       },
       {
         "date": "2022-01-25",
         "result": "선정",
         "bizType": "일자리창출or인력양성",
-        "amount": 1280.0
+        "amount": 1280.0,
+        "programCode": "B2_318",
+        "year": 2022
       }
     ],
     "passthrough": {
@@ -2403,7 +2594,8 @@
     },
     "_mock": [
       "businessFit"
-    ]
+    ],
+    "reviewStatus": "후보"
   },
   {
     "id": 1049,
@@ -2412,6 +2604,7 @@
     "industryCode": "J58221",
     "region": "부산",
     "revenueLatest": 7027580.0,
+    "avgSalaryLatest": 42365.596,
     "scores": {
       "성장성": 71.2121212121212,
       "수익성": 69.54545454545455,
@@ -2584,19 +2777,25 @@
         "date": "2022-08-31",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 6000.0
+        "amount": 6000.0,
+        "programCode": "X1_312",
+        "year": 2022
       },
       {
         "date": "2022-08-31",
         "result": "선정",
         "bizType": "패키지지원",
-        "amount": 6000.0
+        "amount": 6000.0,
+        "programCode": "X1_312",
+        "year": 2023
       },
       {
         "date": "2022-06-28",
         "result": "선정",
         "bizType": "사업화지원",
-        "amount": 20000.0
+        "amount": 20000.0,
+        "programCode": "B2_304",
+        "year": 2022
       }
     ],
     "passthrough": {
@@ -2610,6 +2809,7 @@
     },
     "_mock": [
       "businessFit"
-    ]
+    ],
+    "reviewStatus": "후보"
   }
 ]

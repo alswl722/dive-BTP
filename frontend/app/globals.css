@@ -3,19 +3,49 @@
 @tailwind utilities;
 
 :root {
-  --background: 210 20% 98%;
-  --foreground: 222 47% 11%;
-  --card: 0 0% 100%;
-  --card-foreground: 222 47% 11%;
-  --primary: 222 47% 31%;
+  /* design_handoff_기업선정시스템/README.md "공통 비주얼 시스템" 고충실도 값을 그대로 HSL 변환.
+     브랜드: #017ebe(파랑) / #ee8834(주황). */
+  --background: 206 26% 95%; /* #eef2f5 앱 바탕 */
+  --foreground: 206 54% 13%; /* #0f2332 텍스트 진한색 */
+  --card: 0 0% 100%; /* #fff */
+  --card-foreground: 206 54% 13%;
+  --primary: 200 99% 37%; /* #017ebe */
   --primary-foreground: 210 40% 98%;
-  --muted: 210 16% 93%;
-  --muted-foreground: 215 16% 47%;
-  --accent: 210 16% 90%;
-  --accent-foreground: 222 47% 11%;
-  --border: 214 20% 88%;
-  --input: 214 20% 88%;
-  --ring: 222 47% 31%;
+  --muted: 206 30% 95%; /* #f0f4f7 서브섹션 배경 */
+  --muted-foreground: 206 15% 49%; /* #6b8090 보조텍스트 */
+  --muted-foreground-faint: 204 19% 69%; /* #a0b2be 옅은 보조텍스트 */
+  --accent: 27 85% 57%; /* #ee8834 브랜드 오렌지 */
+  --accent-foreground: 20 45% 14%;
+  --border: 206 20% 88%;
+  --input: 206 20% 88%;
+  --ring: 200 99% 37%;
+
+  --subtle: 210 40% 98%; /* #f8fafc */
+
+  /* 사이드바(다크, 전 화면 고정 — 라이트/다크모드와 무관) */
+  --sidebar: 203 32% 13%; /* #16232b */
+  --sidebar-logo-bar: 202 37% 16%; /* #1a2d38 */
+  --sidebar-foreground: 201 19% 71%; /* #a8bac4 */
+
+  /* 시맨틱(심사 신호) — 각각 전경/배경 쌍 */
+  --good: 155 54% 40%; /* #2f9e6f 긍정/선정 */
+  --good-bg: 152 39% 94%; /* #e8f5ef */
+  --info: 200 99% 37%; /* #017ebe 정보/후보 */
+  --info-bg: 202 70% 95%; /* #e8f4fb */
+  --warn: 44 83% 48%; /* #e0a915 경고 */
+  --warn-bg: 44 87% 94%; /* #fdf6e3 */
+  --bad: 355 47% 53%; /* #c0505a 위험/제외 */
+  --bad-bg: 356 64% 96%; /* #fbedee */
+
+  /* 마감임박 등 톤온톤 오렌지 배지 */
+  --orange-tone: 27 76% 45%; /* #c96a1b */
+  --orange-tone-bg: 29 100% 96%; /* #fff4ea */
+
+  /* 축 4개 고유색(스코어 바/도넛) */
+  --axis-growth: 200 99% 37%; /* 성장성 #017ebe */
+  --axis-profit: 155 54% 40%; /* 수익성 #2f9e6f */
+  --axis-efficiency: 27 85% 57%; /* 효율성 #ee8834 */
+  --axis-stability: 355 47% 53%; /* 안정성 #c0505a */
 }
 
 * {
@@ -26,4 +56,5 @@ body {
   background: hsl(var(--background));
   color: hsl(var(--foreground));
   -webkit-font-smoothing: antialiased;
+  font-feature-settings: "tnum" 1;
 }

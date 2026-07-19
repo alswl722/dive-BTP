@@ -40,6 +40,21 @@ def company_exists(company_id: int) -> bool:
     return row is not None
 
 
+def _load_tech_tables(engine) -> dict | None:
+    """기술축(축4·5·6) 원장 테이블 — aggregate_tech/domain_tech 입력.
+
+    master_table의 특허·NTIS 집계컬럼은 신뢰 불가(특허=비단조 flow+상표·디자인 혼입,
+    NTIS=스냅샷 중복)라 원장을 직접 넘긴다. 테이블이 없으면 None → 기존 폴백 동작.
+    """
+    names = ["companies", "company_yearly_metrics", "company_certifications",
+             "patents", "ntis_lead_projects", "ntis_consigned_projects"]
+    try:
+        return {n: pd.read_sql_table(n, engine) for n in names}
+    except Exception as e:  # noqa: BLE001 — 스키마 미완성 환경에서도 API는 떠야 함
+        print(f"  ⚠️ 기술축 원장 로드 실패 — 기술 지표 생략: {e}")
+        return None
+
+
 def _load_source():
     engine = get_engine()
     master = pd.read_sql_table("master_table", engine)
@@ -49,7 +64,8 @@ def _load_source():
     sp = pd.read_sql_table("support_programs", engine)  # 축8 프로그램명·설명 조인용
     bp = pd.read_sql_table("company_business_purposes", engine)  # 축8 LLM 캐시 조회용
     llm_cache = _load_llm_cache(engine)
-    return score, feat, master, sr, sp, bp, llm_cache
+    tech_tables = _load_tech_tables(engine)
+    return score, feat, master, sr, sp, bp, llm_cache, tech_tables
 
 
 def _load_llm_cache(engine) -> dict:
@@ -83,18 +99,18 @@ def _load_llm_cache(engine) -> dict:
 
 
 def list_companies() -> list[dict]:
-    score, feat, master, sr, sp, bp, llm_cache = _load_source()
+    score, feat, master, sr, sp, bp, llm_cache, tech = _load_source()
     return _with_review_status(
-        build_companies(score, feat, master, sr, sp, bp, llm_cache)
+        build_companies(score, feat, master, sr, sp, bp, llm_cache, tech)
     )
 
 
 def get_company(company_id: int) -> dict | None:
-    score, feat, master, sr, sp, bp, llm_cache = _load_source()
+    score, feat, master, sr, sp, bp, llm_cache, tech = _load_source()
     score = score[score[KEY] == company_id]
     if score.empty:
         return None
-    company = build_companies(score, feat, master, sr, sp, bp, llm_cache)[0]
+    company = build_companies(score, feat, master, sr, sp, bp, llm_cache, tech)[0]
     company["reviewStatus"] = review_status_service.get_status(company_id)
     return company
 

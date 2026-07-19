@@ -8,7 +8,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import create_engine, text
 
-from app.routers import companies, dashboard, notes, programs, rankings
+from app.routers import chatbot, companies, dashboard, notes, programs, rankings
 
 app = FastAPI(title="dive-BTP API")
 
@@ -24,6 +24,7 @@ app.include_router(rankings.router)
 app.include_router(dashboard.router)
 app.include_router(programs.router)
 app.include_router(notes.router)
+app.include_router(chatbot.router)
 
 
 @app.get("/")

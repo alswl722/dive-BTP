@@ -13,6 +13,7 @@
     "applicantCount": 7,
     "selectedCount": 7,
     "totalAmountThousand": 175000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "컨설팅",
       "특허지원",
@@ -34,6 +35,7 @@
     "applicantCount": 2,
     "selectedCount": 2,
     "totalAmountThousand": 21153.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "전시회"
     ]
@@ -52,6 +54,7 @@
     "applicantCount": 2,
     "selectedCount": 2,
     "totalAmountThousand": 30000.0,
+    "amountMissingCount": 1,
     "detailItems": [
       "기술지도",
       "인증지원",
@@ -72,6 +75,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 176000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "고도1"
     ]
@@ -90,6 +94,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 37000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "시제품제작"
     ]
@@ -108,6 +113,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 18000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "일자리창출(인건비지원)"
     ]
@@ -126,6 +132,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 30000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "제품고급화"
     ]
@@ -144,6 +151,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 9775.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "전시회",
       "수출지원"
@@ -163,6 +171,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 6000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "기타"
     ]
@@ -181,6 +190,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 12000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "기타"
     ]
@@ -199,6 +209,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 2000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "전시회"
     ]
@@ -217,6 +228,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 5600.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "디자인",
       "전시회"
@@ -236,6 +248,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 5900.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "시제품제작"
     ]
@@ -254,6 +267,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 23880.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "컨설팅"
     ]
@@ -272,6 +286,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -288,6 +303,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -304,6 +320,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -320,6 +337,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -336,6 +354,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -352,6 +371,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -368,6 +388,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -384,6 +405,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -400,6 +422,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -416,6 +439,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -432,6 +456,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -448,6 +473,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -464,6 +490,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -480,6 +507,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -496,6 +524,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -512,6 +541,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -528,6 +558,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -544,6 +575,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -560,6 +592,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -576,6 +609,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -592,6 +626,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -608,6 +643,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -624,6 +660,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -640,6 +677,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -656,6 +694,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -672,6 +711,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -688,6 +728,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -704,6 +745,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -720,6 +762,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -736,6 +779,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -752,6 +796,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -768,6 +813,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -784,6 +830,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -800,6 +847,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -816,6 +864,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -832,6 +881,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -848,6 +898,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -864,6 +915,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -880,6 +932,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -896,6 +949,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -912,6 +966,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -928,6 +983,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -944,6 +1000,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -960,6 +1017,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -976,6 +1034,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -992,6 +1051,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1008,6 +1068,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1024,6 +1085,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1040,6 +1102,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1056,6 +1119,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1072,6 +1136,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1088,6 +1153,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1104,6 +1170,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1120,6 +1187,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1136,6 +1204,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1152,6 +1221,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1168,6 +1238,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1184,6 +1255,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1200,6 +1272,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1216,6 +1289,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1232,6 +1306,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1248,6 +1323,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1264,6 +1340,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1280,6 +1357,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1296,6 +1374,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1312,6 +1391,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1328,6 +1408,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1344,6 +1425,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1360,6 +1442,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1376,6 +1459,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1392,6 +1476,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1408,6 +1493,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1424,6 +1510,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1440,6 +1527,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1456,6 +1544,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1472,6 +1561,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1488,6 +1578,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1504,6 +1595,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1520,6 +1612,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1536,6 +1629,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1552,6 +1646,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1568,6 +1663,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1584,6 +1680,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1600,6 +1697,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1616,6 +1714,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1632,6 +1731,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1648,6 +1748,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1664,6 +1765,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1680,6 +1782,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1696,6 +1799,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1712,6 +1816,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1728,6 +1833,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1744,6 +1850,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1760,6 +1867,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1776,6 +1884,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1792,6 +1901,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1808,6 +1918,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1824,6 +1935,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1840,6 +1952,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1856,6 +1969,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1872,6 +1986,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1888,6 +2003,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1904,6 +2020,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1920,6 +2037,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1936,6 +2054,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1952,6 +2071,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1968,6 +2088,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -1984,6 +2105,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2000,6 +2122,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2016,6 +2139,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2032,6 +2156,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2048,6 +2173,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2064,6 +2190,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2080,6 +2207,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2096,6 +2224,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2112,6 +2241,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2128,6 +2258,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2144,6 +2275,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2160,6 +2292,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2176,6 +2309,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2192,6 +2326,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2208,6 +2343,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2224,6 +2360,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2240,6 +2377,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2256,6 +2394,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2272,6 +2411,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2288,6 +2428,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2304,6 +2445,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2320,6 +2462,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2336,6 +2479,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2352,6 +2496,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2368,6 +2513,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2384,6 +2530,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2400,6 +2547,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2416,6 +2564,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2432,6 +2581,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2448,6 +2598,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2464,6 +2615,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2480,6 +2632,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2496,6 +2649,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2512,6 +2666,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2528,6 +2683,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2544,6 +2700,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2560,6 +2717,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2576,6 +2734,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2592,6 +2751,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2608,6 +2768,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2624,6 +2785,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2640,6 +2802,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2656,6 +2819,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2672,6 +2836,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2688,6 +2853,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2704,6 +2870,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2720,6 +2887,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2736,6 +2904,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2752,6 +2921,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2768,6 +2938,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2784,6 +2955,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2800,6 +2972,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2816,6 +2989,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2832,6 +3006,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2848,6 +3023,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2864,6 +3040,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2880,6 +3057,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2896,6 +3074,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2912,6 +3091,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2928,6 +3108,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2944,6 +3125,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2960,6 +3142,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2976,6 +3159,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -2992,6 +3176,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3008,6 +3193,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3024,6 +3210,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3040,6 +3227,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3056,6 +3244,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3072,6 +3261,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3088,6 +3278,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3104,6 +3295,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3120,6 +3312,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3136,6 +3329,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3152,6 +3346,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3168,6 +3363,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3184,6 +3380,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3200,6 +3397,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3216,6 +3414,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3232,6 +3431,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3248,6 +3448,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3264,6 +3465,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3280,6 +3482,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3296,6 +3499,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3312,6 +3516,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3328,6 +3533,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3344,6 +3550,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3360,6 +3567,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3376,6 +3584,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3392,6 +3601,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3408,6 +3618,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3424,6 +3635,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3440,6 +3652,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3456,6 +3669,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3472,6 +3686,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3488,6 +3703,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3504,6 +3720,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3520,6 +3737,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3536,6 +3754,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3552,6 +3771,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3568,6 +3788,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3584,6 +3805,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3600,6 +3822,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3616,6 +3839,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3632,6 +3856,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3648,6 +3873,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3664,6 +3890,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3680,6 +3907,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3696,6 +3924,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3712,6 +3941,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3728,6 +3958,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3744,6 +3975,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -3760,6 +3992,7 @@
     "applicantCount": 6,
     "selectedCount": 6,
     "totalAmountThousand": 205850.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "수출지원",
       "시제품제작",
@@ -3780,6 +4013,7 @@
     "applicantCount": 3,
     "selectedCount": 3,
     "totalAmountThousand": 44000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "수출지원"
     ]
@@ -3798,6 +4032,7 @@
     "applicantCount": 2,
     "selectedCount": 2,
     "totalAmountThousand": 26800.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "전시회"
     ]
@@ -3816,6 +4051,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 25000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "시제품제작"
     ]
@@ -3834,6 +4070,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 32484.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "전시회"
     ]
@@ -3852,6 +4089,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 7500.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "성능평가"
     ]
@@ -3870,6 +4108,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 6000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "제품고급화"
     ]
@@ -3888,6 +4127,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 4730.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "전시회"
     ]
@@ -3906,6 +4146,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 18000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "일자리창출(인건비지원)"
     ]
@@ -3924,6 +4165,7 @@
     "applicantCount": 1,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "마케팅"
     ]
@@ -3942,6 +4184,7 @@
     "applicantCount": 1,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "인력양성(역량개발지원)"
     ]
@@ -3960,6 +4203,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 32000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "시제품제작"
     ]
@@ -3978,6 +4222,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 66000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "시제품제작"
     ]
@@ -3996,6 +4241,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 6000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "마케팅"
     ]
@@ -4014,6 +4260,7 @@
     "applicantCount": 1,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4030,6 +4277,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "전시회"
     ]
@@ -4048,6 +4296,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4064,6 +4313,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4080,6 +4330,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4096,6 +4347,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4112,6 +4364,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4128,6 +4381,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4144,6 +4398,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4160,6 +4415,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4176,6 +4432,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4192,6 +4449,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4208,6 +4466,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4224,6 +4483,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4240,6 +4500,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4256,6 +4517,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4272,6 +4534,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4288,6 +4551,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4304,6 +4568,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4320,6 +4585,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4336,6 +4602,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4352,6 +4619,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4368,6 +4636,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4384,6 +4653,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4400,6 +4670,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4416,6 +4687,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4432,6 +4704,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4448,6 +4721,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4464,6 +4738,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4480,6 +4755,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4496,6 +4772,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4512,6 +4789,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4528,6 +4806,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4544,6 +4823,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4560,6 +4840,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4576,6 +4857,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4592,6 +4874,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4608,6 +4891,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4624,6 +4908,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4640,6 +4925,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4656,6 +4942,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4672,6 +4959,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4688,6 +4976,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4704,6 +4993,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4720,6 +5010,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4736,6 +5027,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4752,6 +5044,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4768,6 +5061,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4784,6 +5078,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4800,6 +5095,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4816,6 +5112,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4832,6 +5129,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4848,6 +5146,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4864,6 +5163,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4880,6 +5180,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4896,6 +5197,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4912,6 +5214,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4928,6 +5231,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4944,6 +5248,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4960,6 +5265,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4976,6 +5282,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -4992,6 +5299,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5008,6 +5316,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5024,6 +5333,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5040,6 +5350,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5056,6 +5367,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5072,6 +5384,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5088,6 +5401,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5104,6 +5418,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5120,6 +5435,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5136,6 +5452,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5152,6 +5469,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5168,6 +5486,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5184,6 +5503,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5200,6 +5520,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5216,6 +5537,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5232,6 +5554,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5248,6 +5571,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5264,6 +5588,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5280,6 +5605,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5296,6 +5622,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5312,6 +5639,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5328,6 +5656,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5344,6 +5673,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5360,6 +5690,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5376,6 +5707,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5392,6 +5724,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5408,6 +5741,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5424,6 +5758,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5440,6 +5775,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5456,6 +5792,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5472,6 +5809,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5488,6 +5826,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5504,6 +5843,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5520,6 +5860,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5536,6 +5877,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5552,6 +5894,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5568,6 +5911,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5584,6 +5928,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5600,6 +5945,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5616,6 +5962,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5632,6 +5979,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5648,6 +5996,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5664,6 +6013,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5680,6 +6030,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5696,6 +6047,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5712,6 +6064,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5728,6 +6081,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5744,6 +6098,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5760,6 +6115,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5776,6 +6132,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5792,6 +6149,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5808,6 +6166,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5824,6 +6183,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5840,6 +6200,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5856,6 +6217,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5872,6 +6234,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5888,6 +6251,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5904,6 +6268,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5920,6 +6285,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5936,6 +6302,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5952,6 +6319,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5968,6 +6336,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -5984,6 +6353,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6000,6 +6370,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6016,6 +6387,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6032,6 +6404,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6048,6 +6421,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6064,6 +6438,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6080,6 +6455,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6096,6 +6472,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6112,6 +6489,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6128,6 +6506,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6144,6 +6523,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6160,6 +6540,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6176,6 +6557,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6192,6 +6574,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6208,6 +6591,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6224,6 +6608,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6240,6 +6625,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6256,6 +6642,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6272,6 +6659,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6288,6 +6676,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6304,6 +6693,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6320,6 +6710,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6336,6 +6727,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6352,6 +6744,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6368,6 +6761,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6384,6 +6778,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6400,6 +6795,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6416,6 +6812,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6432,6 +6829,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6448,6 +6846,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6464,6 +6863,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6480,6 +6880,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6496,6 +6897,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6512,6 +6914,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6528,6 +6931,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6544,6 +6948,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6560,6 +6965,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6576,6 +6982,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6592,6 +6999,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6608,6 +7016,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6624,6 +7033,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6640,6 +7050,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6656,6 +7067,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6672,6 +7084,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6688,6 +7101,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6704,6 +7118,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6720,6 +7135,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6736,6 +7152,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6752,6 +7169,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6768,6 +7186,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6784,6 +7203,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6800,6 +7220,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6816,6 +7237,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6832,6 +7254,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6848,6 +7271,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6864,6 +7288,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6880,6 +7305,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6896,6 +7322,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6912,6 +7339,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6928,6 +7356,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6944,6 +7373,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6960,6 +7390,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6976,6 +7407,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -6992,6 +7424,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7008,6 +7441,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7024,6 +7458,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7040,6 +7475,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7056,6 +7492,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7072,6 +7509,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7088,6 +7526,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7104,6 +7543,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7120,6 +7560,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7136,6 +7577,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7152,6 +7594,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7168,6 +7611,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7184,6 +7628,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7200,6 +7645,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7216,6 +7662,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7232,6 +7679,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7248,6 +7696,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7264,6 +7713,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7280,6 +7730,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7296,6 +7747,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7312,6 +7764,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7328,6 +7781,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7344,6 +7798,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7360,6 +7815,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7376,6 +7832,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7392,6 +7849,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7408,6 +7866,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7424,6 +7883,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7440,6 +7900,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7456,6 +7917,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7472,6 +7934,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7488,6 +7951,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7504,6 +7968,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7520,6 +7985,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7536,6 +8002,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7552,6 +8019,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7568,6 +8036,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7584,6 +8053,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7600,6 +8070,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7616,6 +8087,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7632,6 +8104,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7648,6 +8121,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7664,6 +8138,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7680,6 +8155,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7696,6 +8172,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7712,6 +8189,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7728,6 +8206,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7744,6 +8223,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7760,6 +8240,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7776,6 +8257,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7792,6 +8274,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7808,6 +8291,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7824,6 +8308,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7840,6 +8325,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7856,6 +8342,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7872,6 +8359,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7888,6 +8376,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7904,6 +8393,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7920,6 +8410,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7936,6 +8427,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7952,6 +8444,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7968,6 +8461,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -7984,6 +8478,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8000,6 +8495,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8016,6 +8512,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8032,6 +8529,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8048,6 +8546,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8064,6 +8563,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8080,6 +8580,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8096,6 +8597,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8112,6 +8614,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8128,6 +8631,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8144,6 +8648,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8160,6 +8665,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8176,6 +8682,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8192,6 +8699,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8208,6 +8716,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8224,6 +8733,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8240,6 +8750,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8256,6 +8767,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8272,6 +8784,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8288,6 +8801,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8304,6 +8818,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8320,6 +8835,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8336,6 +8852,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8352,6 +8869,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8368,6 +8886,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8384,6 +8903,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8400,6 +8920,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8416,6 +8937,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8432,6 +8954,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8448,6 +8971,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8464,6 +8988,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8480,6 +9005,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8496,6 +9022,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8512,6 +9039,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8528,6 +9056,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8544,6 +9073,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8560,6 +9090,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8576,6 +9107,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8592,6 +9124,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8608,6 +9141,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8624,6 +9158,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8640,6 +9175,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8656,6 +9192,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8672,6 +9209,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8688,6 +9226,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8704,6 +9243,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8720,6 +9260,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8736,6 +9277,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8752,6 +9294,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8768,6 +9311,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8784,6 +9328,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -8800,6 +9345,7 @@
     "applicantCount": 3,
     "selectedCount": 3,
     "totalAmountThousand": 40200.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "수출지원"
     ]
@@ -8818,6 +9364,7 @@
     "applicantCount": 2,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "인력양성(역량개발지원)"
     ]
@@ -8836,6 +9383,7 @@
     "applicantCount": 2,
     "selectedCount": 2,
     "totalAmountThousand": 26800.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "전시회"
     ]
@@ -8854,6 +9402,7 @@
     "applicantCount": 2,
     "selectedCount": 2,
     "totalAmountThousand": 24000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "기타(시비지원 포함)"
     ]
@@ -8872,6 +9421,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 10377.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "전시회"
     ]
@@ -8890,6 +9440,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 5000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "마케팅"
     ]
@@ -8908,6 +9459,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 18000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "일자리창출(인건비지원)"
     ]
@@ -8926,6 +9478,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 30000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "디자인",
       "시제품제작"
@@ -8945,6 +9498,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 10000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "시제품제작"
     ]
@@ -8963,6 +9517,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 20000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "시제품제작"
     ]
@@ -8981,6 +9536,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 8354.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "일자리창출(인건비지원)"
     ]
@@ -8999,6 +9555,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 4000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "마케팅"
     ]
@@ -9017,6 +9574,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 43800.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "컨설팅",
       "시제품제작"
@@ -9036,6 +9594,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 6000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "제품고급화"
     ]
@@ -9054,6 +9613,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 1280.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "일자리창출(인건비지원)"
     ]
@@ -9072,6 +9632,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 4750.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "컨설팅"
     ]
@@ -9090,6 +9651,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 50000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "기초"
     ]
@@ -9108,6 +9670,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 5800.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "마케팅"
     ]
@@ -9126,6 +9689,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 15000.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "수출지원"
     ]
@@ -9144,6 +9708,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 3200.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "일자리창출(인건비지원)"
     ]
@@ -9162,6 +9727,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "전시회"
     ]
@@ -9180,6 +9746,7 @@
     "applicantCount": 1,
     "selectedCount": 1,
     "totalAmountThousand": 31110.0,
+    "amountMissingCount": 0,
     "detailItems": [
       "전시회",
       "수출지원"
@@ -9199,6 +9766,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9215,6 +9783,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9231,6 +9800,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9247,6 +9817,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9263,6 +9834,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9279,6 +9851,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9295,6 +9868,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9311,6 +9885,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9327,6 +9902,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9343,6 +9919,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9359,6 +9936,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9375,6 +9953,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9391,6 +9970,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9407,6 +9987,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9423,6 +10004,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9439,6 +10021,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9455,6 +10038,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9471,6 +10055,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9487,6 +10072,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9503,6 +10089,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9519,6 +10106,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9535,6 +10123,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9551,6 +10140,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9567,6 +10157,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9583,6 +10174,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9599,6 +10191,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9615,6 +10208,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9631,6 +10225,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9647,6 +10242,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9663,6 +10259,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9679,6 +10276,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9695,6 +10293,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9711,6 +10310,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9727,6 +10327,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9743,6 +10344,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9759,6 +10361,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9775,6 +10378,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9791,6 +10395,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9807,6 +10412,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9823,6 +10429,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9839,6 +10446,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9855,6 +10463,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9871,6 +10480,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9887,6 +10497,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9903,6 +10514,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9919,6 +10531,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9935,6 +10548,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9951,6 +10565,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9967,6 +10582,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9983,6 +10599,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -9999,6 +10616,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10015,6 +10633,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10031,6 +10650,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10047,6 +10667,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10063,6 +10684,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10079,6 +10701,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10095,6 +10718,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10111,6 +10735,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10127,6 +10752,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10143,6 +10769,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10159,6 +10786,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10175,6 +10803,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10191,6 +10820,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10207,6 +10837,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10223,6 +10854,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10239,6 +10871,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10255,6 +10888,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10271,6 +10905,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10287,6 +10922,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10303,6 +10939,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10319,6 +10956,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10335,6 +10973,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10351,6 +10990,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10367,6 +11007,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10383,6 +11024,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10399,6 +11041,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10415,6 +11058,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10431,6 +11075,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10447,6 +11092,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10463,6 +11109,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10479,6 +11126,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10495,6 +11143,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10511,6 +11160,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10527,6 +11177,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10543,6 +11194,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10559,6 +11211,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10575,6 +11228,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10591,6 +11245,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10607,6 +11262,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10623,6 +11279,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10639,6 +11296,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10655,6 +11313,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10671,6 +11330,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10687,6 +11347,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10703,6 +11364,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10719,6 +11381,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10735,6 +11398,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10751,6 +11415,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10767,6 +11432,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10783,6 +11449,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10799,6 +11466,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10815,6 +11483,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10831,6 +11500,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10847,6 +11517,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10863,6 +11534,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10879,6 +11551,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10895,6 +11568,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10911,6 +11585,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10927,6 +11602,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10943,6 +11619,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10959,6 +11636,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10975,6 +11653,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -10991,6 +11670,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11007,6 +11687,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11023,6 +11704,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11039,6 +11721,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11055,6 +11738,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11071,6 +11755,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11087,6 +11772,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11103,6 +11789,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11119,6 +11806,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11135,6 +11823,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11151,6 +11840,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11167,6 +11857,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11183,6 +11874,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11199,6 +11891,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11215,6 +11908,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11231,6 +11925,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11247,6 +11942,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11263,6 +11959,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11279,6 +11976,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11295,6 +11993,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11311,6 +12010,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11327,6 +12027,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11343,6 +12044,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11359,6 +12061,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11375,6 +12078,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11391,6 +12095,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11407,6 +12112,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11423,6 +12129,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11439,6 +12146,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11455,6 +12163,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11471,6 +12180,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11487,6 +12197,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11503,6 +12214,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11519,6 +12231,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11535,6 +12248,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11551,6 +12265,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11567,6 +12282,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11583,6 +12299,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11599,6 +12316,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11615,6 +12333,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11631,6 +12350,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11647,6 +12367,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11663,6 +12384,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11679,6 +12401,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11695,6 +12418,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11711,6 +12435,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11727,6 +12452,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11743,6 +12469,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11759,6 +12486,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11775,6 +12503,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11791,6 +12520,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11807,6 +12537,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11823,6 +12554,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11839,6 +12571,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11855,6 +12588,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11871,6 +12605,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11887,6 +12622,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11903,6 +12639,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11919,6 +12656,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11935,6 +12673,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11951,6 +12690,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11967,6 +12707,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11983,6 +12724,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -11999,6 +12741,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -12015,6 +12758,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -12031,6 +12775,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -12047,6 +12792,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -12063,6 +12809,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -12079,6 +12826,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -12095,6 +12843,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -12111,6 +12860,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -12127,6 +12877,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -12143,6 +12894,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -12159,6 +12911,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -12175,6 +12928,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -12191,6 +12945,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -12207,6 +12962,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   },
   {
@@ -12223,6 +12979,7 @@
     "applicantCount": 0,
     "selectedCount": 0,
     "totalAmountThousand": 0.0,
+    "amountMissingCount": 0,
     "detailItems": []
   }
 ]

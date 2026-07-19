@@ -159,6 +159,8 @@ export interface Program {
   applicantCount: number;
   selectedCount: number;
   totalAmountThousand: number;
+  // 선정 건 중 지원금 결측 건수. 합계는 결측을 0으로 더하므로 "0원"과 "미기재"를 구분하려면 이 값이 필요하다.
+  amountMissingCount: number;
   detailItems: string[]; // 세부품목(support_detail_main) distinct. 신청이력 없으면 빈 배열.
 }
 
@@ -181,4 +183,21 @@ export interface Dashboard {
   regionDist: { region: string; count: number }[];
   resultDist: { result: string; count: number }[];
   dataQualityIssues: number;
+}
+
+// 메모 — 담당자가 심사하며 남기는 기록. 본문에 @기업·#사업 멘션을 인라인 마크업으로 포함.
+export interface NoteMention {
+  targetType: "company" | "program";
+  companyId: number | null;
+  programYear: number | null;
+  programCode: string | null;
+}
+
+export interface Note {
+  id: number;
+  body: string;   // @[기업 1049](company:1049) 형태 마크업 포함 원문
+  author: string; // 작성 시점 role 라벨
+  createdAt: string;
+  updatedAt: string;
+  mentions: NoteMention[];
 }

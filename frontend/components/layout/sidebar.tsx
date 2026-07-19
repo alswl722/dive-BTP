@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Home, ClipboardList, Building2, ChevronsLeft, ChevronsRight, ChevronDown, User, Settings, LogOut, UserCog } from "lucide-react";
+import { Home, ClipboardList, Building2, NotebookPen, ChevronsLeft, ChevronsRight, ChevronDown, User, Settings, LogOut, UserCog } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUi, useReviewStatus } from "@/lib/app-state";
 import { useRole } from "@/lib/roles";
@@ -13,6 +13,7 @@ const NAV = [
   { href: "/", label: "메인 페이지", icon: Home },
   { href: "/programs", label: "지원 사업", icon: ClipboardList },
   { href: "/companies", label: "기업 선정", icon: Building2 },
+  { href: "/notes", label: "메모", icon: NotebookPen },
 ];
 
 export function Sidebar() {
@@ -113,8 +114,12 @@ export function Sidebar() {
               sidebarCollapsed && "justify-center"
             )}
           >
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-[11px] font-bold text-white">
-              {role === "관리자" ? "관" : "담"}
+            {/* 카톡 기본 프로필풍 실루엣 — 머리·어깨 비율을 직접 그린 SVG (어깨는 원 하단에 클리핑) */}
+            <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full bg-[#9AAAB8]">
+              <svg viewBox="0 0 32 32" className="h-full w-full" aria-hidden>
+                <circle cx="16" cy="12" r="6.2" fill="white" />
+                <path d="M16 20.5c-6.8 0-11 4-11 9v2.5h22V29.5c0-5-4.2-9-11-9z" fill="white" />
+              </svg>
             </div>
             {!sidebarCollapsed && (
               <>

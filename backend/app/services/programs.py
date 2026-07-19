@@ -18,6 +18,8 @@ SELECT sp.year, sp.program_code, sp.program_name, sp.macro_category, sp.business
        COUNT(DISTINCT sr.company_id) AS applicant_count,
        COUNT(DISTINCT sr.company_id) FILTER (WHERE sr.selection_result = '지원대상') AS selected_count,
        COALESCE(SUM(sr.support_amount_thousand_krw) FILTER (WHERE sr.selection_result = '지원대상'), 0) AS total_amount,
+       COUNT(*) FILTER (WHERE sr.selection_result = '지원대상'
+                          AND sr.support_amount_thousand_krw IS NULL) AS amount_missing_count,
        ARRAY_REMOVE(ARRAY_AGG(DISTINCT NULLIF(sr.support_detail_main, '')), NULL) AS detail_items
 FROM support_programs sp
 LEFT JOIN support_records sr ON sr.year = sp.year AND sr.program_code = sp.program_code
@@ -46,6 +48,7 @@ def list_programs() -> list[dict]:
             "applicantCount": r["applicant_count"],
             "selectedCount": r["selected_count"],
             "totalAmountThousand": float(r["total_amount"]),
+            "amountMissingCount": r["amount_missing_count"],
             "detailItems": list(r["detail_items"]),
         }
         for r in rows

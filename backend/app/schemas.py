@@ -242,8 +242,36 @@ class Program(BaseModel):
     description: str | None = None
     applicantCount: int  # support_records 매칭 신청기업수(중복 지원 제외 distinct)
     selectedCount: int  # 선정(지원대상) 기업수
-    totalAmountThousand: float  # 선정 건 지원금 합계(천원)
+    totalAmountThousand: float  # 선정 건 지원금 합계(천원). 결측은 0으로 합산되므로 아래 값과 함께 읽을 것
+    amountMissingCount: int = 0  # 선정 건 중 지원금이 결측인 건수 — "0원"과 "미기재"를 화면에서 구분하기 위함
     detailItems: list[str] = []  # 세부품목(support_detail_main) distinct. 신청이력 없는 사업은 빈 배열.
+
+
+class NoteMention(BaseModel):
+    """메모가 가리키는 대상. company면 companyId만, program이면 year+code만 채워진다."""
+
+    targetType: Literal["company", "program"]
+    companyId: int | None = None
+    programYear: int | None = None
+    programCode: str | None = None
+
+
+class Note(BaseModel):
+    id: int
+    body: str        # 멘션 인라인 마크업 포함 원문 — @[표시명](company:1049)
+    author: str      # 작성 시점 role 라벨(인증 도입 시 user_id로 대체)
+    createdAt: str
+    updatedAt: str
+    mentions: list[NoteMention] = []
+
+
+class NoteCreate(BaseModel):
+    body: str = Field(min_length=1)
+    author: str = Field(min_length=1)
+
+
+class NoteUpdate(BaseModel):
+    body: str = Field(min_length=1)
 
 
 class Dashboard(BaseModel):

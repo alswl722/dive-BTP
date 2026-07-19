@@ -5,11 +5,12 @@ import { BusinessFitCard } from "@/components/axis8/BusinessFitCard";
 import { AXES, type Company } from "@/types";
 import { formatKRW, cn } from "@/lib/utils";
 
+// 톤온톤(프라이머리 블루 계열) — 축 구분은 아래 라벨이 하므로 색은 채도 대신 명도 단계로만.
 const AXIS_BAR_COLOR: Record<(typeof AXES)[number], string> = {
-  성장성: "bg-axis-growth",
-  수익성: "bg-axis-profit",
-  효율성: "bg-axis-efficiency",
-  안정성: "bg-axis-stability",
+  성장성: "bg-primary",
+  수익성: "bg-primary/75",
+  효율성: "bg-primary/55",
+  안정성: "bg-primary/35",
 };
 
 export function OverviewTab({ company }: { company: Company }) {
@@ -27,27 +28,36 @@ export function OverviewTab({ company }: { company: Company }) {
       <div className="grid gap-6 sm:grid-cols-2">
         <div>
           <p className="mb-2.5 text-[12.5px] font-bold">4축 점수 <span className="font-normal text-muted-foreground">(업종 내 백분위)</span></p>
-          <div className="space-y-3">
-            {AXES.map((axis) => {
-              const v = company.scores[axis];
-              return (
-                <div key={axis} className="space-y-1">
-                  <div className="flex items-baseline justify-between text-[12px]">
-                    <span>{axis}</span>
-                    <span className="tabular-nums">
-                      <span className="font-bold">{v == null ? "—" : Math.round(v)}</span>
-                      {v != null && <span className="ml-1 text-[10.5px] text-muted-foreground">P{Math.round(v)}</span>}
-                    </span>
-                  </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
-                    <div
-                      className={cn("h-full rounded-full", AXIS_BAR_COLOR[axis])}
-                      style={{ width: `${v == null ? 0 : Math.max(2, Math.min(100, v))}%` }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
+          {/* 세로 막대 + 중앙값 50 기준선 — 높이 대비로 축 어긋남(예: 효율 91 vs 안정 13)이 즉각 보이게.
+              위 20px(top-5)는 점수 라벨 여백 — 막대 높이(%)와 50 점선이 같은 스케일을 공유해야 하므로
+              라벨은 막대 위 절대배치로 뺀다. */}
+          <div className="relative h-[168px] max-w-[300px]">
+            <div className="absolute inset-x-0 bottom-0 top-5 border-b border-muted-foreground/30">
+              <div className="pointer-events-none absolute inset-x-0 bottom-1/2 border-t border-dashed border-muted-foreground/40" />
+              <div className="absolute inset-0 flex items-end gap-3 px-1">
+                {AXES.map((axis) => {
+                  const v = company.scores[axis];
+                  const h = v == null ? 2 : Math.max(2, Math.min(100, v));
+                  return (
+                    <div key={axis} className="flex h-full flex-1 items-end justify-center">
+                      <div
+                        className={cn("relative w-[70%] max-w-[44px] rounded-t-[5px]", v == null ? "bg-muted" : AXIS_BAR_COLOR[axis])}
+                        style={{ height: `${h}%` }}
+                      >
+                        <span className="absolute -top-[18px] left-1/2 -translate-x-1/2 text-[12px] font-bold tabular-nums">
+                          {v == null ? "—" : Math.round(v)}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+          <div className="flex max-w-[300px] gap-3 px-1 pt-1.5">
+            {AXES.map((axis) => (
+              <span key={axis} className="flex-1 text-center text-[11px] text-muted-foreground">{axis}</span>
+            ))}
           </div>
         </div>
         <div>

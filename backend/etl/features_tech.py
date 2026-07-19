@@ -78,6 +78,20 @@ def compute_features(agg: pd.DataFrame, yearly: pd.DataFrame,
     first_patent_age = _years_between(a["특허_첫출원일"], comp["founded_date"].reindex(a.index))
     out["첫특허_업력"] = first_patent_age.clip(lower=0).reindex(out.index)
 
+    # --- 활동성: 누적 건수로는 안 보이는 'R&D 정체' 판별 ---
+    recent_col = next((c for c in a.columns if c.startswith("특허최근")), None)
+    if recent_col:
+        out["특허_최근출원건수"] = a[recent_col]
+        # 최근 출원이 전체의 몇 %인가 (낮으면 과거 실적에 의존)
+        out["특허_최근출원비중"] = safe_ratio(a[recent_col], a["특허출원_건수"])
+    # 마지막 출원 이후 경과 년수 (클수록 R&D 정체)
+    last_applied = pd.to_datetime(a["특허_최종출원일"], errors="coerce")
+    as_of = last_applied.max()  # 데이터 기준 시점(연도 하드코딩 회피)
+    out["특허_활동공백년수"] = ((as_of - last_applied).dt.days / 365.25).reindex(out.index)
+
+    # --- 권리유지: 등록 특허를 유지 못하고 소멸시켰나 (연차료 미납 = 자금압박·기술철수 신호) ---
+    out["특허소멸률"] = safe_ratio(a["특허소멸_건수"], a["특허등록_건수"])  # 등록 0 → NaN
+
     # ===================== 축6 NTIS =====================
     out["NTIS주관_과제수"] = a["NTIS주관_과제수"]
     out["NTIS주관_정부연구비"] = a["NTIS주관_정부연구비"]   # 단위 원
@@ -107,8 +121,9 @@ def report(feat: pd.DataFrame) -> None:
     print("\n[결측 개수]")
     print(feat.drop(columns=[KEY]).isna().sum().to_string())
     print("\n[주요 파생값]")
-    cols = [KEY, "R&D집약도", "특허등록전환율", "첫특허_업력",
-            "NTIS주관_과제수", "인증_보유수", "인증실체괴리_플래그"]
+    cols = [KEY, "R&D집약도", "특허등록전환율", "특허_최근출원건수", "특허_최근출원비중",
+            "특허_활동공백년수", "특허소멸률", "NTIS주관_과제수", "인증실체괴리_플래그"]
+    cols = [c for c in cols if c in feat.columns]
     with pd.option_context("display.width", 200):
         print(feat[cols].round(3).to_string(index=False))
 

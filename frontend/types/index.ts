@@ -115,6 +115,8 @@ export interface Program {
   applicantCount: number;
   selectedCount: number;
   totalAmountThousand: number;
+  // 선정 건 중 지원금 결측 건수. 합계는 결측을 0으로 더하므로 "0원"과 "미기재"를 구분하려면 이 값이 필요하다.
+  amountMissingCount: number;
   detailItems: string[]; // 세부품목(support_detail_main) distinct. 신청이력 없으면 빈 배열.
 }
 

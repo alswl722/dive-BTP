@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Home, ClipboardList, Building2, ChevronsLeft, ChevronsRight, ChevronDown, User, Settings, LogOut, UserCog } from "lucide-react";
+import { Home, ClipboardList, Building2, NotebookPen, ChevronsLeft, ChevronsRight, ChevronDown, User, Settings, LogOut, UserCog } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUi, useReviewStatus } from "@/lib/app-state";
 import { useRole } from "@/lib/roles";
@@ -13,6 +13,7 @@ const NAV = [
   { href: "/", label: "메인 페이지", icon: Home },
   { href: "/programs", label: "지원 사업", icon: ClipboardList },
   { href: "/companies", label: "기업 선정", icon: Building2 },
+  { href: "/notes", label: "메모", icon: NotebookPen },
 ];
 
 export function Sidebar() {

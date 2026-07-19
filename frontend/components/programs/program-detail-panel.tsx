@@ -3,23 +3,27 @@
 import { useMemo, useState } from "react";
 import { AlertTriangle, Building2, Calendar, Landmark, Maximize2, Repeat, X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import type { Company, Program } from "@/types";
+import type { Company, Note, Program } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/ui/stat-card";
 import { businessTypeLabel, programStatus, PROGRAM_STATUS_BADGE } from "@/lib/program-status";
 import { coSupportedPrograms, coSupportThreshold, sameProgramRepeat, selectedCompanies } from "@/lib/program-filters";
 import { formatKRW } from "@/lib/utils";
+import { MentionedNotes } from "@/components/notes/notes-explorer";
+import { mentionsProgram } from "@/lib/notes";
 
 export function ProgramDetailPanel({
   program: p,
   programs,
   companies,
+  notes,
   referenceDate,
   onClose,
 }: {
   program: Program;
   programs: Program[];
   companies: Company[];
+  notes: Note[];
   referenceDate: Date;
   onClose: () => void;
 }) {
@@ -183,6 +187,13 @@ export function ProgramDetailPanel({
           )}
         </Section>
       )}
+
+      <Section title="이 사업이 언급된 메모">
+        <MentionedNotes
+          notes={notes.filter((n) => mentionsProgram(n, p.year, p.programCode))}
+          emptyText="아직 이 사업을 언급한 메모가 없습니다. 메모에서 #으로 언급하면 여기 모입니다."
+        />
+      </Section>
 
       {noRecord && (
         <p className="rounded-lg bg-subtle p-3 text-[11.5px] leading-relaxed text-muted-foreground">

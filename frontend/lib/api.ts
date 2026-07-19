@@ -2,7 +2,7 @@
 // NEXT_PUBLIC_API_BASE_URL 있으면 FastAPI fetch, 없으면 로컬 fixture.
 // 화면 코드는 데이터 출처를 모른다(우리 parquet→DB 철학과 동일).
 
-import type { Company, Rankings, Dashboard, Program } from "@/types";
+import type { Company, Rankings, Dashboard, Note, Program } from "@/types";
 import companiesFixture from "./fixtures/companies.json";
 import rankingsFixture from "./fixtures/rankings.json";
 import dashboardFixture from "./fixtures/dashboard.json";
@@ -56,4 +56,47 @@ export async function updateReviewStatus(id: number, status: Company["reviewStat
   });
   if (!res.ok) throw new Error(`PATCH review-status ${id} → ${res.status}`);
   return true;
+}
+
+/* ------------------------------------------------------------------ */
+/* 메모 — 찜 상태와 같은 정책: DB 없으면(fixture 모드) 세션 내 상태만 유지 */
+/* ------------------------------------------------------------------ */
+
+/** DB 영속화 가능 여부. false면 화면에 "저장되지 않음" 안내를 띄운다. */
+export const notesPersisted = Boolean(API_BASE);
+
+export async function listNotes(params?: {
+  companyId?: number;
+  programYear?: number;
+  programCode?: string;
+}): Promise<Note[]> {
+  if (!API_BASE) return [];
+  const q = new URLSearchParams();
+  if (params?.companyId != null) q.set("companyId", String(params.companyId));
+  if (params?.programYear != null) q.set("programYear", String(params.programYear));
+  if (params?.programCode) q.set("programCode", params.programCode);
+  const suffix = q.toString() ? `?${q}` : "";
+  return fromApi<Note[]>(`/notes${suffix}`);
+}
+
+async function notesApi<T>(path: string, init: RequestInit): Promise<T | null> {
+  if (!API_BASE) return null; // fixture 모드 — 호출부가 세션 상태만 갱신
+  const res = await fetch(`/api/notes${path}`, {
+    headers: { "Content-Type": "application/json" },
+    ...init,
+  });
+  if (!res.ok) throw new Error(`${init.method} /api/notes${path} → ${res.status}`);
+  return res.status === 204 ? (null as T) : res.json();
+}
+
+export function createNote(body: string, author: string) {
+  return notesApi<Note>("", { method: "POST", body: JSON.stringify({ body, author }) });
+}
+
+export function updateNote(id: number, body: string) {
+  return notesApi<Note>(`/${id}`, { method: "PATCH", body: JSON.stringify({ body }) });
+}
+
+export function deleteNote(id: number) {
+  return notesApi<null>(`/${id}`, { method: "DELETE" });
 }

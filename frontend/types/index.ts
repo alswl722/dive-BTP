@@ -140,3 +140,20 @@ export interface Dashboard {
   resultDist: { result: string; count: number }[];
   dataQualityIssues: number;
 }
+
+// 메모 — 담당자가 심사하며 남기는 기록. 본문에 @기업·#사업 멘션을 인라인 마크업으로 포함.
+export interface NoteMention {
+  targetType: "company" | "program";
+  companyId: number | null;
+  programYear: number | null;
+  programCode: string | null;
+}
+
+export interface Note {
+  id: number;
+  body: string;   // @[기업 1049](company:1049) 형태 마크업 포함 원문
+  author: string; // 작성 시점 role 라벨
+  createdAt: string;
+  updatedAt: string;
+  mentions: NoteMention[];
+}

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChevronRight, ChevronUp, Download, Search, X } from "lucide-react";
-import type { Company, Program } from "@/types";
+import type { Company, Note, Program } from "@/types";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, THead, TBody, TR, TH, TD } from "@/components/ui/table";
@@ -23,10 +23,12 @@ const STATUSES: ProgramStatus[] = ["진행중", "예정", "완료"];
 export function ProgramsExplorer({
   programs,
   companies,
+  notes,
   referenceDateIso,
 }: {
   programs: Program[];
   companies: Company[];
+  notes: Note[];
   referenceDateIso: string;
 }) {
   const router = useRouter();
@@ -304,6 +306,7 @@ export function ProgramsExplorer({
               program={openProgram}
               programs={programs}
               companies={companies}
+              notes={notes}
               referenceDate={referenceDate}
               onClose={() => setOpenKey(null)}
             />

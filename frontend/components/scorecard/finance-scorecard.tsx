@@ -301,7 +301,7 @@ function AxisTile({ company, axis, supportsByYear }: { company: Company; axis: A
         {worst ? (
           <>
             {metricLabel(worst.key)} {formatRaw(worst.key, company.rawMetrics[worst.key])}{" "}
-            <span className="whitespace-nowrap">(하위 {Math.round(worst.pct)}%)</span>
+            <span className="whitespace-nowrap">({percentilePosition(worst.pct)})</span>
           </>
         ) : (
           "근거 지표 없음"

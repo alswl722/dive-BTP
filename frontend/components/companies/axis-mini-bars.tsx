@@ -1,31 +1,35 @@
 import { AXES, type AxisScores } from "@/types";
 import { cn } from "@/lib/utils";
 
-const AXIS_ABBR: Record<(typeof AXES)[number], string> = { 성장성: "성", 수익성: "수", 효율성: "효", 안정성: "안" };
-const AXIS_BAR_COLOR: Record<(typeof AXES)[number], string> = {
-  성장성: "bg-axis-growth",
-  수익성: "bg-axis-profit",
-  효율성: "bg-axis-efficiency",
-  안정성: "bg-axis-stability",
+// 톤온톤 명도 단계 — 개요 탭 세로 막대 차트와 동일한 문법(성장성 진함 → 안정성 연함).
+const AXIS_OPACITY: Record<(typeof AXES)[number], string> = {
+  성장성: "opacity-100",
+  수익성: "opacity-[.78]",
+  효율성: "opacity-[.58]",
+  안정성: "opacity-[.38]",
 };
 
-/** 4축 점수를 2x2 그리드로 압축 표시(표 뷰 전용). */
+const LOW_THRESHOLD = 25; // 하위 등급 경계 — 이 미만인 축만 빨강으로 경고
+
+/** 4축 점수 미니 세로 막대(표 뷰 전용). 중앙값 50 점선 + 하위 축 빨강.
+ *  숫자는 셀에 안 그리고 title 툴팁으로 — 셀 복잡도를 낮춘다. */
 export function AxisMiniBars({ scores }: { scores: AxisScores }) {
+  const tooltip = AXES.map((a) => `${a} ${scores[a] == null ? "—" : Math.round(scores[a]!)}`).join(" · ");
   return (
-    <div className="grid grid-cols-2 gap-x-3 gap-y-1">
+    <div className="relative flex h-[34px] w-[96px] items-end gap-[5px]" title={tooltip}>
+      <div className="pointer-events-none absolute inset-x-0 bottom-1/2 border-t border-dashed border-muted-foreground/40" />
       {AXES.map((axis) => {
         const v = scores[axis];
+        const low = v != null && v < LOW_THRESHOLD;
         return (
-          <div key={axis} className="flex items-center gap-1.5" title={axis}>
-            <span className="w-2.5 shrink-0 text-[9.5px] text-muted-foreground">{AXIS_ABBR[axis]}</span>
-            <div className="h-1.5 w-9 shrink-0 overflow-hidden rounded-full bg-muted">
-              <div
-                className={cn("h-full rounded-full", AXIS_BAR_COLOR[axis])}
-                style={{ width: `${v == null ? 0 : Math.max(4, Math.min(100, v))}%` }}
-              />
-            </div>
-            <span className="w-4 shrink-0 text-[10px] tabular-nums text-muted-foreground">{v == null ? "—" : Math.round(v)}</span>
-          </div>
+          <div
+            key={axis}
+            className={cn(
+              "min-h-[2px] flex-1 rounded-t-[2px]",
+              v == null ? "bg-muted" : low ? "bg-bad" : cn("bg-primary", AXIS_OPACITY[axis])
+            )}
+            style={{ height: `${v == null ? 6 : Math.max(6, Math.min(100, v))}%` }}
+          />
         );
       })}
     </div>

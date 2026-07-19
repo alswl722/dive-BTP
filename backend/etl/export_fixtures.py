@@ -19,13 +19,30 @@ DATA_DIR = Path(__file__).resolve().parent / "data"
 OUT_DIR = Path(__file__).resolve().parents[1].parent / "frontend" / "lib" / "fixtures"
 
 
+def _load_tech_tables():
+    """기술축 원장 테이블. parquet에 없으면 샘플 엑셀(dev_loader)에서 로드.
+
+    특허·NTIS는 master_table 집계컬럼이 신뢰 불가라(비단조 flow·스냅샷 중복)
+    원장을 직접 넘겨야 정확한 값이 나온다.
+    """
+    try:
+        from dev_loader import load_tables
+        return load_tables()
+    except SystemExit as e:      # 샘플 엑셀을 못 찾은 경우
+        print(f"  ⚠️ 기술축 원장 로드 실패 — 기술 지표 없이 생성: {e}")
+    except ImportError as e:
+        print(f"  ⚠️ dev_loader 없음 — 기술 지표 없이 생성: {e}")
+    return None
+
+
 def main():
     score = pd.read_parquet(DATA_DIR / "features_score.parquet")
     feat = pd.read_parquet(DATA_DIR / "features_finance.parquet")
     master = pd.read_parquet(DATA_DIR / "master_table.parquet")
     sr = pd.read_parquet(DATA_DIR / "support_records.parquet")
 
-    companies = build_companies(score, feat, master, sr)
+    companies = build_companies(score, feat, master, sr,
+                                tech_tables=_load_tech_tables())
     rankings = build_rankings(companies)
     dashboard = build_dashboard(companies)
 

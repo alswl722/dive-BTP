@@ -284,6 +284,95 @@ def _prepare_axis9_batch(sr: pd.DataFrame, score_df: pd.DataFrame) -> tuple[pd.D
     return metrics_df, flags_by_id
 
 
+def _prepare_tech_batch(tech_tables: dict | None) -> dict[int, dict]:
+    """기술력 축(축4 R&D·특허 / 축5 인증 / 축6 NTIS / 축4-1 도메인) 일괄 산출.
+
+    반환: {company_id: 지표 dict}. tech_tables가 없으면 빈 dict(기존 호출부 호환).
+
+    ⚠️ 이 배선이 필요한 이유: master_table의 특허/NTIS 집계컬럼은 신뢰할 수 없다.
+      - `특허등록건수(최종 누적)`은 실제로 누적이 아니라 그해 flow라 비단조(감소)이고,
+        상표권·디자인권이 섞여 있다 → 화면에 특허 0건으로 표시되는 문제.
+      - `NTIS주관_행수`는 기준일자 스냅샷 원본 행 수라 한 과제가 여러 번 세어진다(약 2.9배).
+    원장(patents/ntis_*)을 직접 집계하는 aggregate_tech가 유일한 신뢰 소스다.
+    """
+    if not tech_tables:
+        return {}
+    try:
+        import aggregate_tech
+        import domain_tech
+        import features_tech as ft
+        import scoring_tech as st
+    except ImportError as e:  # 모듈 없는 환경(프론트 전용 브랜치 등)에서는 조용히 생략
+        print(f"  ⚠️ 기술축 모듈 import 실패 — 기술 지표 생략: {e}")
+        return {}
+
+    agg = aggregate_tech.build(tech_tables)
+    feat = ft.compute_features(agg, tech_tables["company_yearly_metrics"],
+                               tech_tables["companies"], verbose=False)
+    scores = st.compute_scores(feat, st._align_ksic(feat, tech_tables["companies"]))
+    domain = domain_tech.build(tech_tables)
+
+    cid_col = aggregate_tech.KEY  # "company_id"
+    merged = feat.set_index(cid_col)
+    for extra in (scores, domain):
+        e = extra.set_index(cid_col)
+        e = e[[c for c in e.columns if c not in merged.columns]]  # 중복 컬럼 제외
+        merged = merged.join(e)
+    return {int(cid): row.to_dict() for cid, row in merged.iterrows()}
+
+
+def _split_list(v) -> list[str]:
+    """'A; B' 형태 문자열 → 리스트. 결측이면 빈 리스트."""
+    v = clean(v)
+    return [x for x in str(v).split("; ") if x] if v else []
+
+
+def _tech_block(t: dict) -> dict:
+    """기술축 산출 dict → API 응답용 구조."""
+    return {
+        "patents": {
+            "출원": clean(t.get("특허출원_건수")),
+            "등록": clean(t.get("특허등록_건수")),
+            "등록전환율": clean(t.get("특허등록전환율")),
+            "최근3년출원": clean(t.get("특허_최근출원건수")),
+            "최근출원비중": clean(t.get("특허_최근출원비중")),
+            "활동공백년수": clean(t.get("특허_활동공백년수")),
+            "소멸률": clean(t.get("특허소멸률")),
+            "첫특허업력": clean(t.get("첫특허_업력")),
+        },
+        "rnd": {
+            "집약도": clean(t.get("R&D집약도")),
+            "집약도추세": clean(t.get("R&D집약도추세")),
+        },
+        "ntis": {
+            "주관과제수": clean(t.get("NTIS주관_과제수")),
+            "정부연구비_원": clean(t.get("NTIS주관_정부연구비")),
+            "부처다양성": clean(t.get("NTIS주관_부처다양성")),
+            "위탁과제수": clean(t.get("NTIS위탁_과제수")),
+            "산학협력": bool(t.get("산학협력_여부")),
+        },
+        "certification": {
+            "보유수": clean(t.get("인증_보유수")),
+            "핵심보유": bool(t.get("인증_핵심보유")),
+            "실체괴리": bool(t.get("인증실체괴리_플래그")),
+        },
+        "domain": {
+            "주력기술분야": clean(t.get("주력기술분야")),
+            "출처": clean(t.get("도메인_출처")),
+            "분야수": clean(t.get("기술분야_수")),
+            "집중도": clean(t.get("기술집중도")),
+            "btp중점사업": _split_list(t.get("BTP중점사업")),
+            "국가전략기술": _split_list(t.get("국가전략기술")),
+            "기술수준등급": clean(t.get("기술수준등급")),
+        },
+        "scores": {
+            "rndPatent": clean(t.get("R&D특허점수")),
+            "ntis": clean(t.get("NTIS점수")),
+            "백분위기준": clean(t.get("백분위기준")),
+        },
+    }
+
+
 def build_companies(
     score: pd.DataFrame,
     feat: pd.DataFrame,
@@ -292,6 +381,7 @@ def build_companies(
     sp: pd.DataFrame | None = None,
     bp: pd.DataFrame | None = None,
     llm_cache: dict | None = None,
+    tech_tables: dict | None = None,
 ) -> list[dict]:
     def mcol(hint):
         return next((c for c in master.columns if hint in str(c)), None)
@@ -303,6 +393,8 @@ def build_companies(
     whitelist = axis8_svc.load_whitelist()
     accept_conf = axis8_svc.load_accept_confidence()
     _, axis9_flags = _prepare_axis9_batch(sr, score)
+    # 축4·5·6 + 도메인 (원장 기반 — master 집계컬럼 대체)
+    tech_by_id = _prepare_tech_batch(tech_tables)
 
     # 기업별 사업목적 lookup
     purposes_by_id: dict[int, list[str]] = {}
@@ -315,6 +407,7 @@ def build_companies(
         cid = int(s[KEY])
         m = master[master[KEY] == cid].iloc[0]
         f = feat[feat[KEY] == cid].iloc[0]
+        _t = tech_by_id.get(cid)  # 기술축 산출(없으면 None → master 폴백)
 
         rev = col_year_map(master, "매출액")
         rev_latest = pd.to_numeric(m[rev[max(rev)]], errors="coerce") if rev else None
@@ -350,11 +443,19 @@ def build_companies(
                 "자본총계": trend(m, master, "자본총계"),
             },
             "certifications": {c: yn(m[mcol(c)]) if mcol(c) else False for c in CERTS},
+            # 특허·NTIS는 원장 집계(tech)를 우선 사용. master 집계컬럼은 신뢰 불가
+            # (특허=비단조 flow+상표·디자인 혼입 / NTIS=스냅샷 중복). tech 없을 때만 폴백.
             "patents": {
-                "등록": clean(pd.to_numeric(m.get(col_year_map(master, "특허등록건수").get(2024, "")), errors="coerce")) if col_year_map(master, "특허등록건수") else None,
-                "출원": clean(pd.to_numeric(m.get(col_year_map(master, "특허출원건수").get(2024, "")), errors="coerce")) if col_year_map(master, "특허출원건수") else None,
+                "등록": clean(_t.get("특허등록_건수")) if _t else
+                        (clean(pd.to_numeric(m.get(col_year_map(master, "특허등록건수").get(2024, "")), errors="coerce")) if col_year_map(master, "특허등록건수") else None),
+                "출원": clean(_t.get("특허출원_건수")) if _t else
+                        (clean(pd.to_numeric(m.get(col_year_map(master, "특허출원건수").get(2024, "")), errors="coerce")) if col_year_map(master, "특허출원건수") else None),
             },
-            "ntis": {"주관": clean(m.get("NTIS주관_행수")), "위탁": clean(m.get("NTIS위탁_행수"))},
+            "ntis": {
+                "주관": clean(_t.get("NTIS주관_과제수")) if _t else clean(m.get("NTIS주관_행수")),
+                "위탁": clean(_t.get("NTIS위탁_과제수")) if _t else clean(m.get("NTIS위탁_행수")),
+            },
+            "tech": _tech_block(_t) if _t else None,
             "support": {
                 "건수": clean(m.get("지원건수")),
                 "총지원금_천원": clean(m.get("총지원금_천원")),

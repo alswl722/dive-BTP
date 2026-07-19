@@ -21,8 +21,16 @@ diversity:
 flag_logic:
   # 성장률 정체 threshold — 축1(민지) growth_score 하위 (0~100 백분위 스케일)
   # 인터페이스 계약: docs/성장률_인터페이스.md
+  # ⚠ 상대 백분위라 본선에서 항상 하위 30%가 정체 판정됨(전체가 성장해도).
+  # 절대 CAGR 기준을 원하면 axis1 산출에 revenue_cagr을 추가하고 여기에 병렬 임계값 신설.
   growth_score_stagnant: 30.0       # score < 30 = 정체
   # "반복" 판정 metric 후보 — OR 조건. 하나라도 percentile 초과면 반복 지원 판정
   repeat_metrics:
     - support_count
     - total_amount_thousand_krw
+  # 절대 최소선 (CLAUDE.md 원문 "GROUP BY 기업일련번호 HAVING COUNT >= N" 방식 병행).
+  # percentile OR 절대값 — 둘 중 하나 만족하면 반복 판정.
+  # 이유: 샘플 편향(전원 반복선정)에서 상대 백분위만 쓰면 "6회 수혜 기업"이
+  # 상대적으로 덜 반복이라 normal로 나옴(2080 사례). 심사자 혼란 방지.
+  repeat_absolute_min:
+    support_count: 3                # 3건 이상은 표본 무관하게 반복 판정

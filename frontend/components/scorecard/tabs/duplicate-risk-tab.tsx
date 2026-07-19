@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatKRW } from "@/lib/utils";
 import type { Company } from "@/types";
 import { DUPLICATE_RISK_THRESHOLD, recentSelectionCount, recordYear, riskLevel, RISK_LEVEL_BADGE, selectionsByYear } from "@/lib/duplicate-risk";
+import { DuplicateFlagDetailPanel } from "@/components/axis9/DuplicateFlagBadge";
 
 export function DuplicateRiskTab({ company, latestYear }: { company: Company; latestYear: number }) {
   const count = recentSelectionCount(company, latestYear);
@@ -15,9 +16,14 @@ export function DuplicateRiskTab({ company, latestYear }: { company: Company; la
 
   return (
     <div className="space-y-5">
+      {/* 축9 상세 판정 (성장률 교차 truth table + 세그먼트) */}
+      <DuplicateFlagDetailPanel flag={company.duplicateFlag} />
+
+      <div className="border-t pt-4" />
+
       <div className="flex items-center justify-between">
         <p className="text-[14px] font-bold">
-          최근 {byYear.length}개년 중복 분석 <span className="font-normal text-muted-foreground">({from}~{latestYear})</span>
+          최근 {byYear.length}개년 선정 분석 <span className="font-normal text-muted-foreground">({from}~{latestYear})</span>
         </p>
         <Badge variant={RISK_LEVEL_BADGE[level]} className="text-[12px]">
           중복 위험도: {level}

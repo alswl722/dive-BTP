@@ -241,12 +241,17 @@ def growth_signals_from_axis1(axis1_df: pd.DataFrame) -> dict[int, GrowthSignal]
 # Flag 판정 truth table
 # ============================================================
 def _is_repeat(metrics_row: pd.Series, metrics_df: pd.DataFrame, config: dict) -> bool:
-    """반복지원 판정 — config['flag_logic']['repeat_metrics'] 중 하나라도
-    상위 percentile 초과면 True (OR 조건)."""
+    """반복지원 판정 — 다음 조건 중 하나라도 만족하면 True (OR):
+    1. config['flag_logic']['repeat_metrics'] 중 하나가 상위 percentile 초과 (상대)
+    2. config['flag_logic']['repeat_absolute_min'] 중 하나가 절대값 초과 (CLAUDE.md 원문 방식)
+
+    2번은 샘플 편향(전원 반복선정) 방어 · CLAUDE.md의 `GROUP BY HAVING COUNT >= N` 정신.
+    """
     cfg = config["flag_logic"]
     seg_cfg = config["segment_thresholds"]
-    metrics_to_check = cfg["repeat_metrics"]
-    for metric in metrics_to_check:
+
+    # 1. 상대 percentile 판정
+    for metric in cfg.get("repeat_metrics", []):
         if metric == "support_count":
             th = _percentile_threshold(
                 metrics_df["support_count"], seg_cfg["support_count_percentile"]
@@ -259,6 +264,13 @@ def _is_repeat(metrics_row: pd.Series, metrics_df: pd.DataFrame, config: dict) -
             continue
         if metrics_row[metric] >= th:
             return True
+
+    # 2. 절대값 최소선 판정 (config 있을 때만)
+    absolute_min = cfg.get("repeat_absolute_min") or {}
+    for metric, min_val in absolute_min.items():
+        if metric in metrics_row and metrics_row[metric] >= min_val:
+            return True
+
     return False
 
 

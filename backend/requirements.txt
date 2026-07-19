@@ -8,3 +8,4 @@ pyarrow
 sqlalchemy
 pyyaml
 anthropic
+openai

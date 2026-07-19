@@ -10,9 +10,7 @@ export default async function ProgramsPage() {
     <div className="space-y-4">
       <div>
         <h1 className="text-xl font-bold">지원 사업</h1>
-        <p className="text-sm text-muted-foreground">
-          2022~2024년 부산TP 사업 목록 {programs.length}건 · 과거/현재 보유 데이터만 표시(신규 등록 없음)
-        </p>
+        <p className="text-sm text-muted-foreground">부산TP 사업 목록 {programs.length}건</p>
       </div>
       <ProgramsExplorer programs={programs} referenceDateIso={referenceDateIso} />
     </div>

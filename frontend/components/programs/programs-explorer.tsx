@@ -65,8 +65,9 @@ export function ProgramsExplorer({ programs, referenceDateIso }: { programs: Pro
 
   return (
     <div className="space-y-4">
-      <Card className="flex flex-wrap items-center gap-3 p-3">
-        <div className="flex items-center gap-1 rounded-lg bg-muted p-1">
+      {/* flex-nowrap 고정 — 사업유형이 많아도 줄바꿈 대신 그 그룹만 가로 스크롤한다 */}
+      <Card className="flex flex-nowrap items-center gap-2 p-2.5">
+        <div className="flex shrink-0 items-center gap-0.5 rounded-lg bg-muted p-1">
           {["전체", ...years.map(String)].map((y) => (
             <SegmentButton key={y} active={year === y} onClick={() => updateFilter(() => setYear(y))}>
               {y === "전체" ? "전체" : `${y}년`}
@@ -74,7 +75,7 @@ export function ProgramsExplorer({ programs, referenceDateIso }: { programs: Pro
           ))}
         </div>
 
-        <div className="flex flex-wrap items-center gap-1 rounded-lg bg-muted p-1">
+        <div className="flex min-w-0 flex-1 items-center gap-0.5 overflow-x-auto rounded-lg bg-muted p-1">
           <SegmentButton active={businessType === null} onClick={() => updateFilter(() => { setBusinessType(null); setDetailItem(null); })}>
             전체
           </SegmentButton>
@@ -92,9 +93,9 @@ export function ProgramsExplorer({ programs, referenceDateIso }: { programs: Pro
         <select
           value={detailItem ?? ""}
           onChange={(e) => updateFilter(() => setDetailItem(e.target.value || null))}
-          className="ml-auto rounded-md border bg-subtle px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-ring/40"
+          className="shrink-0 rounded-md border bg-subtle px-2 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-ring/40"
         >
-          <option value="">지원구분 전체{detailOptions.length === 0 ? " (신청이력 없음)" : ""}</option>
+          <option value="">지원구분 전체</option>
           {detailOptions.map((d) => (
             <option key={d} value={d}>
               {d}
@@ -114,7 +115,7 @@ export function ProgramsExplorer({ programs, referenceDateIso }: { programs: Pro
               <TH className="text-center">선정 기업 수</TH>
               <TH className="text-center">총 지원금</TH>
               <TH className="text-center">연도</TH>
-              <TH></TH>
+              <TH className="text-center">신청기업</TH>
             </TR>
           </THead>
           <TBody>
@@ -140,8 +141,12 @@ export function ProgramsExplorer({ programs, referenceDateIso }: { programs: Pro
                   <TD className="text-center tabular-nums">{p.selectedCount}</TD>
                   <TD className="text-center tabular-nums">{formatKRW(p.totalAmountThousand)}</TD>
                   <TD className="text-center tabular-nums text-muted-foreground">{p.year}</TD>
-                  <TD>
-                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                  <TD className="text-center">
+                    {/* 행 클릭 = 이 사업의 신청기업 목록으로 이동. 화살표만 두면 뜻이 안 보여 라벨을 붙인다. */}
+                    <span className="inline-flex items-center gap-0.5 whitespace-nowrap text-[11.5px] text-muted-foreground">
+                      목록 보기
+                      <ChevronRight className="h-3.5 w-3.5" />
+                    </span>
                   </TD>
                 </TR>
               );
@@ -163,7 +168,7 @@ function SegmentButton({ active, onClick, children }: { active: boolean; onClick
     <button
       onClick={onClick}
       className={cn(
-        "rounded-md px-2.5 py-1 text-[12px] font-medium transition-colors",
+        "shrink-0 whitespace-nowrap rounded-md px-2 py-1 text-[12px] font-medium transition-colors",
         active ? "bg-card text-primary shadow-sm" : "text-muted-foreground hover:text-foreground"
       )}
     >

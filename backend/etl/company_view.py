@@ -10,14 +10,25 @@ from __future__ import annotations
 
 import math
 import re
+import sys
 from collections import Counter
+from pathlib import Path
 
 import pandas as pd
+
+# axis8/axis9 서비스 import (Phase 5b) — app 패키지가 sys.path에 있어야 함
+_APP_PARENT = Path(__file__).resolve().parents[1]  # backend/
+if str(_APP_PARENT) not in sys.path:
+    sys.path.insert(0, str(_APP_PARENT))
+from app.services import axis8 as axis8_svc  # noqa: E402
+from app.services import axis8_llm as axis8_llm_svc  # noqa: E402
+from app.services import axis9 as axis9_svc  # noqa: E402
 
 KEY = "기업일련번호"
 CERTS = ["이노비즈", "메인비즈", "벤처기업", "소재부품", "NET", "NEP"]
 AXES = ["성장성", "수익성", "효율성", "안정성"]
 RESULT_MAP = {"지원대상": "선정", "탈락": "탈락", "포기": "포기"}
+GROWTH_SCORE_COL = "성장성점수"  # 축1(민지) 산출 컬럼명 — axis9 성장률 판정에 사용
 
 
 def clean(v):
@@ -79,12 +90,225 @@ def support_history(cid: int, sr: pd.DataFrame):
     return records
 
 
-def build_companies(score: pd.DataFrame, feat: pd.DataFrame, master: pd.DataFrame, sr: pd.DataFrame) -> list[dict]:
+# ============================================================
+# 축8 (사업정체성 정합성) — 지원사업별 판정 → 종합 요약
+# ============================================================
+_MATCH_TYPE_ORDER = ["직접일치", "간접관련", "무관", "판단유보"]
+
+
+def _summarize_business_fit(judgments: list[dict], company_id: int) -> dict:
+    """개별 판정 리스트 → BusinessFit 종합 dict."""
+    breakdown = {mt: 0 for mt in _MATCH_TYPE_ORDER}
+    for j in judgments:
+        breakdown[j["matchType"]] = breakdown.get(j["matchType"], 0) + 1
+
+    total = len(judgments)
+    total_pending = breakdown["판단유보"]
+    total_judged = total - total_pending
+
+    # 대표 판정 = 판정 완료분 중 최빈값 (판단유보 제외)
+    if total_judged > 0:
+        judged_breakdown = {k: v for k, v in breakdown.items() if k != "판단유보"}
+        rep_match_type = max(judged_breakdown, key=judged_breakdown.get)
+    else:
+        rep_match_type = "판단유보"
+
+    # 평균 점수 (score 있는 것만)
+    scored = [j["score"] for j in judgments if j.get("score") is not None]
+    avg_score = sum(scored) / len(scored) if scored else None
+
+    # 자연어 요약
+    if total == 0:
+        summary = "받은 지원 없음"
+    elif total_pending == total:
+        summary = f"지원 {total}건 전체 LLM 판정 대기"
+    elif total_pending > 0:
+        parts = [f"{k} {v}건" for k, v in breakdown.items() if v > 0 and k != "판단유보"]
+        summary = f"{total}건 중 {', '.join(parts)} · {total_pending}건 판정 대기"
+    else:
+        parts = [f"{k} {v}건" for k, v in breakdown.items() if v > 0]
+        summary = f"{total}건 정합성 판정: {', '.join(parts)}"
+
+    return {
+        "score": round(avg_score, 1) if avg_score is not None else None,
+        "matchType": rep_match_type,
+        "summary": summary,
+        "totalJudged": total_judged,
+        "totalPending": total_pending,
+        "breakdown": breakdown,
+        "judgments": judgments,
+    }
+
+
+def build_business_fit(
+    cid: int,
+    ksic_code: str | None,
+    sr: pd.DataFrame,
+    sp: pd.DataFrame | None,
+    whitelist: dict,
+    accept: set[str],
+    purposes: list[str] | None = None,
+    llm_cache: dict | None = None,
+) -> dict | None:
+    """축8: 지원사업별 정합성 판정 종합.
+
+    - whitelist 통과 → source="whitelist" · score=100
+    - 미통과 & LLM 캐시에 있음 → source="llm" · 캐시된 판정 반환
+    - 미통과 & 캐시 없음 → source="pending" (배치 미실행 상태)
+    - 결측 → source="pending"
+    """
+    records = sr[(sr["company_id"] == cid) & (sr["selection_result"] == "지원대상")]
+    if records.empty:
+        return None
+
+    purposes_hash = axis8_llm_svc.hash_purposes(purposes or []) if purposes else ""
+
+    # 프로그램 메타(name/description) 조인용
+    prog_lookup = {}
+    if sp is not None:
+        for _, r in sp.iterrows():
+            key = (int(r["year"]) if pd.notna(r.get("year")) else None,
+                   str(r["program_code"]) if pd.notna(r.get("program_code")) else None)
+            prog_lookup[key] = {
+                "name": clean(r.get("program_name")),
+                "description": clean(r.get("description")),
+            }
+
+    judgments: list[dict] = []
+    for _, r in records.iterrows():
+        bt = clean(r.get("business_type"))
+        result = axis8_svc.classify_alignment(ksic_code, bt, whitelist, accept)
+
+        year = int(r["year"]) if pd.notna(r.get("year")) else 0
+        pcode = str(r["program_code"]) if pd.notna(r.get("program_code")) else ""
+        prog = prog_lookup.get((year, pcode), {})
+
+        if result.status == "whitelisted":
+            match_type = "직접일치"
+            score = 100.0
+            source = "whitelist"
+            keywords = [ksic_code[0] if ksic_code else "", bt or ""]
+            reasoning = f"관측 기반 정합 (신뢰도 {result.confidence})"
+        elif result.status in ("undetermined", "unknown_ksic"):
+            # LLM 캐시 조회
+            cache_hit = None
+            if llm_cache is not None:
+                cache_hit = llm_cache.get((cid, pcode, purposes_hash))
+            if cache_hit:
+                match_type = cache_hit["match_type"]
+                score = float(cache_hit["score"]) if cache_hit["score"] is not None else None
+                source = "llm"
+                keywords = cache_hit["matched_keywords"]
+                reasoning = cache_hit["reasoning"]
+            else:
+                match_type = "판단유보"
+                score = None
+                source = "pending"
+                keywords = []
+                reasoning = "LLM 시맨틱 판정 대기"
+        else:  # missing_input
+            match_type = "판단유보"
+            score = None
+            source = "pending"
+            keywords = []
+            reasoning = "지원사업 데이터 부족"
+
+        judgments.append({
+            "programCode": pcode,
+            "year": year,
+            "programName": prog.get("name"),
+            "businessType": bt,
+            "score": score,
+            "matchType": match_type,
+            "matchedKeywords": [k for k in keywords if k],
+            "reasoning": reasoning,
+            "source": source,
+        })
+
+    return _summarize_business_fit(judgments, cid)
+
+
+# ============================================================
+# 축9 (BTP 지원이력 flag) — 배치 계산 후 기업별 lookup
+# ============================================================
+def _prepare_axis9_batch(sr: pd.DataFrame, score_df: pd.DataFrame) -> tuple[pd.DataFrame, dict[int, dict]]:
+    """전 기업 axis9 metrics + flag 판정 배치. 반환: (metrics_df, flags_by_id)."""
+    # support_records를 axis9 서비스가 기대하는 컬럼명으로 매핑
+    sr_selected = sr[sr["selection_result"] == "지원대상"].copy()
+    if sr_selected.empty:
+        return pd.DataFrame(), {}
+
+    # axis9.compute_support_metrics는 company_id, year, business_type, support_amount_thousand_krw, program_code 컬럼 요구
+    # DB에서 온 sr은 이미 그 이름 사용
+    metrics_df = axis9_svc.compute_support_metrics(sr_selected)
+
+    # 성장률 신호 조립: features_score의 성장성점수를 growth_score로 사용 (docs/성장률_인터페이스.md)
+    growth_signals: dict[int, axis9_svc.GrowthSignal] = {}
+    if GROWTH_SCORE_COL in score_df.columns:
+        for _, row in score_df.iterrows():
+            cid = int(row[KEY])
+            score_val = row.get(GROWTH_SCORE_COL)
+            growth_signals[cid] = axis9_svc.GrowthSignal(
+                company_id=cid,
+                growth_score=None if pd.isna(score_val) else float(score_val),
+                revenue_cagr=None,
+                revenue_delta=None,
+            )
+
+    config = axis9_svc.load_config()
+    flag_df = axis9_svc.classify_flags_batch(metrics_df, growth_signals, config)
+    seg_df = axis9_svc.classify_segments(metrics_df, config)
+
+    # 기업별 dict 조합
+    flags_by_id: dict[int, dict] = {}
+    metrics_lookup = metrics_df.set_index("company_id").to_dict("index")
+    flags_lookup = flag_df.set_index("company_id").to_dict("index")
+    segs_lookup = seg_df.set_index("company_id").to_dict("index")
+
+    for cid in metrics_lookup:
+        m = metrics_lookup[cid]
+        f = flags_lookup.get(cid, {})
+        s = segs_lookup.get(cid, {})
+        flags_by_id[cid] = {
+            "status": f.get("flag") or "unknown",
+            "label": f.get("flag_label") or "성장률 미제공",
+            "isRepeat": bool(f.get("is_repeat", False)),
+            "growthState": f.get("growth_state") or "unknown",
+            "segment": s.get("segment"),
+            "isHighDiversity": bool(s.get("is_high_diversity", False)),
+            "supportCount": int(m.get("support_count", 0)),
+            "totalAmountThousand": float(m.get("total_amount_thousand_krw", 0.0)),
+            "businessTypeDiversity": int(m.get("business_type_diversity", 0)),
+            "maxConsecutiveYears": int(m.get("max_consecutive_years", 0)),
+        }
+    return metrics_df, flags_by_id
+
+
+def build_companies(
+    score: pd.DataFrame,
+    feat: pd.DataFrame,
+    master: pd.DataFrame,
+    sr: pd.DataFrame,
+    sp: pd.DataFrame | None = None,
+    bp: pd.DataFrame | None = None,
+    llm_cache: dict | None = None,
+) -> list[dict]:
     def mcol(hint):
         return next((c for c in master.columns if hint in str(c)), None)
 
     ind_col, region_col, ksic_col = mcol("업종명"), mcol("지역"), mcol("KSIC")
     pct_cols = [c for c in score.columns if c.startswith("pct_")]
+
+    # 축8·축9 사전 준비 (배치)
+    whitelist = axis8_svc.load_whitelist()
+    accept_conf = axis8_svc.load_accept_confidence()
+    _, axis9_flags = _prepare_axis9_batch(sr, score)
+
+    # 기업별 사업목적 lookup
+    purposes_by_id: dict[int, list[str]] = {}
+    if bp is not None and not bp.empty:
+        for cid_g, sub in bp.groupby("company_id"):
+            purposes_by_id[int(cid_g)] = sub["purpose_text"].dropna().tolist()
 
     companies = []
     for _, s in score.iterrows():
@@ -143,9 +367,32 @@ def build_companies(score: pd.DataFrame, feat: pd.DataFrame, master: pd.DataFram
             },
             "percentileBasis": clean(s.get("백분위기준")),
             "dataQuality": {"missing": missing, "ok": len(missing) == 0},
-            "_mock": ["businessFit"],  # 목업 표기(투명성) — 사업목적 정합성만 아직 미구현
+            "businessFit": build_business_fit(
+                cid, clean(m[ksic_col]) if ksic_col else None,
+                sr, sp, whitelist, accept_conf,
+                purposes=purposes_by_id.get(cid, []),
+                llm_cache=llm_cache,
+            ),
+            "duplicateFlag": axis9_flags.get(cid),
+            "_mock": _compute_mock_flags(build_business_fit_result=None),
         })
+
+    # 축8 결과를 회수해서 _mock 재산정 (LLM 대기 케이스만 표기)
+    for c in companies:
+        c["_mock"] = _compute_mock_flags(c.get("businessFit"))
     return companies
+
+
+def _compute_mock_flags(build_business_fit_result: dict | None) -> list[str]:
+    """`_mock` 투명성 배지 결정.
+
+    - LLM 판정 대기(pending)가 있으면 "businessFit.llm" 표기
+    - 전부 whitelist 통과면 표기 없음
+    - businessFit=None(지원 없음)이면 표기 없음
+    """
+    if build_business_fit_result and build_business_fit_result.get("totalPending", 0) > 0:
+        return ["businessFit.llm"]
+    return []
 
 
 def build_rankings(companies: list[dict]) -> dict:

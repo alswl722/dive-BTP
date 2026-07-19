@@ -7,6 +7,7 @@ import { StatusStack } from "@/components/scorecard/status-buttons";
 import { computeOverallScore, axisSpread, AXIS_MISALIGNMENT_THRESHOLD, DEFAULT_AXIS_WEIGHTS } from "@/lib/scoring";
 import { useReviewStatus } from "@/lib/app-state";
 import { isDuplicateRisk, recentSelectionCount, DUPLICATE_RISK_WINDOW_YEARS } from "@/lib/duplicate-risk";
+import { DuplicateFlagBadge } from "@/components/axis9/DuplicateFlagBadge";
 import type { Axis, Company } from "@/types";
 
 export function ScorecardHeader({
@@ -30,12 +31,15 @@ export function ScorecardHeader({
 
   return (
     <div className="space-y-3">
-      {dupRisk && (
-        <div className="inline-flex items-center gap-1.5 rounded-full bg-orangeTone-bg px-2.5 py-1 text-[11px] font-medium text-orangeTone">
-          <Clock className="h-3 w-3" />
-          최근 {DUPLICATE_RISK_WINDOW_YEARS}년 {recentCount}회 수혜
-        </div>
-      )}
+      <div className="flex flex-wrap items-center gap-2">
+        {dupRisk && (
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-orangeTone-bg px-2.5 py-1 text-[11px] font-medium text-orangeTone">
+            <Clock className="h-3 w-3" />
+            최근 {DUPLICATE_RISK_WINDOW_YEARS}년 {recentCount}회 수혜
+          </div>
+        )}
+        <DuplicateFlagBadge flag={company.duplicateFlag} />
+      </div>
 
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">

@@ -23,7 +23,6 @@ export default async function ScorecardPage({ params }: { params: Promise<{ id: 
         <ArrowLeft className="h-4 w-4" /> 기업 목록
       </Link>
       <ScorecardPanel company={company} latestYear={latestSupportYear(companies)} />
-      <p className="mt-6 px-1 text-xs text-muted-foreground">사업목적 – 지원사업 정합성 판정(축8)은 준비 중입니다.</p>
     </div>
   );
 }

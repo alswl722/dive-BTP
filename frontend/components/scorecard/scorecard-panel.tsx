@@ -8,9 +8,10 @@ import { FinanceTab } from "@/components/scorecard/tabs/finance-tab";
 import { RndTab } from "@/components/scorecard/tabs/rnd-tab";
 import { SupportHistoryTab } from "@/components/scorecard/tabs/support-history-tab";
 import { DuplicateRiskTab } from "@/components/scorecard/tabs/duplicate-risk-tab";
+import { BusinessFitTab } from "@/components/scorecard/tabs/business-fit-tab";
 import type { Axis, Company } from "@/types";
 
-const TAB_LIST = ["개요", "재무", "R&D", "지원이력", "중복수혜"] as const;
+const TAB_LIST = ["개요", "재무", "R&D", "지원이력", "중복수혜", "사업정체성"] as const;
 type Tab = (typeof TAB_LIST)[number];
 
 export function ScorecardPanel({
@@ -37,6 +38,7 @@ export function ScorecardPanel({
         {tab === "R&D" && <RndTab company={company} />}
         {tab === "지원이력" && <SupportHistoryTab company={company} />}
         {tab === "중복수혜" && <DuplicateRiskTab company={company} latestYear={latestYear} />}
+        {tab === "사업정체성" && <BusinessFitTab company={company} />}
       </div>
     </div>
   );

@@ -96,6 +96,50 @@ export interface Company {
   reviewStatus: ReviewStatus; // 찜 상태. company_review_status 테이블에 영속화(PATCH /companies/{id}/review-status)
   businessFit: BusinessFit | null;     // 축8 (LLM 정합성 판정)
   duplicateFlag: DuplicateFlag | null; // 축9 (반복지원 flag)
+  tech: Tech | null;                   // 축4·5·6 기술력(원장 기반)
+}
+
+// 축4 R&D·특허 / 축5 인증 / 축6 NTIS / 축4-1 기술도메인.
+// patents·ntis(위 상단 필드)는 원장 집계값으로 교체됨 — master 집계컬럼은 신뢰 불가
+// (특허=비단조 flow + 상표·디자인 혼입 / NTIS=스냅샷 중복 약 2.9배).
+export interface Tech {
+  patents: {
+    출원: number | null;
+    등록: number | null;
+    등록전환율: number | null;   // 등록÷출원 — 특허의 질
+    최근3년출원: number | null;  // 활동성
+    최근출원비중: number | null;
+    활동공백년수: number | null; // 마지막 출원 이후 경과(클수록 R&D 정체)
+    소멸률: number | null;       // 등록특허 권리 소멸 비율(자금압박 신호)
+    첫특허업력: number | null;
+  };
+  rnd: { 집약도: number | null; 집약도추세: number | null };
+  ntis: {
+    주관과제수: number | null;
+    정부연구비_원: number | null; // ⚠️ 단위 원(재무는 천원)
+    부처다양성: number | null;
+    위탁과제수: number | null;
+    산학협력: boolean;
+  };
+  certification: {
+    보유수: number | null;
+    핵심보유: boolean;
+    실체괴리: boolean;           // 핵심인증 보유 + 등록특허0 + 국가R&D0
+  };
+  domain: {
+    주력기술분야: string | null;
+    출처: string | null;         // "표준분류" | "KSIC추정" | "미상"
+    분야수: number | null;
+    집중도: number | null;       // HHI — 1=단일분야 전문
+    btp중점사업: string[];
+    국가전략기술: string[];      // 12대 국가전략기술
+    기술수준등급: string | null; // OECD 고위/중고위/중저위/저위
+  };
+  scores: {
+    rndPatent: number | null;
+    ntis: number | null;
+    백분위기준: string | null;
+  };
 }
 
 // support_programs(실사업 목록) + support_records 집계. macroCategory는 원본 시트 간
@@ -115,6 +159,8 @@ export interface Program {
   applicantCount: number;
   selectedCount: number;
   totalAmountThousand: number;
+  // 선정 건 중 지원금 결측 건수. 합계는 결측을 0으로 더하므로 "0원"과 "미기재"를 구분하려면 이 값이 필요하다.
+  amountMissingCount: number;
   detailItems: string[]; // 세부품목(support_detail_main) distinct. 신청이력 없으면 빈 배열.
 }
 
@@ -137,4 +183,21 @@ export interface Dashboard {
   regionDist: { region: string; count: number }[];
   resultDist: { result: string; count: number }[];
   dataQualityIssues: number;
+}
+
+// 메모 — 담당자가 심사하며 남기는 기록. 본문에 @기업·#사업 멘션을 인라인 마크업으로 포함.
+export interface NoteMention {
+  targetType: "company" | "program";
+  companyId: number | null;
+  programYear: number | null;
+  programCode: string | null;
+}
+
+export interface Note {
+  id: number;
+  body: string;   // @[기업 1049](company:1049) 형태 마크업 포함 원문
+  author: string; // 작성 시점 role 라벨
+  createdAt: string;
+  updatedAt: string;
+  mentions: NoteMention[];
 }

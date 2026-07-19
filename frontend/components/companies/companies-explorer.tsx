@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { List, X } from "lucide-react";
 import type { Company, Program } from "@/types";
@@ -51,6 +51,33 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
   const [openId, setOpenId] = useState<number | null>(null);
+
+  // 상세 프리뷰 패널 폭 — 왼쪽 라인 드래그로 조절. 최소 폭은 탭 6개·스탯카드가 안 깨지는 선.
+  const PANEL_MIN = 420;
+  const PANEL_MAX = 760;
+  const [panelWidth, setPanelWidth] = useState(500);
+  const panelDrag = useRef<{ startX: number; startW: number } | null>(null);
+
+  const startPanelResize = (e: React.MouseEvent) => {
+    e.preventDefault();
+    panelDrag.current = { startX: e.clientX, startW: panelWidth };
+    const onMove = (ev: MouseEvent) => {
+      if (!panelDrag.current) return;
+      const w = panelDrag.current.startW + (panelDrag.current.startX - ev.clientX);
+      setPanelWidth(Math.min(PANEL_MAX, Math.max(PANEL_MIN, w)));
+    };
+    const onUp = () => {
+      panelDrag.current = null;
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
+    };
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    document.body.style.cursor = "col-resize";
+    document.body.style.userSelect = "none";
+  };
   const [compareOpen, setCompareOpen] = useState(false);
 
   const companiesWithLiveStatus = useMemo(
@@ -66,7 +93,11 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
   const counts = useMemo(() => reviewStatusCounts(companiesWithLiveStatus, statuses), [companiesWithLiveStatus, statuses]);
 
   const programOptions = useMemo(
-    () => programs.filter((p) => p.applicantCount > 0).sort((a, b) => b.year - a.year || (a.name ?? "").localeCompare(b.name ?? "")),
+    // localeCompare는 서버(Node ICU)와 브라우저의 콜레이션이 달라 hydration mismatch를 냄 —
+    // 코드유닛 비교로 고정(한글 가나다 순서는 유니코드 순서와 동일).
+    () => programs
+      .filter((p) => p.applicantCount > 0)
+      .sort((a, b) => b.year - a.year || ((a.name ?? "") < (b.name ?? "") ? -1 : (a.name ?? "") > (b.name ?? "") ? 1 : 0)),
     [programs]
   );
   const selectedProgram = programOptions.find((p) => programKey(p) === filters.programKey);
@@ -169,7 +200,10 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
         )}
 
         <div className="flex min-h-0 flex-1 gap-4">
-          <div className={cn("min-w-0 flex-1", openId && "max-w-[calc(100%-420px)]")}>
+          <div
+            className="min-w-0 flex-1"
+            style={openId ? { maxWidth: `calc(100% - ${panelWidth + 16}px)` } : undefined}
+          >
             {viewMode === "table" ? (
               <CompaniesTable
                 companies={sorted}
@@ -200,14 +234,24 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
           </div>
 
           {openCompany && (
-            <div className="sticky top-6 max-h-[calc(100vh-100px)] w-[400px] shrink-0 overflow-y-auto rounded-xl bg-card p-5 shadow-modal">
-              <ScorecardPanel
-                company={openCompany}
-                latestYear={latestYear}
-                weights={weights}
-                onClose={() => setOpenId(null)}
-                onExpand={() => router.push(`/companies/${openCompany.id}`)}
+            <div className="sticky top-6 shrink-0" style={{ width: panelWidth }}>
+              {/* 왼쪽 라인 드래그 핸들 — 스크롤 컨테이너 밖에 둬야 스크롤해도 핸들이 따라 내려가지 않음 */}
+              <div
+                onMouseDown={startPanelResize}
+                className="absolute -left-1.5 top-0 z-10 h-full w-3 cursor-col-resize rounded-full transition-colors hover:bg-primary/15 active:bg-primary/25"
+                role="separator"
+                aria-orientation="vertical"
+                aria-label="프리뷰 폭 조절"
               />
+              <div className="max-h-[calc(100vh-100px)] overflow-y-auto rounded-xl bg-card p-5 shadow-modal">
+                <ScorecardPanel
+                  company={openCompany}
+                  latestYear={latestYear}
+                  weights={weights}
+                  onClose={() => setOpenId(null)}
+                  onExpand={() => router.push(`/companies/${openCompany.id}`)}
+                />
+              </div>
             </div>
           )}
         </div>

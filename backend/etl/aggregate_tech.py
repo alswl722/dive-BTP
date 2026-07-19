@@ -30,17 +30,50 @@ CERT_CORE = ["이노비즈", "메인비즈", "벤처기업"]
 CERT_ALL = ["이노비즈", "메인비즈", "벤처기업", "소재부품", "NET", "NEP"]
 
 
-def aggregate_patents(patents: pd.DataFrame) -> pd.DataFrame:
-    """특허 원장 → 기업별 (출원/등록 건수, 첫 출원·등록일). 기술 IP만."""
+RECENT_YEARS = 3  # '최근 활동' 판정 창(년)
+
+
+def aggregate_patents(patents: pd.DataFrame, as_of: pd.Timestamp | None = None) -> pd.DataFrame:
+    """특허 원장 → 기업별 집계. 기술 IP만.
+
+    산출:
+      건수/시점 — 출원·등록 건수, 첫 출원·등록일, 최종 출원일
+      활동성   — 최근 N년 출원 건수 (누적 건수로는 안 보이는 'R&D 정체' 판별)
+      권리유지 — 유효 등록 / 소멸(등록됐으나 is_valid=False) 건수
+
+    as_of: '최근'의 기준 시점. None이면 원장의 최종 출원일에서 유도한다.
+           (연도를 하드코딩하지 않기 위함 — 본선 데이터 기간이 달라도 동작)
+    """
     tech = patents[patents["ip_type"].isin(IP_TECH)].copy()
+    tech["_applied"] = pd.to_datetime(tech["applied_date"], errors="coerce")
+
+    if as_of is None:
+        as_of = tech["_applied"].max()
+    cutoff = as_of - pd.DateOffset(years=RECENT_YEARS) if pd.notna(as_of) else None
+
     g = tech.groupby(KEY)
-    reg = tech[tech["reg_status"] == "등록"].groupby(KEY)
+    reg_rows = tech[tech["reg_status"] == "등록"]
+    reg = reg_rows.groupby(KEY)
+
     out = pd.DataFrame({
         "특허출원_건수": g.size(),
         "특허등록_건수": reg.size(),
         "특허_첫출원일": g["applied_date"].min(),
         "특허_첫등록일": reg["registered_date"].min(),
+        "특허_최종출원일": g["applied_date"].max(),
     })
+
+    # 활동성: 최근 N년 내 출원 건수
+    if cutoff is not None:
+        recent = tech[tech["_applied"] >= cutoff]
+        out[f"특허최근{RECENT_YEARS}년_출원건수"] = recent.groupby(KEY).size()
+    else:
+        out[f"특허최근{RECENT_YEARS}년_출원건수"] = 0
+
+    # 권리유지: 등록 특허 중 유효/소멸 (연차료 미납 등으로 권리 소멸 = 자금압박·기술철수 신호)
+    out["특허유효등록_건수"] = reg_rows[reg_rows["is_valid"] == True].groupby(KEY).size()  # noqa: E712
+    out["특허소멸_건수"] = reg_rows[reg_rows["is_valid"] == False].groupby(KEY).size()  # noqa: E712
+
     return out
 
 
@@ -107,7 +140,8 @@ def build(tables: dict[str, pd.DataFrame]) -> pd.DataFrame:
 
     # 건수류 결측 = 실제 0 (원장에 행이 없다 = 실적이 없다). 날짜·인증은 그대로.
     int_count_cols = ["특허출원_건수", "특허등록_건수", "NTIS주관_과제수",
-                      "NTIS주관_부처다양성", "NTIS위탁_과제수"]
+                      "NTIS주관_부처다양성", "NTIS위탁_과제수",
+                      f"특허최근{RECENT_YEARS}년_출원건수", "특허유효등록_건수", "특허소멸_건수"]
     for c in int_count_cols:
         if c in out.columns:
             out[c] = out[c].fillna(0).astype(int)

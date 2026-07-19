@@ -1,5 +1,14 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
+
+// 가변 폰트 하나로 전체 굵기 커버 — tailwind의 font-sans(var(--font-sans))가 이 변수를 읽는다.
+const notoSansKR = localFont({
+  src: "./fonts/NotoSansKR-VF.ttf",
+  variable: "--font-sans",
+  weight: "100 900",
+  display: "swap",
+});
 import { Providers } from "@/components/providers";
 import { Sidebar } from "@/components/layout/sidebar";
 import { TopBar } from "@/components/layout/topbar";
@@ -19,8 +28,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   );
 
   return (
-    <html lang="ko">
-      <body>
+    <html lang="ko" className={notoSansKR.variable}>
+      <body className="font-sans">
         <Providers initialReviewStatus={initialReviewStatus}>
           <div className="flex h-screen overflow-hidden bg-background">
             <Sidebar />

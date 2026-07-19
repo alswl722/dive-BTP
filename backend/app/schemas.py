@@ -46,6 +46,62 @@ class Ntis(BaseModel):
     위탁: int | None = None
 
 
+# --- 축4·5·6 기술력 (원장 기반) -------------------------------------------
+class TechPatents(BaseModel):
+    출원: int | None = None
+    등록: int | None = None
+    등록전환율: float | None = None      # 등록÷출원 — 특허의 질
+    최근3년출원: int | None = None       # 활동성
+    최근출원비중: float | None = None
+    활동공백년수: float | None = None    # 마지막 출원 이후 경과(클수록 R&D 정체)
+    소멸률: float | None = None          # 등록특허 권리 소멸 비율(자금압박 신호)
+    첫특허업력: float | None = None
+
+
+class TechRnd(BaseModel):
+    집약도: float | None = None          # 연구개발비÷매출
+    집약도추세: float | None = None
+
+
+class TechNtis(BaseModel):
+    주관과제수: int | None = None        # 스냅샷 중복 제거 후
+    정부연구비_원: float | None = None   # ⚠️ 단위 원(재무는 천원)
+    부처다양성: int | None = None
+    위탁과제수: int | None = None
+    산학협력: bool = False
+
+
+class TechCertification(BaseModel):
+    보유수: int | None = None
+    핵심보유: bool = False
+    실체괴리: bool = False               # 핵심인증 보유 + 등록특허0 + 국가R&D0
+
+
+class TechDomain(BaseModel):
+    주력기술분야: str | None = None
+    출처: str | None = None              # 표준분류 / KSIC추정 / 미상
+    분야수: int | None = None
+    집중도: float | None = None          # HHI — 1=단일분야 전문
+    btp중점사업: list[str] = Field(default_factory=list)
+    국가전략기술: list[str] = Field(default_factory=list)   # 12대 국가전략기술
+    기술수준등급: str | None = None      # OECD 고위/중고위/중저위/저위
+
+
+class TechScores(BaseModel):
+    rndPatent: float | None = None
+    ntis: float | None = None
+    백분위기준: str | None = None        # 업종내 / 전체fallback
+
+
+class Tech(BaseModel):
+    patents: TechPatents
+    rnd: TechRnd
+    ntis: TechNtis
+    certification: TechCertification
+    domain: TechDomain
+    scores: TechScores
+
+
 class Support(BaseModel):
     건수: int | None = None
     총지원금_천원: float | None = None
@@ -118,6 +174,7 @@ class Company(BaseModel):
     certifications: dict[str, bool]
     patents: Patents
     ntis: Ntis
+    tech: Tech | None = None                     # 축4·5·6 기술력(원장 기반)
     support: Support
     supportHistory: list[SupportRecord]
     passthrough: Passthrough
@@ -185,8 +242,36 @@ class Program(BaseModel):
     description: str | None = None
     applicantCount: int  # support_records 매칭 신청기업수(중복 지원 제외 distinct)
     selectedCount: int  # 선정(지원대상) 기업수
-    totalAmountThousand: float  # 선정 건 지원금 합계(천원)
+    totalAmountThousand: float  # 선정 건 지원금 합계(천원). 결측은 0으로 합산되므로 아래 값과 함께 읽을 것
+    amountMissingCount: int = 0  # 선정 건 중 지원금이 결측인 건수 — "0원"과 "미기재"를 화면에서 구분하기 위함
     detailItems: list[str] = []  # 세부품목(support_detail_main) distinct. 신청이력 없는 사업은 빈 배열.
+
+
+class NoteMention(BaseModel):
+    """메모가 가리키는 대상. company면 companyId만, program이면 year+code만 채워진다."""
+
+    targetType: Literal["company", "program"]
+    companyId: int | None = None
+    programYear: int | None = None
+    programCode: str | None = None
+
+
+class Note(BaseModel):
+    id: int
+    body: str        # 멘션 인라인 마크업 포함 원문 — @[표시명](company:1049)
+    author: str      # 작성 시점 role 라벨(인증 도입 시 user_id로 대체)
+    createdAt: str
+    updatedAt: str
+    mentions: list[NoteMention] = []
+
+
+class NoteCreate(BaseModel):
+    body: str = Field(min_length=1)
+    author: str = Field(min_length=1)
+
+
+class NoteUpdate(BaseModel):
+    body: str = Field(min_length=1)
 
 
 class Dashboard(BaseModel):

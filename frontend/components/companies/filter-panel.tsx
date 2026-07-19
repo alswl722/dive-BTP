@@ -69,7 +69,20 @@ export function FilterPanel({
             onChange={(e) => onChange({ ...filters, minOverall: Number(e.target.value) })}
             className="w-full accent-primary"
           />
-          <span className="w-7 shrink-0 text-right text-[11px] tabular-nums text-muted-foreground">{filters.minOverall}</span>
+          <input
+            type="number"
+            min={0}
+            max={100}
+            value={filters.minOverall}
+            onChange={(e) => {
+              // 빈 입력은 0으로, 범위 밖은 0~100으로 클램프 — 슬라이더와 항상 동기화
+              const n = e.target.value === "" ? 0 : Number(e.target.value);
+              if (Number.isNaN(n)) return;
+              onChange({ ...filters, minOverall: Math.min(100, Math.max(0, Math.round(n))) });
+            }}
+            aria-label="종합점수 최소값 직접 입력"
+            className="w-12 shrink-0 rounded-md border bg-card px-1.5 py-1 text-right text-[12px] tabular-nums focus:outline-none focus:ring-1 focus:ring-primary"
+          />
         </div>
       </AccordionSection>
 

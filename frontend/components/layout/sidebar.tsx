@@ -113,8 +113,12 @@ export function Sidebar() {
               sidebarCollapsed && "justify-center"
             )}
           >
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-[11px] font-bold text-white">
-              {role === "관리자" ? "관" : "담"}
+            {/* 카톡 기본 프로필풍 실루엣 — 머리·어깨 비율을 직접 그린 SVG (어깨는 원 하단에 클리핑) */}
+            <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full bg-[#9AAAB8]">
+              <svg viewBox="0 0 32 32" className="h-full w-full" aria-hidden>
+                <circle cx="16" cy="12" r="6.2" fill="white" />
+                <path d="M16 20.5c-6.8 0-11 4-11 9v2.5h22V29.5c0-5-4.2-9-11-9z" fill="white" />
+              </svg>
             </div>
             {!sidebarCollapsed && (
               <>

@@ -15,13 +15,13 @@ export function Tabs({
   className?: string;
 }) {
   return (
-    <div className={cn("inline-flex items-center gap-1 rounded-lg bg-muted p-1", className)}>
+    <div className={cn("flex w-full items-center gap-1 overflow-x-auto rounded-lg bg-muted p-1", className)}>
       {tabs.map((t) => (
         <button
           key={t}
           onClick={() => onChange(t)}
           className={cn(
-            "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+            "flex-1 whitespace-nowrap rounded-md px-2.5 py-1.5 text-center text-[13px] font-medium transition-colors",
             active === t ? "bg-card text-accent shadow-sm" : "text-muted-foreground hover:text-foreground"
           )}
         >

@@ -2,7 +2,7 @@
 // NEXT_PUBLIC_API_BASE_URL 있으면 FastAPI fetch, 없으면 로컬 fixture.
 // 화면 코드는 데이터 출처를 모른다(우리 parquet→DB 철학과 동일).
 
-import type { Company, Rankings, Dashboard, Note, Program } from "@/types";
+import type { ChatbotAnswer, Company, Rankings, Dashboard, Note, Program } from "@/types";
 import companiesFixture from "./fixtures/companies.json";
 import rankingsFixture from "./fixtures/rankings.json";
 import dashboardFixture from "./fixtures/dashboard.json";
@@ -99,4 +99,28 @@ export function updateNote(id: number, body: string) {
 
 export function deleteNote(id: number) {
   return notesApi<null>(`/${id}`, { method: "DELETE" });
+}
+
+/* ------------------------------------------------------------------ */
+/* 챗봇 — 자연어 질문 → DeepSeek 텍스트투SQL. API_BASE 없으면 사용 불가. */
+/* ------------------------------------------------------------------ */
+
+export const chatbotAvailable = Boolean(API_BASE);
+
+export async function askChatbot(question: string): Promise<ChatbotAnswer> {
+  if (!API_BASE) {
+    throw new Error("챗봇은 백엔드 연결 시에만 동작합니다(fixture 모드 미지원).");
+  }
+  const res = await fetch("/api/chatbot", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ question }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    // FastAPI 검증실패는 {detail: "..."} 형태
+    const msg = data?.detail || data?.error || `요청 실패(${res.status})`;
+    throw new Error(msg);
+  }
+  return data as ChatbotAnswer;
 }

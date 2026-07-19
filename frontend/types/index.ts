@@ -201,3 +201,15 @@ export interface Note {
   updatedAt: string;
   mentions: NoteMention[];
 }
+
+// 챗봇 — DeepSeek 텍스트투SQL 결과. rows/columns는 UI가 표로 렌더링,
+// answer는 담당자용 한/두 문장 요약, sql은 신뢰 확보용 노출.
+export interface ChatbotAnswer {
+  question: string;
+  intent: string;
+  sql: string;
+  columns: string[];
+  rows: Record<string, unknown>[];
+  answer: string;
+  error: string | null;
+}

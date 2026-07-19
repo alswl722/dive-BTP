@@ -247,6 +247,22 @@ class Program(BaseModel):
     detailItems: list[str] = []  # 세부품목(support_detail_main) distinct. 신청이력 없는 사업은 빈 배열.
 
 
+class ChatbotAsk(BaseModel):
+    question: str = Field(min_length=1, max_length=500)
+
+
+class ChatbotAnswer(BaseModel):
+    """자연어 조회 결과. rows/columns는 UI가 표로 렌더링, answer는 담당자용 한 문장 요약."""
+
+    question: str
+    intent: str                              # LLM이 이 질문을 어떻게 해석했는지(한 문장)
+    sql: str                                 # 실행된 SELECT (담당자 신뢰 확보용 노출)
+    columns: list[str]                       # 결과 컬럼 순서
+    rows: list[dict]                         # 결과 (최대 200행)
+    answer: str                              # 담당자용 한/두 문장 요약
+    error: str | None = None
+
+
 class NoteMention(BaseModel):
     """메모가 가리키는 대상. company면 companyId만, program이면 year+code만 채워진다."""
 

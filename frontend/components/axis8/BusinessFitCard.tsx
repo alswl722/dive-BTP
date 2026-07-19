@@ -13,14 +13,25 @@ const MATCH_STYLE: Record<MatchType, { badge: "good" | "info" | "warn" | "bad" |
   판단유보: { badge: "slate", dot: "bg-slate-400" },
 };
 
-export function BusinessFitCard({ fit, compact = false }: { fit: BusinessFit | null; compact?: boolean }) {
+export function BusinessFitCard({
+  fit,
+  compact = false,
+  hasSupportHistory = false,
+}: {
+  fit: BusinessFit | null;
+  compact?: boolean;
+  hasSupportHistory?: boolean;
+}) {
   const [expanded, setExpanded] = useState(false);
 
   if (!fit) {
+    // 백엔드 미연결 상태에서는 fixture에 businessFit가 없을 수 있음 — 지원이력 유무로 구분
     return (
       <Card className="p-4">
         <p className="text-[13px] text-muted-foreground">
-          받은 지원이력 없음 — 정합성 판정 대상 없음
+          {hasSupportHistory
+            ? "판정 데이터 없음 (백엔드 미연결 또는 fixture 미갱신)"
+            : "받은 지원이력 없음 — 정합성 판정 대상 없음"}
         </p>
       </Card>
     );

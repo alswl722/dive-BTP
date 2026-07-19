@@ -15,11 +15,14 @@ const MATCH_STYLE: Record<MatchType, { badge: "good" | "info" | "warn" | "bad" |
 
 export function BusinessFitTab({ company }: { company: Company }) {
   const fit = company.businessFit;
+  const hasSupportHistory = (company.supportHistory ?? []).length > 0;
 
   if (!fit) {
     return (
       <div className="rounded-lg bg-subtle p-6 text-center text-[13px] text-muted-foreground">
-        받은 지원이력 없음 — 정합성 판정 대상 없음
+        {hasSupportHistory
+          ? "판정 데이터 없음 (백엔드 미연결 또는 fixture 미갱신)"
+          : "받은 지원이력 없음 — 정합성 판정 대상 없음"}
       </div>
     );
   }

@@ -48,7 +48,10 @@ export function TrendBar({
           tickFormatter={(v) => (Math.abs(v) >= 1000 ? `${(v / 1000).toFixed(0)}k` : `${v}`)}
         />
         <Tooltip
-          content={(props) => <SupportTooltip {...(props as never)} supportsByYear={supportsByYear} />}
+          content={(props) => {
+            const p = props as { active?: boolean; label?: number; payload?: Array<{ dataKey: string; value: number | null }> };
+            return <SupportTooltip active={p.active} label={p.label} payload={p.payload} supportsByYear={supportsByYear} />;
+          }}
         />
         <Bar dataKey="value" radius={[4, 4, 0, 0]} isAnimationActive={false}>
           {data.map((d, i) => (

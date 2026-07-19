@@ -59,10 +59,11 @@ export function CompaniesTable({
         <THead>
           <TR>
             <TH className="w-8"></TH>
-            <TH>기업 · 업종</TH>
+            {/* 폭 명시 — 자동 배분 시 이 열이 남는 공간을 다 흡수해 최근매출과 사이가 벌어지던 문제 해소 */}
+            <TH className="w-[220px]">기업 · 업종</TH>
             <SortableTH label="최근매출" active={sortKey === "revenueLatest"} dir={sortDir} onClick={() => onSort("revenueLatest")} />
             <SortableTH label="종합점수" active={sortKey === "overall"} dir={sortDir} onClick={() => onSort("overall")} />
-            <TH>4축 점수</TH>
+            <TH className="w-[172px]">4축 점수</TH>
             <TH>인증</TH>
             <SortableTH label="지원건수" active={sortKey === "supportCount"} dir={sortDir} onClick={() => onSort("supportCount")} />
             <TH className="text-center">상태</TH>

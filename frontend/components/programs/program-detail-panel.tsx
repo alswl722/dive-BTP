@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import type { Company, Note, Program } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/ui/stat-card";
-import { businessTypeLabel, programStatus, PROGRAM_STATUS_BADGE } from "@/lib/program-status";
+import { businessTypeLabel, resolveProgramStatus, PROGRAM_STATUS_BADGE } from "@/lib/program-status";
 import { coSupportedPrograms, coSupportThreshold, sameProgramRepeat, selectedCompanies } from "@/lib/program-filters";
 import { formatKRW } from "@/lib/utils";
 import { MentionedNotes } from "@/components/notes/notes-explorer";
@@ -31,11 +31,11 @@ export function ProgramDetailPanel({
   onClose: () => void;
 }) {
   const router = useRouter();
-  const status = programStatus(p, referenceDate);
 
   // 지원 사업 화면은 전 사업 '열람'용 — 심사 진입은 배정받은 사업에만 연다(관리자는 전체).
-  const { assigns } = useAdminState();
+  const { assigns, statuses: adminStatuses } = useAdminState();
   const { user } = useAuth();
+  const status = resolveProgramStatus(p, referenceDate, adminStatuses);
   const canReview = isAdmin(user) || assigns[programKey(p)] === user?.username;
 
   const [showAllCo, setShowAllCo] = useState(false);

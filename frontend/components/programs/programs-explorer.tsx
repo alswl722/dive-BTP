@@ -8,7 +8,8 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, THead, TBody, TR, TH, TD } from "@/components/ui/table";
 import { Pagination } from "@/components/ui/pagination";
-import { businessTypeLabel, programStatus, PROGRAM_STATUS_BADGE, type ProgramStatus } from "@/lib/program-status";
+import { useAdminState } from "@/lib/admin-state";
+import { businessTypeLabel, resolveProgramStatus, PROGRAM_STATUS_BADGE, type ProgramStatus } from "@/lib/program-status";
 import { ProgramDetailPanel } from "@/components/programs/program-detail-panel";
 import {
   applyProgramFilters, bizTypeKey, csvFileName, defaultProgramFilters, downloadCsv,
@@ -67,6 +68,9 @@ export function ProgramsExplorer({
     return Array.from(counts.entries()).sort((a, b) => b[1] - a[1]);
   }, [programs]);
 
+  // 관리자가 지정한 진행 상태를 목록·필터·CSV에 반영한다
+  const { statuses: adminStatuses } = useAdminState();
+
   const detailOptions = useMemo(() => {
     const pool = filters.businessType
       ? programs.filter((p) => bizTypeKey(p) === filters.businessType)
@@ -75,8 +79,8 @@ export function ProgramsExplorer({
   }, [programs, filters.businessType]);
 
   const filtered = useMemo(
-    () => applyProgramFilters(programs, filters, referenceDate),
-    [programs, filters, referenceDate]
+    () => applyProgramFilters(programs, filters, referenceDate, adminStatuses),
+    [programs, filters, referenceDate, adminStatuses]
   );
   const sorted = useMemo(() => sortPrograms(filtered, sortKey, sortDir), [filtered, sortKey, sortDir]);
   const summary = useMemo(() => summarizePrograms(filtered), [filtered]);
@@ -126,7 +130,7 @@ export function ProgramsExplorer({
           </p>
         </div>
         <button
-          onClick={() => downloadCsv(programsToCsv(sorted, referenceDate), csvFileName(filters, new Date()))}
+          onClick={() => downloadCsv(programsToCsv(sorted, referenceDate, adminStatuses), csvFileName(filters, new Date()))}
           className="inline-flex shrink-0 items-center gap-1.5 rounded-md border bg-card px-2.5 py-1.5 text-[12px] font-medium hover:bg-muted"
         >
           <Download className="h-3.5 w-3.5" />
@@ -248,7 +252,7 @@ export function ProgramsExplorer({
               </THead>
               <TBody>
                 {pageItems.map((p) => {
-                  const status = programStatus(p, referenceDate);
+                  const status = resolveProgramStatus(p, referenceDate, adminStatuses);
                   const overlap = overlapCompanyCount(p, companies);
                   const key = programKeyOf(p);
                   return (

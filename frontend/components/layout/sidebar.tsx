@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Home, ClipboardList, Building2, ListChecks, NotebookPen, PencilLine, ShieldCheck, ChevronsLeft, ChevronsRight, ChevronDown, User, Settings, LogOut } from "lucide-react";
+import { Home, ClipboardList, Building2, ListChecks, NotebookPen, PencilLine, Settings2, KeyRound, ChevronsLeft, ChevronsRight, ChevronDown, User, Settings, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUi, useReviewStatus } from "@/lib/app-state";
 import { useAuth, isAdmin } from "@/lib/auth";
@@ -27,7 +27,8 @@ const NAV = [
  * 기능을 콘솔 한 곳에 탭으로 몰지 않고 목적별로 메뉴를 나눈다.
  */
 const ADMIN_NAV = [
-  { href: "/admin", label: "관리자 콘솔", icon: ShieldCheck },
+  { href: "/admin", label: "지원사업 설정", icon: Settings2 },
+  { href: "/admin/permissions", label: "기업·심사자 권한", icon: KeyRound },
   { href: "/admin/notices", label: "공지사항 작성", icon: PencilLine },
 ];
 

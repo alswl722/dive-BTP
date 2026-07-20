@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, ChevronDown, Inbox, Megaphone, Pencil, Pin } from "lucide-react";
+import { ArrowLeft, ChevronDown, Inbox, Megaphone, Paperclip, Pencil, Pin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useNotices, noticeDate, type Notice } from "@/lib/notices";
+import { AttachmentList } from "@/components/notices/attachment-list";
 import { useAuth, isAdmin } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 
@@ -56,8 +57,17 @@ function NoticeItem({ notice, compact }: { notice: Notice; compact: boolean }) {
             {notice.pinned && <Badge variant="info" className="text-[10px]">고정</Badge>}
             <span className={cn("text-[12.5px] font-bold", compact && "text-[12px]")}>{notice.title}</span>
           </span>
-          <span className="mt-0.5 block text-[11px] text-muted-foreground">
-            {notice.author} · {noticeDate(notice.createdAt)}
+          <span className="mt-0.5 flex items-center gap-1.5 text-[11px] text-muted-foreground">
+            <span>
+              {notice.author} · {noticeDate(notice.createdAt)}
+            </span>
+            {/* 펼치지 않아도 첨부가 있다는 걸 알 수 있어야 한다 */}
+            {(notice.attachments?.length ?? 0) > 0 && (
+              <span className="inline-flex items-center gap-0.5">
+                <Paperclip className="h-3 w-3" />
+                {notice.attachments!.length}
+              </span>
+            )}
           </span>
         </span>
         <ChevronDown
@@ -65,9 +75,10 @@ function NoticeItem({ notice, compact }: { notice: Notice; compact: boolean }) {
         />
       </button>
       {open && (
-        <p className="whitespace-pre-line border-t px-3.5 py-3 text-[12px] leading-relaxed text-muted-foreground">
-          {notice.body}
-        </p>
+        <div className="space-y-2.5 border-t px-3.5 py-3">
+          <p className="whitespace-pre-line text-[12px] leading-relaxed text-muted-foreground">{notice.body}</p>
+          <AttachmentList attachments={notice.attachments ?? []} />
+        </div>
       )}
     </div>
   );

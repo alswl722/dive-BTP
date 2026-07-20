@@ -1,9 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { Pencil, Pin, PinOff, Plus, Trash2, X } from "lucide-react";
+import { useRef, useState } from "react";
+import { AlertTriangle, Paperclip, Pencil, Pin, PinOff, Plus, Trash2, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { useNotices, noticeDate } from "@/lib/notices";
+import {
+  useNotices,
+  noticeDate,
+  formatBytes,
+  MAX_ATTACHMENT_BYTES,
+  MAX_ATTACHMENT_TOTAL_BYTES,
+  type NoticeAttachment,
+} from "@/lib/notices";
+import { AttachmentList } from "@/components/notices/attachment-list";
 import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 
@@ -16,6 +24,10 @@ export function NoticeEditor() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [pinned, setPinned] = useState(false);
+  const [attachments, setAttachments] = useState<NoticeAttachment[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [reading, setReading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   function reset() {
     setWriting(false);
@@ -23,16 +35,66 @@ export function NoticeEditor() {
     setTitle("");
     setBody("");
     setPinned(false);
+    setAttachments([]);
+    setError(null);
+  }
+
+  async function addFiles(files: FileList | null) {
+    if (!files?.length) return;
+    setError(null);
+    setReading(true);
+    const accepted: NoticeAttachment[] = [];
+    let total = attachments.reduce((sum, a) => sum + a.size, 0);
+    const rejected: string[] = [];
+
+    for (const file of Array.from(files)) {
+      if (file.size > MAX_ATTACHMENT_BYTES) {
+        rejected.push(`${file.name} (${formatBytes(file.size)} — 개별 한도 초과)`);
+        continue;
+      }
+      if (total + file.size > MAX_ATTACHMENT_TOTAL_BYTES) {
+        rejected.push(`${file.name} (합계 한도 초과)`);
+        continue;
+      }
+      try {
+        const dataUrl = await readAsDataUrl(file);
+        accepted.push({
+          // 같은 파일을 두 번 올려도 키가 겹치지 않게 이름+크기+누적치로 만든다
+          id: `${file.name}-${file.size}-${total}-${accepted.length}`,
+          name: file.name,
+          size: file.size,
+          type: file.type || "application/octet-stream",
+          dataUrl,
+        });
+        total += file.size;
+      } catch {
+        rejected.push(`${file.name} (읽기 실패)`);
+      }
+    }
+
+    setAttachments((prev) => [...prev, ...accepted]);
+    setReading(false);
+    if (rejected.length) {
+      setError(
+        `첨부하지 못한 파일이 있습니다 — ${rejected.join(", ")}. ` +
+          `파일당 ${formatBytes(MAX_ATTACHMENT_BYTES)}, 공지당 합계 ${formatBytes(MAX_ATTACHMENT_TOTAL_BYTES)}까지 가능합니다.`
+      );
+    }
+    if (fileRef.current) fileRef.current.value = "";
   }
 
   function submit() {
     const t = title.trim();
     const b = body.trim();
     if (!t || !b) return;
-    if (editingId != null) {
-      update(editingId, { title: t, body: b, pinned });
-    } else {
-      create({ title: t, body: b, author: user?.name ?? "관리자", pinned });
+    const result =
+      editingId != null
+        ? update(editingId, { title: t, body: b, pinned, attachments })
+        : create({ title: t, body: b, author: user?.name ?? "관리자", pinned, attachments });
+    // 저장 공간이 모자라면 거절될 수 있다 — 성공했을 때만 폼을 닫는다
+    if (!result.ok) {
+      setError(result.error);
+      return;
     }
     reset();
   }
@@ -45,6 +107,8 @@ export function NoticeEditor() {
     setTitle(n.title);
     setBody(n.body);
     setPinned(n.pinned);
+    setAttachments(n.attachments ?? []);
+    setError(null);
   }
 
   return (
@@ -88,6 +152,38 @@ export function NoticeEditor() {
             className="w-full resize-none rounded-lg border bg-background px-3 py-2 text-[12.5px] outline-none focus:border-primary"
           />
 
+          <div className="space-y-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={() => fileRef.current?.click()}
+                disabled={reading}
+                className="inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-[12px] text-muted-foreground hover:bg-muted disabled:opacity-50"
+              >
+                <Paperclip className="h-3.5 w-3.5" />
+                {reading ? "읽는 중…" : "파일 첨부"}
+              </button>
+              <span className="text-[11px] text-muted-foreground">
+                파일당 {formatBytes(MAX_ATTACHMENT_BYTES)} · 합계 {formatBytes(MAX_ATTACHMENT_TOTAL_BYTES)}까지
+              </span>
+              <input ref={fileRef} type="file" multiple onChange={(e) => addFiles(e.target.files)} className="hidden" />
+            </div>
+
+            {attachments.length > 0 && (
+              <AttachmentList
+                attachments={attachments}
+                onRemove={(id) => setAttachments((prev) => prev.filter((a) => a.id !== id))}
+              />
+            )}
+
+            {error && (
+              <p className="flex items-start gap-1.5 rounded-md bg-bad-bg px-2.5 py-2 text-[11.5px] text-bad">
+                <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                {error}
+              </p>
+            )}
+          </div>
+
           <div className="flex items-center justify-between">
             <label className="flex cursor-pointer items-center gap-1.5 text-[12px]">
               <input type="checkbox" checked={pinned} onChange={(e) => setPinned(e.target.checked)} />
@@ -96,7 +192,7 @@ export function NoticeEditor() {
             <button
               type="button"
               onClick={submit}
-              disabled={!title.trim() || !body.trim()}
+              disabled={!title.trim() || !body.trim() || reading}
               className="rounded-md bg-primary px-3.5 py-1.5 text-[12px] font-medium text-primary-foreground disabled:opacity-40"
             >
               {editingId != null ? "수정" : "등록"}
@@ -123,6 +219,12 @@ export function NoticeEditor() {
                     {n.author} · {noticeDate(n.createdAt)}
                   </p>
                   <p className="mt-1 line-clamp-2 whitespace-pre-line text-[11.5px] text-muted-foreground">{n.body}</p>
+                  {(n.attachments?.length ?? 0) > 0 && (
+                    <p className="mt-1 inline-flex items-center gap-1 text-[11px] text-muted-foreground">
+                      <Paperclip className="h-3 w-3" />
+                      첨부 {n.attachments!.length}개
+                    </p>
+                  )}
                 </div>
                 <div className="flex shrink-0 items-center gap-1">
                   <IconBtn
@@ -172,4 +274,14 @@ function IconBtn({
       {children}
     </button>
   );
+}
+
+/** File -> data URL. 백엔드가 없어 파일 본문을 그대로 저장값에 넣는다. */
+function readAsDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
 }

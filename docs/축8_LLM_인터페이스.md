@@ -193,6 +193,23 @@ BusinessFit(
 
 ---
 
+## 7-1. 팀 배포 (API 키 없는 팀원)
+
+DEEPSEEK_API_KEY는 기술리드만 보유. 팀원이 판정 결과를 화면에 띄우려면:
+
+```
+# 기술리드 로컬:
+python scripts/run_axis8_llm_batch.py     # DB 캐시 채움 + fixture 자동 덤프
+git add backend/app/services/axis8_llm_cache.json && git commit && git push
+
+# 팀원:
+git pull                                    # 그게 끝
+```
+
+- `_load_llm_cache()`가 fixture(리포지토리) → DB(로컬 배치) 순으로 덮어씀.
+- 팀원이 로컬에서 배치를 재실행하면 DB가 fixture를 이긴다(신선한 판정 우선).
+- fixture만 수동 갱신하고 싶으면 `python scripts/export_axis8_llm_cache.py`.
+
 ## 8. 활성화 상태 (2026-07-16)
 
 `backend/app/services/axis8_llm.py`:

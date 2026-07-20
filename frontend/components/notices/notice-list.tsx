@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ChevronDown, Inbox, Megaphone, Pencil, Pin } from "lucide-react";
+import { ArrowLeft, ChevronDown, Inbox, Megaphone, Pencil, Pin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useNotices, noticeDate, type Notice } from "@/lib/notices";
 import { useAuth, isAdmin } from "@/lib/auth";
@@ -83,6 +83,11 @@ export function NoticePage() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-5">
+      {/* 사이드바 메뉴가 아니라 메인 페이지에서 진입하므로 돌아갈 경로를 둔다 */}
+      <Link href="/" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+        <ArrowLeft className="h-4 w-4" /> 메인 페이지
+      </Link>
+
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="flex items-center gap-2">

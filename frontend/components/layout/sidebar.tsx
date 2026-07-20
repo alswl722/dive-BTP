@@ -4,19 +4,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Home, ClipboardList, Building2, ListChecks, NotebookPen, Megaphone, PencilLine, ShieldCheck, ChevronsLeft, ChevronsRight, ChevronDown, User, Settings, LogOut } from "lucide-react";
+import { Home, ClipboardList, Building2, ListChecks, NotebookPen, PencilLine, ShieldCheck, ChevronsLeft, ChevronsRight, ChevronDown, User, Settings, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUi, useReviewStatus } from "@/lib/app-state";
 import { useAuth, isAdmin } from "@/lib/auth";
 
-/** 심사 담당자·관리자 공통 메뉴 */
+/**
+ * 심사 담당자·관리자 공통 메뉴.
+ * 공지사항(/notices)은 메뉴에 두지 않는다 — 메인 페이지 공지 패널의 '전체 보기'로만
+ * 진입한다(상시 참조가 아니라 확인용이라 메뉴를 차지할 필요가 없음).
+ */
 const NAV = [
   { href: "/", label: "메인 페이지", icon: Home },
   { href: "/programs", label: "지원 사업", icon: ClipboardList },
   { href: "/companies", label: "기업 선정", icon: Building2 },
   { href: "/selected", label: "선정 목록", icon: ListChecks },
   { href: "/notes", label: "메모", icon: NotebookPen },
-  { href: "/notices", label: "공지사항", icon: Megaphone },
 ];
 
 /**

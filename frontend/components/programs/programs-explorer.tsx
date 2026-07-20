@@ -338,8 +338,12 @@ function TotalAmountCell({ program: p }: { program: Program }) {
   }
   const missing = p.amountMissingCount ?? 0;
   if (missing > 0) {
+    // 프리뷰 패널이 열려 칼럼이 좁아지면 금액과 *가 갈라져 다음 줄로 떨어진다 — 한 덩어리로 묶는다.
     return (
-      <span title={`선정 ${p.selectedCount}건 중 ${missing}건은 지원금 미기재 — 합계에서 제외됨`}>
+      <span
+        className="whitespace-nowrap"
+        title={`선정 ${p.selectedCount}건 중 ${missing}건은 지원금 미기재 — 합계에서 제외됨`}
+      >
         {formatKRW(p.totalAmountThousand)}
         <span className="ml-0.5 text-warn">*</span>
       </span>

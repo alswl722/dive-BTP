@@ -297,9 +297,9 @@ def _call_claude(
     model: str,
     effort: Literal["low", "medium", "high", "max"] = DEFAULT_EFFORT,
 ) -> LLMResult:
-    """Claude Anthropic SDK — 결제 완료 시 활성화.
+    """Claude Anthropic SDK — 결제 승인 요청 철회로 현재 미사용(DeepSeek 채택).
 
-    docs/축8_비용시뮬.md 참조. 현재 결제 대기라 실 환경에서는 다다르지 않음.
+    docs/축8_LLM_인터페이스.md §11 참조.
     """
     import anthropic  # type: ignore[import]
 

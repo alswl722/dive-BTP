@@ -117,11 +117,17 @@ export function deriveReviewSignals(company: Company, latestYear: number): Revie
     });
   }
   // 동시 수혜 — 반복(해마다 뽑히나)과 다른 문제. 부서 분절로 담당자가 못 보던 지점.
+  //
+  // ⚠️ 심각도를 '주의'로 둔다(한때 '위험'이었음). 기간이 겹치고 성격이 같아도
+  //    범위·용도가 다르면 정당한 지원일 수 있어 그 자체로 결격이 아니다 — 확인이
+  //    필요한 사안이다. '위험'은 자본잠식·안정성 하위·인증 실체괴리처럼 결격에
+  //    준하는 것만 남긴다. 표본에서 11곳 중 4곳이 이 규칙만으로 '위험'이 되어
+  //    목록이 온통 빨강이 됐고, 그러면 진짜 결격 신호가 묻힌다.
   const conc = summarizeConcurrent(company);
-  if (conc.sameType > 0) {
+  if (conc.crossDeptSameType > 0) {
     out.push({
-      sev: "위험", axis: "지원이력", title: "같은 성격 지원 동시 수령",
-      detail: `수행 기간이 겹치는 ${conc.sameType}쌍이 서로 다른 사업군에서 같은 성격의 지원입니다. 중복 수혜 여부를 확인하세요.`,
+      sev: "주의", axis: "지원이력", title: "같은 성격 지원 동시 수령",
+      detail: `수행 기간이 겹치는 ${conc.crossDeptSameType}쌍이 서로 다른 사업군에서 같은 성격의 지원입니다. 중복 수혜 여부를 확인하세요.`,
     });
   } else if (conc.crossDept > 0) {
     out.push({
@@ -199,14 +205,25 @@ export function deriveAxisVerdicts(company: Company, latestYear: number): AxisVe
   }
 
   // 지원이력
+  //
+  // ⚠️ 선정률을 그대로 쓰면 오독한다. 보유 데이터는 선정 건 위주라(표본 89건 중
+  //    탈락 8·포기 1) 11곳 중 8곳이 100%로 나오는데, 이건 "항상 선정되는 기업"이
+  //    아니라 "탈락 이력이 데이터에 없다"는 뜻이다. 탈락/포기 기록이 있을 때만
+  //    비율을 보여주고, 없으면 선정 건수만 말한다.
   const total = company.support.건수 ?? 0;
   const selected = company.supportHistory.filter((h) => h.result === "선정").length;
   const applied = company.supportHistory.length;
+  const rejected = applied - selected;
   out.push({
     axis: "지원이력",
     tone: total === 0 ? "muted" : "good",
     headline: total === 0 ? "지원 이력 없음" : `${total}건 수혜 · ${company.support.지원연도수 ?? 0}개년`,
-    detail: applied > 0 ? `신청 ${applied}건 중 선정 ${selected}건 (${Math.round((selected / applied) * 100)}%)` : null,
+    detail:
+      applied === 0
+        ? null
+        : rejected > 0
+          ? `신청 ${applied}건 중 선정 ${selected}건 (${Math.round((selected / applied) * 100)}%)`
+          : `선정 ${selected}건 · 탈락 기록 없음(데이터 한계)`,
   });
 
   // 중복수혜

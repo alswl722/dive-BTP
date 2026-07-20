@@ -23,3 +23,10 @@ export function RoleProvider({ children }: { children: ReactNode }) {
 export function useRole() {
   return useContext(RoleContext);
 }
+
+/** 메모 작성자 등 저장되는 값에 쓰는 표시 라벨.
+ *  진입점마다 role 원본("관리자")과 라벨("전사 관리자")이 섞여 저장되던 문제가 있어
+ *  변환을 한 곳으로 모은다 — DB에 남는 값이므로 표기가 갈리면 나중에 못 되돌린다. */
+export function authorLabel(role: Role): string {
+  return role === "관리자" ? "전사 관리자" : "심사 담당자";
+}

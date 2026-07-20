@@ -68,12 +68,50 @@ def _load_source():
     return score, feat, master, sr, sp, bp, llm_cache, tech_tables
 
 
+LLM_CACHE_FIXTURE = Path(__file__).resolve().parent / "axis8_llm_cache.json"
+
+
 def _load_llm_cache(engine) -> dict:
-    """axis8_llm_cache 테이블에서 판정 결과 로드.
+    """축8 LLM 판정 캐시 로드 — fixture(리포지토리 커밋) → DB(로컬 배치) 순으로 덮어씀.
+
+    팀원 대부분은 DEEPSEEK_API_KEY 미보유라 배치 실행 불가. 기술리드가 배치 결과를
+    scripts/export_axis8_llm_cache.py로 fixture에 덤프해 커밋하면 pull만 받아도 판정
+    결과가 화면에 뜬다. 로컬에서 배치를 재실행한 팀원의 경우 DB가 fixture를 덮어씀
+    (신선한 판정 우선).
 
     반환: {(company_id, program_code, purposes_hash): {match_type, score, matched_keywords, reasoning}}
-    테이블 없으면 빈 dict (배치 미실행 상태).
     """
+    cache = _load_llm_cache_fixture()
+    cache.update(_load_llm_cache_db(engine))
+    return cache
+
+
+def _load_llm_cache_fixture() -> dict:
+    """리포지토리 커밋된 JSON에서 판정 결과 로드. 파일 없거나 비면 빈 dict."""
+    import json
+    if not LLM_CACHE_FIXTURE.exists():
+        return {}
+    try:
+        items = json.loads(LLM_CACHE_FIXTURE.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as e:
+        print(f"  ⚠️ 축8 LLM fixture 로드 실패 — 무시: {e}")
+        return {}
+    cache: dict = {}
+    for item in items:
+        try:
+            cache[(int(item["company_id"]), str(item["program_code"]), str(item["purposes_hash"]))] = {
+                "match_type": item["match_type"],
+                "score": item.get("score"),
+                "matched_keywords": item.get("matched_keywords") or [],
+                "reasoning": item.get("reasoning") or "",
+            }
+        except (KeyError, TypeError, ValueError):
+            continue  # 손상된 행은 건너뛰기 — 전체 캐시 무효화 방지
+    return cache
+
+
+def _load_llm_cache_db(engine) -> dict:
+    """axis8_llm_cache 테이블에서 판정 결과 로드. 테이블 없으면 빈 dict."""
     import json
     try:
         rows = pd.read_sql_query(text("""

@@ -235,6 +235,17 @@ def main():
         print(f"토큰: input={total_input} (miss={miss} hit={total_hit}) output={total_output}")
         print(f"대략 비용: ${cost:.6f}")
 
+    # 팀원 공유를 위해 fixture 자동 갱신 — 실패해도 배치 자체는 완료 표시.
+    # (수동으로도 언제든: python scripts/export_axis8_llm_cache.py)
+    print("\n== fixture 덤프 ==")
+    try:
+        import subprocess
+        exporter = Path(__file__).resolve().parent / "export_axis8_llm_cache.py"
+        subprocess.run([sys.executable, str(exporter)], check=True)
+        print("   → git add · commit · push 하면 팀원에게 반영됨.")
+    except Exception as e:  # noqa: BLE001
+        print(f"   ⚠️ 자동 덤프 실패 — 수동 실행 필요: {e}")
+
 
 if __name__ == "__main__":
     main()

@@ -1,7 +1,8 @@
 # 축8 LLM 인터페이스 설계 (DeepSeek 채택 · 실 호출 활성)
 
 > 담당: 팀원 D (형우, 기술리드) · 관련 코드: `backend/app/services/axis8_llm.py`
-> 상태: **DeepSeek 실 호출 활성화** (2026-07-16). Claude 결제 대기가 아니었던 이유·최종 결정은 `docs/축8_비용시뮬.md`.
+> 상태: 코드상 DeepSeek 실 호출 경로는 구현·활성화됨(2026-07-16). **단, 배치 미실행으로 운영 DB `axis8_llm_cache`는 현재 0건** — 실제 판정 결과가 아직 반영되지 않았음. 배치 실행 전까지 `businessFit`은 `_mock: ["businessFit.llm"]`으로 표시됨.
+> 비용 실측·프로바이더 비교 근거는 §11(부록)에 흡수.
 
 ---
 
@@ -19,7 +20,7 @@ Phase 2 규칙기반 1단 필터에서 **판단유보(`undetermined`/`unknown_ks
 
 ### 2.1 기본 선택 — DeepSeek V3 (`deepseek-chat`)
 
-**채택 근거** (docs/축8_비용시뮬.md 요약):
+**채택 근거** (§11 부록 요약):
 - 파일럿 4건 정확도 4/4 (gpt-4o 동률, gpt-4o-mini 우위)
 - 최저 비용 (5000기업 시나리오 $0.17, gpt-4o 대비 24배 저렴)
 - 극단값 점수 분포 (85·15·50·10) → 심사 도구 UX에 유리
@@ -193,28 +194,29 @@ BusinessFit(
 
 ---
 
-## 8. 활성화 상태 (2026-07-16)
+## 8. 활성화 상태
 
 `backend/app/services/axis8_llm.py`:
-- ✅ **`DEEPSEEK_API_KEY` 세팅됨** → DeepSeek 실 호출 활성
+- ✅ **`DEEPSEEK_API_KEY` 세팅됨** → DeepSeek 실 호출 코드 경로 활성
 - ✅ **`OPENAI_API_KEY` 세팅됨** → OpenAI 옵션 활성
 - ❌ `ANTHROPIC_API_KEY=API_HERE` → Claude 미활성
+- ⚠️ **운영 DB `axis8_llm_cache` 0건** — 코드는 준비됐으나 배치(`scripts/run_axis8_llm_batch.py`)가 아직 실행되지 않아 실제 판정 결과는 반영 전. `company_view.py:_compute_mock_flags()`가 이 상태를 `businessFit.llm` mock 플래그로 자동 표기함.
 
 `.env` 파일 (gitignored). `.env.example`은 팀 공유 템플릿.
 
-**Phase 5b 통합 준비 완료**:
+**통합 코드 준비 완료**:
 - `judge_alignment()` public entrypoint 시그니처 확정
 - `judge_alignment_full()` — usage metrics도 반환 (비용 로깅용)
 - dedup 캐시 자동 동작
+- `company_view.py:build_business_fit()`이 whitelist/LLM 결과를 `BusinessFit`으로 조립하는 배선 자체는 완료
 
 ---
 
-## 9. Phase 5b 통합 예정 사항
+## 9. 남은 작업 — 배치 실행
 
-- `axis8.classify_alignment(needs_llm=True)` 케이스를 `axis8_llm.judge_alignment()`에 위임
-- `services/companies.py:build_business_fit()` 헬퍼가 whitelist 결과 or LLM 결과를 `BusinessFit`으로 변환
-- `Company._mock: ["businessFit"]`에서 "businessFit" 제거 (실데이터 활성)
-- 배치 로깅으로 실측 비용·캐시 히트율 수집 → `docs/축8_비용시뮬.md` §4 재산정
+- `scripts/run_axis8_llm_batch.py` 실행해 `axis8_llm_cache` 테이블 채우기 (아직 미실행)
+- 배치 로깅으로 실측 비용·캐시 히트율 수집 → 본 문서 §11(비용 실측) 재산정
+- 실행 후 `businessFit.llm` mock 플래그가 정상 해제되는지 확인
 
 ---
 
@@ -222,8 +224,61 @@ BusinessFit(
 
 - **파일럿 gold label 부족** — 4건에서 20~30건으로 확장 (본선 대비 프롬프트 튜닝)
 - **DeepSeek 한국어 뉘앙스 한계** — 지금까지 파일럿에서는 안 나옴. 본선 대량 판정에서 관찰 필요
-- **Ensemble 로드맵** — DeepSeek + gpt-4o 병렬, 이견 시 human review flag (docs/축8_비용시뮬.md §5)
+- **Ensemble 로드맵** — DeepSeek + gpt-4o 병렬, 이견 시 human review flag (§11-5)
 - **본선 당일**:
   - dedup 캐시 hit rate 실측 → 비용 재산정
   - 프롬프트 caution 항목에 본선 실 사례 추가
   - AXIS8_LLM_PROVIDER 최종 선택 확정
+
+---
+
+## 11. 부록 — 비용 실측·시뮬레이션 (구 `축8_비용시뮬.md`에서 흡수)
+
+### 11-1. 요약·결론
+
+- **채택 프로바이더: DeepSeek V3** (`deepseek-chat`)
+- **파일럿 실측 정확도**: 4/4 (기업 1178·1786·117·1878)
+- **5000기업 · 판단유보 30% 시나리오 실측 환산 비용: $0.17** (약 240원)
+- **크레딧 부담 없음**: $25 크레딧으로 프로덕션·실험·gold label 확장 모두 충분
+- **Claude 결제 승인 불필요** — DeepSeek 실측이 요구 품질 충족
+
+### 11-2. 프로바이더 결정 근거 (3자 비교, 파일럿 4건 실측)
+
+| 모델 | 정확도 | 판정 근거 품질 | 1건 평균 비용 | 5000기업 30% 환산 | 지연 |
+| --- | ---: | --- | ---: | ---: | ---: |
+| **DeepSeek V3** | **4/4** | 명확·엄격 | **$0.000116** | **$0.174** | 1.5~2s |
+| OpenAI gpt-4o-mini | 3/4 | 유연·관대 | $0.000166 | $0.250 | 1.6s |
+| OpenAI gpt-4o | 4/4 | 명확 | $0.002722 | $4.084 | 1.3~1.5s |
+| ~~Claude Opus 4.7~~ (미결제) | - | - | ($2.44 시뮬) | ($48.80 시뮬) | - |
+
+**DeepSeek 채택 3가지 이유**: ①정확도 최상(gpt-4o 동률, mini 우위) ②비용 최저(gpt-4o 대비 24배 저렴) ③점수 분포가 극단값(85·15·50·10)이라 심사 도구 UX에 유리한 명확한 신호.
+
+### 11-3. DeepSeek 단가·캐싱 (2026-04 기준)
+
+| 항목 | 단가 (per 1M tokens) |
+| --- | ---: |
+| 입력 (cache miss) | $0.14 |
+| 입력 (cache hit) | $0.014 (10% 할인) |
+| 출력 | $0.28 |
+
+**cache hit 방식**: DeepSeek 자동 prefix 매칭. 시스템 프롬프트(~500 토큰)+기업 사업목적(~200 토큰)이 자동 캐시됨. 파일럿 4건 합계 비용 $0.000463, 3·4번째 케이스부터 384 토큰 cache hit 확인.
+
+### 11-4. 본선 시나리오 예상 비용
+
+Phase 2 실측: 실 92건 중 판단유보 8건(8.7%). 본선 KSIC 다양성 증가 예상 → 20~40% 시나리오 대비. 앱 레벨 dedup 캐시 히트율 가정 40%(실제 API 호출 = 판단유보 건수 × 0.6).
+
+| 기업 수 | 낙관 (8.7%) | 중간 (20%) | 보수 (40%) |
+| --- | ---: | ---: | ---: |
+| 500 | $0.023 | $0.052 | $0.104 |
+| 1,000 | $0.046 | $0.104 | $0.208 |
+| 5,000 | $0.230 | $0.520 | **$1.040** |
+
+최악 시나리오(5000기업·40%·DeepSeek): **$1.04**(약 1,450원), $25 크레딧의 4.16%.
+
+### 11-5. Ensemble 옵션 (로드맵)
+
+DeepSeek + gpt-4o 병렬 판정 → 두 모델 이견 시 human review flag. 5000기업 20% 시나리오 비용: DeepSeek $0.52 + gpt-4o $12.3 = **$12.82**(크레딧 이내). 담당자 화면에 "AI 이견" 배지로 발표 어필 가능. 우선순위: 배치 실행 후, gold label 20~30건 확장 시점에 실효성 판단.
+
+### 11-6. Claude 결제가 필요 없어진 이유
+
+초기엔 Claude 결제 승인 없이 축8 활성화 불가로 판단했으나, DeepSeek/OpenAI 결제만으로 실측 검증을 완료했고 DeepSeek이 요구 품질을 충족(파일럿 4/4)하며 비용도 Claude 시뮬 대비 47배 저렴해 **Claude 결제 승인 요청을 철회**했다.

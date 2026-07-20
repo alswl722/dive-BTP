@@ -4,22 +4,24 @@ import { AlertTriangle, Clock, Maximize2, MapPin, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ScoreBadge } from "@/components/ui/score-badge";
 import { StatusStack } from "@/components/scorecard/status-buttons";
-import { computeOverallScore, axisSpread, AXIS_MISALIGNMENT_THRESHOLD, DEFAULT_AXIS_WEIGHTS } from "@/lib/scoring";
+import { resolveOverallScore, DEFAULT_AXIS_WEIGHTS, DEFAULT_GROUP_WEIGHTS, isCustomWeights } from "@/lib/scoring";
 import { useReviewStatus } from "@/lib/app-state";
 import { isDuplicateRisk, recentSelectionCount, DUPLICATE_RISK_WINDOW_YEARS } from "@/lib/duplicate-risk";
 import { DuplicateFlagBadge } from "@/components/axis9/DuplicateFlagBadge";
-import { AXES, type Axis, type Company } from "@/types";
+import { type Axis, type Company, type CompositeGroup } from "@/types";
 
 export function ScorecardHeader({
   company,
   latestYear,
   weights = DEFAULT_AXIS_WEIGHTS,
+  groupWeights = DEFAULT_GROUP_WEIGHTS,
   onClose,
   onExpand,
 }: {
   company: Company;
   latestYear: number;
   weights?: Record<Axis, number>;
+  groupWeights?: Record<CompositeGroup, number>;
   onClose?: () => void;
   onExpand?: () => void;
 }) {
@@ -27,10 +29,14 @@ export function ScorecardHeader({
   const status = statuses[company.id] ?? company.reviewStatus;
   const dupRisk = isDuplicateRisk(company, latestYear);
   const recentCount = recentSelectionCount(company, latestYear);
-  const misaligned = axisSpread(company.scores) >= AXIS_MISALIGNMENT_THRESHOLD;
-  // 경고 박스에 "왜"를 수치로 보여주기 위한 최고·최저 축 (null 축은 비교에서 제외)
-  const hiAxis = AXES.reduce((a, b) => ((company.scores[b] ?? -1) > (company.scores[a] ?? -1) ? b : a));
-  const loAxis = AXES.reduce((a, b) => ((company.scores[b] ?? 101) < (company.scores[a] ?? 101) ? b : a));
+  const overall = resolveOverallScore(company, groupWeights, weights);
+  const custom = isCustomWeights(groupWeights, weights);
+  // 커스텀 가중치면 프론트 재계산 결과의 lowestAxis를, 아니면 서버 compositeScore를 그대로 근거로 삼는다.
+  const cs = company.compositeScore;
+  const lowestAxis = cs?.lowestAxis ?? null;
+  const lowestAxisScore = cs?.lowestAxisScore ?? null;
+  // 캡이 실제로 발동했는지(가중평균 - 캡후 종합점수 차이가 있으면 축 어긋남이 점수를 끌어내렸다는 뜻)
+  const capActive = cs?.rawWeightedAverage != null && cs.score != null && cs.rawWeightedAverage - cs.score > 0.5;
 
   return (
     <div className="space-y-3">
@@ -89,16 +95,20 @@ export function ScorecardHeader({
         </div>
 
         <div className="flex shrink-0 items-start gap-2">
-          {/* 이 점수는 재무 4축 가중평균이다(기술력·정합성 미포함). 라벨 없이 두면
-              '종합점수'로 오인되므로 범위를 명시한다 — scoring.ts 주석 참고. */}
+          {/* 종합점수 = 재무4축+기술2축+정합성, 최저축 캡 적용(docs/종합점수_설계노트.md).
+              축별 breakdown이 진짜 판단 근거이므로 이 배지 단독으로 판단하지 않도록 아래
+              경고 박스와 각 탭의 축별 점수를 항상 함께 노출한다. */}
           <div className="flex flex-col items-center gap-1">
-            <ScoreBadge score={computeOverallScore(company.scores, weights)} size="lg" />
-            <span className="text-[10px] leading-none text-muted-foreground" title="성장성·수익성·효율성·안정성 가중평균. 기술력·정합성은 별도 확인">
-              재무 4축
+            <ScoreBadge score={overall} size="lg" />
+            <span
+              className="text-[10px] leading-none text-muted-foreground"
+              title="재무4축·기술2축·정합성 가중평균(최저축 캡 적용). 축별 점수는 아래 탭에서 확인"
+            >
+              종합점수{custom && " (커스텀)"}
             </span>
-            {company.tech?.scores.rndPatent != null && (
+            {lowestAxis && lowestAxisScore != null && (
               <span className="text-[10px] leading-none text-muted-foreground">
-                R&D {Math.round(company.tech.scores.rndPatent)}
+                최저축 {lowestAxis} {Math.round(lowestAxisScore)}
               </span>
             )}
           </div>
@@ -106,14 +116,14 @@ export function ScorecardHeader({
         </div>
       </div>
 
-      {misaligned && (
+      {capActive && lowestAxis && lowestAxisScore != null && cs && (
         <div className="flex items-start gap-2 rounded-lg bg-warn-bg px-3 py-2.5 text-[hsl(30_75%_38%)]">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
           <div className="min-w-0">
-            <p className="text-[12.5px] font-bold">축별 점수 차이 큼 — 종합점수 주의</p>
+            <p className="text-[12.5px] font-bold">축 어긋남 — {lowestAxis} 저점이 종합점수를 끌어내림</p>
             <p className="mt-0.5 text-[11.5px] leading-relaxed opacity-90">
-              {hiAxis} {Math.round(company.scores[hiAxis] ?? 0)} ↔ {loAxis} {Math.round(company.scores[loAxis] ?? 0)} ·
-              종합점수만 보면 오판할 수 있어요. 4축 점수를 각각 확인하세요.
+              가중평균 {Math.round(cs.rawWeightedAverage ?? 0)}점이었다면 {lowestAxis} {Math.round(lowestAxisScore)}점 때문에
+              {" "}{Math.round(cs.score ?? 0)}점으로 조정됐어요. 축별 점수를 각각 확인하세요.
             </p>
           </div>
         </div>

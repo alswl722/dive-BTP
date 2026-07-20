@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, AlertTriangle, Info } from "lucide-react";
-import type { Axis, Company, ReviewStatus } from "@/types";
+import type { Axis, Company, CompositeGroup, ReviewStatus } from "@/types";
 import { Table, THead, TBody, TR, TH, TD } from "@/components/ui/table";
 import { Pagination } from "@/components/ui/pagination";
 import { Badge } from "@/components/ui/badge";
 import { ScoreBadge } from "@/components/ui/score-badge";
 import { StatusButtons } from "@/components/scorecard/status-buttons";
 import { AxisMiniBars } from "@/components/companies/axis-mini-bars";
-import { computeOverallScore } from "@/lib/scoring";
+import { resolveOverallScore } from "@/lib/scoring";
 import { isDuplicateRisk } from "@/lib/duplicate-risk";
 import { CERT_ABBREV } from "@/lib/constants";
 import { formatKRW, cn } from "@/lib/utils";
@@ -21,6 +21,7 @@ const MAX_COMPARE = 4;
 export function CompaniesTable({
   companies,
   weights,
+  groupWeights,
   latestYear,
   statuses,
   onSetStatus,
@@ -34,6 +35,7 @@ export function CompaniesTable({
 }: {
   companies: Company[];
   weights: Record<Axis, number>;
+  groupWeights: Record<CompositeGroup, number>;
   latestYear: number;
   statuses: Record<number, ReviewStatus>;
   onSetStatus: (id: number, status: ReviewStatus) => void;
@@ -95,7 +97,7 @@ export function CompaniesTable({
                 </TD>
                 <TD className="tabular-nums">{formatKRW(c.revenueLatest)}</TD>
                 <TD>
-                  <ScoreBadge score={computeOverallScore(c.scores, weights)} size="sm" />
+                  <ScoreBadge score={resolveOverallScore(c, groupWeights, weights)} size="sm" />
                 </TD>
                 <TD>
                   <AxisMiniBars scores={c.scores} />

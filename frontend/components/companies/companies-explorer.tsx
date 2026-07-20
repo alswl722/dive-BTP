@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { List, X } from "lucide-react";
 import type { Company, Program } from "@/types";
 import { useReviewStatus, useUi } from "@/lib/app-state";
-import { DEFAULT_AXIS_WEIGHTS } from "@/lib/scoring";
+import { DEFAULT_AXIS_WEIGHTS, DEFAULT_GROUP_WEIGHTS } from "@/lib/scoring";
 import { defaultFilters, applyFilters, sortCompanies, reviewStatusCounts, type CompanyFilters, type SortKey } from "@/lib/company-filters";
 import { latestSupportYear } from "@/lib/duplicate-risk";
 import { companyProgramKeys, programKey } from "@/lib/program-progress";
@@ -47,6 +47,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
   }, [searchParams]);
   const [filterPanelOpen, setFilterPanelOpen] = useState(true);
   const [weights, setWeights] = useState(DEFAULT_AXIS_WEIGHTS);
+  const [groupWeights, setGroupWeights] = useState(DEFAULT_GROUP_WEIGHTS);
   const [sortKey, setSortKey] = useState<SortKey>("overall");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
@@ -86,10 +87,13 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
   );
 
   const filtered = useMemo(
-    () => applyFilters(companiesWithLiveStatus, filters, weights, latestYear, companyProgramKeys),
-    [companiesWithLiveStatus, filters, weights, latestYear]
+    () => applyFilters(companiesWithLiveStatus, filters, groupWeights, weights, latestYear, companyProgramKeys),
+    [companiesWithLiveStatus, filters, groupWeights, weights, latestYear]
   );
-  const sorted = useMemo(() => sortCompanies(filtered, sortKey, sortDir, weights), [filtered, sortKey, sortDir, weights]);
+  const sorted = useMemo(
+    () => sortCompanies(filtered, sortKey, sortDir, groupWeights, weights),
+    [filtered, sortKey, sortDir, groupWeights, weights]
+  );
   const counts = useMemo(() => reviewStatusCounts(companiesWithLiveStatus, statuses), [companiesWithLiveStatus, statuses]);
 
   const programOptions = useMemo(
@@ -159,7 +163,12 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
             ))}
           </select>
 
-          <WeightPopover weights={weights} onChange={setWeights} />
+          <WeightPopover
+            weights={weights}
+            onChange={setWeights}
+            groupWeights={groupWeights}
+            onGroupChange={setGroupWeights}
+          />
 
           {selectedProgram && (
             <button
@@ -208,6 +217,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
               <CompaniesTable
                 companies={sorted}
                 weights={weights}
+                groupWeights={groupWeights}
                 latestYear={latestYear}
                 statuses={statuses}
                 onSetStatus={setStatus}
@@ -223,6 +233,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
               <CompaniesBoard
                 companies={sorted}
                 weights={weights}
+                groupWeights={groupWeights}
                 latestYear={latestYear}
                 statuses={statuses}
                 onSetStatus={setStatus}
@@ -248,6 +259,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
                   company={openCompany}
                   latestYear={latestYear}
                   weights={weights}
+                  groupWeights={groupWeights}
                   onClose={() => setOpenId(null)}
                   onExpand={() => router.push(`/companies/${openCompany.id}`)}
                 />
@@ -261,6 +273,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
         <CompareModal
           companies={compareCompanies}
           weights={weights}
+          groupWeights={groupWeights}
           onRemove={(id) => setSelectedIds((prev) => { const n = new Set(prev); n.delete(id); return n; })}
           onClose={() => setCompareOpen(false)}
         />

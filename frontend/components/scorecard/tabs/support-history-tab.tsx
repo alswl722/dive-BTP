@@ -86,7 +86,7 @@ function ConcurrentPanel({
           <p className="mt-1.5 text-[12px] text-muted-foreground">
             수행 기간이 겹치는 건 <b className="text-foreground">{summary.total}쌍</b>
             {summary.crossDept > 0 && <> · 그중 다른 사업군 <b className="text-foreground">{summary.crossDept}쌍</b></>}
-            {summary.sameType > 0 && <> · 같은 성격 <b className="text-bad">{summary.sameType}쌍</b></>}
+            {summary.crossDeptSameType > 0 && <> · 같은 성격 <b className="text-bad">{summary.crossDeptSameType}쌍</b></>}
           </p>
           {summary.deptUnknown > 0 && (
             <p className="mt-1 text-[11px] text-muted-foreground">

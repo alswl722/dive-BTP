@@ -76,7 +76,9 @@ export function findConcurrentPairs(company: Company): ConcurrentPair[] {
 export interface ConcurrentSummary {
   total: number;       // 겹치는 쌍 전체
   crossDept: number;   // 그중 사업군이 다른 쌍 (같은 연도 = 비교 가능한 쌍만)
-  sameType: number;    // 그중 지원 성격도 같은 쌍 = 실질적 중복
+  /** 사업군이 다르면서 지원 성격도 같은 쌍 = 실질적 중복.
+   *  ConcurrentPair.sameType(성격 일치만)과 조건이 다르므로 이름을 구분한다. */
+  crossDeptSameType: number;
   /** 연도가 달라 사업군을 비교할 수 없는 쌍 — 판정 유보(과소 판정 가능성) */
   deptUnknown: number;
   /** 기간 정보가 없어 판정에서 빠진 선정 건수 — 과소 판정 가능성 표기용 */
@@ -89,7 +91,7 @@ export function summarizeConcurrent(company: Company): ConcurrentSummary {
   return {
     total: pairs.length,
     crossDept: pairs.filter((p) => p.crossDept).length,
-    sameType: pairs.filter((p) => p.crossDept && p.sameType).length,
+    crossDeptSameType: pairs.filter((p) => p.crossDept && p.sameType).length,
     deptUnknown: pairs.filter((p) => !p.deptComparable).length,
     missingPeriod: selected.filter((h) => !h.startDate || !h.endDate).length,
   };

@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ExternalLink, NotebookPen } from "lucide-react";
 import { createNote, notesPersisted } from "@/lib/api";
 import { buildMention } from "@/lib/notes";
-import { useRole } from "@/lib/roles";
+import { authorLabel, useRole } from "@/lib/roles";
 import type { Company } from "@/types";
 
 /**
@@ -17,6 +18,7 @@ import type { Company } from "@/types";
  */
 export function NoteComposer({ company }: { company: Company }) {
   const { role } = useRole();
+  const router = useRouter();
   const [text, setText] = useState("");
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -31,10 +33,13 @@ export function NoteComposer({ company }: { company: Company }) {
     setError(null);
     try {
       // 본문 앞에 기업 멘션을 붙여 메모 페이지에서 양방향 연결되게 한다.
-      await createNote(`${mention} ${trimmed}`, role);
+      await createNote(`${mention} ${trimmed}`, authorLabel(role));
       setText("");
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
+      // "이 기업이 언급된 메모"는 서버 렌더라 새로고침 없이는 방금 쓴 글이 안 보인다
+      // → 저장 실패로 오해하므로 서버 컴포넌트를 다시 가져온다.
+      router.refresh();
     } catch {
       setError("저장에 실패했습니다. 잠시 후 다시 시도해 주세요.");
     } finally {

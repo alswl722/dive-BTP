@@ -40,10 +40,10 @@ export function ReviewSummary({
 }) {
   const signals = deriveReviewSignals(company, latestYear);
   const verdicts = deriveAxisVerdicts(company, latestYear);
-  const counts = signals.reduce(
-    (acc, s) => ({ ...acc, [s.sev]: (acc[s.sev] ?? 0) + 1 }),
-    {} as Record<Severity, number>
-  );
+  const counts = signals.reduce((acc, s) => {
+    acc[s.sev] = (acc[s.sev] ?? 0) + 1;
+    return acc;
+  }, {} as Record<Severity, number>);
 
   return (
     <div className="space-y-3 rounded-xl border bg-card p-4">

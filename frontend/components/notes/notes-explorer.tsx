@@ -9,7 +9,7 @@ import { MentionInput } from "@/components/notes/mention-input";
 import { NoteBody } from "@/components/notes/note-body";
 import { createNote, deleteNote, notesPersisted, updateNote } from "@/lib/api";
 import { plainText, relativeTime } from "@/lib/notes";
-import { useRole } from "@/lib/roles";
+import { authorLabel, useRole } from "@/lib/roles";
 import { cn } from "@/lib/utils";
 
 /** 서버 저장 실패 시에도 화면에는 남기기 위한 임시 id(음수로 실제 id와 구분). */
@@ -25,7 +25,7 @@ export function NotesExplorer({
   programs: Program[];
 }) {
   const { role } = useRole();
-  const author = role === "관리자" ? "전사 관리자" : "심사 담당자";
+  const author = authorLabel(role);
 
   const [notes, setNotes] = useState<Note[]>(initialNotes);
   const [draft, setDraft] = useState("");

@@ -1,11 +1,14 @@
-"""챗봇 오케스트레이션 — LLM 생성 SQL 검증 · 실행 · 요약.
+"""챗봇 오케스트레이션 — LLM 의도 분류 → (navigate | query | clarify) 분기.
 
 흐름:
-  question → chatbot_llm.generate_sql() → validate_sql() → execute() → chatbot_llm.summarize()
-       → ChatbotAnswer(sql, intent, columns, rows, answer, error?)
+  question → chatbot_llm.classify_intent()
+       ├── navigate  → validate_nav_path() → 프론트가 router.push
+       ├── query     → validate_sql() → execute() → chatbot_llm.summarize()
+       └── clarify   → 안내 문구 그대로 반환
 
-SQL 검증은 화이트리스트 방식(허용 테이블 · SELECT/WITH만 · 금지 키워드 차단 · LIMIT 강제).
-실행은 statement_timeout 5초로 감싸 무한쿼리·과부하 방어.
+두 가지 화이트리스트:
+  - SQL: 허용 테이블 · SELECT/WITH만 · 금지 키워드 차단 · LIMIT 강제
+  - Path: 앱 내부 경로만 (외부 URL·상대경로·traversal 차단)
 """
 
 from __future__ import annotations
@@ -70,9 +73,35 @@ FORBIDDEN_PATTERNS = [
 STATEMENT_TIMEOUT_MS = 5000
 MAX_ROWS = 200
 
+# 프론트 라우트 화이트리스트 — LLM이 반환하는 navigate.path는 여기 정의된 패턴만 통과.
+# chatbot_llm.ROUTES_DOC과 1:1 대응 (문서 갱신 시 여기도 같이 손볼 것).
+NAV_PATH_PATTERNS = [
+    re.compile(r"^/$"),                                              # 홈
+    re.compile(r"^/companies/?$"),                                   # 기업 목록
+    re.compile(r"^/companies/\d+/?$"),                               # 기업 상세
+    re.compile(r"^/programs(?:/?\?[a-zA-Z0-9=&%._\-]+)?/?$"),        # 지원사업 목록 (± 쿼리)
+    re.compile(r"^/notes/?$"),                                       # 메모
+    re.compile(r"^/selected/?$"),                                    # 선정 기업
+    re.compile(r"^/duplicates/?$"),                                  # 중복지원
+    re.compile(r"^/compare/?$"),                                     # 비교
+]
+
 
 class ChatbotError(Exception):
     """검증 실패·실행 실패를 라우터에서 400/503으로 매핑하기 위한 사용자 안전 예외."""
+
+
+def validate_nav_path(path: str) -> str:
+    """LLM이 반환한 이동 경로를 화이트리스트 대조. 통과분만 그대로 반환."""
+    if not path or not path.strip():
+        raise ChatbotError("이동 경로가 비어있습니다.")
+    p = path.strip()
+    # 스킴이 붙은 절대 URL(https://…) · 상대 경로(.., ./) · 프로토콜 상대(//)는 애초에 걸러낸다.
+    if not p.startswith("/") or p.startswith("//") or ".." in p:
+        raise ChatbotError(f"허용되지 않은 경로 형태: {p}")
+    if any(pat.match(p) for pat in NAV_PATH_PATTERNS):
+        return p
+    raise ChatbotError(f"허용되지 않은 경로: {p}")
 
 
 # ============================================================
@@ -156,39 +185,83 @@ def execute(sql: str) -> tuple[list[str], list[dict[str, Any]]]:
         raise ChatbotError(f"SQL 실행 실패: {msg}")
 
 
+
+def _empty_answer(question: str, intent: str, action: str, answer: str) -> dict[str, Any]:
+    """navigate/clarify처럼 SQL 실행이 없는 응답의 공통 shape."""
+    return {
+        "question": question,
+        "action": action,
+        "intent": intent,
+        "path": None,
+        "sql": "",
+        "columns": [],
+        "rows": [],
+        "answer": answer,
+        "error": None,
+    }
+
+
 # ============================================================
 # 오케스트레이션
 # ============================================================
 def ask(question: str) -> dict[str, Any]:
-    """엔드투엔드 — 라우터가 그대로 반환할 dict."""
+    """엔드투엔드 — 라우터가 그대로 반환할 dict.
+
+    - navigate: 경로 화이트리스트 통과 시 프론트가 router.push (LLM 요약 호출 없음 → 1콜)
+    - query:    기존 SQL 파이프라인 (실패 시 1회 재시도) + 요약 (성공 시 2~3콜)
+    - clarify:  clarification 문구 그대로 안내 (1콜)
+    """
     if not chatbot_llm.is_available():
         raise ChatbotError("DEEPSEEK_API_KEY 미설정 — 챗봇 비활성화 상태입니다.")
 
-    # Step 1: SQL 생성
-    gen, _ = chatbot_llm.generate_sql(question)
+    # Step 1: 의도 분류 (kind + path/sql/clarification)
+    intent, _ = chatbot_llm.classify_intent(question)
 
-    # LLM이 조회 불가로 판단한 경우 — SQL 실행 없이 안내만 반환
-    if not gen.sql.strip():
-        return {
-            "question": question,
-            "intent": gen.intent,
-            "sql": "",
-            "columns": [],
-            "rows": [],
-            "answer": gen.clarification or "이 도구에 해당 정보가 없어 조회할 수 없습니다.",
-            "error": None,
-        }
+    # --- navigate ---
+    if intent.kind == "navigate":
+        path = validate_nav_path(intent.path)
+        # intent 문구가 "해석:" 줄에 다시 나오므로 answer는 짧게.
+        return {**_empty_answer(question, intent.intent, "navigate", "이동합니다."), "path": path}
 
-    # Step 2: 검증 + 실행
-    validated_sql = validate_sql(gen.sql)
-    columns, rows = execute(validated_sql)
+    # --- clarify ---
+    if intent.kind == "clarify":
+        answer = intent.clarification or "요청을 이해하지 못했습니다."
+        return _empty_answer(question, intent.intent, "clarify", answer)
 
-    # Step 3: 요약
+    # --- query (기본 경로) ---
+    if not intent.sql.strip():
+        # LLM이 query로 분류했지만 SQL을 못 만든 경우 — clarify로 fallback
+        return _empty_answer(
+            question, intent.intent, "clarify",
+            intent.clarification or "질문에 해당하는 조회를 만들지 못했습니다.",
+        )
+
+    # 검증 + 실행 · 실패 시 에러 원문을 LLM에 되돌려 한 번만 재작성
+    # (뷰 컬럼명 환각 — 예: data_quality_flags.id — 이 가장 흔한 실패 원인)
+    try:
+        validated_sql = validate_sql(intent.sql)
+        columns, rows = execute(validated_sql)
+    except ChatbotError as first_err:
+        intent, _ = chatbot_llm.classify_intent(
+            question, prior_sql=intent.sql, prior_error=str(first_err)
+        )
+        if intent.kind != "query" or not intent.sql.strip():
+            return _empty_answer(
+                question, intent.intent, "clarify",
+                intent.clarification or "질문에 해당하는 조회를 만들지 못했습니다.",
+            )
+        # 두 번째도 실패하면 그대로 올린다 (라우터가 400으로 변환)
+        validated_sql = validate_sql(intent.sql)
+        columns, rows = execute(validated_sql)
+
+    # 요약
     answer_text, _ = chatbot_llm.summarize(question, validated_sql, rows, columns)
 
     return {
         "question": question,
-        "intent": gen.intent,
+        "action": "query",
+        "intent": intent.intent,
+        "path": None,
         "sql": validated_sql,
         "columns": columns,
         "rows": rows,

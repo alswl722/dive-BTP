@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { AlertTriangle, Eye } from "lucide-react";
-import type { Axis, Company, ReviewStatus } from "@/types";
+import type { Axis, Company, CompositeGroup, ReviewStatus } from "@/types";
 import { Card } from "@/components/ui/card";
 import { ScoreBadge } from "@/components/ui/score-badge";
 import { StatusDropdown } from "@/components/scorecard/status-buttons";
 import { AxisMiniBars } from "@/components/companies/axis-mini-bars";
-import { computeOverallScore } from "@/lib/scoring";
+import { resolveOverallScore } from "@/lib/scoring";
 import { isDuplicateRisk } from "@/lib/duplicate-risk";
 import { formatKRW, cn } from "@/lib/utils";
 
@@ -21,6 +21,7 @@ const COLUMNS: { status: ReviewStatus; label: string; tone: string }[] = [
 export function CompaniesBoard({
   companies,
   weights,
+  groupWeights,
   latestYear,
   statuses,
   onSetStatus,
@@ -30,6 +31,7 @@ export function CompaniesBoard({
 }: {
   companies: Company[];
   weights: Record<Axis, number>;
+  groupWeights: Record<CompositeGroup, number>;
   latestYear: number;
   statuses: Record<number, ReviewStatus>;
   onSetStatus: (id: number, status: ReviewStatus) => void;
@@ -104,7 +106,7 @@ export function CompaniesBoard({
                     </div>
                     <div className="flex shrink-0 items-center gap-1">
                       {dupRisk && <AlertTriangle className="h-3.5 w-3.5 text-bad" />}
-                      <ScoreBadge score={computeOverallScore(c.scores, weights)} size="sm" />
+                      <ScoreBadge score={resolveOverallScore(c, groupWeights, weights)} size="sm" />
                     </div>
                   </div>
 

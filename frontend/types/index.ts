@@ -20,6 +20,25 @@ export type Segment = (typeof SEGMENTS)[number];
 
 export type AxisScores = Record<Axis, number | null>;
 
+// 종합점수 그룹(재무/기술/정합성) + 재무 세부축 이름. 프론트 가중치 조정 UI가 참조.
+export const COMPOSITE_GROUPS = ["finance", "tech", "alignment"] as const;
+export type CompositeGroup = (typeof COMPOSITE_GROUPS)[number];
+
+// compositeScore.breakdown 키 — 재무4축 + 기술2축 + 정합성. 백엔드 composite_score.py와 동일.
+export const COMPOSITE_AXES = ["성장성", "수익성", "효율성", "안정성", "R&D특허", "NTIS", "정합성"] as const;
+export type CompositeAxis = (typeof COMPOSITE_AXES)[number];
+
+// 종합점수(심사 스크리닝용 보조 지표) — docs/종합점수_설계노트.md.
+// 축별 breakdown이 진짜 판단 근거이므로 항상 함께 노출할 것(종합점수 단독 표기 금지).
+export interface CompositeScore {
+  score: number | null;               // min(가중평균, 최저축+cap_margin)
+  rawWeightedAverage: number | null;  // 캡 적용 전 가중평균(참고용)
+  lowestAxis: CompositeAxis | null;
+  lowestAxisScore: number | null;
+  validAxisRatio: number;
+  breakdown: Record<CompositeAxis, number | null>;
+}
+
 export interface TrendPoint {
   year: number;
   value: number | null;
@@ -99,6 +118,7 @@ export interface Company {
   businessFit: BusinessFit | null;     // 축8 (LLM 정합성 판정)
   duplicateFlag: DuplicateFlag | null; // 축9 (반복지원 flag)
   tech: Tech | null;                   // 축4·5·6 기술력(원장 기반)
+  compositeScore: CompositeScore | null; // 재무4축+기술2축+정합성, 최저축 캡 적용
 }
 
 // 축4 R&D·특허 / 축5 인증 / 축6 NTIS / 축4-1 기술도메인.
@@ -217,11 +237,17 @@ export interface Note {
   mentions: NoteMention[];
 }
 
-// 챗봇 — DeepSeek 텍스트투SQL 결과. rows/columns는 UI가 표로 렌더링,
-// answer는 담당자용 한/두 문장 요약, sql은 신뢰 확보용 노출.
+// 챗봇 — action에 따라 채워지는 필드가 다르다.
+//   navigate: path 채움. 프론트가 router.push. sql/columns/rows 비어있음.
+//   query:    sql/columns/rows/answer 전부 채움. path=null.
+//   clarify:  answer만 채움 (요청 처리 불가 사유).
+export type ChatbotAction = "navigate" | "query" | "clarify";
+
 export interface ChatbotAnswer {
   question: string;
+  action: ChatbotAction;
   intent: string;
+  path: string | null;
   sql: string;
   columns: string[];
   rows: Record<string, unknown>[];

@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, Info } from "lucide-react";
-import type { Axis, Company, ReviewStatus } from "@/types";
+import type { Axis, Company, CompositeGroup, ReviewStatus } from "@/types";
 import { Table, THead, TBody, TR, TH, TD } from "@/components/ui/table";
 import { Pagination } from "@/components/ui/pagination";
 import { Badge } from "@/components/ui/badge";
 import { ScoreBadge } from "@/components/ui/score-badge";
 import { AxisMiniBars } from "@/components/companies/axis-mini-bars";
-import { computeOverallScore } from "@/lib/scoring";
+import { resolveOverallScore } from "@/lib/scoring";
 import { cn } from "@/lib/utils";
 import type { SortDir, SortKey } from "@/lib/company-filters";
 
@@ -26,6 +26,7 @@ const MAX_COMPARE = 4;
 export function CompaniesTable({
   companies,
   weights,
+  groupWeights,
   statuses,
   selectedIds,
   onToggleSelect,
@@ -37,6 +38,7 @@ export function CompaniesTable({
 }: {
   companies: Company[];
   weights: Record<Axis, number>;
+  groupWeights: Record<CompositeGroup, number>;
   statuses: Record<number, ReviewStatus>;
   selectedIds: Set<number>;
   onToggleSelect: (id: number) => void;
@@ -97,7 +99,7 @@ export function CompaniesTable({
                   <p className="max-w-[220px] truncate text-[11px] text-muted-foreground">{c.industry ?? "-"}</p>
                 </TD>
                 <TD>
-                  <ScoreBadge score={computeOverallScore(c.scores, weights)} size="sm" />
+                  <ScoreBadge score={resolveOverallScore(c, groupWeights, weights)} size="sm" />
                 </TD>
                 <TD>
                   <AxisMiniBars scores={c.scores} />

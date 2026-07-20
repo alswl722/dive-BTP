@@ -23,6 +23,7 @@ if str(_APP_PARENT) not in sys.path:
 from app.services import axis8 as axis8_svc  # noqa: E402
 from app.services import axis8_llm as axis8_llm_svc  # noqa: E402
 from app.services import axis9 as axis9_svc  # noqa: E402
+from app.services import composite_score as composite_svc  # noqa: E402
 
 KEY = "기업일련번호"
 CERTS = ["이노비즈", "메인비즈", "벤처기업", "소재부품", "NET", "NEP"]
@@ -434,6 +435,8 @@ def build_companies(
     _, axis9_flags = _prepare_axis9_batch(sr, score)
     # 축4·5·6 + 도메인 (원장 기반 — master 집계컬럼 대체)
     tech_by_id = _prepare_tech_batch(tech_tables)
+    # 종합점수 config — 배치 전체에서 한 번만 로드
+    composite_weights = composite_svc.load_weights()
 
     # 기업별 사업목적 lookup
     purposes_by_id: dict[int, list[str]] = {}
@@ -461,6 +464,23 @@ def build_companies(
             for y, c in ym.items():
                 if pd.isna(pd.to_numeric(m[c], errors="coerce")):
                     missing.append(f"{hint}_{y}")
+
+        business_fit = build_business_fit(
+            cid, clean(m[ksic_col]) if ksic_col else None,
+            sr, sp, whitelist, accept_conf,
+            purposes=purposes_by_id.get(cid, []),
+            llm_cache=llm_cache,
+        )
+
+        # 종합점수 — 재무4축 + 기술2축(R&D특허/NTIS) + 축8 정합성.
+        # 축9(duplicateFlag)는 설계상 역량 스코어 미포함 → 별도 필드로만 병기(docs/축9_설계노트.md).
+        composite_axis_scores = {
+            **{a: clean(s.get(f"{a}점수")) for a in AXES},
+            "R&D특허": clean(_t.get("R&D특허점수")) if _t else None,
+            "NTIS": clean(_t.get("NTIS점수")) if _t else None,
+            "정합성": business_fit.get("score") if business_fit else None,
+        }
+        composite = composite_svc.compute_composite_score(cid, composite_axis_scores, composite_weights)
 
         companies.append({
             "id": cid,
@@ -507,12 +527,18 @@ def build_companies(
             },
             "percentileBasis": clean(s.get("백분위기준")),
             "dataQuality": {"missing": missing, "ok": len(missing) == 0},
-            "businessFit": build_business_fit(
-                cid, clean(m[ksic_col]) if ksic_col else None,
-                sr, sp, whitelist, accept_conf,
-                purposes=purposes_by_id.get(cid, []),
-                llm_cache=llm_cache,
-            ),
+            "businessFit": business_fit,
+            # 심사 스크리닝/정렬용 보조 지표. 축별 breakdown(scores/tech.scores/businessFit.score)이
+            # 진짜 판단 근거 — 종합점수만 보고 판단하지 않도록 화면에 항상 함께 노출할 것.
+            # (docs/재무축_설계노트.md §5 "종합점수 없음" 원칙 위에 얹은 보조 지표, 그 원칙을 뒤집지 않음)
+            "compositeScore": {
+                "score": composite.score,
+                "rawWeightedAverage": composite.raw_weighted_average,
+                "lowestAxis": composite.lowest_axis,
+                "lowestAxisScore": composite.lowest_axis_score,
+                "validAxisRatio": composite.valid_axis_ratio,
+                "breakdown": composite.breakdown,
+            },
             "duplicateFlag": axis9_flags.get(cid),
             "_mock": _compute_mock_flags(build_business_fit_result=None),
         })

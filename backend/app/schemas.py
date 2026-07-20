@@ -21,6 +21,9 @@ AlignmentSource = Literal["whitelist", "llm", "pending"]
 FlagStatus = Literal["flag", "cleared", "observe", "normal", "unknown"]
 Segment = Literal["소액다건", "대형소수", "대형다건", "소액소수"]
 
+# 종합점수(심사 스크리닝용 보조 지표) breakdown 키 — 재무4축+기술2축+정합성
+CompositeAxis = Literal["성장성", "수익성", "효율성", "안정성", "R&D특허", "NTIS", "정합성"]
+
 
 class TrendPoint(BaseModel):
     year: int
@@ -174,6 +177,20 @@ class DuplicateFlag(BaseModel):
     maxConsecutiveYears: int
 
 
+class CompositeScore(BaseModel):
+    """종합점수(심사 스크리닝용 보조 지표). docs/종합점수_설계노트.md.
+
+    축별 breakdown이 진짜 판단 근거이므로 항상 함께 노출할 것(단독 표기 금지).
+    """
+
+    score: float | None = Field(None, ge=0, le=100)  # min(가중평균, 최저축+cap_margin)
+    rawWeightedAverage: float | None = None  # 캡 적용 전 가중평균(참고용)
+    lowestAxis: CompositeAxis | None = None
+    lowestAxisScore: float | None = None
+    validAxisRatio: float
+    breakdown: dict[CompositeAxis, float | None]
+
+
 class Company(BaseModel):
     id: int
     name: str
@@ -197,6 +214,7 @@ class Company(BaseModel):
     dataQuality: DataQuality
     reviewStatus: ReviewStatus = "후보"
     businessFit: BusinessFit | None = None       # 축8 (LLM 정합성 판정)
+    compositeScore: CompositeScore | None = None  # 재무4축+기술2축+정합성, 최저축 캡 적용
     duplicateFlag: DuplicateFlag | None = None   # 축9 (반복지원 flag)
     # company_view.py 산출물의 키는 "_mock"(밑줄 시작 = pydantic이 private로 취급하는
     # 이름이라 그대로 필드명으로 못 씀) → alias로 매핑. populate_by_name=True로 입력 시
@@ -267,14 +285,21 @@ class ChatbotAsk(BaseModel):
 
 
 class ChatbotAnswer(BaseModel):
-    """자연어 조회 결과. rows/columns는 UI가 표로 렌더링, answer는 담당자용 한 문장 요약."""
+    """챗봇 응답 — action에 따라 채워지는 필드가 다르다.
+
+    - navigate: path 채움. 프론트가 router.push. sql/columns/rows 비어있음.
+    - query:    sql/columns/rows/answer 전부 채움. path=null.
+    - clarify:  answer만 채움 (요청 처리 불가 사유).
+    """
 
     question: str
+    action: Literal["navigate", "query", "clarify"] = "query"
     intent: str                              # LLM이 이 질문을 어떻게 해석했는지(한 문장)
-    sql: str                                 # 실행된 SELECT (담당자 신뢰 확보용 노출)
-    columns: list[str]                       # 결과 컬럼 순서
-    rows: list[dict]                         # 결과 (최대 200행)
-    answer: str                              # 담당자용 한/두 문장 요약
+    path: str | None = None                  # action=navigate에서 채워짐 — /companies/{id} 등
+    sql: str = ""                            # 실행된 SELECT (query에서만)
+    columns: list[str] = Field(default_factory=list)
+    rows: list[dict] = Field(default_factory=list)
+    answer: str                              # 담당자용 한/두 문장 (모든 action에서 채워짐)
     error: str | None = None
 
 

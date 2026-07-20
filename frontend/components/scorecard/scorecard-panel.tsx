@@ -11,7 +11,7 @@ import { DuplicateRiskTab } from "@/components/scorecard/tabs/duplicate-risk-tab
 import { BusinessFitTab } from "@/components/scorecard/tabs/business-fit-tab";
 import { ReviewSummary } from "@/components/scorecard/review-summary";
 import { NoteComposer } from "@/components/scorecard/note-composer";
-import type { Axis, Company } from "@/types";
+import type { Axis, Company, CompositeGroup } from "@/types";
 
 const TAB_LIST = ["개요", "재무", "R&D", "지원이력", "중복수혜", "사업정체성"] as const;
 type Tab = (typeof TAB_LIST)[number];
@@ -20,19 +20,21 @@ export function ScorecardPanel({
   company,
   latestYear,
   weights,
+  groupWeights,
   onClose,
   onExpand,
 }: {
   company: Company;
   latestYear: number;
   weights?: Record<Axis, number>;
+  groupWeights?: Record<CompositeGroup, number>;
   onClose?: () => void;
   onExpand?: () => void;
 }) {
   const [tab, setTab] = useState<Tab>("개요");
   return (
     <div className="space-y-5">
-      <ScorecardHeader company={company} latestYear={latestYear} weights={weights} onClose={onClose} onExpand={onExpand} />
+      <ScorecardHeader company={company} latestYear={latestYear} weights={weights} groupWeights={groupWeights} onClose={onClose} onExpand={onExpand} />
       {/* 심사 요약 — 탭에 흩어진 축별 결론·위험 신호를 한곳에. 클릭 시 해당 탭으로 이동 */}
       <ReviewSummary company={company} latestYear={latestYear} onJumpTab={(t) => setTab(t as Tab)} />
       <Tabs tabs={[...TAB_LIST]} active={tab} onChange={(t) => setTab(t as Tab)} />

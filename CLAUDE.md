@@ -63,6 +63,7 @@
 4. **권한은 필터로, 뷰는 하나로** — 부서별 화면을 따로 만들지 않는다. 담당자/관리자 role에 따라 동일 컴포넌트에 쿼리 필터만 다르게 적용
 5. **문서화 필수** — 각 담당자는 자기 축 구현 시 `docs/<축이름>_설계노트.md`에 ①살린 데이터 특성과 방어 결정 ②만든 파생컬럼이 무엇을·왜 ③정규화·스코어링 근거를 기록한다. 발표 자료와 팀 상호 참고의 근거가 된다. (예시: `docs/재무축_설계노트.md`)
 6. **git 기여 표기 금지** — 커밋 메시지·PR 본문·코드 주석 등 git에 올라가는 어떤 곳에도 Claude/AI 기여 표기(`Co-Authored-By: Claude`, "Generated with Claude Code", 🤖 등)를 넣지 않는다
+7. **커밋/브랜치 규칙** — `<type>(<scope>): <한글 요약>` 형식. type은 feat/fix/refactor/chore/docs/test/style, scope는 폴더 기준(etl/api/db/frontend/infra/docs, 애매하면 생략). `dev`에 직접 커밋 금지, `feature/<주제>` 브랜치 파서 PR로 병합
 
 ## 폴더 구조
 

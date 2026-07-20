@@ -13,14 +13,19 @@ export default async function DashboardPage() {
   const [companies, programs, dash] = await Promise.all([listCompanies(), listPrograms(), getDashboard()]);
 
   const referenceDate = dashboardReferenceDate(programs);
-  const ongoing = activePrograms(programs, referenceDate)
+  // 배정 여부는 클라이언트(localStorage)에만 있으므로 여기서는 거르지 않는다 —
+  // 심사 대상 사업 전체의 행을 만들어 넘기고, 내 배정 건만 고르는 일은 OngoingReviews가 한다.
+  // (진행중만 넘기면 배정받은 '완료' 사업이 메인에서 사라져 기업 선정 화면과 어긋난다)
+  const ongoing = programs
+    .filter((p) => p.applicantCount > 0)
     .map((p) => {
       const applicantIds = programApplicantIds(p, companies);
       const reviewedCount = applicantIds.filter((id) => companies.find((c) => c.id === id)?.reviewStatus !== "후보").length;
       return { program: p, applicantCount: applicantIds.length, reviewedCount };
     })
-    .sort((a, b) => (daysUntil(a.program.endDate, referenceDate) ?? 0) - (daysUntil(b.program.endDate, referenceDate) ?? 0))
-    .slice(0, 4);
+    .sort((a, b) => (daysUntil(a.program.endDate, referenceDate) ?? 0) - (daysUntil(b.program.endDate, referenceDate) ?? 0));
+
+  const activeCount = activePrograms(programs, referenceDate).length;
 
   const upcoming = programs
     .filter((p) => p.applicantCount > 0 && p.endDate)
@@ -36,7 +41,7 @@ export default async function DashboardPage() {
           안녕하세요, <RoleGreeting />님
         </h1>
         <p className="mt-1 text-[13px] text-muted-foreground">
-          이번 사업 총 지원 기업은 {dash.totalCompanies}개, 진행 중인 사업은 {ongoing.length}건입니다.
+          이번 사업 총 지원 기업은 {dash.totalCompanies}개, 진행 중인 사업은 {activeCount}건입니다.
           <span className="ml-1 text-[11px]">(기준일 {formatDate(referenceDate)} · 표본 지원이력 최신연도 기준)</span>
         </p>
       </div>

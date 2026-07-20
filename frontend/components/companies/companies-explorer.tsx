@@ -225,9 +225,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
               <CompaniesTable
                 companies={sorted}
                 weights={weights}
-                latestYear={latestYear}
                 statuses={statuses}
-                onSetStatus={setStatus}
                 selectedIds={selectedIds}
                 onToggleSelect={toggleSelect}
                 onOpenDetail={setOpenId}

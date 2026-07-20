@@ -1,19 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ChevronDown, ChevronUp, AlertTriangle, Info } from "lucide-react";
+import { ChevronDown, ChevronUp, Info } from "lucide-react";
 import type { Axis, Company, ReviewStatus } from "@/types";
 import { Table, THead, TBody, TR, TH, TD } from "@/components/ui/table";
 import { Pagination } from "@/components/ui/pagination";
 import { Badge } from "@/components/ui/badge";
 import { ScoreBadge } from "@/components/ui/score-badge";
-import { StatusButtons } from "@/components/scorecard/status-buttons";
 import { AxisMiniBars } from "@/components/companies/axis-mini-bars";
 import { computeOverallScore } from "@/lib/scoring";
-import { isDuplicateRisk } from "@/lib/duplicate-risk";
-import { CERT_ABBREV } from "@/lib/constants";
-import { formatKRW, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import type { SortDir, SortKey } from "@/lib/company-filters";
+
+/** 심사 상태 → 뱃지 색. 컬럼을 없애고 기업명 옆에 붙이면서 한 곳으로 모았다. */
+const STATUS_VARIANT: Record<ReviewStatus, "good" | "bad" | "warn" | "secondary"> = {
+  선정: "good",
+  제외: "bad",
+  보류: "warn",
+  후보: "secondary",
+};
 
 const PAGE_SIZE = 8;
 const MAX_COMPARE = 4;
@@ -21,9 +26,7 @@ const MAX_COMPARE = 4;
 export function CompaniesTable({
   companies,
   weights,
-  latestYear,
   statuses,
-  onSetStatus,
   selectedIds,
   onToggleSelect,
   onOpenDetail,
@@ -34,9 +37,7 @@ export function CompaniesTable({
 }: {
   companies: Company[];
   weights: Record<Axis, number>;
-  latestYear: number;
   statuses: Record<number, ReviewStatus>;
-  onSetStatus: (id: number, status: ReviewStatus) => void;
   selectedIds: Set<number>;
   onToggleSelect: (id: number) => void;
   onOpenDetail: (id: number) => void;
@@ -60,20 +61,16 @@ export function CompaniesTable({
           <TR>
             <TH className="w-8"></TH>
             {/* 폭 명시 — 자동 배분 시 이 열이 남는 공간을 다 흡수해 최근매출과 사이가 벌어지던 문제 해소 */}
-            <TH className="w-[220px]">기업 · 업종</TH>
-            <SortableTH label="최근매출" active={sortKey === "revenueLatest"} dir={sortDir} onClick={() => onSort("revenueLatest")} />
+            <TH className="w-[260px]">기업 · 업종</TH>
             <SortableTH label="종합점수" active={sortKey === "overall"} dir={sortDir} onClick={() => onSort("overall")} />
             <TH className="w-[172px]">4축 점수</TH>
-            <TH>인증</TH>
+            <SortableTH label="R&D 점수" active={sortKey === "techScore"} dir={sortDir} onClick={() => onSort("techScore")} />
             <SortableTH label="지원건수" active={sortKey === "supportCount"} dir={sortDir} onClick={() => onSort("supportCount")} />
-            <TH className="text-center">상태</TH>
           </TR>
         </THead>
         <TBody>
           {pageItems.map((c) => {
             const status = statuses[c.id] ?? c.reviewStatus;
-            const dupRisk = isDuplicateRisk(c, latestYear);
-            const certs = Object.entries(c.certifications).filter(([, v]) => v).map(([k]) => k);
             return (
               <TR
                 key={c.id}
@@ -90,10 +87,15 @@ export function CompaniesTable({
                   />
                 </TD>
                 <TD>
-                  <p className="font-medium">{c.name}</p>
-                  <p className="max-w-[180px] truncate text-[11px] text-muted-foreground">{c.industry ?? "-"}</p>
+                  {/* 상태는 별도 컬럼 대신 기업명 옆 뱃지로 — 변경은 상세 패널·일괄 처리에서 */}
+                  <p className="flex items-center gap-1.5 font-medium">
+                    <span className="truncate">{c.name}</span>
+                    <Badge variant={STATUS_VARIANT[status]} className="shrink-0 px-1.5 py-0 text-[10px]">
+                      {status}
+                    </Badge>
+                  </p>
+                  <p className="max-w-[220px] truncate text-[11px] text-muted-foreground">{c.industry ?? "-"}</p>
                 </TD>
-                <TD className="tabular-nums">{formatKRW(c.revenueLatest)}</TD>
                 <TD>
                   <ScoreBadge score={computeOverallScore(c.scores, weights)} size="sm" />
                 </TD>
@@ -101,24 +103,10 @@ export function CompaniesTable({
                   <AxisMiniBars scores={c.scores} />
                 </TD>
                 <TD>
-                  <div className="flex gap-1">
-                    {certs.slice(0, 3).map((cert) => (
-                      <Badge key={cert} variant="good" className="px-1.5 py-0 text-[10px]">
-                        {CERT_ABBREV[cert] ?? cert}
-                      </Badge>
-                    ))}
-                    {certs.length === 0 && <span className="text-xs text-muted-foreground">-</span>}
-                  </div>
+                  {/* 축4 R&D·특허 점수. 기술 데이터가 없는 기업은 0이 아니라 '-' */}
+                  <ScoreBadge score={c.tech?.scores.rndPatent ?? null} size="sm" />
                 </TD>
-                <TD className="tabular-nums">
-                  <span className="inline-flex items-center gap-1">
-                    {c.support.건수 ?? 0}건
-                    {dupRisk && <AlertTriangle className="h-3 w-3 text-bad" />}
-                  </span>
-                </TD>
-                <TD onClick={(e) => e.stopPropagation()} className="text-center">
-                  <StatusButtons status={status} onChange={(next) => onSetStatus(c.id, next)} size="sm" />
-                </TD>
+                <TD className="tabular-nums">{c.support.건수 ?? 0}건</TD>
               </TR>
             );
           })}

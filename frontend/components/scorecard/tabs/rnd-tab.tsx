@@ -1,8 +1,19 @@
-import { AlertTriangle, Check, Info, X } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { AlertTriangle, Check, ChevronDown, Info, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/ui/stat-card";
 import type { Company, Tech } from "@/types";
 import { cn } from "@/lib/utils";
+
+/** 동종 대비 백분위를 담당자 언어로. 표본 부족이면 기준을 함께 알린다. */
+function rankText(p: number | null | undefined, basis: string | null | undefined): string | null {
+  if (p == null) return null;
+  const top = Math.max(1, Math.round(100 - p));
+  const scope = basis === "전체fallback" ? "전체" : "동종";
+  return `${scope} 상위 ${top}%`;
+}
 
 const pct = (v: number | null | undefined) => (v == null ? "—" : `${Math.round(v * 100)}%`);
 const num = (v: number | null | undefined) => (v == null ? "—" : `${v}`);
@@ -15,6 +26,7 @@ const LAPSE_ALERT = 0.1;
 
 export function RndTab({ company }: { company: Company }) {
   const tech = company.tech;
+  const basis = tech?.scores.백분위기준;
 
   return (
     <div className="space-y-6">
@@ -25,29 +37,43 @@ export function RndTab({ company }: { company: Company }) {
         <StatCard
           label="특허 등록"
           value={`${company.patents.등록 ?? 0}건`}
-          sub={tech ? `전환율 ${pct(tech.patents.등록전환율)}` : undefined}
+          sub={tech ? rankText(tech.percentiles["특허등록"], basis) ?? `전환율 ${pct(tech.patents.등록전환율)}` : undefined}
         />
-        <StatCard label="특허 출원" value={`${company.patents.출원 ?? 0}건`} sub="상표·디자인 제외" />
+        <StatCard
+          label="특허 출원"
+          value={`${company.patents.출원 ?? 0}건`}
+          sub={tech ? rankText(tech.percentiles["특허출원"], basis) ?? "상표·디자인 제외" : "상표·디자인 제외"}
+        />
         <StatCard
           label="NTIS 주관"
           value={`${company.ntis.주관 ?? 0}건`}
-          sub={tech ? `${num(tech.ntis.부처다양성)}개 부처` : undefined}
+          sub={tech ? rankText(tech.percentiles["NTIS과제수"], basis) ?? `${num(tech.ntis.부처다양성)}개 부처` : undefined}
         />
         <StatCard label="NTIS 위탁" value={`${company.ntis.위탁 ?? 0}건`} />
       </div>
+      {tech?.scores.백분위기준 === "전체fallback" && (
+        <p className="-mt-3 text-[11px] text-muted-foreground">
+          ※ 동종업계 표본이 부족해 전체 기업 대비로 계산했습니다.
+        </p>
+      )}
 
       {tech && (
         <>
           <PatentFunnel patents={tech.patents} />
           <TechWarnings tech={tech} />
           <div className="grid gap-3 sm:grid-cols-2">
-            <StatCard label="R&D 집약도" value={pct(tech.rnd.집약도)} sub="연구개발비 ÷ 매출" />
+            <StatCard
+              label="R&D 집약도"
+              value={pct(tech.rnd.집약도)}
+              sub={rankText(tech.percentiles["R&D집약도"], basis) ?? "연구개발비 ÷ 매출"}
+            />
             <StatCard
               label="최근 3년 출원"
               value={`${tech.patents.최근3년출원 ?? 0}건`}
               sub={`전체의 ${pct(tech.patents.최근출원비중)}`}
             />
           </div>
+          <PatentDrilldown patents={tech.patentList} />
         </>
       )}
 
@@ -156,6 +182,63 @@ function FunnelBar({ label, value, max, tone }: { label: string; value: number; 
         <div className={cn("h-full rounded", tone)} style={{ width: `${width}%` }} />
       </div>
       <span className="w-10 shrink-0 text-right text-[12px] font-bold tabular-nums">{value}</span>
+    </div>
+  );
+}
+
+/**
+ * 특허 원장 드릴다운 — "등록 N건"의 근거를 담당자가 직접 확인.
+ *
+ * 집계 숫자만 보여주면 신뢰하기 어렵다. 원본 목록을 펼쳐 볼 수 있어야 하고,
+ * 화면 숫자와 같은 기준(기술 IP만)으로 필터돼 있어야 수가 어긋나지 않는다.
+ */
+function PatentDrilldown({ patents }: { patents: Tech["patentList"] }) {
+  const [open, setOpen] = useState(false);
+  if (!patents || patents.length === 0) return null;
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="flex w-full items-center justify-between rounded-lg border px-3.5 py-2.5 text-[12.5px] transition-colors hover:bg-muted/50"
+      >
+        <span className="font-bold">
+          특허 목록 <span className="font-normal text-muted-foreground">{patents.length}건 · 근거 확인</span>
+        </span>
+        <ChevronDown className={cn("h-4 w-4 text-muted-foreground transition-transform", open && "rotate-180")} />
+      </button>
+
+      {open && (
+        <div className="mt-2 overflow-hidden rounded-lg border">
+          <div className="grid grid-cols-[1fr_auto_auto_auto] gap-2 border-b bg-subtle px-3 py-2 text-[11px] font-medium text-muted-foreground">
+            <span>종류 · 상태</span>
+            <span className="text-right">출원일</span>
+            <span className="text-right">등록일</span>
+            <span className="text-right">권리</span>
+          </div>
+          <div className="max-h-[280px] divide-y overflow-y-auto">
+            {patents.map((p, i) => (
+              <div key={i} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-2 px-3 py-2 text-[11.5px]">
+                <span className="flex items-center gap-1.5">
+                  <span>{p.type}</span>
+                  <Badge variant={p.status === "등록" ? "good" : "secondary"} className="text-[10px]">
+                    {p.status}
+                  </Badge>
+                </span>
+                <span className="text-right tabular-nums text-muted-foreground">{p.applied ?? "—"}</span>
+                <span className="text-right tabular-nums text-muted-foreground">{p.registered ?? "—"}</span>
+                <span className={cn("text-right text-[10.5px]", p.valid === false ? "text-bad" : "text-muted-foreground")}>
+                  {p.status !== "등록" ? "—" : p.valid === false ? "소멸" : "유효"}
+                </span>
+              </div>
+            ))}
+          </div>
+          <p className="border-t bg-subtle px-3 py-2 text-[10.5px] text-muted-foreground">
+            기술 IP(특허권·실용신안)만 표시 — 상표권·디자인권은 R&amp;D 산출물이 아니라 집계·목록에서 제외됩니다.
+          </p>
+        </div>
+      )}
     </div>
   );
 }

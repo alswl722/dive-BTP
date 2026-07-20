@@ -322,7 +322,28 @@ def _prepare_tech_batch(tech_tables: dict | None) -> dict[int, dict]:
         e = extra.set_index(cid_col)
         e = e[[c for c in e.columns if c not in merged.columns]]  # 중복 컬럼 제외
         merged = merged.join(e)
-    return {int(cid): row.to_dict() for cid, row in merged.iterrows()}
+
+    out = {int(cid): row.to_dict() for cid, row in merged.iterrows()}
+
+    # 드릴다운용 특허 원장 — "등록 19건"의 근거를 담당자가 직접 확인할 수 있게.
+    # 집계와 같은 기준(기술 IP만)으로 필터해 화면 숫자와 목록이 어긋나지 않게 한다.
+    pat = tech_tables.get("patents")
+    if pat is not None and not pat.empty:
+        tech_ip = pat[pat["ip_type"].isin(aggregate_tech.IP_TECH)]
+        for cid, g in tech_ip.groupby(cid_col):
+            rows = []
+            for _, r in g.iterrows():
+                rows.append({
+                    "type": clean(r.get("ip_type")),
+                    "status": clean(r.get("reg_status")),
+                    "applied": str(r["applied_date"]) if pd.notna(r.get("applied_date")) else None,
+                    "registered": str(r["registered_date"]) if pd.notna(r.get("registered_date")) else None,
+                    "valid": bool(r["is_valid"]) if pd.notna(r.get("is_valid")) else None,
+                })
+            rows.sort(key=lambda x: x["applied"] or "", reverse=True)
+            if int(cid) in out:
+                out[int(cid)]["_patentList"] = rows
+    return out
 
 
 def _split_list(v) -> list[str]:
@@ -374,6 +395,20 @@ def _tech_block(t: dict) -> dict:
             "ntis": clean(t.get("NTIS점수")),
             "백분위기준": clean(t.get("백분위기준")),
         },
+        # 지표별 동종 대비 백분위(0~100). 절대값만으로는 "많은 건지" 알 수 없어
+        # 담당자가 판단하기 어렵다 — "동종 상위 N%"를 함께 보여주기 위함.
+        # ⚠️ 백분위기준이 '전체fallback'이면 동종 표본 부족이라는 뜻(화면에 표기).
+        "percentiles": {
+            "특허출원": clean(t.get("pct_특허출원_건수")),
+            "특허등록": clean(t.get("pct_특허등록_건수")),
+            "등록전환율": clean(t.get("pct_특허등록전환율")),
+            "최근출원비중": clean(t.get("pct_특허_최근출원비중")),
+            "R&D집약도": clean(t.get("pct_R&D집약도")),
+            "NTIS과제수": clean(t.get("pct_NTIS주관_과제수")),
+            "NTIS연구비": clean(t.get("pct_NTIS주관_정부연구비")),
+        },
+        # 드릴다운 — "등록 N건"의 근거. 화면 숫자와 같은 기준(기술 IP만)으로 필터됨.
+        "patentList": t.get("_patentList") or [],
     }
 
 

@@ -2,6 +2,8 @@
 
 import type { ReactNode } from "react";
 import { RoleProvider } from "@/lib/roles";
+import { AuthProvider } from "@/lib/auth";
+import { AdminStateProvider } from "@/lib/admin-state";
 import { ReviewStatusProvider, UiProvider } from "@/lib/app-state";
 import type { ReviewStatus } from "@/types";
 
@@ -13,10 +15,14 @@ export function Providers({
   children: ReactNode;
 }) {
   return (
-    <RoleProvider>
-      <ReviewStatusProvider initial={initialReviewStatus}>
-        <UiProvider>{children}</UiProvider>
-      </ReviewStatusProvider>
-    </RoleProvider>
+    <AuthProvider>
+      <RoleProvider>
+        <ReviewStatusProvider initial={initialReviewStatus}>
+          <AdminStateProvider>
+            <UiProvider>{children}</UiProvider>
+          </AdminStateProvider>
+        </ReviewStatusProvider>
+      </RoleProvider>
+    </AuthProvider>
   );
 }

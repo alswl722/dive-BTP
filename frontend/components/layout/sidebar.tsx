@@ -4,10 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Home, ClipboardList, Building2, ListChecks, NotebookPen, ChevronsLeft, ChevronsRight, ChevronDown, User, Settings, LogOut, UserCog } from "lucide-react";
+import { Home, ClipboardList, Building2, ListChecks, NotebookPen, ShieldCheck, ChevronsLeft, ChevronsRight, ChevronDown, User, Settings, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUi, useReviewStatus } from "@/lib/app-state";
-import { useRole } from "@/lib/roles";
+import { useAuth, isAdmin } from "@/lib/auth";
 
 const NAV = [
   { href: "/", label: "메인 페이지", icon: Home },
@@ -17,12 +17,16 @@ const NAV = [
   { href: "/notes", label: "메모", icon: NotebookPen },
 ];
 
+/** 관리자 전용 — 담당자에게는 메뉴를 숨기고, AuthGate가 직접 진입도 차단한다. */
+const ADMIN_NAV = [{ href: "/admin", label: "관리자 콘솔", icon: ShieldCheck }];
+
 export function Sidebar() {
   const path = usePathname();
   const { sidebarCollapsed, toggleSidebar } = useUi();
   const { statuses } = useReviewStatus();
-  const { role, setRole } = useRole();
+  const { user, logout } = useAuth();
   const [profileOpen, setProfileOpen] = useState(false);
+  const nav = isAdmin(user) ? [...NAV, ...ADMIN_NAV] : NAV;
 
   const counts = { 후보: 0, 선정: 0, 제외: 0 };
   for (const s of Object.values(statuses)) {
@@ -44,7 +48,7 @@ export function Sidebar() {
       </div>
 
       <nav className="flex flex-col gap-1 p-3">
-        {NAV.map(({ href, label, icon: Icon }) => {
+        {nav.map(({ href, label, icon: Icon }) => {
           const active = href === "/" ? path === "/" : path.startsWith(href);
           return (
             <Link
@@ -94,15 +98,15 @@ export function Sidebar() {
             <div className="absolute bottom-full left-0 mb-2 w-[190px] overflow-hidden rounded-lg bg-white py-1 shadow-modal">
               <ProfileMenuItem icon={User} label="프로필 설정" onClick={() => setProfileOpen(false)} />
               <ProfileMenuItem icon={Settings} label="시스템 설정" onClick={() => setProfileOpen(false)} />
+              {/* 권한은 로그인 계정으로 정해지므로 임의 전환은 제공하지 않는다 */}
               <ProfileMenuItem
-                icon={UserCog}
-                label={`${role === "관리자" ? "담당자" : "관리자"}로 전환`}
+                icon={LogOut}
+                label="로그아웃"
                 onClick={() => {
-                  setRole(role === "관리자" ? "담당자" : "관리자");
                   setProfileOpen(false);
+                  logout();
                 }}
               />
-              <ProfileMenuItem icon={LogOut} label="로그아웃" onClick={() => setProfileOpen(false)} />
             </div>
           )}
           <div
@@ -125,10 +129,10 @@ export function Sidebar() {
             {!sidebarCollapsed && (
               <>
                 <div className="min-w-0 flex-1 text-left">
-                  <p className="truncate text-[12px] font-medium text-white">
-                    {role === "관리자" ? "전사 관리자" : "심사 담당자"}
+                  <p className="truncate text-[12px] font-medium text-white">{user?.name ?? "게스트"}</p>
+                  <p className="truncate text-[10.5px] text-sidebar-foreground/70">
+                    {user ? `${user.dept} · ${user.role}` : "미로그인"}
                   </p>
-                  <p className="truncate text-[10.5px] text-sidebar-foreground/70">기업지원팀 · {role}</p>
                 </div>
                 <ChevronDown className="h-3.5 w-3.5 shrink-0 text-sidebar-foreground/60" />
               </>

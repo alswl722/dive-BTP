@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { listCompanies, listPrograms, getDashboard } from "@/lib/api";
-import type { Program } from "@/types";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { RoleGreeting } from "@/components/dashboard/role-greeting";
 import { RecentlyViewedPanel } from "@/components/dashboard/recently-viewed-panel";
 import { NoticeList } from "@/components/notices/notice-list";
+import { OngoingReviews } from "@/components/dashboard/ongoing-reviews";
 import { daysUntil, formatDday, cn } from "@/lib/utils";
 import { dashboardReferenceDate, activePrograms, programApplicantIds } from "@/lib/program-progress";
 
@@ -17,7 +17,7 @@ export default async function DashboardPage() {
     .map((p) => {
       const applicantIds = programApplicantIds(p, companies);
       const reviewedCount = applicantIds.filter((id) => companies.find((c) => c.id === id)?.reviewStatus !== "후보").length;
-      return { program: p, applicantIds, reviewedCount };
+      return { program: p, applicantCount: applicantIds.length, reviewedCount };
     })
     .sort((a, b) => (daysUntil(a.program.endDate, referenceDate) ?? 0) - (daysUntil(b.program.endDate, referenceDate) ?? 0))
     .slice(0, 4);
@@ -50,23 +50,8 @@ export default async function DashboardPage() {
                 전체 사업 보기
               </Link>
             </div>
-            {ongoing.length === 0 ? (
-              <Card className="p-6 text-center text-[13px] text-muted-foreground">
-                기준일 기준으로 진행 중인 사업이 없습니다.
-              </Card>
-            ) : (
-              <div className="grid gap-3.5 sm:grid-cols-2">
-                {ongoing.map(({ program, applicantIds, reviewedCount }) => (
-                  <OngoingProgramCard
-                    key={`${program.year}:${program.programCode}`}
-                    program={program}
-                    referenceDate={referenceDate}
-                    applicantCount={applicantIds.length}
-                    reviewedCount={reviewedCount}
-                  />
-                ))}
-              </div>
-            )}
+            {/* 배정 필터는 클라이언트(sessionStorage)에서 — 서버는 행만 계산한다 */}
+            <OngoingReviews rows={ongoing} referenceDate={formatDate(referenceDate)} />
           </div>
         </div>
 
@@ -122,48 +107,5 @@ function DdayChip({ dday }: { dday: number }) {
     <span className={cn("shrink-0 rounded-md px-1.5 py-0.5 text-[10.5px] font-bold tabular-nums", tone)}>
       {formatDday(dday)}
     </span>
-  );
-}
-
-function OngoingProgramCard({
-  program,
-  referenceDate,
-  applicantCount,
-  reviewedCount,
-}: {
-  program: Program;
-  referenceDate: Date;
-  applicantCount: number;
-  reviewedCount: number;
-}) {
-  const dday = daysUntil(program.endDate, referenceDate) ?? 0;
-  const reviewPct = applicantCount ? Math.round((reviewedCount / applicantCount) * 100) : 0;
-  const selectedPct = applicantCount ? Math.round((program.selectedCount / applicantCount) * 100) : 0;
-
-  return (
-    <Card className="space-y-3 p-4">
-      <div className="flex items-center gap-2">
-        <DdayChip dday={dday} />
-        <Badge variant="info">{program.businessType ?? "기타"}</Badge>
-      </div>
-      <p className="text-[13.5px] font-bold leading-snug">{program.name}</p>
-      <p className="text-[11.5px] text-muted-foreground">
-        {reviewedCount}/{applicantCount}개 심사완료 · 선정 {program.selectedCount}건 · 미검토 {applicantCount - reviewedCount}건
-      </p>
-      <div className="space-y-1">
-        <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-          <div className="h-full rounded-full bg-info" style={{ width: `${reviewPct}%` }} />
-        </div>
-        <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-          <div className="h-full rounded-full bg-good" style={{ width: `${selectedPct}%` }} />
-        </div>
-      </div>
-      <Link
-        href={`/companies?program=${program.year}:${program.programCode}`}
-        className="block rounded-md bg-primary py-1.5 text-center text-[12px] font-medium text-primary-foreground hover:opacity-90"
-      >
-        이어서 심사하기
-      </Link>
-    </Card>
   );
 }

@@ -6,6 +6,8 @@ import { CheckCircle2, ClipboardCheck, Lock, LockOpen, ShieldCheck, Users } from
 import { Badge } from "@/components/ui/badge";
 import { Tabs } from "@/components/ui/tabs";
 import { useAdminState } from "@/lib/admin-state";
+import { useNotices } from "@/lib/notices";
+import { NoticeEditor } from "@/components/admin/notice-editor";
 import { useAuth, DEMO_ACCOUNTS } from "@/lib/auth";
 import { useReviewStatus } from "@/lib/app-state";
 import { computeOverallScore } from "@/lib/scoring";
@@ -13,13 +15,14 @@ import { dashboardReferenceDate, programApplicantIds } from "@/lib/program-progr
 import { cn } from "@/lib/utils";
 import type { Company, Program } from "@/types";
 
-const TAB_LIST = ["심사 잠금", "담당 배정", "사업 점검"] as const;
+const TAB_LIST = ["공지사항", "심사 잠금", "담당 배정", "사업 점검"] as const;
 type Tab = (typeof TAB_LIST)[number];
 
 export function AdminConsole({ companies, programs }: { companies: Company[]; programs: Program[] }) {
-  const [tab, setTab] = useState<Tab>("심사 잠금");
+  const [tab, setTab] = useState<Tab>("공지사항");
   const { user } = useAuth();
   const { locks, confirms } = useAdminState();
+  const { notices } = useNotices();
 
   const lockedCount = Object.values(locks).filter(Boolean).length;
   const confirmedCount = Object.values(confirms).filter(Boolean).length;
@@ -39,11 +42,12 @@ export function AdminConsole({ companies, programs }: { companies: Company[]; pr
       <div className="grid grid-cols-3 gap-3">
         <SummaryTile label="잠긴 기업" value={lockedCount} total={companies.length} />
         <SummaryTile label="점검 완료 사업" value={confirmedCount} total={programs.length} />
-        <SummaryTile label="등록 계정" value={DEMO_ACCOUNTS.length} />
+        <SummaryTile label="공지" value={notices.length} />
       </div>
 
       <Tabs tabs={[...TAB_LIST]} active={tab} onChange={(t) => setTab(t as Tab)} />
 
+      {tab === "공지사항" && <NoticeEditor />}
       {tab === "심사 잠금" && <LockPanel companies={companies} />}
       {tab === "담당 배정" && <AssignPanel programs={programs} companies={companies} />}
       {tab === "사업 점검" && <ConfirmPanel programs={programs} companies={companies} />}

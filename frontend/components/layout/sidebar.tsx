@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Home, ClipboardList, Building2, ListChecks, NotebookPen, ShieldCheck, ChevronsLeft, ChevronsRight, ChevronDown, User, Settings, LogOut } from "lucide-react";
+import { Home, ClipboardList, Building2, ListChecks, NotebookPen, Megaphone, ShieldCheck, ChevronsLeft, ChevronsRight, ChevronDown, User, Settings, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUi, useReviewStatus } from "@/lib/app-state";
 import { useAuth, isAdmin } from "@/lib/auth";
@@ -15,6 +15,7 @@ const NAV = [
   { href: "/companies", label: "기업 선정", icon: Building2 },
   { href: "/selected", label: "선정 목록", icon: ListChecks },
   { href: "/notes", label: "메모", icon: NotebookPen },
+  { href: "/notices", label: "공지사항", icon: Megaphone },
 ];
 
 /** 관리자 전용 — 담당자에게는 메뉴를 숨기고, AuthGate가 직접 진입도 차단한다. */

@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { RoleGreeting } from "@/components/dashboard/role-greeting";
 import { RecentlyViewedPanel } from "@/components/dashboard/recently-viewed-panel";
+import { NoticeList } from "@/components/notices/notice-list";
 import { daysUntil, formatDday, cn } from "@/lib/utils";
 import { dashboardReferenceDate, activePrograms, programApplicantIds } from "@/lib/program-progress";
 
@@ -70,6 +71,16 @@ export default async function DashboardPage() {
         </div>
 
         <div className="space-y-5">
+          <Card className="p-5">
+            <div className="mb-3 flex items-center justify-between">
+              <p className="text-[13px] font-bold">공지사항</p>
+              <Link href="/notices" className="text-[11.5px] text-primary hover:underline">
+                전체 보기
+              </Link>
+            </div>
+            <NoticeList compact limit={3} />
+          </Card>
+
           <Card className="p-5">
             <p className="mb-3 text-[13px] font-bold">마감 임박 사업</p>
             {upcoming.length === 0 ? (

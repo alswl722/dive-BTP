@@ -8,6 +8,7 @@ backend/etl/company_view.py의 build_* 함수를 그대로 재사용한다(expor
 from __future__ import annotations
 
 import sys
+import time
 from pathlib import Path
 
 import pandas as pd
@@ -22,12 +23,37 @@ if str(_ETL_DIR) not in sys.path:
 
 from company_view import KEY, build_companies, build_dashboard, build_rankings  # noqa: E402
 
+# 기업 수가 커지면(1,200+) 매 요청마다 7개 테이블을 다시 읽고 전체를 재조립하는 비용이
+# 커진다. 조립 결과(reviewStatus 붙이기 전)를 TTL 동안 캐싱 — reviewStatus(찜 상태)는
+# PATCH로 자주 바뀌므로 캐시 대상에서 제외하고 매 요청 최신값을 별도로 덧붙인다.
+_CACHE_TTL_SECONDS = 300
+_cache: dict = {"companies": None, "loaded_at": 0.0}
+
+
+def invalidate_cache() -> None:
+    """조립 캐시를 강제로 무효화한다(수동 새로고침·관리용 엔드포인트에서 사용)."""
+    _cache["companies"] = None
+    _cache["loaded_at"] = 0.0
+
+
+def _get_cached_companies() -> list[dict]:
+    """build_companies() 결과(reviewStatus 미포함)를 TTL 캐시로 재사용."""
+    now = time.monotonic()
+    if _cache["companies"] is None or (now - _cache["loaded_at"]) >= _CACHE_TTL_SECONDS:
+        score, feat, master, sr, sp, bp, llm_cache, tech = _load_source()
+        _cache["companies"] = build_companies(score, feat, master, sr, sp, bp, llm_cache, tech)
+        _cache["loaded_at"] = now
+    return _cache["companies"]
+
 
 def _with_review_status(rows: list[dict]) -> list[dict]:
     statuses = review_status_service.get_all_statuses()
+    out = []
     for row in rows:
+        row = dict(row)
         row["reviewStatus"] = statuses.get(row["id"], review_status_service.DEFAULT_STATUS)
-    return rows
+        out.append(row)
+    return out
 
 
 def company_exists(company_id: int) -> bool:
@@ -99,18 +125,14 @@ def _load_llm_cache(engine) -> dict:
 
 
 def list_companies() -> list[dict]:
-    score, feat, master, sr, sp, bp, llm_cache, tech = _load_source()
-    return _with_review_status(
-        build_companies(score, feat, master, sr, sp, bp, llm_cache, tech)
-    )
+    return _with_review_status(_get_cached_companies())
 
 
 def get_company(company_id: int) -> dict | None:
-    score, feat, master, sr, sp, bp, llm_cache, tech = _load_source()
-    score = score[score[KEY] == company_id]
-    if score.empty:
+    match = next((c for c in _get_cached_companies() if c["id"] == company_id), None)
+    if match is None:
         return None
-    company = build_companies(score, feat, master, sr, sp, bp, llm_cache, tech)[0]
+    company = dict(match)
     company["reviewStatus"] = review_status_service.get_status(company_id)
     return company
 

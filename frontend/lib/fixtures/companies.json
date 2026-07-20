@@ -169,96 +169,6 @@
       "주관": 6,
       "위탁": 1
     },
-    "support": {
-      "건수": 8,
-      "총지원금_천원": 360700.0,
-      "지원연도수": 3
-    },
-    "supportHistory": [
-      {
-        "date": "2024-05-17",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 25000.0,
-        "programCode": "B1_1_3",
-        "year": 2024,
-        "startDate": "2024-06-01",
-        "endDate": "2024-10-31"
-      },
-      {
-        "date": "2024-04-15",
-        "result": "선정",
-        "bizType": "기반구축",
-        "amount": 5900.0,
-        "programCode": "E3_1_1",
-        "year": 2024,
-        "startDate": "2024-04-15",
-        "endDate": "2024-11-30"
-      },
-      {
-        "date": "2023-06-20",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 50000.0,
-        "programCode": "B1_311",
-        "year": 2023,
-        "startDate": "2023-06-23",
-        "endDate": "2023-10-31"
-      },
-      {
-        "date": "2022-11-07",
-        "result": "선정",
-        "bizType": "스마트공장",
-        "amount": 50000.0,
-        "programCode": "L2_321",
-        "year": 2022,
-        "startDate": "2022-11-23",
-        "endDate": "2023-11-22"
-      },
-      {
-        "date": "2022-08-01",
-        "result": "선정",
-        "bizType": "스마트공장",
-        "amount": 10000.0,
-        "programCode": "L2_319",
-        "year": 2022,
-        "startDate": "2022-01-01",
-        "endDate": "2022-12-31"
-      },
-      {
-        "date": "2022-07-22",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 15000.0,
-        "programCode": "B4_304",
-        "year": 2022,
-        "startDate": "2022-06-01",
-        "endDate": "2022-10-31"
-      },
-      {
-        "date": "2022-05-13",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 28800.0,
-        "programCode": "B4_304",
-        "year": 2022,
-        "startDate": "2022-06-01",
-        "endDate": "2022-10-31"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": 0.010063967364521746,
-      "자본잠식_플래그": 0.0
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 19,
@@ -272,7 +182,7 @@
       },
       "rnd": {
         "집약도": 0.03166904700623724,
-        "집약도추세": 0.004446255644853549
+        "집약도추세": 0.00444625564485355
       },
       "ntis": {
         "주관과제수": 6,
@@ -447,6 +357,216 @@
         }
       ]
     },
+    "support": {
+      "건수": 8,
+      "총지원금_천원": 360700.0,
+      "지원연도수": 3
+    },
+    "supportHistory": [
+      {
+        "date": "2024-05-17",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 25000.0,
+        "programCode": "B1_1_3",
+        "year": 2024,
+        "startDate": "2024-06-01",
+        "endDate": "2024-10-31"
+      },
+      {
+        "date": "2024-04-15",
+        "result": "선정",
+        "bizType": "기반구축",
+        "amount": 5900.0,
+        "programCode": "E3_1_1",
+        "year": 2024,
+        "startDate": "2024-04-15",
+        "endDate": "2024-11-30"
+      },
+      {
+        "date": "2023-06-20",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 50000.0,
+        "programCode": "B1_311",
+        "year": 2023,
+        "startDate": "2023-06-23",
+        "endDate": "2023-10-31"
+      },
+      {
+        "date": "2022-11-07",
+        "result": "선정",
+        "bizType": "스마트공장",
+        "amount": 50000.0,
+        "programCode": "L2_321",
+        "year": 2022,
+        "startDate": "2022-11-23",
+        "endDate": "2023-11-22"
+      },
+      {
+        "date": "2022-08-01",
+        "result": "선정",
+        "bizType": "스마트공장",
+        "amount": 10000.0,
+        "programCode": "L2_319",
+        "year": 2022,
+        "startDate": "2022-01-01",
+        "endDate": "2022-12-31"
+      },
+      {
+        "date": "2022-07-22",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 15000.0,
+        "programCode": "B4_304",
+        "year": 2022,
+        "startDate": "2022-08-01",
+        "endDate": "2022-10-31"
+      },
+      {
+        "date": "2022-05-13",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 28800.0,
+        "programCode": "B4_304",
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-10-31"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": 0.010063967364521746,
+      "자본잠식_플래그": 0.0
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "8건 중 직접일치 7건 · 1건 판정 대기",
+      "totalJudged": 7,
+      "totalPending": 1,
+      "breakdown": {
+        "직접일치": 7,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 1
+      },
+      "judgments": [
+        {
+          "programCode": "B4_304",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B4_304",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "L2_319",
+          "year": 2022,
+          "programName": null,
+          "businessType": "스마트공장",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "스마트공장"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "L2_321",
+          "year": 2022,
+          "programName": null,
+          "businessType": "스마트공장",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "스마트공장"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_311",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "C3_1_2",
+          "year": 2024,
+          "programName": null,
+          "businessType": "스마트공장",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "스마트공장"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "E3_1_1",
+          "year": 2024,
+          "programName": null,
+          "businessType": "기반구축",
+          "score": null,
+          "matchType": "판단유보",
+          "matchedKeywords": [],
+          "reasoning": "LLM 시맨틱 판정 대기",
+          "source": "pending"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 64.5,
       "rawWeightedAverage": 72.5,
@@ -462,7 +582,22 @@
         "NTIS": 64.77272727272727,
         "정합성": 100.0
       }
-    }
+    },
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "대형다건",
+      "isHighDiversity": true,
+      "supportCount": 8,
+      "totalAmountThousand": 360700.0,
+      "businessTypeDiversity": 4,
+      "maxConsecutiveYears": 3
+    },
+    "_mock": [
+      "businessFit.llm"
+    ]
   },
   {
     "id": 616,
@@ -634,96 +769,6 @@
       "주관": 7,
       "위탁": 4
     },
-    "support": {
-      "건수": 7,
-      "총지원금_천원": 79223.0,
-      "지원연도수": 3
-    },
-    "supportHistory": [
-      {
-        "date": "2024-05-24",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 20000.0,
-        "programCode": "B1_1_3",
-        "year": 2024,
-        "startDate": "2024-06-17",
-        "endDate": "2024-10-31"
-      },
-      {
-        "date": "2024-05-24",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 10000.0,
-        "programCode": "B1_1_3",
-        "year": 2024,
-        "startDate": "2024-06-17",
-        "endDate": "2024-10-31"
-      },
-      {
-        "date": "2023-05-16",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 6000.0,
-        "programCode": "B5_301",
-        "year": 2023,
-        "startDate": "2023-05-01",
-        "endDate": "2023-07-31"
-      },
-      {
-        "date": "2023-01-24",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 9026.0,
-        "programCode": "E2_1_8",
-        "year": 2024,
-        "startDate": "2023-01-01",
-        "endDate": "2024-03-31"
-      },
-      {
-        "date": "2023-01-24",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 7397.0,
-        "programCode": "E2_1_8",
-        "year": 2024,
-        "startDate": "2023-01-01",
-        "endDate": "2024-03-31"
-      },
-      {
-        "date": "2022-08-26",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 13400.0,
-        "programCode": "H2_313",
-        "year": 2022,
-        "startDate": "2022-09-01",
-        "endDate": "2022-03-31"
-      },
-      {
-        "date": "2022-08-26",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 13400.0,
-        "programCode": "H2_313",
-        "year": 2023,
-        "startDate": "2022-09-01",
-        "endDate": "2023-03-31"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": -0.04968616196197957,
-      "자본잠식_플래그": 0.0
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 7,
@@ -737,7 +782,7 @@
       },
       "rnd": {
         "집약도": 0.49794910376477125,
-        "집약도추세": -0.03129550708516198
+        "집약도추세": -0.03129550708516197
       },
       "ntis": {
         "주관과제수": 7,
@@ -830,6 +875,205 @@
         }
       ]
     },
+    "support": {
+      "건수": 7,
+      "총지원금_천원": 79223.0,
+      "지원연도수": 3
+    },
+    "supportHistory": [
+      {
+        "date": "2024-05-24",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 20000.0,
+        "programCode": "B1_1_3",
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
+      },
+      {
+        "date": "2024-05-24",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 10000.0,
+        "programCode": "B1_1_3",
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
+      },
+      {
+        "date": "2023-05-16",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 6000.0,
+        "programCode": "B5_301",
+        "year": 2023,
+        "startDate": "2023-05-01",
+        "endDate": "2023-07-31"
+      },
+      {
+        "date": "2023-01-24",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 9026.0,
+        "programCode": "E2_1_8",
+        "year": 2024,
+        "startDate": "2023-01-01",
+        "endDate": "2024-03-31"
+      },
+      {
+        "date": "2023-01-24",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 7397.0,
+        "programCode": "E2_1_8",
+        "year": 2024,
+        "startDate": "2023-01-01",
+        "endDate": "2024-03-31"
+      },
+      {
+        "date": "2022-08-26",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 13400.0,
+        "programCode": "H2_313",
+        "year": 2022,
+        "startDate": "2022-09-01",
+        "endDate": "2022-03-31"
+      },
+      {
+        "date": "2022-08-26",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 13400.0,
+        "programCode": "H2_313",
+        "year": 2023,
+        "startDate": "2022-09-01",
+        "endDate": "2023-03-31"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": -0.04968616196197957,
+      "자본잠식_플래그": 0.0
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "7건 정합성 판정: 직접일치 7건",
+      "totalJudged": 7,
+      "totalPending": 0,
+      "breakdown": {
+        "직접일치": 7,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 0
+      },
+      "judgments": [
+        {
+          "programCode": "H2_313",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B5_301",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "H2_313",
+          "year": 2023,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "E2_1_8",
+          "year": 2024,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "E2_1_8",
+          "year": 2024,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 33.2,
       "rawWeightedAverage": 63.9,
@@ -845,7 +1089,20 @@
         "NTIS": 75.0,
         "정합성": 100.0
       }
-    }
+    },
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "소액소수",
+      "isHighDiversity": false,
+      "supportCount": 7,
+      "totalAmountThousand": 79223.0,
+      "businessTypeDiversity": 2,
+      "maxConsecutiveYears": 3
+    },
+    "_mock": []
   },
   {
     "id": 117,
@@ -1017,116 +1274,6 @@
       "주관": 1,
       "위탁": 0
     },
-    "support": {
-      "건수": 9,
-      "총지원금_천원": 103687.0,
-      "지원연도수": 3
-    },
-    "supportHistory": [
-      {
-        "date": "2024-05-24",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 20000.0,
-        "programCode": "B1_1_3",
-        "year": 2024,
-        "startDate": "2024-06-17",
-        "endDate": "2024-10-31"
-      },
-      {
-        "date": "2023-09-19",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 20000.0,
-        "programCode": "B1_311",
-        "year": 2023,
-        "startDate": "2023-08-22",
-        "endDate": "2023-11-03"
-      },
-      {
-        "date": "2023-08-22",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 3850.0,
-        "programCode": "B1_311",
-        "year": 2023,
-        "startDate": "2023-08-22",
-        "endDate": "2023-11-03"
-      },
-      {
-        "date": "2023-06-15",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 4730.0,
-        "programCode": "H2_318",
-        "year": 2023,
-        "startDate": "2023-04-01",
-        "endDate": "2024-03-31"
-      },
-      {
-        "date": "2023-06-15",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 4730.0,
-        "programCode": "E2_1_8",
-        "year": 2024,
-        "startDate": "2023-04-01",
-        "endDate": "2024-03-31"
-      },
-      {
-        "date": "2022-08-26",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 13400.0,
-        "programCode": "H2_313",
-        "year": 2022,
-        "startDate": "2022-09-01",
-        "endDate": "2022-03-31"
-      },
-      {
-        "date": "2022-08-26",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 13400.0,
-        "programCode": "H2_313",
-        "year": 2023,
-        "startDate": "2022-09-01",
-        "endDate": "2023-03-31"
-      },
-      {
-        "date": "2022-05-18",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 13200.0,
-        "programCode": "B2_306",
-        "year": 2022,
-        "startDate": "2022-06-01",
-        "endDate": "2022-11-30"
-      },
-      {
-        "date": "2021-12-23",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 10377.0,
-        "programCode": "B2_321",
-        "year": 2022,
-        "startDate": "2021-12-23",
-        "endDate": "2022-07-31"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": -0.0168167920286173,
-      "자본잠식_플래그": 0.0
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 22,
@@ -1140,7 +1287,7 @@
       },
       "rnd": {
         "집약도": 0.1336479955507051,
-        "집약도추세": 0.007171249009147221
+        "집약도추세": 0.007171249009147224
       },
       "ntis": {
         "주관과제수": 1,
@@ -1336,6 +1483,253 @@
         }
       ]
     },
+    "support": {
+      "건수": 9,
+      "총지원금_천원": 103687.0,
+      "지원연도수": 3
+    },
+    "supportHistory": [
+      {
+        "date": "2024-05-24",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 20000.0,
+        "programCode": "B1_1_3",
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
+      },
+      {
+        "date": "2023-09-19",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 20000.0,
+        "programCode": "B1_311",
+        "year": 2023,
+        "startDate": "2023-09-18",
+        "endDate": "2023-11-17"
+      },
+      {
+        "date": "2023-08-22",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 3850.0,
+        "programCode": "B1_311",
+        "year": 2023,
+        "startDate": "2023-08-22",
+        "endDate": "2023-11-03"
+      },
+      {
+        "date": "2023-06-15",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 4730.0,
+        "programCode": "H2_318",
+        "year": 2023,
+        "startDate": "2023-04-01",
+        "endDate": "2024-03-31"
+      },
+      {
+        "date": "2023-06-15",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 4730.0,
+        "programCode": "E2_1_8",
+        "year": 2024,
+        "startDate": "2023-04-01",
+        "endDate": "2024-03-31"
+      },
+      {
+        "date": "2022-08-26",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 13400.0,
+        "programCode": "H2_313",
+        "year": 2022,
+        "startDate": "2022-09-01",
+        "endDate": "2022-03-31"
+      },
+      {
+        "date": "2022-08-26",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 13400.0,
+        "programCode": "H2_313",
+        "year": 2023,
+        "startDate": "2022-09-01",
+        "endDate": "2023-03-31"
+      },
+      {
+        "date": "2022-05-18",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 13200.0,
+        "programCode": "B2_306",
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-11-30"
+      },
+      {
+        "date": "2021-12-23",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 10377.0,
+        "programCode": "B2_321",
+        "year": 2022,
+        "startDate": "2021-12-23",
+        "endDate": "2022-07-31"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": -0.0168167920286173,
+      "자본잠식_플래그": 0.0
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "9건 정합성 판정: 직접일치 9건",
+      "totalJudged": 9,
+      "totalPending": 0,
+      "breakdown": {
+        "직접일치": 9,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 0
+      },
+      "judgments": [
+        {
+          "programCode": "B2_306",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B2_321",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "H2_313",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_311",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_311",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "H2_313",
+          "year": 2023,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "H2_318",
+          "year": 2023,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "E2_1_8",
+          "year": 2024,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 44.5,
       "rawWeightedAverage": 65.1,
@@ -1351,7 +1745,20 @@
         "NTIS": 29.545454545454543,
         "정합성": 100.0
       }
-    }
+    },
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "소액다건",
+      "isHighDiversity": false,
+      "supportCount": 9,
+      "totalAmountThousand": 103687.0,
+      "businessTypeDiversity": 2,
+      "maxConsecutiveYears": 3
+    },
+    "_mock": []
   },
   {
     "id": 1878,
@@ -1523,56 +1930,6 @@
       "주관": 0,
       "위탁": 0
     },
-    "support": {
-      "건수": 3,
-      "총지원금_천원": 27000.0,
-      "지원연도수": 1
-    },
-    "supportHistory": [
-      {
-        "date": "2024-05-24",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 20000.0,
-        "programCode": "B1_1_3",
-        "year": 2024,
-        "startDate": "2024-06-17",
-        "endDate": "2024-10-31"
-      },
-      {
-        "date": "2024-05-24",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 5000.0,
-        "programCode": "B1_1_3",
-        "year": 2024,
-        "startDate": "2024-06-17",
-        "endDate": "2024-10-31"
-      },
-      {
-        "date": "2024-05-24",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 2000.0,
-        "programCode": "B1_1_3",
-        "year": 2024,
-        "startDate": "2024-06-17",
-        "endDate": "2024-10-31"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": -0.24185358207093607,
-      "자본잠식_플래그": 0.0
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 2,
@@ -1586,7 +1943,7 @@
       },
       "rnd": {
         "집약도": 0.06699542644816886,
-        "집약도추세": -0.0243883714621109
+        "집약도추세": -0.02438837146211089
       },
       "ntis": {
         "주관과제수": 0,
@@ -1642,6 +1999,109 @@
         }
       ]
     },
+    "support": {
+      "건수": 3,
+      "총지원금_천원": 27000.0,
+      "지원연도수": 1
+    },
+    "supportHistory": [
+      {
+        "date": "2024-05-24",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 20000.0,
+        "programCode": "B1_1_3",
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
+      },
+      {
+        "date": "2024-05-24",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 5000.0,
+        "programCode": "B1_1_3",
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
+      },
+      {
+        "date": "2024-05-24",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 2000.0,
+        "programCode": "B1_1_3",
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": -0.24185358207093607,
+      "자본잠식_플래그": 0.0
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "3건 정합성 판정: 직접일치 3건",
+      "totalJudged": 3,
+      "totalPending": 0,
+      "breakdown": {
+        "직접일치": 3,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 0
+      },
+      "judgments": [
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 24.1,
       "rawWeightedAverage": 56.7,
@@ -1657,7 +2117,20 @@
         "NTIS": 18.18181818181818,
         "정합성": 100.0
       }
-    }
+    },
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "소액소수",
+      "isHighDiversity": false,
+      "supportCount": 3,
+      "totalAmountThousand": 27000.0,
+      "businessTypeDiversity": 1,
+      "maxConsecutiveYears": 1
+    },
+    "_mock": []
   },
   {
     "id": 1786,
@@ -1829,226 +2302,6 @@
       "주관": 2,
       "위탁": 1
     },
-    "support": {
-      "건수": 21,
-      "총지원금_천원": 166960.0,
-      "지원연도수": 3
-    },
-    "supportHistory": [
-      {
-        "date": "2024-07-12",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 2600.0,
-        "programCode": "F1_1_2",
-        "year": 2024,
-        "startDate": "2024-05-01",
-        "endDate": "2024-11-30"
-      },
-      {
-        "date": "2024-06-21",
-        "result": "선정",
-        "bizType": "기타",
-        "amount": 6000.0,
-        "programCode": "B1_1_1",
-        "year": 2024,
-        "startDate": "2024-06-21",
-        "endDate": "2024-09-13"
-      },
-      {
-        "date": "2024-04-09",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 3000.0,
-        "programCode": "F1_1_2",
-        "year": 2024,
-        "startDate": "2024-05-01",
-        "endDate": "2024-11-30"
-      },
-      {
-        "date": "2024-02-16",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 2000.0,
-        "programCode": "F1_1_5",
-        "year": 2024,
-        "startDate": "2024-02-17",
-        "endDate": "2024-05-18"
-      },
-      {
-        "date": "2023-09-19",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 25000.0,
-        "programCode": "B1_311",
-        "year": 2023,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2023-09-18",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 7500.0,
-        "programCode": "T1_332",
-        "year": 2023,
-        "startDate": "2023-09-18",
-        "endDate": "2023-11-30"
-      },
-      {
-        "date": "2023-07-21",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 0,
-        "programCode": "T1_305",
-        "year": 2023,
-        "startDate": "2023-08-17",
-        "endDate": "2023-08-19"
-      },
-      {
-        "date": "2023-05-30",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 10000.0,
-        "programCode": "C3_303",
-        "year": 2023,
-        "startDate": "2023-06-01",
-        "endDate": "2023-12-31"
-      },
-      {
-        "date": "2023-03-24",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 25000.0,
-        "programCode": "C1_310",
-        "year": 2023,
-        "startDate": "2023-04-01",
-        "endDate": "2023-11-30"
-      },
-      {
-        "date": "2022-11-24",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 5555.0,
-        "programCode": "T2_311",
-        "year": 2022,
-        "startDate": "2022-11-24",
-        "endDate": "2023-03-20"
-      },
-      {
-        "date": "2022-11-24",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 25555.0,
-        "programCode": "T2_311",
-        "year": 2022,
-        "startDate": "2022-11-24",
-        "endDate": "2023-03-20"
-      },
-      {
-        "date": "2022-07-13",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 0,
-        "programCode": "T1_305",
-        "year": 2022,
-        "startDate": "2022-08-24",
-        "endDate": "2022-08-26"
-      },
-      {
-        "date": "2022-05-24",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 4750.0,
-        "programCode": "B2_308",
-        "year": 2022,
-        "startDate": "2022-06-01",
-        "endDate": "2022-11-30"
-      },
-      {
-        "date": "2022-05-19",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 15000.0,
-        "programCode": "B1_303",
-        "year": 2022,
-        "startDate": "2022-05-19",
-        "endDate": "2022-10-31"
-      },
-      {
-        "date": "2022-05-18",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 7000.0,
-        "programCode": "B2_306",
-        "year": 2022,
-        "startDate": "2022-06-01",
-        "endDate": "2022-11-30"
-      },
-      {
-        "date": "2022-04-28",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 10000.0,
-        "programCode": "B2_301",
-        "year": 2022,
-        "startDate": "2022-05-01",
-        "endDate": "2022-11-30"
-      },
-      {
-        "date": "2022-02-14",
-        "result": "선정",
-        "bizType": "기반구축",
-        "amount": 5800.0,
-        "programCode": "T1_201",
-        "year": 2022,
-        "startDate": "2022-05-12",
-        "endDate": "2022-05-12"
-      },
-      {
-        "date": "2021-11-26",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 4000.0,
-        "programCode": "X2_307",
-        "year": 2022,
-        "startDate": "2021-12-01",
-        "endDate": "2022-02-28"
-      },
-      {
-        "date": "2021-10-28",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 5000.0,
-        "programCode": "T2_316",
-        "year": 2022,
-        "startDate": "2021-11-01",
-        "endDate": "2022-02-28"
-      },
-      {
-        "date": "2021-05-01",
-        "result": "선정",
-        "bizType": "일자리창출or인력양성",
-        "amount": 3200.0,
-        "programCode": "B2_314",
-        "year": 2022,
-        "startDate": "2022-01-01",
-        "endDate": "2022-07-31"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": 0.44751322257274917,
-      "자본잠식_플래그": 0.0
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 24,
@@ -2062,7 +2315,7 @@
       },
       "rnd": {
         "집약도": 0.8964804279244729,
-        "집약도추세": -1.8080056275151788
+        "집약도추세": -1.8080056275151792
       },
       "ntis": {
         "주관과제수": 2,
@@ -2274,6 +2527,508 @@
         }
       ]
     },
+    "support": {
+      "건수": 21,
+      "총지원금_천원": 166960.0,
+      "지원연도수": 3
+    },
+    "supportHistory": [
+      {
+        "date": "2024-07-12",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 2600.0,
+        "programCode": "F1_1_2",
+        "year": 2024,
+        "startDate": "2024-07-12",
+        "endDate": "2024-11-30"
+      },
+      {
+        "date": "2024-06-21",
+        "result": "선정",
+        "bizType": "기타",
+        "amount": 6000.0,
+        "programCode": "B1_1_1",
+        "year": 2024,
+        "startDate": "2024-06-21",
+        "endDate": "2024-09-13"
+      },
+      {
+        "date": "2024-04-09",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 3000.0,
+        "programCode": "F1_1_2",
+        "year": 2024,
+        "startDate": "2024-05-01",
+        "endDate": "2024-11-30"
+      },
+      {
+        "date": "2024-02-16",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 2000.0,
+        "programCode": "F1_1_5",
+        "year": 2024,
+        "startDate": "2024-02-17",
+        "endDate": "2024-05-18"
+      },
+      {
+        "date": "2023-09-19",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 25000.0,
+        "programCode": "B1_311",
+        "year": 2023,
+        "startDate": "2023-09-18",
+        "endDate": "2023-11-17"
+      },
+      {
+        "date": "2023-09-18",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 7500.0,
+        "programCode": "T1_332",
+        "year": 2023,
+        "startDate": "2023-09-18",
+        "endDate": "2023-11-30"
+      },
+      {
+        "date": "2023-07-21",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 0,
+        "programCode": "T1_305",
+        "year": 2023,
+        "startDate": "2023-08-17",
+        "endDate": "2023-08-19"
+      },
+      {
+        "date": "2023-05-30",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 10000.0,
+        "programCode": "C3_303",
+        "year": 2023,
+        "startDate": "2023-06-01",
+        "endDate": "2023-12-31"
+      },
+      {
+        "date": "2023-03-24",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 25000.0,
+        "programCode": "C1_310",
+        "year": 2023,
+        "startDate": "2023-04-01",
+        "endDate": "2023-11-30"
+      },
+      {
+        "date": "2022-11-24",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 5555.0,
+        "programCode": "T2_311",
+        "year": 2022,
+        "startDate": "2022-11-24",
+        "endDate": "2023-03-20"
+      },
+      {
+        "date": "2022-11-24",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 25555.0,
+        "programCode": "T2_311",
+        "year": 2022,
+        "startDate": "2022-11-24",
+        "endDate": "2023-03-20"
+      },
+      {
+        "date": "2022-07-13",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 0,
+        "programCode": "T1_305",
+        "year": 2022,
+        "startDate": "2022-08-24",
+        "endDate": "2022-08-26"
+      },
+      {
+        "date": "2022-05-24",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 4750.0,
+        "programCode": "B2_308",
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-11-30"
+      },
+      {
+        "date": "2022-05-19",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 15000.0,
+        "programCode": "B1_303",
+        "year": 2022,
+        "startDate": "2022-05-19",
+        "endDate": "2022-10-31"
+      },
+      {
+        "date": "2022-05-18",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 7000.0,
+        "programCode": "B2_306",
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-11-30"
+      },
+      {
+        "date": "2022-04-28",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 10000.0,
+        "programCode": "B2_301",
+        "year": 2022,
+        "startDate": "2022-05-01",
+        "endDate": "2022-11-30"
+      },
+      {
+        "date": "2022-02-14",
+        "result": "선정",
+        "bizType": "기반구축",
+        "amount": 5800.0,
+        "programCode": "T1_201",
+        "year": 2022,
+        "startDate": "2022-05-12",
+        "endDate": "2022-05-12"
+      },
+      {
+        "date": "2021-11-26",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 4000.0,
+        "programCode": "X2_307",
+        "year": 2022,
+        "startDate": "2021-12-01",
+        "endDate": "2022-02-28"
+      },
+      {
+        "date": "2021-10-28",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 5000.0,
+        "programCode": "T2_316",
+        "year": 2022,
+        "startDate": "2021-11-01",
+        "endDate": "2022-02-28"
+      },
+      {
+        "date": "2021-05-01",
+        "result": "선정",
+        "bizType": "일자리창출or인력양성",
+        "amount": 3200.0,
+        "programCode": "B2_314",
+        "year": 2022,
+        "startDate": "2022-01-01",
+        "endDate": "2022-07-31"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": 0.44751322257274917,
+      "자본잠식_플래그": 0.0
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "20건 중 직접일치 17건 · 3건 판정 대기",
+      "totalJudged": 17,
+      "totalPending": 3,
+      "breakdown": {
+        "직접일치": 17,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 3
+      },
+      "judgments": [
+        {
+          "programCode": "B1_303",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B2_301",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B2_306",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B2_308",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B2_314",
+          "year": 2022,
+          "programName": null,
+          "businessType": "일자리창출or인력양성",
+          "score": null,
+          "matchType": "판단유보",
+          "matchedKeywords": [],
+          "reasoning": "LLM 시맨틱 판정 대기",
+          "source": "pending"
+        },
+        {
+          "programCode": "T1_201",
+          "year": 2022,
+          "programName": null,
+          "businessType": "기반구축",
+          "score": null,
+          "matchType": "판단유보",
+          "matchedKeywords": [],
+          "reasoning": "LLM 시맨틱 판정 대기",
+          "source": "pending"
+        },
+        {
+          "programCode": "T1_305",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "T2_311",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "T2_311",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "T2_316",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "X2_307",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_311",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "C1_310",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "C3_303",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "T1_305",
+          "year": 2023,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "T1_332",
+          "year": 2023,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_1",
+          "year": 2024,
+          "programName": null,
+          "businessType": "기타",
+          "score": null,
+          "matchType": "판단유보",
+          "matchedKeywords": [],
+          "reasoning": "LLM 시맨틱 판정 대기",
+          "source": "pending"
+        },
+        {
+          "programCode": "F1_1_2",
+          "year": 2024,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "F1_1_2",
+          "year": 2024,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "F1_1_5",
+          "year": 2024,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 42.3,
       "rawWeightedAverage": 65.2,
@@ -2289,7 +3044,22 @@
         "NTIS": 45.45454545454545,
         "정합성": 100.0
       }
-    }
+    },
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "대형다건",
+      "isHighDiversity": true,
+      "supportCount": 20,
+      "totalAmountThousand": 166960.0,
+      "businessTypeDiversity": 5,
+      "maxConsecutiveYears": 3
+    },
+    "_mock": [
+      "businessFit.llm"
+    ]
   },
   {
     "id": 2379,
@@ -2461,106 +3231,6 @@
       "주관": 9,
       "위탁": 0
     },
-    "support": {
-      "건수": 8,
-      "총지원금_천원": 135880.0,
-      "지원연도수": 3
-    },
-    "supportHistory": [
-      {
-        "date": "2024-08-12",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 20000.0,
-        "programCode": "B1_1_3",
-        "year": 2024,
-        "startDate": "2024-08-26",
-        "endDate": "2024-11-22"
-      },
-      {
-        "date": "2024-05-28",
-        "result": "선정",
-        "bizType": "기술지원",
-        "amount": 28000.0,
-        "programCode": "E2_1_6",
-        "year": 2024,
-        "startDate": "2024-07-01",
-        "endDate": "2024-11-30"
-      },
-      {
-        "date": "2024-05-28",
-        "result": "선정",
-        "bizType": "기술지원",
-        "amount": 2000.0,
-        "programCode": "E2_1_6",
-        "year": 2024,
-        "startDate": "2024-07-01",
-        "endDate": "2024-11-30"
-      },
-      {
-        "date": "2024-04-04",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 23880.0,
-        "programCode": "B1_1_4",
-        "year": 2024,
-        "startDate": "2024-04-23",
-        "endDate": "2024-10-31"
-      },
-      {
-        "date": "2023-02-21",
-        "result": "선정",
-        "bizType": "기술지원",
-        "amount": 32000.0,
-        "programCode": "H2_315",
-        "year": 2023,
-        "startDate": "2023-05-01",
-        "endDate": "2023-11-30"
-      },
-      {
-        "date": "2022-07-15",
-        "result": "탈락",
-        "bizType": "일자리창출or인력양성",
-        "amount": 0,
-        "programCode": "C1_308",
-        "year": 2022,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2022-06-22",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 15000.0,
-        "programCode": "B1_302",
-        "year": 2022,
-        "startDate": "2022-08-08",
-        "endDate": "2022-10-31"
-      },
-      {
-        "date": "2022-06-22",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 15000.0,
-        "programCode": "B1_302",
-        "year": 2022,
-        "startDate": "2022-08-08",
-        "endDate": "2022-10-31"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": 0.12885707543631716,
-      "자본잠식_플래그": 0.0
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 43,
@@ -2574,7 +3244,7 @@
       },
       "rnd": {
         "집약도": 0.14089990533709357,
-        "집약도추세": -0.05468270953659225
+        "집약도추세": -0.05468270953659219
       },
       "ntis": {
         "주관과제수": 9,
@@ -2920,6 +3590,215 @@
         }
       ]
     },
+    "support": {
+      "건수": 8,
+      "총지원금_천원": 135880.0,
+      "지원연도수": 3
+    },
+    "supportHistory": [
+      {
+        "date": "2024-08-12",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 20000.0,
+        "programCode": "B1_1_3",
+        "year": 2024,
+        "startDate": "2024-08-26",
+        "endDate": "2024-11-22"
+      },
+      {
+        "date": "2024-05-28",
+        "result": "선정",
+        "bizType": "기술지원",
+        "amount": 28000.0,
+        "programCode": "E2_1_6",
+        "year": 2024,
+        "startDate": "2024-07-01",
+        "endDate": "2024-11-30"
+      },
+      {
+        "date": "2024-05-28",
+        "result": "선정",
+        "bizType": "기술지원",
+        "amount": 2000.0,
+        "programCode": "E2_1_6",
+        "year": 2024,
+        "startDate": "2024-07-01",
+        "endDate": "2024-11-30"
+      },
+      {
+        "date": "2024-04-04",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 23880.0,
+        "programCode": "B1_1_4",
+        "year": 2024,
+        "startDate": "2024-04-23",
+        "endDate": "2024-10-31"
+      },
+      {
+        "date": "2023-02-21",
+        "result": "선정",
+        "bizType": "기술지원",
+        "amount": 32000.0,
+        "programCode": "H2_315",
+        "year": 2023,
+        "startDate": "2023-05-01",
+        "endDate": "2023-11-30"
+      },
+      {
+        "date": "2022-07-15",
+        "result": "탈락",
+        "bizType": "일자리창출or인력양성",
+        "amount": 0,
+        "programCode": "C1_308",
+        "year": 2022,
+        "startDate": null,
+        "endDate": null
+      },
+      {
+        "date": "2022-06-22",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 15000.0,
+        "programCode": "B1_302",
+        "year": 2022,
+        "startDate": "2022-08-08",
+        "endDate": "2022-10-31"
+      },
+      {
+        "date": "2022-06-22",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 15000.0,
+        "programCode": "B1_302",
+        "year": 2022,
+        "startDate": "2022-08-08",
+        "endDate": "2022-10-31"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": 0.12885707543631716,
+      "자본잠식_플래그": 0.0
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "7건 정합성 판정: 직접일치 7건",
+      "totalJudged": 7,
+      "totalPending": 0,
+      "breakdown": {
+        "직접일치": 7,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 0
+      },
+      "judgments": [
+        {
+          "programCode": "B1_302",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_302",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "H2_315",
+          "year": 2023,
+          "programName": null,
+          "businessType": "기술지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "기술지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_4",
+          "year": 2024,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "E2_1_6",
+          "year": 2024,
+          "programName": null,
+          "businessType": "기술지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "기술지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "E2_1_6",
+          "year": 2024,
+          "programName": null,
+          "businessType": "기술지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "기술지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 34.1,
       "rawWeightedAverage": 65.5,
@@ -2935,7 +3814,20 @@
         "NTIS": 68.18181818181819,
         "정합성": 100.0
       }
-    }
+    },
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "소액소수",
+      "isHighDiversity": false,
+      "supportCount": 7,
+      "totalAmountThousand": 135880.0,
+      "businessTypeDiversity": 3,
+      "maxConsecutiveYears": 3
+    },
+    "_mock": []
   },
   {
     "id": 672,
@@ -3107,66 +3999,6 @@
       "주관": 14,
       "위탁": 1
     },
-    "support": {
-      "건수": 5,
-      "총지원금_천원": 92259.0,
-      "지원연도수": 2
-    },
-    "supportHistory": [
-      {
-        "date": "2024-02-06",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 9775.0,
-        "programCode": "B4_1_13",
-        "year": 2024,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2023-08-28",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 17143.0,
-        "programCode": "C3_302",
-        "year": 2023,
-        "startDate": "2023-04-04",
-        "endDate": "2023-12-31"
-      },
-      {
-        "date": "2023-06-20",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 50000.0,
-        "programCode": "B1_311",
-        "year": 2023,
-        "startDate": "2023-06-23",
-        "endDate": "2023-10-31"
-      },
-      {
-        "date": "2023-04-04",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 15341.0,
-        "programCode": "C3_302",
-        "year": 2023,
-        "startDate": "2023-04-04",
-        "endDate": "2023-12-31"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": -0.09449723400938434,
-      "자본잠식_플래그": 0.0
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 43,
@@ -3180,7 +4012,7 @@
       },
       "rnd": {
         "집약도": 0.030486602106243883,
-        "집약도추세": 0.00031972431240380353
+        "집약도추세": 0.0003197243124038077
       },
       "ntis": {
         "주관과제수": 14,
@@ -3527,6 +4359,133 @@
         }
       ]
     },
+    "support": {
+      "건수": 5,
+      "총지원금_천원": 92259.0,
+      "지원연도수": 2
+    },
+    "supportHistory": [
+      {
+        "date": "2024-02-06",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 9775.0,
+        "programCode": "B4_1_13",
+        "year": 2024,
+        "startDate": "2024-02-06",
+        "endDate": "2024-12-31"
+      },
+      {
+        "date": "2023-08-28",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 17143.0,
+        "programCode": "C3_302",
+        "year": 2023,
+        "startDate": "2023-08-28",
+        "endDate": "2023-12-31"
+      },
+      {
+        "date": "2023-06-20",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 50000.0,
+        "programCode": "B1_311",
+        "year": 2023,
+        "startDate": "2023-06-23",
+        "endDate": "2023-10-31"
+      },
+      {
+        "date": "2023-04-04",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 15341.0,
+        "programCode": "C3_302",
+        "year": 2023,
+        "startDate": "2023-04-04",
+        "endDate": "2023-12-31"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": -0.09449723400938434,
+      "자본잠식_플래그": 0.0
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "4건 정합성 판정: 직접일치 4건",
+      "totalJudged": 4,
+      "totalPending": 0,
+      "breakdown": {
+        "직접일치": 4,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 0
+      },
+      "judgments": [
+        {
+          "programCode": "B1_311",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "C3_302",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "C3_302",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B4_1_13",
+          "year": 2024,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 60.5,
       "rawWeightedAverage": 78.9,
@@ -3542,7 +4501,20 @@
         "NTIS": 90.9090909090909,
         "정합성": 100.0
       }
-    }
+    },
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "소액소수",
+      "isHighDiversity": false,
+      "supportCount": 4,
+      "totalAmountThousand": 92259.0,
+      "businessTypeDiversity": 2,
+      "maxConsecutiveYears": 2
+    },
+    "_mock": []
   },
   {
     "id": 1730,
@@ -3714,106 +4686,6 @@
       "주관": 0,
       "위탁": 0
     },
-    "support": {
-      "건수": 8,
-      "총지원금_천원": 213354.0,
-      "지원연도수": 3
-    },
-    "supportHistory": [
-      {
-        "date": "2024-08-12",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 20000.0,
-        "programCode": "B1_1_3",
-        "year": 2024,
-        "startDate": "2024-08-26",
-        "endDate": "2024-11-22"
-      },
-      {
-        "date": "2024-08-12",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 5000.0,
-        "programCode": "B1_1_3",
-        "year": 2024,
-        "startDate": "2024-08-26",
-        "endDate": "2024-11-22"
-      },
-      {
-        "date": "2024-04-25",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 37000.0,
-        "programCode": "B2_1_7",
-        "year": 2024,
-        "startDate": "2024-05-01",
-        "endDate": "2023-10-31"
-      },
-      {
-        "date": "2024-04-11",
-        "result": "선정",
-        "bizType": "기술지원",
-        "amount": 30000.0,
-        "programCode": "D1_1_11",
-        "year": 2024,
-        "startDate": "2024-04-25",
-        "endDate": "2024-12-31"
-      },
-      {
-        "date": "2023-07-14",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 27000.0,
-        "programCode": "B1_311",
-        "year": 2023,
-        "startDate": "2023-08-01",
-        "endDate": "2023-10-31"
-      },
-      {
-        "date": "2023-05-30",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 20000.0,
-        "programCode": "C3_303",
-        "year": 2023,
-        "startDate": "2023-06-01",
-        "endDate": "2023-12-31"
-      },
-      {
-        "date": "2023-05-23",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 66000.0,
-        "programCode": "B4_302",
-        "year": 2023,
-        "startDate": "2023-06-01",
-        "endDate": "2023-10-31"
-      },
-      {
-        "date": "2020-04-10",
-        "result": "선정",
-        "bizType": "일자리창출or인력양성",
-        "amount": 8354.0,
-        "programCode": "P2_301",
-        "year": 2022,
-        "startDate": "2020-05-25",
-        "endDate": "2022-05-24"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": -0.00024361668726896601,
-      "자본잠식_플래그": 0.0
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 58,
@@ -3827,7 +4699,7 @@
       },
       "rnd": {
         "집약도": 0.02678332491426244,
-        "집약도추세": 0.0069769506590848926
+        "집약도추세": 0.00697695065908489
       },
       "ntis": {
         "주관과제수": 0,
@@ -4275,6 +5147,229 @@
         }
       ]
     },
+    "support": {
+      "건수": 8,
+      "총지원금_천원": 213354.0,
+      "지원연도수": 3
+    },
+    "supportHistory": [
+      {
+        "date": "2024-08-12",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 20000.0,
+        "programCode": "B1_1_3",
+        "year": 2024,
+        "startDate": "2024-08-26",
+        "endDate": "2024-11-22"
+      },
+      {
+        "date": "2024-08-12",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 5000.0,
+        "programCode": "B1_1_3",
+        "year": 2024,
+        "startDate": "2024-08-26",
+        "endDate": "2024-11-22"
+      },
+      {
+        "date": "2024-04-25",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 37000.0,
+        "programCode": "B2_1_7",
+        "year": 2024,
+        "startDate": "2024-05-01",
+        "endDate": "2023-10-31"
+      },
+      {
+        "date": "2024-04-11",
+        "result": "선정",
+        "bizType": "기술지원",
+        "amount": 30000.0,
+        "programCode": "D1_1_11",
+        "year": 2024,
+        "startDate": "2024-04-25",
+        "endDate": "2024-12-31"
+      },
+      {
+        "date": "2023-07-14",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 27000.0,
+        "programCode": "B1_311",
+        "year": 2023,
+        "startDate": "2023-08-01",
+        "endDate": "2023-10-31"
+      },
+      {
+        "date": "2023-05-30",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 20000.0,
+        "programCode": "C3_303",
+        "year": 2023,
+        "startDate": "2023-06-01",
+        "endDate": "2023-12-31"
+      },
+      {
+        "date": "2023-05-23",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 66000.0,
+        "programCode": "B4_302",
+        "year": 2023,
+        "startDate": "2023-06-01",
+        "endDate": "2023-10-31"
+      },
+      {
+        "date": "2020-04-10",
+        "result": "선정",
+        "bizType": "일자리창출or인력양성",
+        "amount": 8354.0,
+        "programCode": "P2_301",
+        "year": 2022,
+        "startDate": "2020-05-25",
+        "endDate": "2022-05-24"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": -0.00024361668726896601,
+      "자본잠식_플래그": 0.0
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "8건 정합성 판정: 직접일치 8건",
+      "totalJudged": 8,
+      "totalPending": 0,
+      "breakdown": {
+        "직접일치": 8,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 0
+      },
+      "judgments": [
+        {
+          "programCode": "P2_301",
+          "year": 2022,
+          "programName": null,
+          "businessType": "일자리창출or인력양성",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "일자리창출or인력양성"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_311",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B4_302",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "C3_303",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B2_1_7",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "D1_1_11",
+          "year": 2024,
+          "programName": null,
+          "businessType": "기술지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "기술지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 33.2,
       "rawWeightedAverage": 68.6,
@@ -4290,7 +5385,20 @@
         "NTIS": 18.18181818181818,
         "정합성": 100.0
       }
-    }
+    },
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "대형다건",
+      "isHighDiversity": false,
+      "supportCount": 8,
+      "totalAmountThousand": 213354.0,
+      "businessTypeDiversity": 3,
+      "maxConsecutiveYears": 3
+    },
+    "_mock": []
   },
   {
     "id": 2080,
@@ -4462,126 +5570,6 @@
       "주관": 5,
       "위탁": 0
     },
-    "support": {
-      "건수": 10,
-      "총지원금_천원": 86000.0,
-      "지원연도수": 3
-    },
-    "supportHistory": [
-      {
-        "date": "2024-05-28",
-        "result": "탈락",
-        "bizType": "기술지원",
-        "amount": 0,
-        "programCode": "E2_1_6",
-        "year": 2024,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2024-05-28",
-        "result": "탈락",
-        "bizType": "기술지원",
-        "amount": 0,
-        "programCode": "E2_1_6",
-        "year": 2024,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2024-05-24",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 20000.0,
-        "programCode": "B1_1_3",
-        "year": 2024,
-        "startDate": "2024-06-17",
-        "endDate": "2024-10-31"
-      },
-      {
-        "date": "2024-05-24",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 8000.0,
-        "programCode": "B1_1_3",
-        "year": 2024,
-        "startDate": "2024-06-17",
-        "endDate": "2024-10-31"
-      },
-      {
-        "date": "2024-01-17",
-        "result": "탈락",
-        "bizType": "기술지원",
-        "amount": 0,
-        "programCode": "E2_1_6",
-        "year": 2024,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2024-01-17",
-        "result": "선정",
-        "bizType": "기술지원",
-        "amount": 0,
-        "programCode": "E2_1_6",
-        "year": 2024,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2023-09-26",
-        "result": "탈락",
-        "bizType": "기타",
-        "amount": 0,
-        "programCode": "B4_303",
-        "year": 2023,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2023-07-14",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 30000.0,
-        "programCode": "B1_311",
-        "year": 2023,
-        "startDate": "2023-08-01",
-        "endDate": "2023-10-31"
-      },
-      {
-        "date": "2023-05-30",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 14000.0,
-        "programCode": "C3_303",
-        "year": 2023,
-        "startDate": "2023-06-01",
-        "endDate": "2023-12-31"
-      },
-      {
-        "date": "2022-01-01",
-        "result": "선정",
-        "bizType": "스마트공장",
-        "amount": 14000.0,
-        "programCode": "L2_319",
-        "year": 2022,
-        "startDate": "2022-01-01",
-        "endDate": "2022-12-31"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": -0.015996350694526054,
-      "자본잠식_플래그": 0.0
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 12,
@@ -4595,7 +5583,7 @@
       },
       "rnd": {
         "집약도": 0.038436363190009856,
-        "집약도추세": -0.00454159970446167
+        "집약도추세": -0.004541599704461663
       },
       "ntis": {
         "주관과제수": 5,
@@ -4723,6 +5711,221 @@
         }
       ]
     },
+    "support": {
+      "건수": 10,
+      "총지원금_천원": 86000.0,
+      "지원연도수": 3
+    },
+    "supportHistory": [
+      {
+        "date": "2024-05-28",
+        "result": "탈락",
+        "bizType": "기술지원",
+        "amount": 0,
+        "programCode": "E2_1_6",
+        "year": 2024,
+        "startDate": null,
+        "endDate": null
+      },
+      {
+        "date": "2024-05-28",
+        "result": "탈락",
+        "bizType": "기술지원",
+        "amount": 0,
+        "programCode": "E2_1_6",
+        "year": 2024,
+        "startDate": null,
+        "endDate": null
+      },
+      {
+        "date": "2024-05-24",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 20000.0,
+        "programCode": "B1_1_3",
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
+      },
+      {
+        "date": "2024-05-24",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 8000.0,
+        "programCode": "B1_1_3",
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
+      },
+      {
+        "date": "2024-01-17",
+        "result": "탈락",
+        "bizType": "기술지원",
+        "amount": 0,
+        "programCode": "E2_1_6",
+        "year": 2024,
+        "startDate": null,
+        "endDate": null
+      },
+      {
+        "date": "2024-01-17",
+        "result": "선정",
+        "bizType": "기술지원",
+        "amount": 0,
+        "programCode": "E2_1_6",
+        "year": 2024,
+        "startDate": "2024-12-13",
+        "endDate": "2024-12-31"
+      },
+      {
+        "date": "2023-09-26",
+        "result": "탈락",
+        "bizType": "기타",
+        "amount": 0,
+        "programCode": "B4_303",
+        "year": 2023,
+        "startDate": null,
+        "endDate": null
+      },
+      {
+        "date": "2023-07-14",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 30000.0,
+        "programCode": "B1_311",
+        "year": 2023,
+        "startDate": "2023-08-01",
+        "endDate": "2023-10-31"
+      },
+      {
+        "date": "2023-05-30",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 14000.0,
+        "programCode": "C3_303",
+        "year": 2023,
+        "startDate": "2023-06-01",
+        "endDate": "2023-12-31"
+      },
+      {
+        "date": "2022-01-01",
+        "result": "선정",
+        "bizType": "스마트공장",
+        "amount": 14000.0,
+        "programCode": "L2_319",
+        "year": 2022,
+        "startDate": "2022-01-01",
+        "endDate": "2022-12-31"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": -0.015996350694526054,
+      "자본잠식_플래그": 0.0
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "6건 정합성 판정: 직접일치 6건",
+      "totalJudged": 6,
+      "totalPending": 0,
+      "breakdown": {
+        "직접일치": 6,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 0
+      },
+      "judgments": [
+        {
+          "programCode": "L2_319",
+          "year": 2022,
+          "programName": null,
+          "businessType": "스마트공장",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "스마트공장"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_311",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "C3_303",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "E2_1_6",
+          "year": 2024,
+          "programName": null,
+          "businessType": "기술지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "기술지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 27.7,
       "rawWeightedAverage": 62.4,
@@ -4738,7 +5941,20 @@
         "NTIS": 46.590909090909086,
         "정합성": 100.0
       }
-    }
+    },
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "소액소수",
+      "isHighDiversity": false,
+      "supportCount": 6,
+      "totalAmountThousand": 86000.0,
+      "businessTypeDiversity": 3,
+      "maxConsecutiveYears": 3
+    },
+    "_mock": []
   },
   {
     "id": 695,
@@ -4910,126 +6126,6 @@
       "주관": 4,
       "위탁": 0
     },
-    "support": {
-      "건수": 10,
-      "총지원금_천원": 94280.0,
-      "지원연도수": 3
-    },
-    "supportHistory": [
-      {
-        "date": "2024-10-11",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 12000.0,
-        "programCode": "F1_1_19",
-        "year": 2024,
-        "startDate": "2024-10-11",
-        "endDate": null
-      },
-      {
-        "date": "2023-01-27",
-        "result": "탈락",
-        "bizType": "일자리창출or인력양성",
-        "amount": 0,
-        "programCode": "C1_308",
-        "year": 2023,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2022-07-15",
-        "result": "탈락",
-        "bizType": "일자리창출or인력양성",
-        "amount": 0,
-        "programCode": "C1_308",
-        "year": 2022,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2022-07-05",
-        "result": "포기",
-        "bizType": "사업화지원",
-        "amount": 7000.0,
-        "programCode": "T2_319",
-        "year": 2023,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2022-05-18",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 20000.0,
-        "programCode": "B2_306",
-        "year": 2022,
-        "startDate": "2022-06-01",
-        "endDate": "2022-11-30"
-      },
-      {
-        "date": "2022-02-28",
-        "result": "탈락",
-        "bizType": "일자리창출or인력양성",
-        "amount": 0,
-        "programCode": "C1_308",
-        "year": 2022,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2022-02-16",
-        "result": "선정",
-        "bizType": "일자리창출or인력양성",
-        "amount": 18000.0,
-        "programCode": "T2_318",
-        "year": 2022,
-        "startDate": "2022-03-01",
-        "endDate": "2022-12-31"
-      },
-      {
-        "date": "2022-02-16",
-        "result": "선정",
-        "bizType": "일자리창출or인력양성",
-        "amount": 18000.0,
-        "programCode": "T2_318",
-        "year": 2023,
-        "startDate": "2023-01-01",
-        "endDate": "2023-12-31"
-      },
-      {
-        "date": "2022-02-16",
-        "result": "선정",
-        "bizType": "일자리창출or인력양성",
-        "amount": 18000.0,
-        "programCode": "F1_1_22",
-        "year": 2024,
-        "startDate": "2023-01-01",
-        "endDate": "2023-12-31"
-      },
-      {
-        "date": "2022-01-25",
-        "result": "선정",
-        "bizType": "일자리창출or인력양성",
-        "amount": 1280.0,
-        "programCode": "B2_318",
-        "year": 2022,
-        "startDate": "2022-06-07",
-        "endDate": "2022-12-31"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": 0.00310350299815575,
-      "자본잠식_플래그": 0.0
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 27,
@@ -5043,7 +6139,7 @@
       },
       "rnd": {
         "집약도": 0.0326161899300713,
-        "집약도추세": -0.03954790395107775
+        "집약도추세": -0.03954790395107774
       },
       "ntis": {
         "주관과제수": 4,
@@ -5276,6 +6372,221 @@
         }
       ]
     },
+    "support": {
+      "건수": 10,
+      "총지원금_천원": 94280.0,
+      "지원연도수": 3
+    },
+    "supportHistory": [
+      {
+        "date": "2024-10-11",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 12000.0,
+        "programCode": "F1_1_19",
+        "year": 2024,
+        "startDate": "2024-10-11",
+        "endDate": null
+      },
+      {
+        "date": "2023-01-27",
+        "result": "탈락",
+        "bizType": "일자리창출or인력양성",
+        "amount": 0,
+        "programCode": "C1_308",
+        "year": 2023,
+        "startDate": null,
+        "endDate": null
+      },
+      {
+        "date": "2022-07-15",
+        "result": "탈락",
+        "bizType": "일자리창출or인력양성",
+        "amount": 0,
+        "programCode": "C1_308",
+        "year": 2022,
+        "startDate": null,
+        "endDate": null
+      },
+      {
+        "date": "2022-07-05",
+        "result": "포기",
+        "bizType": "사업화지원",
+        "amount": 7000.0,
+        "programCode": "T2_319",
+        "year": 2023,
+        "startDate": null,
+        "endDate": null
+      },
+      {
+        "date": "2022-05-18",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 20000.0,
+        "programCode": "B2_306",
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-11-30"
+      },
+      {
+        "date": "2022-02-28",
+        "result": "탈락",
+        "bizType": "일자리창출or인력양성",
+        "amount": 0,
+        "programCode": "C1_308",
+        "year": 2022,
+        "startDate": null,
+        "endDate": null
+      },
+      {
+        "date": "2022-02-16",
+        "result": "선정",
+        "bizType": "일자리창출or인력양성",
+        "amount": 18000.0,
+        "programCode": "T2_318",
+        "year": 2022,
+        "startDate": "2022-03-01",
+        "endDate": "2022-12-31"
+      },
+      {
+        "date": "2022-02-16",
+        "result": "선정",
+        "bizType": "일자리창출or인력양성",
+        "amount": 18000.0,
+        "programCode": "T2_318",
+        "year": 2023,
+        "startDate": "2023-01-01",
+        "endDate": "2023-12-31"
+      },
+      {
+        "date": "2022-02-16",
+        "result": "선정",
+        "bizType": "일자리창출or인력양성",
+        "amount": 18000.0,
+        "programCode": "F1_1_22",
+        "year": 2024,
+        "startDate": "2023-01-01",
+        "endDate": "2023-12-31"
+      },
+      {
+        "date": "2022-01-25",
+        "result": "선정",
+        "bizType": "일자리창출or인력양성",
+        "amount": 1280.0,
+        "programCode": "B2_318",
+        "year": 2022,
+        "startDate": "2022-06-07",
+        "endDate": "2022-12-31"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": 0.00310350299815575,
+      "자본잠식_플래그": 0.0
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "6건 정합성 판정: 직접일치 6건",
+      "totalJudged": 6,
+      "totalPending": 0,
+      "breakdown": {
+        "직접일치": 6,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 0
+      },
+      "judgments": [
+        {
+          "programCode": "B2_306",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B2_318",
+          "year": 2022,
+          "programName": null,
+          "businessType": "일자리창출or인력양성",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "일자리창출or인력양성"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "T2_318",
+          "year": 2022,
+          "programName": null,
+          "businessType": "일자리창출or인력양성",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "일자리창출or인력양성"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "T2_318",
+          "year": 2023,
+          "programName": null,
+          "businessType": "일자리창출or인력양성",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "일자리창출or인력양성"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "F1_1_19",
+          "year": 2024,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "F1_1_22",
+          "year": 2024,
+          "programName": null,
+          "businessType": "일자리창출or인력양성",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "일자리창출or인력양성"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 62.0,
       "rawWeightedAverage": 70.5,
@@ -5291,7 +6602,20 @@
         "NTIS": 52.272727272727266,
         "정합성": 100.0
       }
-    }
+    },
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "소액소수",
+      "isHighDiversity": false,
+      "supportCount": 6,
+      "totalAmountThousand": 87280.0,
+      "businessTypeDiversity": 3,
+      "maxConsecutiveYears": 3
+    },
+    "_mock": []
   },
   {
     "id": 1049,
@@ -5463,56 +6787,6 @@
       "주관": 11,
       "위탁": 1
     },
-    "support": {
-      "건수": 3,
-      "총지원금_천원": 32000.0,
-      "지원연도수": 2
-    },
-    "supportHistory": [
-      {
-        "date": "2022-08-31",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 6000.0,
-        "programCode": "X1_312",
-        "year": 2022,
-        "startDate": "2022-09-01",
-        "endDate": "2023-03-31"
-      },
-      {
-        "date": "2022-08-31",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 6000.0,
-        "programCode": "X1_312",
-        "year": 2023,
-        "startDate": "2022-09-01",
-        "endDate": "2023-03-31"
-      },
-      {
-        "date": "2022-06-28",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 20000.0,
-        "programCode": "B2_304",
-        "year": 2022,
-        "startDate": "2022-07-25",
-        "endDate": "2022-11-30"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": -0.019312195663372028,
-      "자본잠식_플래그": 0.0
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 26,
@@ -5526,7 +6800,7 @@
       },
       "rnd": {
         "집약도": 0.5698448114429149,
-        "집약도추세": 0.07301860636688098
+        "집약도추세": 0.07301860636688096
       },
       "ntis": {
         "주관과제수": 11,
@@ -5753,6 +7027,100 @@
         }
       ]
     },
+    "support": {
+      "건수": 3,
+      "총지원금_천원": 32000.0,
+      "지원연도수": 2
+    },
+    "supportHistory": [
+      {
+        "date": "2022-08-31",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 6000.0,
+        "programCode": "X1_312",
+        "year": 2022,
+        "startDate": "2022-09-01",
+        "endDate": "2023-03-31"
+      },
+      {
+        "date": "2022-08-31",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 6000.0,
+        "programCode": "X1_312",
+        "year": 2023,
+        "startDate": "2022-09-01",
+        "endDate": "2023-03-31"
+      },
+      {
+        "date": "2022-06-28",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 20000.0,
+        "programCode": "B2_304",
+        "year": 2022,
+        "startDate": "2022-07-25",
+        "endDate": "2022-11-30"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": -0.019312195663372028,
+      "자본잠식_플래그": 0.0
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": null,
+      "matchType": "판단유보",
+      "summary": "지원 3건 전체 LLM 판정 대기",
+      "totalJudged": 0,
+      "totalPending": 3,
+      "breakdown": {
+        "직접일치": 0,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 3
+      },
+      "judgments": [
+        {
+          "programCode": "B2_304",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": null,
+          "matchType": "판단유보",
+          "matchedKeywords": [],
+          "reasoning": "LLM 시맨틱 판정 대기",
+          "source": "pending"
+        },
+        {
+          "programCode": "X1_312",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": null,
+          "matchType": "판단유보",
+          "matchedKeywords": [],
+          "reasoning": "LLM 시맨틱 판정 대기",
+          "source": "pending"
+        },
+        {
+          "programCode": "X1_312",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": null,
+          "matchType": "판단유보",
+          "matchedKeywords": [],
+          "reasoning": "LLM 시맨틱 판정 대기",
+          "source": "pending"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 75.7,
       "rawWeightedAverage": 75.7,
@@ -5768,6 +7136,21 @@
         "NTIS": 90.9090909090909,
         "정합성": null
       }
-    }
+    },
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "소액소수",
+      "isHighDiversity": false,
+      "supportCount": 3,
+      "totalAmountThousand": 32000.0,
+      "businessTypeDiversity": 2,
+      "maxConsecutiveYears": 2
+    },
+    "_mock": [
+      "businessFit.llm"
+    ]
   }
 ]

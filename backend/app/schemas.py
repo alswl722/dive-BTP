@@ -267,14 +267,21 @@ class ChatbotAsk(BaseModel):
 
 
 class ChatbotAnswer(BaseModel):
-    """자연어 조회 결과. rows/columns는 UI가 표로 렌더링, answer는 담당자용 한 문장 요약."""
+    """챗봇 응답 — action에 따라 채워지는 필드가 다르다.
+
+    - navigate: path 채움. 프론트가 router.push. sql/columns/rows 비어있음.
+    - query:    sql/columns/rows/answer 전부 채움. path=null.
+    - clarify:  answer만 채움 (요청 처리 불가 사유).
+    """
 
     question: str
+    action: Literal["navigate", "query", "clarify"] = "query"
     intent: str                              # LLM이 이 질문을 어떻게 해석했는지(한 문장)
-    sql: str                                 # 실행된 SELECT (담당자 신뢰 확보용 노출)
-    columns: list[str]                       # 결과 컬럼 순서
-    rows: list[dict]                         # 결과 (최대 200행)
-    answer: str                              # 담당자용 한/두 문장 요약
+    path: str | None = None                  # action=navigate에서 채워짐 — /companies/{id} 등
+    sql: str = ""                            # 실행된 SELECT (query에서만)
+    columns: list[str] = Field(default_factory=list)
+    rows: list[dict] = Field(default_factory=list)
+    answer: str                              # 담당자용 한/두 문장 (모든 action에서 채워짐)
     error: str | None = None
 
 

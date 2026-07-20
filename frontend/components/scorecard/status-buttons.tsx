@@ -1,16 +1,17 @@
 "use client";
 
-import { Check, ChevronDown, Pause, X } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { REVIEW_STATUSES, type ReviewStatus } from "@/types";
 
-const OPTIONS: { status: ReviewStatus; icon: typeof Check; activeClass: string; label: string }[] = [
-  { status: "선정", icon: Check, activeClass: "bg-good text-white", label: "선정" },
-  { status: "보류", icon: Pause, activeClass: "bg-warn text-white", label: "보류" },
-  { status: "제외", icon: X, activeClass: "bg-bad text-white", label: "제외" },
+const OPTIONS: { status: ReviewStatus; activeClass: string; label: string }[] = [
+  { status: "선정", activeClass: "bg-good text-white", label: "선정" },
+  { status: "보류", activeClass: "bg-warn text-white", label: "보류" },
+  { status: "제외", activeClass: "bg-bad text-white", label: "제외" },
 ];
 
-/** 선정/보류/제외 3버튼 토글. 다시 누르면 "후보"로 돌아감. 표/보드/스코어카드 헤더 공용. */
+/** 선정/보류/제외 3버튼 토글. 다시 누르면 "후보"로 돌아감. 표/보드/스코어카드 헤더 공용.
+ *  아이콘은 셀 폭에서 뜻이 잘 안 잡혀(체크/일시정지/X → 담당자에게 학습 부담) 텍스트 라벨로 노출. */
 export function StatusButtons({
   status,
   onChange,
@@ -22,23 +23,22 @@ export function StatusButtons({
 }) {
   return (
     <div className="inline-flex items-center gap-1">
-      {OPTIONS.map(({ status: s, icon: Icon, activeClass, label }) => {
+      {OPTIONS.map(({ status: s, activeClass, label }) => {
         const active = status === s;
         return (
           <button
             key={s}
-            title={label}
             onClick={(e) => {
               e.stopPropagation();
               onChange(active ? "후보" : s);
             }}
             className={cn(
-              "flex items-center justify-center rounded-md transition-colors",
-              size === "sm" ? "h-6 w-6" : "h-8 w-8",
+              "rounded-md font-medium transition-colors",
+              size === "sm" ? "h-6 px-2 text-[11px]" : "h-8 px-3 text-[12px]",
               active ? activeClass : "bg-muted text-muted-foreground hover:text-foreground"
             )}
           >
-            <Icon className={size === "sm" ? "h-3 w-3" : "h-3.5 w-3.5"} />
+            {label}
           </button>
         );
       })}

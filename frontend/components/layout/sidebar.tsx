@@ -4,11 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Home, ClipboardList, Building2, ListChecks, NotebookPen, Megaphone, ShieldCheck, ChevronsLeft, ChevronsRight, ChevronDown, User, Settings, LogOut } from "lucide-react";
+import { Home, ClipboardList, Building2, ListChecks, NotebookPen, Megaphone, PencilLine, ShieldCheck, ChevronsLeft, ChevronsRight, ChevronDown, User, Settings, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUi, useReviewStatus } from "@/lib/app-state";
 import { useAuth, isAdmin } from "@/lib/auth";
 
+/** 심사 담당자·관리자 공통 메뉴 */
 const NAV = [
   { href: "/", label: "메인 페이지", icon: Home },
   { href: "/programs", label: "지원 사업", icon: ClipboardList },
@@ -18,8 +19,14 @@ const NAV = [
   { href: "/notices", label: "공지사항", icon: Megaphone },
 ];
 
-/** 관리자 전용 — 담당자에게는 메뉴를 숨기고, AuthGate가 직접 진입도 차단한다. */
-const ADMIN_NAV = [{ href: "/admin", label: "관리자 콘솔", icon: ShieldCheck }];
+/**
+ * 관리자 전용 메뉴 — 담당자에게는 숨기고, AuthGate가 직접 진입도 차단한다.
+ * 기능을 콘솔 한 곳에 탭으로 몰지 않고 목적별로 메뉴를 나눈다.
+ */
+const ADMIN_NAV = [
+  { href: "/admin", label: "관리자 콘솔", icon: ShieldCheck },
+  { href: "/admin/notices", label: "공지사항 작성", icon: PencilLine },
+];
 
 export function Sidebar() {
   const path = usePathname();
@@ -27,7 +34,6 @@ export function Sidebar() {
   const { statuses } = useReviewStatus();
   const { user, logout } = useAuth();
   const [profileOpen, setProfileOpen] = useState(false);
-  const nav = isAdmin(user) ? [...NAV, ...ADMIN_NAV] : NAV;
 
   const counts = { 후보: 0, 선정: 0, 제외: 0 };
   for (const s of Object.values(statuses)) {
@@ -49,24 +55,10 @@ export function Sidebar() {
       </div>
 
       <nav className="flex flex-col gap-1 p-3">
-        {nav.map(({ href, label, icon: Icon }) => {
-          const active = href === "/" ? path === "/" : path.startsWith(href);
-          return (
-            <Link
-              key={href}
-              href={href}
-              title={sidebarCollapsed ? label : undefined}
-              className={cn(
-                "flex items-center gap-2.5 rounded-md px-3 py-2 text-[13px] transition-colors",
-                sidebarCollapsed && "justify-center px-0",
-                active ? "bg-primary font-bold text-white" : "text-sidebar-foreground hover:bg-white/5 hover:text-white"
-              )}
-            >
-              <Icon className="h-4 w-4 shrink-0" />
-              {!sidebarCollapsed && <span className="truncate">{label}</span>}
-            </Link>
-          );
-        })}
+        <NavGroup items={NAV} path={path} collapsed={sidebarCollapsed} />
+        {isAdmin(user) && (
+          <NavGroup items={ADMIN_NAV} path={path} collapsed={sidebarCollapsed} title="관리자" />
+        )}
       </nav>
 
       <button
@@ -142,6 +134,55 @@ export function Sidebar() {
         </div>
       </div>
     </aside>
+  );
+}
+
+/**
+ * 메뉴 그룹. title이 있으면 구분선과 라벨을 붙여 심사자용/관리자용을 시각적으로 나눈다.
+ * 접힌 상태에서는 라벨 대신 구분선만 둔다(폭이 없어 텍스트가 깨짐).
+ */
+function NavGroup({
+  items,
+  path,
+  collapsed,
+  title,
+}: {
+  items: { href: string; label: string; icon: typeof Home }[];
+  path: string;
+  collapsed: boolean;
+  title?: string;
+}) {
+  return (
+    <>
+      {title && (
+        <div className={cn("mt-3 border-t border-white/10 pt-3", collapsed && "mx-2")}>
+          {!collapsed && (
+            <p className="mb-1 px-3 text-[10px] font-medium uppercase tracking-wide text-sidebar-foreground/50">
+              {title}
+            </p>
+          )}
+        </div>
+      )}
+      {items.map(({ href, label, icon: Icon }) => {
+        // 정확 일치 우선 — /admin 이 /admin/notices 에서도 활성화되는 것을 막는다
+        const active = href === "/" || href === "/admin" ? path === href : path.startsWith(href);
+        return (
+          <Link
+            key={href}
+            href={href}
+            title={collapsed ? label : undefined}
+            className={cn(
+              "flex items-center gap-2.5 rounded-md px-3 py-2 text-[13px] transition-colors",
+              collapsed && "justify-center px-0",
+              active ? "bg-primary font-bold text-white" : "text-sidebar-foreground hover:bg-white/5 hover:text-white"
+            )}
+          >
+            <Icon className="h-4 w-4 shrink-0" />
+            {!collapsed && <span className="truncate">{label}</span>}
+          </Link>
+        );
+      })}
+    </>
   );
 }
 

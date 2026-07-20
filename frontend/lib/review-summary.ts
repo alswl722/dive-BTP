@@ -145,6 +145,21 @@ export function deriveReviewSignals(company: Company, latestYear: number): Revie
     });
   }
 
+  // --- 종합점수 캡 발동 (재무·기술·정합성 전 축 대상, docs/종합점수_설계노트.md §2) ---
+  // 최저축이 종합점수를 실제로 끌어내린 경우에만 신호 — lowestAxis가 재무4축이면 위
+  // "축 어긋남" 신호와 중복되므로 기술/정합성 축일 때만 별도 표시.
+  const cs = company.compositeScore;
+  if (cs?.rawWeightedAverage != null && cs.score != null && cs.rawWeightedAverage - cs.score > 0.5 && cs.lowestAxis) {
+    const axisMap: Partial<Record<string, AxisKey>> = { "R&D특허": "R&D", NTIS: "R&D", 정합성: "사업정체성" };
+    const target = axisMap[cs.lowestAxis];
+    if (target) {
+      out.push({
+        sev: "주의", axis: target, title: `${cs.lowestAxis} 저점이 종합점수를 끌어내림`,
+        detail: `${cs.lowestAxis} ${Math.round(cs.lowestAxisScore ?? 0)}점 때문에 종합점수가 ${Math.round(cs.rawWeightedAverage)}점에서 ${Math.round(cs.score)}점으로 조정됐습니다.`,
+      });
+    }
+  }
+
   // --- 데이터 품질 ---
   if (!company.dataQuality.ok) {
     out.push({

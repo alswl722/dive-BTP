@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { Company } from "@/types";
 import { getRecentlyViewed } from "@/lib/recently-viewed";
-import { computeOverallScore } from "@/lib/scoring";
+import { resolveOverallScore } from "@/lib/scoring";
 import { ScoreBadge } from "@/components/ui/score-badge";
 
 export function RecentlyViewedPanel({ companies }: { companies: Company[] }) {
@@ -37,7 +37,7 @@ export function RecentlyViewedPanel({ companies }: { companies: Company[] }) {
             <p className="truncate text-[12.5px] font-medium">{c.name}</p>
             <p className="truncate text-[11px] text-muted-foreground">{c.industry ?? "업종 미상"}</p>
           </div>
-          <ScoreBadge score={computeOverallScore(c.scores)} size="sm" />
+          <ScoreBadge score={resolveOverallScore(c)} size="sm" />
         </Link>
       ))}
     </div>

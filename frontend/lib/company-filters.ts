@@ -1,5 +1,5 @@
-import { AXES, type Axis, type Company, type ReviewStatus } from "@/types";
-import { computeOverallScore, DEFAULT_AXIS_WEIGHTS } from "@/lib/scoring";
+import { AXES, type Axis, type Company, type CompositeGroup, type ReviewStatus } from "@/types";
+import { resolveOverallScore, DEFAULT_AXIS_WEIGHTS, DEFAULT_GROUP_WEIGHTS } from "@/lib/scoring";
 import { isDuplicateRisk } from "@/lib/duplicate-risk";
 
 export interface CompanyFilters {
@@ -35,6 +35,7 @@ export function defaultFilters(): CompanyFilters {
 export function applyFilters(
   companies: Company[],
   filters: CompanyFilters,
+  groupWeights: Record<CompositeGroup, number>,
   weights: Record<Axis, number>,
   latestYear: number,
   programApplicantKeySet: (c: Company) => Set<string> // 기업이 신청한 "year:code" 집합
@@ -44,7 +45,7 @@ export function applyFilters(
     if (q && !(String(c.id).includes(q) || c.name.toLowerCase().includes(q) || (c.industry ?? "").toLowerCase().includes(q))) return false;
     if (filters.industries.length && !(c.industry && filters.industries.includes(c.industry))) return false;
     if (filters.regions.length && !(c.region && filters.regions.includes(c.region))) return false;
-    const overall = computeOverallScore(c.scores, weights);
+    const overall = resolveOverallScore(c, groupWeights, weights);
     if (filters.minOverall > 0 && (overall == null || overall < filters.minOverall)) return false;
     for (const axis of AXES) {
       const min = filters.minAxis[axis];
@@ -63,12 +64,18 @@ export function applyFilters(
 export type SortKey = "revenueLatest" | "overall" | "supportCount";
 export type SortDir = "asc" | "desc";
 
-export function sortCompanies(companies: Company[], key: SortKey, dir: SortDir, weights: Record<Axis, number>): Company[] {
+export function sortCompanies(
+  companies: Company[],
+  key: SortKey,
+  dir: SortDir,
+  groupWeights: Record<CompositeGroup, number>,
+  weights: Record<Axis, number>
+): Company[] {
   const factor = dir === "asc" ? 1 : -1;
   const valueOf = (c: Company): number => {
     if (key === "revenueLatest") return c.revenueLatest ?? -Infinity;
     if (key === "supportCount") return c.support.건수 ?? -Infinity;
-    return computeOverallScore(c.scores, weights) ?? -Infinity;
+    return resolveOverallScore(c, groupWeights, weights) ?? -Infinity;
   };
   return [...companies].sort((a, b) => (valueOf(a) - valueOf(b)) * factor);
 }
@@ -82,4 +89,4 @@ export function reviewStatusCounts(companies: Company[], statuses: Record<number
   return counts;
 }
 
-export { DEFAULT_AXIS_WEIGHTS };
+export { DEFAULT_AXIS_WEIGHTS, DEFAULT_GROUP_WEIGHTS };

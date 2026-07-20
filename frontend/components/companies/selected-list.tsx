@@ -6,7 +6,7 @@ import { ChevronRight, Inbox } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ScoreBadge } from "@/components/ui/score-badge";
 import { useReviewStatus } from "@/lib/app-state";
-import { computeOverallScore } from "@/lib/scoring";
+import { resolveOverallScore } from "@/lib/scoring";
 import { deriveReviewSignals } from "@/lib/review-summary";
 import { latestSupportYear } from "@/lib/duplicate-risk";
 import { formatKRW } from "@/lib/utils";
@@ -37,7 +37,7 @@ export function SelectedList({ companies }: { companies: Company[] }) {
     }
     // 각 그룹은 종합점수 높은 순
     for (const s of REVIEW_STATUSES) {
-      map[s].sort((a, b) => (computeOverallScore(b.scores) ?? 0) - (computeOverallScore(a.scores) ?? 0));
+      map[s].sort((a, b) => (resolveOverallScore(b) ?? 0) - (resolveOverallScore(a) ?? 0));
     }
     return map;
   }, [companies, statuses]);
@@ -95,7 +95,7 @@ function CompanyRow({ company, latestYear }: { company: Company; latestYear: num
       href={`/companies/${company.id}`}
       className="flex items-center gap-3 px-3.5 py-3 transition-colors hover:bg-muted/50"
     >
-      <ScoreBadge score={computeOverallScore(company.scores)} />
+      <ScoreBadge score={resolveOverallScore(company)} />
       <div className="min-w-0 flex-1">
         <p className="truncate text-[13px] font-bold">{company.name}</p>
         <p className="truncate text-[11.5px] text-muted-foreground">

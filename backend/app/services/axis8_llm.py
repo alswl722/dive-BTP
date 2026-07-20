@@ -3,7 +3,7 @@
 프로바이더:
   - deepseek (default) — 결제 완료. 파일럿 4건 정확도 4/4, 5000기업 시나리오 ~$0.17
   - openai — 결제 완료. gpt-4o 실측 4/4 (mini 3/4). 3~24배 비쌈
-  - claude — 결제 대기. 승인 시 자동 활성화 가능 (Opus 4.7)
+  - claude — 결제 승인 요청 철회(DeepSeek 채택). 코드는 유지, 미사용 (Opus 4.7)
 
 선택 방식:
   - AXIS8_LLM_PROVIDER env로 지정 ("deepseek" | "openai" | "claude")
@@ -17,7 +17,7 @@
 호출 스타일:
   - DeepSeek: JSON mode (response_format={"type":"json_object"}) + Pydantic 수동 검증 + 재시도
   - OpenAI: client.beta.chat.completions.parse() — SDK 자동 매핑
-  - Claude: client.messages.parse() (미구현 상태, 결제 후 활성화)
+  - Claude: client.messages.parse() (미사용, 결제 요청 철회)
 """
 
 from __future__ import annotations
@@ -297,9 +297,9 @@ def _call_claude(
     model: str,
     effort: Literal["low", "medium", "high", "max"] = DEFAULT_EFFORT,
 ) -> LLMResult:
-    """Claude Anthropic SDK — 결제 완료 시 활성화.
+    """Claude Anthropic SDK — 결제 승인 요청 철회로 현재 미사용(DeepSeek 채택).
 
-    docs/축8_비용시뮬.md 참조. 현재 결제 대기라 실 환경에서는 다다르지 않음.
+    docs/축8_LLM_인터페이스.md §11 참조.
     """
     import anthropic  # type: ignore[import]
 

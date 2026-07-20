@@ -21,6 +21,9 @@ AlignmentSource = Literal["whitelist", "llm", "pending"]
 FlagStatus = Literal["flag", "cleared", "observe", "normal", "unknown"]
 Segment = Literal["소액다건", "대형소수", "대형다건", "소액소수"]
 
+# 종합점수(심사 스크리닝용 보조 지표) breakdown 키 — 재무4축+기술2축+정합성
+CompositeAxis = Literal["성장성", "수익성", "효율성", "안정성", "R&D특허", "NTIS", "정합성"]
+
 
 class TrendPoint(BaseModel):
     year: int
@@ -174,6 +177,20 @@ class DuplicateFlag(BaseModel):
     maxConsecutiveYears: int
 
 
+class CompositeScore(BaseModel):
+    """종합점수(심사 스크리닝용 보조 지표). docs/종합점수_설계노트.md.
+
+    축별 breakdown이 진짜 판단 근거이므로 항상 함께 노출할 것(단독 표기 금지).
+    """
+
+    score: float | None = Field(None, ge=0, le=100)  # min(가중평균, 최저축+cap_margin)
+    rawWeightedAverage: float | None = None  # 캡 적용 전 가중평균(참고용)
+    lowestAxis: CompositeAxis | None = None
+    lowestAxisScore: float | None = None
+    validAxisRatio: float
+    breakdown: dict[CompositeAxis, float | None]
+
+
 class Company(BaseModel):
     id: int
     name: str
@@ -197,6 +214,7 @@ class Company(BaseModel):
     dataQuality: DataQuality
     reviewStatus: ReviewStatus = "후보"
     businessFit: BusinessFit | None = None       # 축8 (LLM 정합성 판정)
+    compositeScore: CompositeScore | None = None  # 재무4축+기술2축+정합성, 최저축 캡 적용
     duplicateFlag: DuplicateFlag | None = None   # 축9 (반복지원 flag)
     # company_view.py 산출물의 키는 "_mock"(밑줄 시작 = pydantic이 private로 취급하는
     # 이름이라 그대로 필드명으로 못 씀) → alias로 매핑. populate_by_name=True로 입력 시

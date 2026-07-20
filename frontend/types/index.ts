@@ -32,6 +32,8 @@ export interface SupportRecord {
   amount: number; // 천원 (탈락/포기는 0)
   programCode: string | null; // support_programs.program_code 조인키(연도+코드가 PK)
   year: number | null;
+  startDate: string | null; // 수행 시작일 — 동시 수혜(기간 겹침) 판정용
+  endDate: string | null;   // 수행 종료일
 }
 
 // 축8 개별 지원사업 정합성 판정

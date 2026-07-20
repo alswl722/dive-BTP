@@ -181,7 +181,9 @@
         "bizType": "패키지지원",
         "amount": 25000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-01",
+        "endDate": "2024-10-31"
       },
       {
         "date": "2024-04-15",
@@ -189,7 +191,9 @@
         "bizType": "기반구축",
         "amount": 5900.0,
         "programCode": "E3_1_1",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-04-15",
+        "endDate": "2024-11-30"
       },
       {
         "date": "2023-06-20",
@@ -197,7 +201,9 @@
         "bizType": "패키지지원",
         "amount": 50000.0,
         "programCode": "B1_311",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-06-23",
+        "endDate": "2023-10-31"
       },
       {
         "date": "2022-11-07",
@@ -205,7 +211,9 @@
         "bizType": "스마트공장",
         "amount": 50000.0,
         "programCode": "L2_321",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-11-23",
+        "endDate": "2023-11-22"
       },
       {
         "date": "2022-08-01",
@@ -213,7 +221,9 @@
         "bizType": "스마트공장",
         "amount": 10000.0,
         "programCode": "L2_319",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-01-01",
+        "endDate": "2022-12-31"
       },
       {
         "date": "2022-07-22",
@@ -221,7 +231,9 @@
         "bizType": "사업화지원",
         "amount": 15000.0,
         "programCode": "B4_304",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-10-31"
       },
       {
         "date": "2022-05-13",
@@ -229,7 +241,9 @@
         "bizType": "사업화지원",
         "amount": 28800.0,
         "programCode": "B4_304",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-10-31"
       }
     ],
     "passthrough": {
@@ -472,7 +486,9 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
       },
       {
         "date": "2024-05-24",
@@ -480,7 +496,9 @@
         "bizType": "패키지지원",
         "amount": 10000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
       },
       {
         "date": "2023-05-16",
@@ -488,7 +506,9 @@
         "bizType": "패키지지원",
         "amount": 6000.0,
         "programCode": "B5_301",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-05-01",
+        "endDate": "2023-07-31"
       },
       {
         "date": "2023-01-24",
@@ -496,7 +516,9 @@
         "bizType": "사업화지원",
         "amount": 9026.0,
         "programCode": "E2_1_8",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2023-01-01",
+        "endDate": "2024-03-31"
       },
       {
         "date": "2023-01-24",
@@ -504,7 +526,9 @@
         "bizType": "사업화지원",
         "amount": 7397.0,
         "programCode": "E2_1_8",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2023-01-01",
+        "endDate": "2024-03-31"
       },
       {
         "date": "2022-08-26",
@@ -512,7 +536,9 @@
         "bizType": "패키지지원",
         "amount": 13400.0,
         "programCode": "H2_313",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-09-01",
+        "endDate": "2022-03-31"
       },
       {
         "date": "2022-08-26",
@@ -520,7 +546,9 @@
         "bizType": "사업화지원",
         "amount": 13400.0,
         "programCode": "H2_313",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2022-09-01",
+        "endDate": "2023-03-31"
       }
     ],
     "passthrough": {
@@ -765,7 +793,9 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
       },
       {
         "date": "2023-09-19",
@@ -773,7 +803,9 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_311",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-08-22",
+        "endDate": "2023-11-03"
       },
       {
         "date": "2023-08-22",
@@ -781,7 +813,9 @@
         "bizType": "패키지지원",
         "amount": 3850.0,
         "programCode": "B1_311",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-08-22",
+        "endDate": "2023-11-03"
       },
       {
         "date": "2023-06-15",
@@ -789,7 +823,9 @@
         "bizType": "사업화지원",
         "amount": 4730.0,
         "programCode": "H2_318",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-04-01",
+        "endDate": "2024-03-31"
       },
       {
         "date": "2023-06-15",
@@ -797,7 +833,9 @@
         "bizType": "사업화지원",
         "amount": 4730.0,
         "programCode": "E2_1_8",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2023-04-01",
+        "endDate": "2024-03-31"
       },
       {
         "date": "2022-08-26",
@@ -805,7 +843,9 @@
         "bizType": "패키지지원",
         "amount": 13400.0,
         "programCode": "H2_313",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-09-01",
+        "endDate": "2022-03-31"
       },
       {
         "date": "2022-08-26",
@@ -813,7 +853,9 @@
         "bizType": "사업화지원",
         "amount": 13400.0,
         "programCode": "H2_313",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2022-09-01",
+        "endDate": "2023-03-31"
       },
       {
         "date": "2022-05-18",
@@ -821,7 +863,9 @@
         "bizType": "패키지지원",
         "amount": 13200.0,
         "programCode": "B2_306",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-11-30"
       },
       {
         "date": "2021-12-23",
@@ -829,7 +873,9 @@
         "bizType": "사업화지원",
         "amount": 10377.0,
         "programCode": "B2_321",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2021-12-23",
+        "endDate": "2022-07-31"
       }
     ],
     "passthrough": {
@@ -1072,7 +1118,9 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
       },
       {
         "date": "2024-05-24",
@@ -1080,7 +1128,9 @@
         "bizType": "패키지지원",
         "amount": 5000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
       },
       {
         "date": "2024-05-24",
@@ -1088,7 +1138,9 @@
         "bizType": "패키지지원",
         "amount": 2000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
       }
     ],
     "passthrough": {
@@ -1331,7 +1383,9 @@
         "bizType": "사업화지원",
         "amount": 2600.0,
         "programCode": "F1_1_2",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-05-01",
+        "endDate": "2024-11-30"
       },
       {
         "date": "2024-06-21",
@@ -1339,7 +1393,9 @@
         "bizType": "기타",
         "amount": 6000.0,
         "programCode": "B1_1_1",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-21",
+        "endDate": "2024-09-13"
       },
       {
         "date": "2024-04-09",
@@ -1347,7 +1403,9 @@
         "bizType": "사업화지원",
         "amount": 3000.0,
         "programCode": "F1_1_2",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-05-01",
+        "endDate": "2024-11-30"
       },
       {
         "date": "2024-02-16",
@@ -1355,7 +1413,9 @@
         "bizType": "사업화지원",
         "amount": 2000.0,
         "programCode": "F1_1_5",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-02-17",
+        "endDate": "2024-05-18"
       },
       {
         "date": "2023-09-19",
@@ -1363,7 +1423,9 @@
         "bizType": "패키지지원",
         "amount": 25000.0,
         "programCode": "B1_311",
-        "year": 2023
+        "year": 2023,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2023-09-18",
@@ -1371,7 +1433,9 @@
         "bizType": "사업화지원",
         "amount": 7500.0,
         "programCode": "T1_332",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-09-18",
+        "endDate": "2023-11-30"
       },
       {
         "date": "2023-07-21",
@@ -1379,7 +1443,9 @@
         "bizType": "사업화지원",
         "amount": 0,
         "programCode": "T1_305",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-08-17",
+        "endDate": "2023-08-19"
       },
       {
         "date": "2023-05-30",
@@ -1387,7 +1453,9 @@
         "bizType": "패키지지원",
         "amount": 10000.0,
         "programCode": "C3_303",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-06-01",
+        "endDate": "2023-12-31"
       },
       {
         "date": "2023-03-24",
@@ -1395,7 +1463,9 @@
         "bizType": "패키지지원",
         "amount": 25000.0,
         "programCode": "C1_310",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-04-01",
+        "endDate": "2023-11-30"
       },
       {
         "date": "2022-11-24",
@@ -1403,7 +1473,9 @@
         "bizType": "사업화지원",
         "amount": 5555.0,
         "programCode": "T2_311",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-11-24",
+        "endDate": "2023-03-20"
       },
       {
         "date": "2022-11-24",
@@ -1411,7 +1483,9 @@
         "bizType": "사업화지원",
         "amount": 25555.0,
         "programCode": "T2_311",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-11-24",
+        "endDate": "2023-03-20"
       },
       {
         "date": "2022-07-13",
@@ -1419,7 +1493,9 @@
         "bizType": "사업화지원",
         "amount": 0,
         "programCode": "T1_305",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-08-24",
+        "endDate": "2022-08-26"
       },
       {
         "date": "2022-05-24",
@@ -1427,7 +1503,9 @@
         "bizType": "패키지지원",
         "amount": 4750.0,
         "programCode": "B2_308",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-11-30"
       },
       {
         "date": "2022-05-19",
@@ -1435,7 +1513,9 @@
         "bizType": "사업화지원",
         "amount": 15000.0,
         "programCode": "B1_303",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-05-19",
+        "endDate": "2022-10-31"
       },
       {
         "date": "2022-05-18",
@@ -1443,7 +1523,9 @@
         "bizType": "패키지지원",
         "amount": 7000.0,
         "programCode": "B2_306",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-11-30"
       },
       {
         "date": "2022-04-28",
@@ -1451,7 +1533,9 @@
         "bizType": "패키지지원",
         "amount": 10000.0,
         "programCode": "B2_301",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-05-01",
+        "endDate": "2022-11-30"
       },
       {
         "date": "2022-02-14",
@@ -1459,7 +1543,9 @@
         "bizType": "기반구축",
         "amount": 5800.0,
         "programCode": "T1_201",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-05-12",
+        "endDate": "2022-05-12"
       },
       {
         "date": "2021-11-26",
@@ -1467,7 +1553,9 @@
         "bizType": "사업화지원",
         "amount": 4000.0,
         "programCode": "X2_307",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2021-12-01",
+        "endDate": "2022-02-28"
       },
       {
         "date": "2021-10-28",
@@ -1475,7 +1563,9 @@
         "bizType": "사업화지원",
         "amount": 5000.0,
         "programCode": "T2_316",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2021-11-01",
+        "endDate": "2022-02-28"
       },
       {
         "date": "2021-05-01",
@@ -1483,7 +1573,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 3200.0,
         "programCode": "B2_314",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-01-01",
+        "endDate": "2022-07-31"
       }
     ],
     "passthrough": {
@@ -1728,7 +1820,9 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-08-26",
+        "endDate": "2024-11-22"
       },
       {
         "date": "2024-05-28",
@@ -1736,7 +1830,9 @@
         "bizType": "기술지원",
         "amount": 28000.0,
         "programCode": "E2_1_6",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-07-01",
+        "endDate": "2024-11-30"
       },
       {
         "date": "2024-05-28",
@@ -1744,7 +1840,9 @@
         "bizType": "기술지원",
         "amount": 2000.0,
         "programCode": "E2_1_6",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-07-01",
+        "endDate": "2024-11-30"
       },
       {
         "date": "2024-04-04",
@@ -1752,7 +1850,9 @@
         "bizType": "사업화지원",
         "amount": 23880.0,
         "programCode": "B1_1_4",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-04-23",
+        "endDate": "2024-10-31"
       },
       {
         "date": "2023-02-21",
@@ -1760,7 +1860,9 @@
         "bizType": "기술지원",
         "amount": 32000.0,
         "programCode": "H2_315",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-05-01",
+        "endDate": "2023-11-30"
       },
       {
         "date": "2022-07-15",
@@ -1768,7 +1870,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 0,
         "programCode": "C1_308",
-        "year": 2022
+        "year": 2022,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2022-06-22",
@@ -1776,7 +1880,9 @@
         "bizType": "패키지지원",
         "amount": 15000.0,
         "programCode": "B1_302",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-08-08",
+        "endDate": "2022-10-31"
       },
       {
         "date": "2022-06-22",
@@ -1784,7 +1890,9 @@
         "bizType": "패키지지원",
         "amount": 15000.0,
         "programCode": "B1_302",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-08-08",
+        "endDate": "2022-10-31"
       }
     ],
     "passthrough": {
@@ -2030,7 +2138,9 @@
         "bizType": "사업화지원",
         "amount": 9775.0,
         "programCode": "B4_1_13",
-        "year": 2024
+        "year": 2024,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2023-08-28",
@@ -2038,7 +2148,9 @@
         "bizType": "패키지지원",
         "amount": 17143.0,
         "programCode": "C3_302",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-04-04",
+        "endDate": "2023-12-31"
       },
       {
         "date": "2023-06-20",
@@ -2046,7 +2158,9 @@
         "bizType": "패키지지원",
         "amount": 50000.0,
         "programCode": "B1_311",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-06-23",
+        "endDate": "2023-10-31"
       },
       {
         "date": "2023-04-04",
@@ -2054,7 +2168,9 @@
         "bizType": "패키지지원",
         "amount": 15341.0,
         "programCode": "C3_302",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-04-04",
+        "endDate": "2023-12-31"
       }
     ],
     "passthrough": {
@@ -2301,7 +2417,9 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-08-26",
+        "endDate": "2024-11-22"
       },
       {
         "date": "2024-08-12",
@@ -2309,7 +2427,9 @@
         "bizType": "패키지지원",
         "amount": 5000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-08-26",
+        "endDate": "2024-11-22"
       },
       {
         "date": "2024-04-25",
@@ -2317,7 +2437,9 @@
         "bizType": "패키지지원",
         "amount": 37000.0,
         "programCode": "B2_1_7",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-05-01",
+        "endDate": "2023-10-31"
       },
       {
         "date": "2024-04-11",
@@ -2325,7 +2447,9 @@
         "bizType": "기술지원",
         "amount": 30000.0,
         "programCode": "D1_1_11",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-04-25",
+        "endDate": "2024-12-31"
       },
       {
         "date": "2023-07-14",
@@ -2333,7 +2457,9 @@
         "bizType": "패키지지원",
         "amount": 27000.0,
         "programCode": "B1_311",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-08-01",
+        "endDate": "2023-10-31"
       },
       {
         "date": "2023-05-30",
@@ -2341,7 +2467,9 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "C3_303",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-06-01",
+        "endDate": "2023-12-31"
       },
       {
         "date": "2023-05-23",
@@ -2349,7 +2477,9 @@
         "bizType": "패키지지원",
         "amount": 66000.0,
         "programCode": "B4_302",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-06-01",
+        "endDate": "2023-10-31"
       },
       {
         "date": "2020-04-10",
@@ -2357,7 +2487,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 8354.0,
         "programCode": "P2_301",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2020-05-25",
+        "endDate": "2022-05-24"
       }
     ],
     "passthrough": {
@@ -2600,7 +2732,9 @@
         "bizType": "기술지원",
         "amount": 0,
         "programCode": "E2_1_6",
-        "year": 2024
+        "year": 2024,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2024-05-28",
@@ -2608,7 +2742,9 @@
         "bizType": "기술지원",
         "amount": 0,
         "programCode": "E2_1_6",
-        "year": 2024
+        "year": 2024,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2024-05-24",
@@ -2616,7 +2752,9 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
       },
       {
         "date": "2024-05-24",
@@ -2624,7 +2762,9 @@
         "bizType": "패키지지원",
         "amount": 8000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
       },
       {
         "date": "2024-01-17",
@@ -2632,7 +2772,9 @@
         "bizType": "기술지원",
         "amount": 0,
         "programCode": "E2_1_6",
-        "year": 2024
+        "year": 2024,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2024-01-17",
@@ -2640,7 +2782,9 @@
         "bizType": "기술지원",
         "amount": 0,
         "programCode": "E2_1_6",
-        "year": 2024
+        "year": 2024,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2023-09-26",
@@ -2648,7 +2792,9 @@
         "bizType": "기타",
         "amount": 0,
         "programCode": "B4_303",
-        "year": 2023
+        "year": 2023,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2023-07-14",
@@ -2656,7 +2802,9 @@
         "bizType": "패키지지원",
         "amount": 30000.0,
         "programCode": "B1_311",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-08-01",
+        "endDate": "2023-10-31"
       },
       {
         "date": "2023-05-30",
@@ -2664,7 +2812,9 @@
         "bizType": "패키지지원",
         "amount": 14000.0,
         "programCode": "C3_303",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-06-01",
+        "endDate": "2023-12-31"
       },
       {
         "date": "2022-01-01",
@@ -2672,7 +2822,9 @@
         "bizType": "스마트공장",
         "amount": 14000.0,
         "programCode": "L2_319",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-01-01",
+        "endDate": "2022-12-31"
       }
     ],
     "passthrough": {
@@ -2917,7 +3069,9 @@
         "bizType": "사업화지원",
         "amount": 12000.0,
         "programCode": "F1_1_19",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-10-11",
+        "endDate": null
       },
       {
         "date": "2023-01-27",
@@ -2925,7 +3079,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 0,
         "programCode": "C1_308",
-        "year": 2023
+        "year": 2023,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2022-07-15",
@@ -2933,7 +3089,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 0,
         "programCode": "C1_308",
-        "year": 2022
+        "year": 2022,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2022-07-05",
@@ -2941,7 +3099,9 @@
         "bizType": "사업화지원",
         "amount": 7000.0,
         "programCode": "T2_319",
-        "year": 2023
+        "year": 2023,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2022-05-18",
@@ -2949,7 +3109,9 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B2_306",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-11-30"
       },
       {
         "date": "2022-02-28",
@@ -2957,7 +3119,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 0,
         "programCode": "C1_308",
-        "year": 2022
+        "year": 2022,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2022-02-16",
@@ -2965,7 +3129,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 18000.0,
         "programCode": "T2_318",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-03-01",
+        "endDate": "2022-12-31"
       },
       {
         "date": "2022-02-16",
@@ -2973,7 +3139,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 18000.0,
         "programCode": "T2_318",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-01-01",
+        "endDate": "2023-12-31"
       },
       {
         "date": "2022-02-16",
@@ -2981,7 +3149,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 18000.0,
         "programCode": "F1_1_22",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2023-01-01",
+        "endDate": "2023-12-31"
       },
       {
         "date": "2022-01-25",
@@ -2989,7 +3159,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 1280.0,
         "programCode": "B2_318",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-06-07",
+        "endDate": "2022-12-31"
       }
     ],
     "passthrough": {
@@ -3234,7 +3406,9 @@
         "bizType": "패키지지원",
         "amount": 6000.0,
         "programCode": "X1_312",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-09-01",
+        "endDate": "2023-03-31"
       },
       {
         "date": "2022-08-31",
@@ -3242,7 +3416,9 @@
         "bizType": "패키지지원",
         "amount": 6000.0,
         "programCode": "X1_312",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2022-09-01",
+        "endDate": "2023-03-31"
       },
       {
         "date": "2022-06-28",
@@ -3250,7 +3426,9 @@
         "bizType": "사업화지원",
         "amount": 20000.0,
         "programCode": "B2_304",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-07-25",
+        "endDate": "2022-11-30"
       }
     ],
     "passthrough": {

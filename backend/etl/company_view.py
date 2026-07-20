@@ -85,6 +85,10 @@ def support_history(cid: int, sr: pd.DataFrame):
             "amount": clean(amount) or 0,
             "programCode": clean(r["program_code"]),
             "year": clean(int(r["year"])) if pd.notna(r["year"]) else None,
+            # 수행 기간 — 서로 다른 부서 사업을 '동시에' 받고 있는지(중복 수혜) 판정에 필요.
+            # 선정일만으로는 동시성을 알 수 없다. 결측이면 None(임의값 대체 안 함).
+            "startDate": pd.Timestamp(r["start_date"]).strftime("%Y-%m-%d") if pd.notna(r.get("start_date")) else None,
+            "endDate": pd.Timestamp(r["end_date"]).strftime("%Y-%m-%d") if pd.notna(r.get("end_date")) else None,
         })
     records.sort(key=lambda x: x["date"], reverse=True)
     return records

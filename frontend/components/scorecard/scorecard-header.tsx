@@ -89,7 +89,19 @@ export function ScorecardHeader({
         </div>
 
         <div className="flex shrink-0 items-start gap-2">
-          <ScoreBadge score={computeOverallScore(company.scores, weights)} size="lg" />
+          {/* 이 점수는 재무 4축 가중평균이다(기술력·정합성 미포함). 라벨 없이 두면
+              '종합점수'로 오인되므로 범위를 명시한다 — scoring.ts 주석 참고. */}
+          <div className="flex flex-col items-center gap-1">
+            <ScoreBadge score={computeOverallScore(company.scores, weights)} size="lg" />
+            <span className="text-[10px] leading-none text-muted-foreground" title="성장성·수익성·효율성·안정성 가중평균. 기술력·정합성은 별도 확인">
+              재무 4축
+            </span>
+            {company.tech?.scores.rndPatent != null && (
+              <span className="text-[10px] leading-none text-muted-foreground">
+                R&D {Math.round(company.tech.scores.rndPatent)}
+              </span>
+            )}
+          </div>
           <StatusStack status={status} onChange={(next) => setStatus(company.id, next)} />
         </div>
       </div>

@@ -10,6 +10,7 @@ import { SupportHistoryTab } from "@/components/scorecard/tabs/support-history-t
 import { DuplicateRiskTab } from "@/components/scorecard/tabs/duplicate-risk-tab";
 import { BusinessFitTab } from "@/components/scorecard/tabs/business-fit-tab";
 import { ReviewSummary } from "@/components/scorecard/review-summary";
+import { NoteComposer } from "@/components/scorecard/note-composer";
 import type { Axis, Company } from "@/types";
 
 const TAB_LIST = ["개요", "재무", "R&D", "지원이력", "중복수혜", "사업정체성"] as const;
@@ -43,6 +44,8 @@ export function ScorecardPanel({
         {tab === "중복수혜" && <DuplicateRiskTab company={company} latestYear={latestYear} />}
         {tab === "사업정체성" && <BusinessFitTab company={company} />}
       </div>
+      {/* 심사 상태만 지정하고 근거를 남길 곳이 없던 문제 — 여기서 바로 기록 */}
+      <NoteComposer company={company} />
     </div>
   );
 }

@@ -10,6 +10,7 @@
 import { AXES, type Company } from "@/types";
 import { axisSpread, AXIS_MISALIGNMENT_THRESHOLD } from "@/lib/scoring";
 import { recentSelectionCount, DUPLICATE_RISK_THRESHOLD, DUPLICATE_RISK_WINDOW_YEARS } from "@/lib/duplicate-risk";
+import { summarizeConcurrent } from "@/lib/concurrent-support";
 
 export type Severity = "위험" | "주의" | "정보";
 /** 요약 줄이 가리키는 탭 — 클릭 시 해당 탭으로 이동 */
@@ -111,6 +112,19 @@ export function deriveReviewSignals(company: Company, latestYear: number): Revie
     out.push({
       sev: "위험", axis: "중복수혜", title: company.duplicateFlag.label,
       detail: "반복 수혜에도 성장 신호가 확인되지 않습니다.",
+    });
+  }
+  // 동시 수혜 — 반복(해마다 뽑히나)과 다른 문제. 부서 분절로 담당자가 못 보던 지점.
+  const conc = summarizeConcurrent(company);
+  if (conc.sameType > 0) {
+    out.push({
+      sev: "위험", axis: "지원이력", title: "같은 성격 지원 동시 수령",
+      detail: `수행 기간이 겹치는 ${conc.sameType}쌍이 서로 다른 사업군에서 같은 성격의 지원입니다. 중복 수혜 여부를 확인하세요.`,
+    });
+  } else if (conc.crossDept > 0) {
+    out.push({
+      sev: "주의", axis: "지원이력", title: "다른 사업군 동시 수행",
+      detail: `수행 기간이 겹치는 지원 ${conc.crossDept}쌍이 서로 다른 사업군입니다.`,
     });
   }
 

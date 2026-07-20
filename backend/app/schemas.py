@@ -34,6 +34,8 @@ class SupportRecord(BaseModel):
     amount: float
     programCode: str | None = None
     year: int | None = None
+    startDate: str | None = None   # 수행 시작일 — 동시 수혜(기간 겹침) 판정용
+    endDate: str | None = None     # 수행 종료일
 
 
 class Patents(BaseModel):

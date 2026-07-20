@@ -2,16 +2,16 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ChevronDown, Inbox, Megaphone, Pin, ShieldCheck } from "lucide-react";
+import { ChevronDown, Inbox, Megaphone, Pin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useNotices, noticeDate, type Notice } from "@/lib/notices";
 import { useAuth, isAdmin } from "@/lib/auth";
+import { NoticeEditor } from "@/components/notices/notice-editor";
 import { cn } from "@/lib/utils";
 
-/** 심사 담당자용 공지 목록 — 읽기 전용. 작성·수정은 관리자 콘솔에서. */
+/** 읽기 전용 공지 목록 — 담당자 화면과 메인 페이지 요약에 쓴다. */
 export function NoticeList({ compact = false, limit }: { compact?: boolean; limit?: number }) {
   const { sorted } = useNotices();
-  const { user } = useAuth();
   const items = limit ? sorted.slice(0, limit) : sorted;
 
   if (items.length === 0) {
@@ -32,15 +32,6 @@ export function NoticeList({ compact = false, limit }: { compact?: boolean; limi
         <Link href="/notices" className="block pt-1 text-[11.5px] text-primary hover:underline">
           공지 {sorted.length - limit}건 더 보기
         </Link>
-      )}
-      {isAdmin(user) && !compact && (
-        <p className="pt-1 text-[11px] text-muted-foreground">
-          공지 작성·수정은{" "}
-          <Link href="/admin" className="text-primary hover:underline">
-            관리자 콘솔
-          </Link>
-          에서 할 수 있습니다.
-        </p>
       )}
     </div>
   );
@@ -83,31 +74,28 @@ function NoticeItem({ notice, compact }: { notice: Notice; compact: boolean }) {
   );
 }
 
-/** 공지 페이지 헤더 + 목록 */
+/**
+ * 공지 페이지 — 같은 화면에서 권한만 다르게.
+ * 담당자는 읽기 목록, 관리자는 작성·수정·삭제까지(별도 관리자 화면으로 보내지 않는다).
+ */
 export function NoticePage() {
   const { sorted } = useNotices();
   const { user } = useAuth();
+  const admin = isAdmin(user);
 
   return (
     <div className="mx-auto max-w-3xl space-y-5">
-      <div className="flex items-start justify-between gap-3">
-        <div>
+      <div>
+        <div className="flex items-center gap-2">
+          <Megaphone className="h-5 w-5 text-primary" />
           <h1 className="text-[20px] font-extrabold tracking-tight">공지사항</h1>
-          <p className="mt-1 text-[12.5px] text-muted-foreground">
-            심사 진행에 필요한 안내입니다. 총 {sorted.length}건
-          </p>
         </div>
-        {isAdmin(user) && (
-          <Link
-            href="/admin"
-            className="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-primary px-3 py-2 text-[12px] font-medium text-primary-foreground hover:opacity-90"
-          >
-            <ShieldCheck className="h-3.5 w-3.5" />
-            공지 작성
-          </Link>
-        )}
+        <p className="mt-1 text-[12.5px] text-muted-foreground">
+          심사 진행에 필요한 안내입니다. 총 {sorted.length}건
+          {admin && " · 관리자는 작성·수정할 수 있습니다."}
+        </p>
       </div>
-      <NoticeList />
+      {admin ? <NoticeEditor /> : <NoticeList />}
     </div>
   );
 }

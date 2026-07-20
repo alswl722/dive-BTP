@@ -7,7 +7,7 @@ import { useNotices, noticeDate } from "@/lib/notices";
 import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 
-/** 관리자 전용 공지 작성·수정·삭제. 심사 담당자 화면(/notices)에는 읽기만 노출된다. */
+/** 관리자 전용 공지 작성·수정·삭제. 같은 /notices 화면에서 담당자는 읽기만 본다. */
 export function NoticeEditor() {
   const { sorted, create, update, remove } = useNotices();
   const { user } = useAuth();

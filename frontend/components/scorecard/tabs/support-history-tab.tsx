@@ -88,6 +88,11 @@ function ConcurrentPanel({
             {summary.crossDept > 0 && <> · 그중 다른 사업군 <b className="text-foreground">{summary.crossDept}쌍</b></>}
             {summary.sameType > 0 && <> · 같은 성격 <b className="text-bad">{summary.sameType}쌍</b></>}
           </p>
+          {summary.deptUnknown > 0 && (
+            <p className="mt-1 text-[11px] text-muted-foreground">
+              ※ {summary.deptUnknown}쌍은 연도가 달라 사업군을 비교할 수 없습니다(2024년 사업코드 체계 개편).
+            </p>
+          )}
         </div>
       )}
 

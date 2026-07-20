@@ -33,10 +33,12 @@ export interface AxisVerdict {
 /** 점수 하위 판정선 — 백분위 기준(절대값 아님). */
 const LOW_PERCENTILE = 25;
 const HIGH_PERCENTILE = 65;
-/** 마지막 특허 출원 이후 이만큼 지나면 R&D 정체로 본다. */
-const STALE_PATENT_YEARS = 3;
-/** 등록 특허를 이 비율 이상 포기 = 연차료 미납 등 유지 부담 가능성. */
-const PATENT_LAPSE_ALERT = 0.1;
+/**
+ * 특허 관련 절대 임계값 — **이 파일이 단일 출처**다.
+ * 화면(rnd-tab)과 요약이 같은 기준으로 판정해야 서로 어긋나지 않으므로 export한다.
+ */
+export const STALE_PATENT_YEARS = 3;   // 마지막 출원 이후 이만큼 지나면 R&D 정체
+export const PATENT_LAPSE_ALERT = 0.1; // 등록 특허를 이 비율 이상 포기 = 유지 부담 신호
 
 const pct = (v: number | null | undefined) => (v == null ? "—" : `${Math.round(v * 100)}%`);
 

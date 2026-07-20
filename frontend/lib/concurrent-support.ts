@@ -17,7 +17,13 @@ import type { Company, SupportRecord } from "@/types";
 export interface ConcurrentPair {
   a: SupportRecord;
   b: SupportRecord;
-  /** 사업코드 접두사가 다름 = 다른 부서(추정) */
+  /**
+   * 사업군 비교가 가능한 쌍인가.
+   * 2024년에 사업코드 체계가 개편돼(B1_311 → B1_1_3) **연도가 다르면 접두사가 달라도
+   * 같은 부서일 수 있다.** 같은 연도일 때만 비교해야 과대 판정을 피한다.
+   */
+  deptComparable: boolean;
+  /** 사업코드 접두사가 다름 = 다른 부서(추정). deptComparable일 때만 의미 있음 */
   crossDept: boolean;
   /** 지원 성격(사업유형)까지 동일 = 실질적 중복 */
   sameType: boolean;
@@ -53,10 +59,13 @@ export function findConcurrentPairs(company: Company): ConcurrentPair[] {
       if (!overlaps(a, b)) continue;
       const da = deptKey(a.programCode);
       const db = deptKey(b.programCode);
+      // 연도가 같아야 사업군(코드 접두사) 비교가 성립한다 — 2024년 체계 개편 때문.
+      const deptComparable = da != null && db != null && a.year != null && a.year === b.year;
       pairs.push({
         a,
         b,
-        crossDept: da != null && db != null && da !== db,
+        deptComparable,
+        crossDept: deptComparable && da !== db,
         sameType: a.bizType === b.bizType,
       });
     }
@@ -66,8 +75,10 @@ export function findConcurrentPairs(company: Company): ConcurrentPair[] {
 
 export interface ConcurrentSummary {
   total: number;       // 겹치는 쌍 전체
-  crossDept: number;   // 그중 부서(사업군)가 다른 쌍
-  sameType: number;    // 그중 부서도 다르고 지원 성격도 같은 쌍 = 실질적 중복
+  crossDept: number;   // 그중 사업군이 다른 쌍 (같은 연도 = 비교 가능한 쌍만)
+  sameType: number;    // 그중 지원 성격도 같은 쌍 = 실질적 중복
+  /** 연도가 달라 사업군을 비교할 수 없는 쌍 — 판정 유보(과소 판정 가능성) */
+  deptUnknown: number;
   /** 기간 정보가 없어 판정에서 빠진 선정 건수 — 과소 판정 가능성 표기용 */
   missingPeriod: number;
 }
@@ -79,6 +90,7 @@ export function summarizeConcurrent(company: Company): ConcurrentSummary {
     total: pairs.length,
     crossDept: pairs.filter((p) => p.crossDept).length,
     sameType: pairs.filter((p) => p.crossDept && p.sameType).length,
+    deptUnknown: pairs.filter((p) => !p.deptComparable).length,
     missingPeriod: selected.filter((h) => !h.startDate || !h.endDate).length,
   };
 }

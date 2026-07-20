@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/ui/stat-card";
 import type { Company, Tech } from "@/types";
 import { cn } from "@/lib/utils";
+// 임계값 단일 출처 — 심사 요약과 같은 기준으로 판정해야 화면끼리 어긋나지 않는다.
+import { PATENT_LAPSE_ALERT, STALE_PATENT_YEARS } from "@/lib/review-summary";
 
 /** 동종 대비 백분위를 담당자 언어로. 표본 부족이면 기준을 함께 알린다. */
 function rankText(p: number | null | undefined, basis: string | null | undefined): string | null {
@@ -18,11 +20,6 @@ function rankText(p: number | null | undefined, basis: string | null | undefined
 const pct = (v: number | null | undefined) => (v == null ? "—" : `${Math.round(v * 100)}%`);
 const num = (v: number | null | undefined) => (v == null ? "—" : `${v}`);
 const yr = (v: number | null | undefined) => (v == null ? "—" : `${v.toFixed(1)}년`);
-
-/** 마지막 출원 이후 이만큼 지나면 'R&D 정체' — 누적 건수만으로는 안 보이는 신호. */
-const STALE_YEARS = 3;
-/** 등록 특허를 이 비율 이상 포기 = 연차료 미납 등 유지 부담 가능성. */
-const LAPSE_ALERT = 0.1;
 
 export function RndTab({ company }: { company: Company }) {
   const tech = company.tech;
@@ -261,14 +258,14 @@ function TechWarnings({ tech }: { tech: Tech }) {
       text: "핵심 인증을 보유했으나 등록 특허와 국가 R&D 실적이 모두 없습니다. 서류상 역량과 실제 실적이 어긋납니다.",
     });
   }
-  if (gap != null && gap >= STALE_YEARS) {
+  if (gap != null && gap >= STALE_PATENT_YEARS) {
     warnings.push({
       key: "stale",
       tone: "warn",
       text: `마지막 특허 출원 이후 ${gap.toFixed(1)}년 경과. 누적 실적은 있으나 최근 R&D 활동이 확인되지 않습니다.`,
     });
   }
-  if (lapse != null && lapse >= LAPSE_ALERT) {
+  if (lapse != null && lapse >= PATENT_LAPSE_ALERT) {
     warnings.push({
       key: "lapse",
       tone: "warn",

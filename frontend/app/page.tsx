@@ -1,22 +1,15 @@
 import Link from "next/link";
-import { AlertTriangle, ShieldAlert, Clock, ArrowRight } from "lucide-react";
 import { listCompanies, listPrograms, getDashboard } from "@/lib/api";
 import type { Program } from "@/types";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { RoleGreeting } from "@/components/dashboard/role-greeting";
-import { QuickSearch } from "@/components/dashboard/quick-search";
 import { RecentlyViewedPanel } from "@/components/dashboard/recently-viewed-panel";
-import { formatKRW, daysUntil, formatDday, cn } from "@/lib/utils";
-import { latestSupportYear, recentSelectionCount, DUPLICATE_RISK_THRESHOLD } from "@/lib/duplicate-risk";
+import { daysUntil, formatDday, cn } from "@/lib/utils";
 import { dashboardReferenceDate, activePrograms, programApplicantIds } from "@/lib/program-progress";
 
 export default async function DashboardPage() {
   const [companies, programs, dash] = await Promise.all([listCompanies(), listPrograms(), getDashboard()]);
-
-  const latestYear = latestSupportYear(companies);
-  const dupRiskCompanies = companies.filter((c) => recentSelectionCount(c, latestYear) >= DUPLICATE_RISK_THRESHOLD);
-  const qualityIssueCompanies = companies.filter((c) => !c.dataQuality.ok);
 
   const referenceDate = dashboardReferenceDate(programs);
   const ongoing = activePrograms(programs, referenceDate)
@@ -49,25 +42,6 @@ export default async function DashboardPage() {
 
       <div className="grid gap-5 lg:grid-cols-[2fr_1fr]">
         <div className="space-y-5">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <AttentionCard
-              href="/companies?dupRisk=1"
-              icon={ShieldAlert}
-              tone="orange"
-              title="최근 3년 3건 이상 수혜"
-              count={dupRiskCompanies.length}
-              hint={`${latestYear - 2}~${latestYear}년 기준 · 중복수혜 의심`}
-            />
-            <AttentionCard
-              href="/companies?qualityIssue=1"
-              icon={AlertTriangle}
-              tone="warn"
-              title="데이터 품질 이슈"
-              count={qualityIssueCompanies.length}
-              hint="재무지표 결측 등"
-            />
-          </div>
-
           <div>
             <div className="mb-2.5 flex items-center justify-between">
               <h2 className="text-[15px] font-bold">진행 중인 심사</h2>
@@ -93,16 +67,6 @@ export default async function DashboardPage() {
               </div>
             )}
           </div>
-
-          <Card className="p-5">
-            <p className="mb-2.5 text-[13px] font-bold">기업 빠른 검색</p>
-            <QuickSearch />
-            {companies[0] && (
-              <p className="mt-2 text-[11.5px] text-muted-foreground">
-                예시: &quot;{companies[0].name}&quot;, &quot;{companies[0].industryCode}&quot;, &quot;{companies[0].industry}&quot;
-              </p>
-            )}
-          </Card>
         </div>
 
         <div className="space-y-5">
@@ -139,42 +103,6 @@ export default async function DashboardPage() {
 
 function formatDate(d: Date) {
   return d.toISOString().slice(0, 10);
-}
-
-function AttentionCard({
-  href,
-  icon: Icon,
-  tone,
-  title,
-  count,
-  hint,
-}: {
-  href: string;
-  icon: typeof AlertTriangle;
-  tone: "orange" | "warn";
-  title: string;
-  count: number;
-  hint: string;
-}) {
-  const toneClass = tone === "orange" ? "bg-orangeTone-bg text-orangeTone" : "bg-warn-bg text-[hsl(30_75%_38%)]";
-  return (
-    <Link href={href}>
-      <Card className="flex items-center gap-4 p-5 transition-shadow hover:shadow-modal">
-        <div className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-full", toneClass)}>
-          <Icon className="h-5 w-5" />
-        </div>
-        <div className="min-w-0 flex-1">
-          <p className="text-[12.5px] font-medium text-muted-foreground">{title}</p>
-          <p className="text-[19px] font-extrabold tabular-nums">
-            {count}
-            <span className="ml-0.5 text-[13px] font-normal text-muted-foreground">개</span>
-          </p>
-          <p className="truncate text-[11px] text-muted-foreground">{hint}</p>
-        </div>
-        <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground" />
-      </Card>
-    </Link>
-  );
 }
 
 function DdayChip({ dday }: { dday: number }) {

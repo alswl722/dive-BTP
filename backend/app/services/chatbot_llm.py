@@ -86,15 +86,22 @@ SCHEMA_DOC = """다음은 PostgreSQL 스키마 요약이다. 이 스키마만 �
 - region_wide, region_base TEXT
 
 ## master_table — 팀 공용 뷰 (기업 1행 와이드). 컬럼명이 한글이라 큰따옴표 필수.
-- "기업일련번호", "지역", "업종명(11차)", "기업규모"
+- "기업일련번호", "지역", "KSIC코드(11차)", "업종명(11차)", "기업규모"
 - "매출액_YYYY" (2020~2024, 천원), "종업원수_YYYY"
 - "이노비즈", "벤처기업" 등 BOOL
 - "지원건수" INT, "총지원금_천원" NUMERIC
    → 한 기업의 요약 지표는 이 뷰 한 방으로 잡히면 조인 안 짜도 됨
 
-## data_quality_flags — 데이터 품질 경고 뷰
-- support_record_id, company_id, year, program_code
-- missing_fields TEXT[] (예: '{지원금결측,시작일결측}')
+## data_quality_flags — 데이터 품질 경고 뷰 (support_records 1건 = 1행, 기업당 1행 아님)
+- support_record_id, company_id, year, program_code  ← ⚠️ id 컬럼 없음. PK 자리는 support_record_id
+- missing_fields TEXT[] — 가능한 값은 6종뿐:
+  지원금결측 / 시작일결측 / 종료일결측 / 업종코드결측 / 주생산품결측 / 설립연도결측
+- ⚠️ 결측이 하나도 없는 행도 빈 배열({})로 뷰에 들어있다.
+  경고 건수를 셀 때는 반드시 cardinality(missing_fields) > 0 조건을 건다.
+- "경고 N개인 기업"처럼 기업 단위를 물으면 지원레코드를 기업으로 집계해야 한다:
+  SELECT company_id, COUNT(*) AS 경고건수 FROM data_quality_flags
+  WHERE cardinality(missing_fields) > 0 GROUP BY company_id HAVING COUNT(*) = N
+  (한 레코드 안의 결측 필드 개수를 묻는 경우는 cardinality(missing_fields) = N)
 
 ## company_review_status — 심사 찜 상태 (PK: company_id)
 - status TEXT ('후보' | '선정' | '보류' | '제외')
@@ -206,10 +213,33 @@ def _client():
 # ============================================================
 # Step 1 — 자연어 → SQL
 # ============================================================
-def generate_sql(question: str, *, max_retries: int = 1) -> tuple[SqlGenResult, LLMCallMetrics]:
-    """질문 → 안전 SELECT SQL. 스키마 밖 요청이면 sql="", clarification 채움."""
+def generate_sql(
+    question: str,
+    *,
+    max_retries: int = 1,
+    prior_sql: str | None = None,
+    prior_error: str | None = None,
+) -> tuple[SqlGenResult, LLMCallMetrics]:
+    """질문 → 안전 SELECT SQL. 스키마 밖 요청이면 sql="", clarification 채움.
+
+    prior_sql/prior_error가 오면 직전 시도가 DB에서 실패했다는 뜻 —
+    실패한 SQL과 에러 원문을 붙여 재작성을 요구한다(컬럼명 환각 자가 수정용).
+    """
     if not question.strip():
         raise ValueError("질문이 비어있습니다.")
+
+    user_content = question.strip()
+    if prior_sql and prior_error:
+        user_content = (
+            f"{user_content}\n\n"
+            f"<previous_attempt_failed>\n"
+            f"직전에 생성한 SQL:\n{prior_sql}\n\n"
+            f"DB 에러:\n{prior_error}\n\n"
+            f"이 에러의 원인이 된 테이블·컬럼을 <schema>에서 다시 확인하고, "
+            f"스키마에 실제로 있는 컬럼만 써서 SQL을 새로 작성하라. "
+            f"스키마에 그런 컬럼이 없으면 sql은 빈 문자열로 두고 clarification으로 안내하라.\n"
+            f"</previous_attempt_failed>"
+        )
 
     client = _client()
     last_err: Exception | None = None
@@ -218,7 +248,7 @@ def generate_sql(question: str, *, max_retries: int = 1) -> tuple[SqlGenResult, 
             model=DEFAULT_MODEL,
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT_SQL},
-                {"role": "user", "content": question.strip()},
+                {"role": "user", "content": user_content},
             ],
             response_format={"type": "json_object"},
             max_tokens=800,

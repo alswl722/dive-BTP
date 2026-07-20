@@ -180,8 +180,28 @@ def ask(question: str) -> dict[str, Any]:
         }
 
     # Step 2: 검증 + 실행
-    validated_sql = validate_sql(gen.sql)
-    columns, rows = execute(validated_sql)
+    # 실패하면 에러 원문을 LLM에 되돌려 한 번만 재작성시킨다.
+    # (뷰 컬럼명 환각 — 예: data_quality_flags.id — 이 가장 흔한 실패 원인)
+    try:
+        validated_sql = validate_sql(gen.sql)
+        columns, rows = execute(validated_sql)
+    except ChatbotError as first_err:
+        gen, _ = chatbot_llm.generate_sql(
+            question, prior_sql=gen.sql, prior_error=str(first_err)
+        )
+        if not gen.sql.strip():
+            return {
+                "question": question,
+                "intent": gen.intent,
+                "sql": "",
+                "columns": [],
+                "rows": [],
+                "answer": gen.clarification or "이 도구에 해당 정보가 없어 조회할 수 없습니다.",
+                "error": None,
+            }
+        # 두 번째도 실패하면 그대로 올린다 (라우터가 400으로 변환)
+        validated_sql = validate_sql(gen.sql)
+        columns, rows = execute(validated_sql)
 
     # Step 3: 요약
     answer_text, _ = chatbot_llm.summarize(question, validated_sql, rows, columns)

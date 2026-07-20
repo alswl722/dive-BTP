@@ -1,10 +1,12 @@
 "use client";
 
-// 심사 챗봇 FAB — 자연어 질문 → DeepSeek 텍스트투SQL → 결과 표 + 요약.
-// 화면을 클릭하며 확인해야 할 정보를 대신 조회. 답변에는 실행된 SQL을
-// 접어서 노출해(신뢰) intent 문구로 "이 질문을 이렇게 해석했다"를 밝힌다.
+// 심사 챗봇 FAB — 자연어 → DeepSeek 의도 분류(navigate·query·clarify).
+//   navigate: 화면 이동 명령. 확인 문구를 잠깐 보여준 뒤 router.push.
+//   query:    데이터 조회. SQL 실행 결과 표 + 요약.
+//   clarify:  둘 다 아닌 요청. 안내 문구만.
 import { useState, type FormEvent } from "react";
-import { Sparkles, X, Send, ChevronDown, ChevronUp } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Sparkles, X, Send, ChevronDown, ChevronUp, ArrowRight } from "lucide-react";
 import { askChatbot, chatbotAvailable } from "@/lib/api";
 import type { ChatbotAnswer } from "@/types";
 import { cn } from "@/lib/utils";
@@ -12,9 +14,12 @@ import { cn } from "@/lib/utils";
 const EXAMPLE_QUESTIONS = [
   "최근 3년 3건 이상 선정된 기업은?",
   "지원금 총액 상위 5개 기업",
-  "벤처인증 보유 기업 중 2024년 매출 상위 10",
-  "부산시 소재 기업 몇 개?",
+  "1049 기업 상세 열어줘",
+  "지원사업 화면으로 이동",
 ];
+
+// 사용자가 navigate 응답을 읽을 시간 (그 뒤 자동 이동).
+const NAV_DELAY_MS = 500;
 
 type Message =
   | { role: "user"; text: string }
@@ -22,6 +27,7 @@ type Message =
   | { role: "bot"; kind: "error"; text: string };
 
 export function ChatbotFab() {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -36,6 +42,12 @@ export function ChatbotFab() {
     try {
       const data = await askChatbot(q);
       setMessages((prev) => [...prev, { role: "bot", kind: "answer", data }]);
+      // navigate 응답은 확인 문구가 짧게 보인 뒤 자동으로 이동한다.
+      // 사용자가 잘못 이해했다 싶으면 브라우저 뒤로가기로 복구 가능(되돌릴 수 있는 액션).
+      if (data.action === "navigate" && data.path) {
+        const path = data.path;
+        setTimeout(() => router.push(path), NAV_DELAY_MS);
+      }
     } catch (e) {
       const msg = e instanceof Error ? e.message : "요청 실패";
       setMessages((prev) => [...prev, { role: "bot", kind: "error", text: msg }]);
@@ -70,7 +82,7 @@ export function ChatbotFab() {
             {messages.length === 0 && (
               <div className="space-y-2">
                 <p className="text-[11.5px] text-muted-foreground">
-                  DB 안 정보를 자연어로 물어보세요. 예시:
+                  자연어로 조회하거나 화면 이동을 요청하세요:
                 </p>
                 <div className="flex flex-wrap gap-1.5">
                   {EXAMPLE_QUESTIONS.map((q) => (
@@ -101,7 +113,7 @@ export function ChatbotFab() {
                   </div>
                 </div>
               ) : (
-                <BotAnswer key={i} data={m.data} />
+                <BotAnswer key={i} data={m.data} onNavigate={(p) => router.push(p)} />
               )
             )}
 
@@ -143,8 +155,11 @@ export function ChatbotFab() {
   );
 }
 
-/** 챗봇 응답 렌더. 요약 → intent → 결과표(최대 5행 노출, 더 있으면 접힘) → SQL(접힘). */
-function BotAnswer({ data }: { data: ChatbotAnswer }) {
+/** 챗봇 응답 렌더. action별로 표시가 다르다.
+ *  - navigate: 이동 경로 배지 + 재클릭 버튼(자동 이동 뒤 다시 갈 때).
+ *  - query:    요약 + 결과 표(5행 미리보기 · 접이식) + 실행 SQL(접이식).
+ *  - clarify:  요약(안내)만. */
+function BotAnswer({ data, onNavigate }: { data: ChatbotAnswer; onNavigate: (path: string) => void }) {
   const [tableOpen, setTableOpen] = useState(false);
   const [sqlOpen, setSqlOpen] = useState(false);
   const hasRows = data.rows.length > 0;
@@ -157,6 +172,16 @@ function BotAnswer({ data }: { data: ChatbotAnswer }) {
 
         {data.intent && (
           <p className="text-[11px] text-muted-foreground">해석: {data.intent}</p>
+        )}
+
+        {data.action === "navigate" && data.path && (
+          <button
+            onClick={() => onNavigate(data.path!)}
+            className="inline-flex items-center gap-1 rounded-full bg-info-bg px-2.5 py-1 text-[11px] font-medium text-info hover:opacity-80"
+          >
+            <ArrowRight className="h-3 w-3" />
+            {data.path}
+          </button>
         )}
 
         {hasRows && (

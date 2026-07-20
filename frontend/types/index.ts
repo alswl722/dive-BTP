@@ -237,11 +237,17 @@ export interface Note {
   mentions: NoteMention[];
 }
 
-// 챗봇 — DeepSeek 텍스트투SQL 결과. rows/columns는 UI가 표로 렌더링,
-// answer는 담당자용 한/두 문장 요약, sql은 신뢰 확보용 노출.
+// 챗봇 — action에 따라 채워지는 필드가 다르다.
+//   navigate: path 채움. 프론트가 router.push. sql/columns/rows 비어있음.
+//   query:    sql/columns/rows/answer 전부 채움. path=null.
+//   clarify:  answer만 채움 (요청 처리 불가 사유).
+export type ChatbotAction = "navigate" | "query" | "clarify";
+
 export interface ChatbotAnswer {
   question: string;
+  action: ChatbotAction;
   intent: string;
+  path: string | null;
   sql: string;
   columns: string[];
   rows: Record<string, unknown>[];

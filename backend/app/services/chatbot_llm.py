@@ -1,14 +1,20 @@
-"""심사 챗봇 LLM — 자연어 질문 → 안전 SELECT SQL → 결과 요약.
+"""심사 챗봇 LLM — 자연어 질문 → 의도 분류(navigate·query·clarify) → 안전 SELECT SQL → 결과 요약.
 
-축8과 같은 DeepSeek V3 (deepseek-chat) 재사용. axis8_llm의 프로바이더 감지·
-캐시 패턴을 답습하되, 이 모듈은 두 단계 호출로 구성한다:
-  1) generate_sql(question) — 스키마 요약 + 질문 → SELECT SQL만 생성
-  2) summarize(question, sql, rows) — 실행 결과 → 담당자 말투 한/두 문장
+축8과 같은 DeepSeek V3 (deepseek-chat) 재사용. 3가지 종류의 질문을 한 번의 LLM
+호출로 분류하고 필요한 필드(path 또는 sql)를 함께 생성한다:
+
+  1) classify_intent(question) — 스키마 요약 + 라우트 화이트리스트 + 질문
+        → {kind: navigate|query|clarify, path?, sql?, clarification?}
+     - navigate: 화면 이동 (services/chatbot.py 경로 화이트리스트 검증)
+     - query:    DB 조회 SQL (validate_sql 검증 후 실행)
+     - clarify:  둘 다 아닌 경우 사유 안내
+  2) summarize(question, sql, rows) — query 경로에서만 호출
 
 핵심 원칙 (CLAUDE.md 페르소나 · 축8 원칙 상속):
   - 담당자가 이미 화면에서 확인 가능한 값만 답한다(신규 예측 금지)
   - SQL은 화이트리스트 테이블만 · SELECT만 · LIMIT 강제(services/chatbot.py 검증)
-  - LLM은 SQL만 만든다. 실행·검증·통계 요약은 코드에서
+  - navigate 경로도 화이트리스트만 — 외부 URL·상대경로 우회 방지
+  - LLM은 의도·SQL·경로만 만든다. 실행·검증·통계 요약은 코드에서
 """
 
 from __future__ import annotations
@@ -116,34 +122,77 @@ SCHEMA_DOC = """다음은 PostgreSQL 스키마 요약이다. 이 스키마만 �
 - 사업별 선정기업수: SELECT year, program_code, COUNT(DISTINCT company_id) FROM support_records WHERE selection_result='지원대상' GROUP BY 1,2
 """
 
-SYSTEM_PROMPT_SQL = f"""<role>
-부산테크노파크 심사 담당자 지원 도구의 조회 챗봇. 담당자가 여러 화면을 클릭하며
-확인해야 할 정보를 자연어 질문으로 대신 조회한다.
+ROUTES_DOC = """다음 경로 화이트리스트만 navigate에 사용 가능하다 (그 외 URL·외부 링크 금지).
+
+## 앱 페이지
+- `/`                    — 메인 대시보드(홈)
+- `/companies`           — 기업 선정 목록(전체 기업 표·보드)
+- `/companies/{id}`      — 특정 기업 상세 스코어카드 ({id}는 정수 company_id)
+- `/programs`            — 지원사업 목록
+- `/programs?year={y}&program={code}` — 특정 사업 상세 패널 열기 (year+code 둘 다 필요)
+- `/notes`               — 심사 메모 목록
+- `/selected`            — 심사에서 '선정' 상태로 표시한 기업 모음
+- `/duplicates`          — 중복지원(반복선정) 탐지 화면
+- `/compare`             — 기업 비교 (미리 선택한 기업 없으면 안내 화면)
+
+## 언제 navigate를 쓰나
+- "기업 1049 상세" / "1049번 기업 열어줘" → `/companies/1049`
+- "지원사업 목록" / "사업 화면" → `/programs`
+- "홈으로" / "메인으로" → `/`
+- "메모 페이지" → `/notes`
+- "선정된 기업들" → `/selected`
+- "중복지원 화면" → `/duplicates`
+
+## 언제 query를 쓰나
+- 데이터 조회로 답 나오는 질문 ("매출 상위 5개", "벤처 인증 보유 기업")
+- 데이터를 봐야 대상 id를 알 수 있는 경우 (예: "가장 매출 높은 기업 열어줘")도
+  일단 query로 처리 — 사용자가 결과 표에서 id 확인 후 다시 navigate 요청
+
+## 언제 clarify를 쓰나
+- 인사 / 잡담 ("안녕", "고마워")
+- 앱 기능 밖 요청 ("이메일 보내줘", "코드 짜줘")
+- 스키마·경로 어디에도 매핑 안 되는 요청"""
+
+
+SYSTEM_PROMPT_INTENT = f"""<role>
+부산테크노파크 심사 담당자 지원 도구의 조회·조작 챗봇. 담당자가 여러 화면을
+클릭하며 확인해야 할 정보를 자연어로 대신 조회하거나, 특정 화면으로 바로 이동시킨다.
 </role>
 
 <schema>
 {SCHEMA_DOC}
 </schema>
 
-<rules>
+<routes>
+{ROUTES_DOC}
+</routes>
+
+<rules_query>
 - 반드시 SELECT 단일 문장만 생성한다 (WITH 절 허용). INSERT/UPDATE/DELETE/DDL 금지.
 - 세미콜론(;) 붙이지 말 것. SQL 주석(--, /* */) 금지.
 - 결과는 반드시 LIMIT 절을 포함(사용자가 명시 안 하면 LIMIT 20).
-- 위 스키마에 없는 테이블·컬럼 사용 금지. 없는 지표를 요구하면 sql은 빈 문자열로,
-  clarification에 "이 도구에 없는 정보"를 설명한다.
+- 위 스키마에 없는 테이블·컬럼 사용 금지.
 - 한글 컬럼(master_table)은 반드시 큰따옴표. 예: mt."매출액_2024"
 - 단위 주의: avg_annual_salary_krw만 원, 나머지 금액은 천원. 결과에 단위를 절대 섞지 말 것.
 - ⚠️ 재무 지표를 세로/가로 비교할 때 반드시 단위를 컬럼 alias에 명시(예: "매출액_천원").
 - 사업유형·지역·인증 등 카테고리형은 부분일치(ILIKE) 우선.
 - 회사 이름을 물으면 이 스키마에는 회사명이 없으므로 company_id로 답한다(프론트가 이름을 붙임).
-</rules>
+</rules_query>
+
+<rules_navigate>
+- path는 반드시 <routes>에 열거된 형태 그대로. 다른 URL·외부링크 금지.
+- 기업 id가 명시적으로 안 나오면 navigate 대신 query로 후보를 먼저 조회한다.
+- 사업 상세(year+code)가 둘 다 없으면 `/programs` 목록 페이지로만 이동.
+</rules_navigate>
 
 <output>
 JSON 한 개만 응답. 다른 텍스트 금지:
 {{
-  "sql": "SELECT ... LIMIT 20"   또는 빈 문자열 (조회 불가 시),
+  "kind": "navigate" | "query" | "clarify",
   "intent": "이 질문을 이렇게 해석했다는 한 문장",
-  "clarification": "sql이 비어있을 때만 채운다. 왜 조회 불가한지 담당자에게 안내"
+  "path": "/companies/1049",             // kind=navigate일 때만
+  "sql": "SELECT ... LIMIT 20",          // kind=query일 때만
+  "clarification": "요청 처리 불가 사유"  // kind=clarify일 때만
 }}
 </output>"""
 
@@ -171,10 +220,14 @@ SYSTEM_PROMPT_SUMMARY = """<role>
 # ============================================================
 # 스키마 (LLM 응답 검증)
 # ============================================================
-class SqlGenResult(BaseModel):
-    sql: str
+class IntentResult(BaseModel):
+    """LLM 응답 통합 스키마 — kind에 따라 채워지는 필드가 다르다."""
+
+    kind: Literal["navigate", "query", "clarify"]
     intent: str
-    clarification: str = ""
+    path: str = ""            # kind=navigate에서만
+    sql: str = ""             # kind=query에서만
+    clarification: str = ""   # kind=clarify에서만
 
 
 @dataclass
@@ -211,19 +264,20 @@ def _client():
 
 
 # ============================================================
-# Step 1 — 자연어 → SQL
+# Step 1 — 자연어 → 의도 분류 + (SQL 또는 path)
 # ============================================================
-def generate_sql(
+def classify_intent(
     question: str,
     *,
     max_retries: int = 1,
     prior_sql: str | None = None,
     prior_error: str | None = None,
-) -> tuple[SqlGenResult, LLMCallMetrics]:
-    """질문 → 안전 SELECT SQL. 스키마 밖 요청이면 sql="", clarification 채움.
+) -> tuple[IntentResult, LLMCallMetrics]:
+    """질문 → navigate|query|clarify 분류 + 필요한 필드(path/sql/clarification) 채움.
 
-    prior_sql/prior_error가 오면 직전 시도가 DB에서 실패했다는 뜻 —
-    실패한 SQL과 에러 원문을 붙여 재작성을 요구한다(컬럼명 환각 자가 수정용).
+    prior_sql/prior_error가 오면 직전 SQL 시도가 DB에서 실패했다는 뜻 —
+    실패한 SQL과 에러 원문을 붙여 kind=query로 재작성을 요구한다
+    (컬럼명 환각 자가 수정용).
     """
     if not question.strip():
         raise ValueError("질문이 비어있습니다.")
@@ -237,7 +291,7 @@ def generate_sql(
             f"DB 에러:\n{prior_error}\n\n"
             f"이 에러의 원인이 된 테이블·컬럼을 <schema>에서 다시 확인하고, "
             f"스키마에 실제로 있는 컬럼만 써서 SQL을 새로 작성하라. "
-            f"스키마에 그런 컬럼이 없으면 sql은 빈 문자열로 두고 clarification으로 안내하라.\n"
+            f"스키마에 그런 컬럼이 없으면 kind='clarify'로 안내하라.\n"
             f"</previous_attempt_failed>"
         )
 
@@ -247,7 +301,7 @@ def generate_sql(
         resp = client.chat.completions.create(
             model=DEFAULT_MODEL,
             messages=[
-                {"role": "system", "content": SYSTEM_PROMPT_SQL},
+                {"role": "system", "content": SYSTEM_PROMPT_INTENT},
                 {"role": "user", "content": user_content},
             ],
             response_format={"type": "json_object"},
@@ -257,7 +311,7 @@ def generate_sql(
         raw = resp.choices[0].message.content or ""
         try:
             data = json.loads(raw)
-            parsed = SqlGenResult.model_validate(data)
+            parsed = IntentResult.model_validate(data)
             metrics = LLMCallMetrics(
                 input_tokens=resp.usage.prompt_tokens,
                 output_tokens=resp.usage.completion_tokens,
@@ -270,7 +324,7 @@ def generate_sql(
             last_err = e
             if attempt == max_retries:
                 raise RuntimeError(
-                    f"DeepSeek SQL 생성 응답 검증 실패 ({max_retries + 1}회 시도): {e}. "
+                    f"DeepSeek 의도 분류 응답 검증 실패 ({max_retries + 1}회 시도): {e}. "
                     f"raw={raw[:200]}"
                 )
     raise RuntimeError(f"unreachable: {last_err}")

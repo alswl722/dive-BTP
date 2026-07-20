@@ -181,7 +181,9 @@
         "bizType": "패키지지원",
         "amount": 25000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-01",
+        "endDate": "2024-10-31"
       },
       {
         "date": "2024-04-15",
@@ -189,7 +191,9 @@
         "bizType": "기반구축",
         "amount": 5900.0,
         "programCode": "E3_1_1",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-04-15",
+        "endDate": "2024-11-30"
       },
       {
         "date": "2023-06-20",
@@ -197,7 +201,9 @@
         "bizType": "패키지지원",
         "amount": 50000.0,
         "programCode": "B1_311",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-06-23",
+        "endDate": "2023-10-31"
       },
       {
         "date": "2022-11-07",
@@ -205,7 +211,9 @@
         "bizType": "스마트공장",
         "amount": 50000.0,
         "programCode": "L2_321",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-11-23",
+        "endDate": "2023-11-22"
       },
       {
         "date": "2022-08-01",
@@ -213,7 +221,9 @@
         "bizType": "스마트공장",
         "amount": 10000.0,
         "programCode": "L2_319",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-01-01",
+        "endDate": "2022-12-31"
       },
       {
         "date": "2022-07-22",
@@ -221,7 +231,9 @@
         "bizType": "사업화지원",
         "amount": 15000.0,
         "programCode": "B4_304",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-10-31"
       },
       {
         "date": "2022-05-13",
@@ -229,7 +241,9 @@
         "bizType": "사업화지원",
         "amount": 28800.0,
         "programCode": "B4_304",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-10-31"
       }
     ],
     "passthrough": {
@@ -287,7 +301,151 @@
         "rndPatent": 49.4949494949495,
         "ntis": 64.77272727272727,
         "백분위기준": "전체fallback"
-      }
+      },
+      "percentiles": {
+        "특허출원": 36.36363636363637,
+        "특허등록": 59.09090909090909,
+        "등록전환율": 100.0,
+        "최근출원비중": 18.181818181818183,
+        "R&D집약도": 27.27272727272727,
+        "NTIS과제수": 63.63636363636363,
+        "NTIS연구비": 63.63636363636363
+      },
+      "patentList": [
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2024-11-27",
+          "registered": "2025-06-23",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-11-07",
+          "registered": "2025-07-25",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2022-03-17",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2021-04-21",
+          "registered": "2022-04-13",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2020-12-14",
+          "registered": "2022-03-16",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-11-16",
+          "registered": "2020-07-01",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-11-16",
+          "registered": "2020-07-21",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-08-30",
+          "registered": "2020-03-06",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-03-23",
+          "registered": "2019-07-15",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-10-20",
+          "registered": "2018-07-10",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-10-20",
+          "registered": "2018-07-25",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-10-20",
+          "registered": "2019-01-11",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-08-25",
+          "registered": "2018-07-10",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-08-25",
+          "registered": "2018-09-07",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-07-18",
+          "registered": "2018-07-10",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-07-18",
+          "registered": "2018-07-10",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2016-08-18",
+          "registered": "2017-04-26",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2016-08-18",
+          "registered": "2017-04-26",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2014-10-08",
+          "registered": "2016-03-03",
+          "valid": true
+        }
+      ]
     }
   },
   {
@@ -472,7 +630,9 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
       },
       {
         "date": "2024-05-24",
@@ -480,7 +640,9 @@
         "bizType": "패키지지원",
         "amount": 10000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
       },
       {
         "date": "2023-05-16",
@@ -488,7 +650,9 @@
         "bizType": "패키지지원",
         "amount": 6000.0,
         "programCode": "B5_301",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-05-01",
+        "endDate": "2023-07-31"
       },
       {
         "date": "2023-01-24",
@@ -496,7 +660,9 @@
         "bizType": "사업화지원",
         "amount": 9026.0,
         "programCode": "E2_1_8",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2023-01-01",
+        "endDate": "2024-03-31"
       },
       {
         "date": "2023-01-24",
@@ -504,7 +670,9 @@
         "bizType": "사업화지원",
         "amount": 7397.0,
         "programCode": "E2_1_8",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2023-01-01",
+        "endDate": "2024-03-31"
       },
       {
         "date": "2022-08-26",
@@ -512,7 +680,9 @@
         "bizType": "패키지지원",
         "amount": 13400.0,
         "programCode": "H2_313",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-09-01",
+        "endDate": "2022-03-31"
       },
       {
         "date": "2022-08-26",
@@ -520,7 +690,9 @@
         "bizType": "사업화지원",
         "amount": 13400.0,
         "programCode": "H2_313",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2022-09-01",
+        "endDate": "2023-03-31"
       }
     ],
     "passthrough": {
@@ -580,7 +752,67 @@
         "rndPatent": 47.97979797979798,
         "ntis": 75.0,
         "백분위기준": "전체fallback"
-      }
+      },
+      "percentiles": {
+        "특허출원": 18.181818181818183,
+        "특허등록": 18.181818181818183,
+        "등록전환율": 63.63636363636363,
+        "최근출원비중": 45.45454545454545,
+        "R&D집약도": 81.81818181818183,
+        "NTIS과제수": 72.72727272727273,
+        "NTIS연구비": 72.72727272727273
+      },
+      "patentList": [
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2024-10-07",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-12-01",
+          "registered": "2025-04-28",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-09-26",
+          "registered": "2025-04-28",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2019-11-01",
+          "registered": "2021-06-16",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2019-03-22",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-11-30",
+          "registered": "2020-01-10",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2016-02-23",
+          "registered": "2017-08-17",
+          "valid": true
+        }
+      ]
     }
   },
   {
@@ -765,7 +997,9 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
       },
       {
         "date": "2023-09-19",
@@ -773,7 +1007,9 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_311",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-08-22",
+        "endDate": "2023-11-03"
       },
       {
         "date": "2023-08-22",
@@ -781,7 +1017,9 @@
         "bizType": "패키지지원",
         "amount": 3850.0,
         "programCode": "B1_311",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-08-22",
+        "endDate": "2023-11-03"
       },
       {
         "date": "2023-06-15",
@@ -789,7 +1027,9 @@
         "bizType": "사업화지원",
         "amount": 4730.0,
         "programCode": "H2_318",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-04-01",
+        "endDate": "2024-03-31"
       },
       {
         "date": "2023-06-15",
@@ -797,7 +1037,9 @@
         "bizType": "사업화지원",
         "amount": 4730.0,
         "programCode": "E2_1_8",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2023-04-01",
+        "endDate": "2024-03-31"
       },
       {
         "date": "2022-08-26",
@@ -805,7 +1047,9 @@
         "bizType": "패키지지원",
         "amount": 13400.0,
         "programCode": "H2_313",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-09-01",
+        "endDate": "2022-03-31"
       },
       {
         "date": "2022-08-26",
@@ -813,7 +1057,9 @@
         "bizType": "사업화지원",
         "amount": 13400.0,
         "programCode": "H2_313",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2022-09-01",
+        "endDate": "2023-03-31"
       },
       {
         "date": "2022-05-18",
@@ -821,7 +1067,9 @@
         "bizType": "패키지지원",
         "amount": 13200.0,
         "programCode": "B2_306",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-11-30"
       },
       {
         "date": "2021-12-23",
@@ -829,7 +1077,9 @@
         "bizType": "사업화지원",
         "amount": 10377.0,
         "programCode": "B2_321",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2021-12-23",
+        "endDate": "2022-07-31"
       }
     ],
     "passthrough": {
@@ -887,7 +1137,172 @@
         "rndPatent": 56.56565656565656,
         "ntis": 29.545454545454543,
         "백분위기준": "전체fallback"
-      }
+      },
+      "percentiles": {
+        "특허출원": 45.45454545454545,
+        "특허등록": 72.72727272727273,
+        "등록전환율": 90.9090909090909,
+        "최근출원비중": 9.090909090909092,
+        "R&D집약도": 63.63636363636363,
+        "NTIS과제수": 27.27272727272727,
+        "NTIS연구비": 27.27272727272727
+      },
+      "patentList": [
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-09-20",
+          "registered": "2025-06-10",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-09-20",
+          "registered": "2026-03-30",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2022-01-28",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2021-11-19",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2021-11-19",
+          "registered": "2023-11-28",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2020-10-27",
+          "registered": "2022-03-22",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2020-10-27",
+          "registered": "2023-05-10",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2019-11-22",
+          "registered": "2021-04-27",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2019-08-12",
+          "registered": "2021-01-06",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-08-11",
+          "registered": "2018-12-19",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-08-11",
+          "registered": "2019-08-16",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2015-05-06",
+          "registered": "2017-02-01",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2015-05-06",
+          "registered": "2017-02-01",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2014-08-21",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2014-05-27",
+          "registered": "2016-10-10",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2012-07-24",
+          "registered": "2014-02-21",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2012-05-02",
+          "registered": "2013-09-17",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2011-11-28",
+          "registered": "2012-07-05",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2010-09-14",
+          "registered": "2011-06-02",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2010-09-14",
+          "registered": "2013-03-15",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2010-04-19",
+          "registered": "2012-10-30",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2009-02-20",
+          "registered": "2011-03-25",
+          "valid": true
+        }
+      ]
     }
   },
   {
@@ -1072,7 +1487,9 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
       },
       {
         "date": "2024-05-24",
@@ -1080,7 +1497,9 @@
         "bizType": "패키지지원",
         "amount": 5000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
       },
       {
         "date": "2024-05-24",
@@ -1088,7 +1507,9 @@
         "bizType": "패키지지원",
         "amount": 2000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
       }
     ],
     "passthrough": {
@@ -1146,7 +1567,32 @@
         "rndPatent": 39.3939393939394,
         "ntis": 18.18181818181818,
         "백분위기준": "전체fallback"
-      }
+      },
+      "percentiles": {
+        "특허출원": 9.090909090909092,
+        "특허등록": 9.090909090909092,
+        "등록전환율": 18.181818181818183,
+        "최근출원비중": 100.0,
+        "R&D집약도": 54.54545454545454,
+        "NTIS과제수": 13.636363636363635,
+        "NTIS연구비": 13.636363636363635
+      },
+      "patentList": [
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2024-10-07",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "실용신안권",
+          "status": "등록",
+          "applied": "2023-02-24",
+          "registered": "2024-06-03",
+          "valid": true
+        }
+      ]
     }
   },
   {
@@ -1331,7 +1777,9 @@
         "bizType": "사업화지원",
         "amount": 2600.0,
         "programCode": "F1_1_2",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-05-01",
+        "endDate": "2024-11-30"
       },
       {
         "date": "2024-06-21",
@@ -1339,7 +1787,9 @@
         "bizType": "기타",
         "amount": 6000.0,
         "programCode": "B1_1_1",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-21",
+        "endDate": "2024-09-13"
       },
       {
         "date": "2024-04-09",
@@ -1347,7 +1797,9 @@
         "bizType": "사업화지원",
         "amount": 3000.0,
         "programCode": "F1_1_2",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-05-01",
+        "endDate": "2024-11-30"
       },
       {
         "date": "2024-02-16",
@@ -1355,7 +1807,9 @@
         "bizType": "사업화지원",
         "amount": 2000.0,
         "programCode": "F1_1_5",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-02-17",
+        "endDate": "2024-05-18"
       },
       {
         "date": "2023-09-19",
@@ -1363,7 +1817,9 @@
         "bizType": "패키지지원",
         "amount": 25000.0,
         "programCode": "B1_311",
-        "year": 2023
+        "year": 2023,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2023-09-18",
@@ -1371,7 +1827,9 @@
         "bizType": "사업화지원",
         "amount": 7500.0,
         "programCode": "T1_332",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-09-18",
+        "endDate": "2023-11-30"
       },
       {
         "date": "2023-07-21",
@@ -1379,7 +1837,9 @@
         "bizType": "사업화지원",
         "amount": 0,
         "programCode": "T1_305",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-08-17",
+        "endDate": "2023-08-19"
       },
       {
         "date": "2023-05-30",
@@ -1387,7 +1847,9 @@
         "bizType": "패키지지원",
         "amount": 10000.0,
         "programCode": "C3_303",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-06-01",
+        "endDate": "2023-12-31"
       },
       {
         "date": "2023-03-24",
@@ -1395,7 +1857,9 @@
         "bizType": "패키지지원",
         "amount": 25000.0,
         "programCode": "C1_310",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-04-01",
+        "endDate": "2023-11-30"
       },
       {
         "date": "2022-11-24",
@@ -1403,7 +1867,9 @@
         "bizType": "사업화지원",
         "amount": 5555.0,
         "programCode": "T2_311",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-11-24",
+        "endDate": "2023-03-20"
       },
       {
         "date": "2022-11-24",
@@ -1411,7 +1877,9 @@
         "bizType": "사업화지원",
         "amount": 25555.0,
         "programCode": "T2_311",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-11-24",
+        "endDate": "2023-03-20"
       },
       {
         "date": "2022-07-13",
@@ -1419,7 +1887,9 @@
         "bizType": "사업화지원",
         "amount": 0,
         "programCode": "T1_305",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-08-24",
+        "endDate": "2022-08-26"
       },
       {
         "date": "2022-05-24",
@@ -1427,7 +1897,9 @@
         "bizType": "패키지지원",
         "amount": 4750.0,
         "programCode": "B2_308",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-11-30"
       },
       {
         "date": "2022-05-19",
@@ -1435,7 +1907,9 @@
         "bizType": "사업화지원",
         "amount": 15000.0,
         "programCode": "B1_303",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-05-19",
+        "endDate": "2022-10-31"
       },
       {
         "date": "2022-05-18",
@@ -1443,7 +1917,9 @@
         "bizType": "패키지지원",
         "amount": 7000.0,
         "programCode": "B2_306",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-11-30"
       },
       {
         "date": "2022-04-28",
@@ -1451,7 +1927,9 @@
         "bizType": "패키지지원",
         "amount": 10000.0,
         "programCode": "B2_301",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-05-01",
+        "endDate": "2022-11-30"
       },
       {
         "date": "2022-02-14",
@@ -1459,7 +1937,9 @@
         "bizType": "기반구축",
         "amount": 5800.0,
         "programCode": "T1_201",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-05-12",
+        "endDate": "2022-05-12"
       },
       {
         "date": "2021-11-26",
@@ -1467,7 +1947,9 @@
         "bizType": "사업화지원",
         "amount": 4000.0,
         "programCode": "X2_307",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2021-12-01",
+        "endDate": "2022-02-28"
       },
       {
         "date": "2021-10-28",
@@ -1475,7 +1957,9 @@
         "bizType": "사업화지원",
         "amount": 5000.0,
         "programCode": "T2_316",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2021-11-01",
+        "endDate": "2022-02-28"
       },
       {
         "date": "2021-05-01",
@@ -1483,7 +1967,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 3200.0,
         "programCode": "B2_314",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-01-01",
+        "endDate": "2022-07-31"
       }
     ],
     "passthrough": {
@@ -1543,7 +2029,186 @@
         "rndPatent": 42.92929292929293,
         "ntis": 45.45454545454545,
         "백분위기준": "전체fallback"
-      }
+      },
+      "percentiles": {
+        "특허출원": 54.54545454545454,
+        "특허등록": 36.36363636363637,
+        "등록전환율": 9.090909090909092,
+        "최근출원비중": 81.81818181818183,
+        "R&D집약도": 100.0,
+        "NTIS과제수": 36.36363636363637,
+        "NTIS연구비": 36.36363636363637
+      },
+      "patentList": [
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2024-06-24",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2023-11-28",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2023-11-28",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2023-11-08",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2023-11-06",
+          "registered": "2024-03-18",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2023-09-19",
+          "registered": "2025-04-10",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2023-03-03",
+          "registered": "2025-04-10",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2022-11-24",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2022-01-24",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2021-11-12",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2021-01-15",
+          "registered": "2023-03-22",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2020-11-19",
+          "registered": "2021-07-13",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2020-10-30",
+          "registered": "2021-12-07",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2019-05-24",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2019-04-17",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2018-12-05",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2018-12-05",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2018-12-05",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-09-21",
+          "registered": "2021-03-19",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-11-14",
+          "registered": "2018-12-14",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-11-01",
+          "registered": "2018-08-03",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-03-03",
+          "registered": "2018-11-23",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2014-09-16",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2014-08-26",
+          "registered": "2016-10-17",
+          "valid": false
+        }
+      ]
     }
   },
   {
@@ -1728,7 +2393,9 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-08-26",
+        "endDate": "2024-11-22"
       },
       {
         "date": "2024-05-28",
@@ -1736,7 +2403,9 @@
         "bizType": "기술지원",
         "amount": 28000.0,
         "programCode": "E2_1_6",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-07-01",
+        "endDate": "2024-11-30"
       },
       {
         "date": "2024-05-28",
@@ -1744,7 +2413,9 @@
         "bizType": "기술지원",
         "amount": 2000.0,
         "programCode": "E2_1_6",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-07-01",
+        "endDate": "2024-11-30"
       },
       {
         "date": "2024-04-04",
@@ -1752,7 +2423,9 @@
         "bizType": "사업화지원",
         "amount": 23880.0,
         "programCode": "B1_1_4",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-04-23",
+        "endDate": "2024-10-31"
       },
       {
         "date": "2023-02-21",
@@ -1760,7 +2433,9 @@
         "bizType": "기술지원",
         "amount": 32000.0,
         "programCode": "H2_315",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-05-01",
+        "endDate": "2023-11-30"
       },
       {
         "date": "2022-07-15",
@@ -1768,7 +2443,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 0,
         "programCode": "C1_308",
-        "year": 2022
+        "year": 2022,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2022-06-22",
@@ -1776,7 +2453,9 @@
         "bizType": "패키지지원",
         "amount": 15000.0,
         "programCode": "B1_302",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-08-08",
+        "endDate": "2022-10-31"
       },
       {
         "date": "2022-06-22",
@@ -1784,7 +2463,9 @@
         "bizType": "패키지지원",
         "amount": 15000.0,
         "programCode": "B1_302",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-08-08",
+        "endDate": "2022-10-31"
       }
     ],
     "passthrough": {
@@ -1845,7 +2526,319 @@
         "rndPatent": 57.575757575757585,
         "ntis": 68.18181818181819,
         "백분위기준": "전체fallback"
-      }
+      },
+      "percentiles": {
+        "특허출원": 86.36363636363636,
+        "특허등록": 81.81818181818183,
+        "등록전환율": 72.72727272727273,
+        "최근출원비중": 63.63636363636363,
+        "R&D집약도": 72.72727272727273,
+        "NTIS과제수": 81.81818181818183,
+        "NTIS연구비": 81.81818181818183
+      },
+      "patentList": [
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2024-10-18",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2024-04-12",
+          "registered": "2024-08-13",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2023-12-22",
+          "registered": "2026-03-13",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2023-12-13",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2023-12-13",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2023-10-16",
+          "registered": "2024-07-31",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2023-10-05",
+          "registered": "2025-02-17",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2023-04-28",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-10-07",
+          "registered": "2023-08-22",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-08-30",
+          "registered": "2023-01-12",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-02-24",
+          "registered": "2023-10-04",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2021-12-01",
+          "registered": "2022-04-20",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2021-08-03",
+          "registered": "2023-08-09",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2021-07-08",
+          "registered": "2021-11-01",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2021-04-27",
+          "registered": "2023-01-18",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2021-02-24",
+          "registered": "2021-09-16",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2020-05-22",
+          "registered": "2020-07-22",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2019-12-26",
+          "registered": "2021-08-18",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2019-10-11",
+          "registered": "2020-09-09",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2019-05-28",
+          "registered": "2019-11-06",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-11-13",
+          "registered": "2019-03-06",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-06-13",
+          "registered": "2018-05-30",
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2016-10-28",
+          "registered": "2018-05-03",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2016-07-07",
+          "registered": "2018-03-28",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2016-03-16",
+          "registered": "2020-12-04",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2016-02-02",
+          "registered": "2018-01-02",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2015-10-13",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2015-06-17",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2015-06-17",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2015-06-17",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2015-01-30",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2015-01-14",
+          "registered": "2016-10-20",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2015-01-14",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2014-11-26",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2014-08-18",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2014-04-29",
+          "registered": "2014-12-03",
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2014-02-28",
+          "registered": "2014-12-03",
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2013-12-17",
+          "registered": "2016-01-31",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2012-06-11",
+          "registered": "2013-09-02",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2008-06-30",
+          "registered": "2010-11-26",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2007-08-21",
+          "registered": "2009-02-26",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2007-04-06",
+          "registered": "2008-11-18",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2006-12-26",
+          "registered": "2008-02-27",
+          "valid": true
+        }
+      ]
     }
   },
   {
@@ -2030,7 +3023,9 @@
         "bizType": "사업화지원",
         "amount": 9775.0,
         "programCode": "B4_1_13",
-        "year": 2024
+        "year": 2024,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2023-08-28",
@@ -2038,7 +3033,9 @@
         "bizType": "패키지지원",
         "amount": 17143.0,
         "programCode": "C3_302",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-04-04",
+        "endDate": "2023-12-31"
       },
       {
         "date": "2023-06-20",
@@ -2046,7 +3043,9 @@
         "bizType": "패키지지원",
         "amount": 50000.0,
         "programCode": "B1_311",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-06-23",
+        "endDate": "2023-10-31"
       },
       {
         "date": "2023-04-04",
@@ -2054,7 +3053,9 @@
         "bizType": "패키지지원",
         "amount": 15341.0,
         "programCode": "C3_302",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-04-04",
+        "endDate": "2023-12-31"
       }
     ],
     "passthrough": {
@@ -2116,7 +3117,319 @@
         "rndPatent": 54.54545454545455,
         "ntis": 90.9090909090909,
         "백분위기준": "전체fallback"
-      }
+      },
+      "percentiles": {
+        "특허출원": 86.36363636363636,
+        "특허등록": 90.9090909090909,
+        "등록전환율": 81.81818181818183,
+        "최근출원비중": 36.36363636363637,
+        "R&D집약도": 18.181818181818183,
+        "NTIS과제수": 100.0,
+        "NTIS연구비": 90.9090909090909
+      },
+      "patentList": [
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2024-09-09",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2024-09-09",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2024-05-22",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2023-12-06",
+          "registered": "2024-11-07",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2023-11-28",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2023-11-28",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-06-10",
+          "registered": "2024-09-13",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2022-05-24",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-02-10",
+          "registered": "2023-06-08",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2021-11-09",
+          "registered": "2022-05-24",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2021-03-25",
+          "registered": "2021-12-22",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2020-12-18",
+          "registered": "2022-02-04",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2020-07-14",
+          "registered": "2022-05-25",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2019-07-12",
+          "registered": "2021-04-21",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2019-03-14",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-07-23",
+          "registered": "2020-02-17",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-04-27",
+          "registered": "2020-02-17",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-02-10",
+          "registered": "2018-12-18",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-02-01",
+          "registered": "2018-12-18",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-02-01",
+          "registered": "2019-02-01",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-02-01",
+          "registered": "2019-02-01",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-02-01",
+          "registered": "2019-02-11",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-09-25",
+          "registered": "2019-06-24",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-08-16",
+          "registered": "2017-10-26",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-08-16",
+          "registered": "2017-11-06",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-08-16",
+          "registered": "2018-01-09",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-08-16",
+          "registered": "2018-05-18",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-08-08",
+          "registered": "2018-08-20",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-08-08",
+          "registered": "2018-12-18",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-02-17",
+          "registered": "2018-02-22",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2017-02-15",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2016-08-10",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2016-08-10",
+          "registered": "2018-05-08",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2016-07-25",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2016-03-30",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2015-12-11",
+          "registered": "2017-10-25",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2015-12-11",
+          "registered": "2018-01-08",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2013-11-28",
+          "registered": "2015-06-18",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2012-10-05",
+          "registered": "2014-03-21",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2012-06-11",
+          "registered": "2013-10-18",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2010-12-31",
+          "registered": "2013-02-14",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2009-06-12",
+          "registered": "2009-09-22",
+          "valid": true
+        },
+        {
+          "type": "실용신안권",
+          "status": "등록",
+          "applied": "2000-02-29",
+          "registered": "2000-05-18",
+          "valid": false
+        }
+      ]
     }
   },
   {
@@ -2301,7 +3614,9 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-08-26",
+        "endDate": "2024-11-22"
       },
       {
         "date": "2024-08-12",
@@ -2309,7 +3624,9 @@
         "bizType": "패키지지원",
         "amount": 5000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-08-26",
+        "endDate": "2024-11-22"
       },
       {
         "date": "2024-04-25",
@@ -2317,7 +3634,9 @@
         "bizType": "패키지지원",
         "amount": 37000.0,
         "programCode": "B2_1_7",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-05-01",
+        "endDate": "2023-10-31"
       },
       {
         "date": "2024-04-11",
@@ -2325,7 +3644,9 @@
         "bizType": "기술지원",
         "amount": 30000.0,
         "programCode": "D1_1_11",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-04-25",
+        "endDate": "2024-12-31"
       },
       {
         "date": "2023-07-14",
@@ -2333,7 +3654,9 @@
         "bizType": "패키지지원",
         "amount": 27000.0,
         "programCode": "B1_311",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-08-01",
+        "endDate": "2023-10-31"
       },
       {
         "date": "2023-05-30",
@@ -2341,7 +3664,9 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "C3_303",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-06-01",
+        "endDate": "2023-12-31"
       },
       {
         "date": "2023-05-23",
@@ -2349,7 +3674,9 @@
         "bizType": "패키지지원",
         "amount": 66000.0,
         "programCode": "B4_302",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-06-01",
+        "endDate": "2023-10-31"
       },
       {
         "date": "2020-04-10",
@@ -2357,7 +3684,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 8354.0,
         "programCode": "P2_301",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2020-05-25",
+        "endDate": "2022-05-24"
       }
     ],
     "passthrough": {
@@ -2415,7 +3744,424 @@
         "rndPatent": 61.61616161616163,
         "ntis": 18.18181818181818,
         "백분위기준": "전체fallback"
-      }
+      },
+      "percentiles": {
+        "특허출원": 100.0,
+        "특허등록": 100.0,
+        "등록전환율": 36.36363636363637,
+        "최근출원비중": 72.72727272727273,
+        "R&D집약도": 9.090909090909092,
+        "NTIS과제수": 13.636363636363635,
+        "NTIS연구비": 13.636363636363635
+      },
+      "patentList": [
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2025-04-01",
+          "registered": "2025-12-10",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2024-11-19",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2024-09-26",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2024-08-27",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2024-03-27",
+          "registered": "2026-01-14",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2024-03-22",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2024-03-22",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2024-01-25",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2024-01-12",
+          "registered": "2025-06-09",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2023-10-31",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2023-10-31",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2023-10-31",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2023-10-30",
+          "registered": "2026-06-18",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2023-09-07",
+          "registered": "2026-01-22",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2023-01-17",
+          "registered": "2025-01-07",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-11-25",
+          "registered": "2025-05-28",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-11-25",
+          "registered": "2025-05-28",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-10-14",
+          "registered": "2025-01-07",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-09-20",
+          "registered": "2025-08-27",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2022-04-20",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-02-15",
+          "registered": "2024-03-20",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2021-12-14",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2021-12-14",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2021-03-02",
+          "registered": "2023-09-15",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2020-11-20",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2020-11-16",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2020-11-16",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2020-06-16",
+          "registered": "2021-11-26",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2020-06-16",
+          "registered": "2022-02-04",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2020-06-11",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2020-06-11",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2020-02-03",
+          "registered": "2021-08-17",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2019-10-02",
+          "registered": "2021-01-13",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2019-05-24",
+          "registered": "2021-09-29",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-12-28",
+          "registered": "2020-07-21",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-08-27",
+          "registered": "2020-04-27",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2018-05-29",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-02-13",
+          "registered": "2020-01-30",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-01-17",
+          "registered": "2018-11-30",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-01-10",
+          "registered": "2019-04-04",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-10-30",
+          "registered": "2019-07-04",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-07-27",
+          "registered": "2020-05-26",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-05-19",
+          "registered": "2019-07-04",
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-01-18",
+          "registered": "2019-04-04",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2016-12-13",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2016-12-12",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2016-12-09",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2016-12-09",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2016-03-03",
+          "registered": "2016-10-04",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2015-11-17",
+          "registered": "2016-05-16",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2015-09-24",
+          "registered": "2017-02-02",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2015-08-19",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2015-04-06",
+          "registered": "2017-02-02",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2014-12-17",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2014-11-24",
+          "registered": "2016-05-18",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2014-11-24",
+          "registered": "2017-05-31",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2014-09-29",
+          "registered": "2015-06-15",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2013-09-25",
+          "registered": "2013-12-19",
+          "valid": true
+        }
+      ]
     }
   },
   {
@@ -2600,7 +4346,9 @@
         "bizType": "기술지원",
         "amount": 0,
         "programCode": "E2_1_6",
-        "year": 2024
+        "year": 2024,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2024-05-28",
@@ -2608,7 +4356,9 @@
         "bizType": "기술지원",
         "amount": 0,
         "programCode": "E2_1_6",
-        "year": 2024
+        "year": 2024,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2024-05-24",
@@ -2616,7 +4366,9 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
       },
       {
         "date": "2024-05-24",
@@ -2624,7 +4376,9 @@
         "bizType": "패키지지원",
         "amount": 8000.0,
         "programCode": "B1_1_3",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
       },
       {
         "date": "2024-01-17",
@@ -2632,7 +4386,9 @@
         "bizType": "기술지원",
         "amount": 0,
         "programCode": "E2_1_6",
-        "year": 2024
+        "year": 2024,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2024-01-17",
@@ -2640,7 +4396,9 @@
         "bizType": "기술지원",
         "amount": 0,
         "programCode": "E2_1_6",
-        "year": 2024
+        "year": 2024,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2023-09-26",
@@ -2648,7 +4406,9 @@
         "bizType": "기타",
         "amount": 0,
         "programCode": "B4_303",
-        "year": 2023
+        "year": 2023,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2023-07-14",
@@ -2656,7 +4416,9 @@
         "bizType": "패키지지원",
         "amount": 30000.0,
         "programCode": "B1_311",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-08-01",
+        "endDate": "2023-10-31"
       },
       {
         "date": "2023-05-30",
@@ -2664,7 +4426,9 @@
         "bizType": "패키지지원",
         "amount": 14000.0,
         "programCode": "C3_303",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-06-01",
+        "endDate": "2023-12-31"
       },
       {
         "date": "2022-01-01",
@@ -2672,7 +4436,9 @@
         "bizType": "스마트공장",
         "amount": 14000.0,
         "programCode": "L2_319",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-01-01",
+        "endDate": "2022-12-31"
       }
     ],
     "passthrough": {
@@ -2732,7 +4498,102 @@
         "rndPatent": 46.96969696969697,
         "ntis": 46.590909090909086,
         "백분위기준": "전체fallback"
-      }
+      },
+      "percentiles": {
+        "특허출원": 27.27272727272727,
+        "특허등록": 27.27272727272727,
+        "등록전환율": 45.45454545454545,
+        "최근출원비중": 90.9090909090909,
+        "R&D집약도": 45.45454545454545,
+        "NTIS과제수": 54.54545454545454,
+        "NTIS연구비": 45.45454545454545
+      },
+      "patentList": [
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2024-11-25",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2023-11-20",
+          "registered": "2026-02-20",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2023-10-30",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2023-10-30",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-12-22",
+          "registered": "2024-09-02",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-12-21",
+          "registered": "2025-02-28",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2021-11-26",
+          "registered": "2024-03-04",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2021-11-19",
+          "registered": "2023-07-13",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2018-01-19",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2010-10-19",
+          "registered": "2014-05-15",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2010-10-14",
+          "registered": "2011-08-16",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2010-06-16",
+          "registered": "2011-11-03",
+          "valid": true
+        }
+      ]
     }
   },
   {
@@ -2917,7 +4778,9 @@
         "bizType": "사업화지원",
         "amount": 12000.0,
         "programCode": "F1_1_19",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2024-10-11",
+        "endDate": null
       },
       {
         "date": "2023-01-27",
@@ -2925,7 +4788,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 0,
         "programCode": "C1_308",
-        "year": 2023
+        "year": 2023,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2022-07-15",
@@ -2933,7 +4798,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 0,
         "programCode": "C1_308",
-        "year": 2022
+        "year": 2022,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2022-07-05",
@@ -2941,7 +4808,9 @@
         "bizType": "사업화지원",
         "amount": 7000.0,
         "programCode": "T2_319",
-        "year": 2023
+        "year": 2023,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2022-05-18",
@@ -2949,7 +4818,9 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B2_306",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-11-30"
       },
       {
         "date": "2022-02-28",
@@ -2957,7 +4828,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 0,
         "programCode": "C1_308",
-        "year": 2022
+        "year": 2022,
+        "startDate": null,
+        "endDate": null
       },
       {
         "date": "2022-02-16",
@@ -2965,7 +4838,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 18000.0,
         "programCode": "T2_318",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-03-01",
+        "endDate": "2022-12-31"
       },
       {
         "date": "2022-02-16",
@@ -2973,7 +4848,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 18000.0,
         "programCode": "T2_318",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2023-01-01",
+        "endDate": "2023-12-31"
       },
       {
         "date": "2022-02-16",
@@ -2981,7 +4858,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 18000.0,
         "programCode": "F1_1_22",
-        "year": 2024
+        "year": 2024,
+        "startDate": "2023-01-01",
+        "endDate": "2023-12-31"
       },
       {
         "date": "2022-01-25",
@@ -2989,7 +4868,9 @@
         "bizType": "일자리창출or인력양성",
         "amount": 1280.0,
         "programCode": "B2_318",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-06-07",
+        "endDate": "2022-12-31"
       }
     ],
     "passthrough": {
@@ -3049,7 +4930,207 @@
         "rndPatent": 46.96969696969697,
         "ntis": 52.272727272727266,
         "백분위기준": "전체fallback"
-      }
+      },
+      "percentiles": {
+        "특허출원": 72.72727272727273,
+        "특허등록": 45.45454545454545,
+        "등록전환율": 27.27272727272727,
+        "최근출원비중": 54.54545454545454,
+        "R&D집약도": 36.36363636363637,
+        "NTIS과제수": 45.45454545454545,
+        "NTIS연구비": 54.54545454545454
+      },
+      "patentList": [
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2026-04-17",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2024-01-03",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2023-06-05",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2023-05-04",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2022-04-28",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2022-04-28",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-04-28",
+          "registered": "2026-02-27",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2022-02-25",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2021-09-27",
+          "registered": "2022-08-19",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2021-06-10",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2020-12-29",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2020-07-13",
+          "registered": "2022-02-15",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2020-07-10",
+          "registered": "2022-02-15",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2020-06-05",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2020-05-21",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2020-03-31",
+          "registered": "2021-04-06",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2020-03-31",
+          "registered": "2020-12-22",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2020-03-31",
+          "registered": "2020-12-22",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2020-02-19",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2019-10-02",
+          "registered": "2020-08-25",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2019-09-24",
+          "registered": "2020-12-22",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2019-09-18",
+          "registered": "2020-12-22",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-02-02",
+          "registered": "2018-12-28",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-08-01",
+          "registered": "2019-12-31",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2015-02-11",
+          "registered": "2016-11-28",
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2009-09-11",
+          "registered": "2012-01-11",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2000-08-07",
+          "registered": "2007-02-01",
+          "valid": false
+        }
+      ]
     }
   },
   {
@@ -3234,7 +5315,9 @@
         "bizType": "패키지지원",
         "amount": 6000.0,
         "programCode": "X1_312",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-09-01",
+        "endDate": "2023-03-31"
       },
       {
         "date": "2022-08-31",
@@ -3242,7 +5325,9 @@
         "bizType": "패키지지원",
         "amount": 6000.0,
         "programCode": "X1_312",
-        "year": 2023
+        "year": 2023,
+        "startDate": "2022-09-01",
+        "endDate": "2023-03-31"
       },
       {
         "date": "2022-06-28",
@@ -3250,7 +5335,9 @@
         "bizType": "사업화지원",
         "amount": 20000.0,
         "programCode": "B2_304",
-        "year": 2022
+        "year": 2022,
+        "startDate": "2022-07-25",
+        "endDate": "2022-11-30"
       }
     ],
     "passthrough": {
@@ -3311,7 +5398,200 @@
         "rndPatent": 62.62626262626262,
         "ntis": 90.9090909090909,
         "백분위기준": "전체fallback"
-      }
+      },
+      "percentiles": {
+        "특허출원": 63.63636363636363,
+        "특허등록": 59.09090909090909,
+        "등록전환율": 54.54545454545454,
+        "최근출원비중": 27.27272727272727,
+        "R&D집약도": 90.9090909090909,
+        "NTIS과제수": 90.9090909090909,
+        "NTIS연구비": 100.0
+      },
+      "patentList": [
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2024-12-18",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2023-12-28",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2023-11-22",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2022-12-30",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-12-27",
+          "registered": "2025-10-20",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-12-19",
+          "registered": "2025-10-10",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-01-21",
+          "registered": "2022-10-11",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2021-09-10",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2020-11-26",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2020-11-23",
+          "registered": "2023-10-04",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2019-12-31",
+          "registered": "2020-07-22",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2019-12-05",
+          "registered": "2021-11-01",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2019-11-22",
+          "registered": "2020-06-13",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2019-09-26",
+          "registered": "2021-05-24",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-10-30",
+          "registered": "2019-12-05",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-06-28",
+          "registered": "2019-12-05",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-03-23",
+          "registered": "2020-02-05",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-03-08",
+          "registered": "2019-05-02",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-01-30",
+          "registered": "2019-06-14",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2017-07-25",
+          "registered": "2020-02-05",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2016-12-05",
+          "registered": "2018-11-30",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2016-12-05",
+          "registered": "2018-11-30",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2016-07-14",
+          "registered": "2016-09-28",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2014-07-29",
+          "registered": null,
+          "valid": false
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2014-07-29",
+          "registered": "2016-03-21",
+          "valid": true
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2014-04-16",
+          "registered": null,
+          "valid": false
+        }
+      ]
     }
   }
 ]

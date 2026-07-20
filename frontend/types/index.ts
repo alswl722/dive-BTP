@@ -32,6 +32,8 @@ export interface SupportRecord {
   amount: number; // 천원 (탈락/포기는 0)
   programCode: string | null; // support_programs.program_code 조인키(연도+코드가 PK)
   year: number | null;
+  startDate: string | null; // 수행 시작일 — 동시 수혜(기간 겹침) 판정용
+  endDate: string | null;   // 수행 종료일
 }
 
 // 축8 개별 지원사업 정합성 판정
@@ -140,6 +142,19 @@ export interface Tech {
     ntis: number | null;
     백분위기준: string | null;
   };
+  // 지표별 동종 대비 백분위(0~100). 절대값만으로는 "많은 건지" 알 수 없어 함께 제공.
+  // ⚠️ scores.백분위기준이 "전체fallback"이면 동종 표본 부족 — 화면에 표기할 것.
+  percentiles: Record<string, number | null>;
+  // 드릴다운 — 집계 숫자("등록 N건")의 근거. 같은 기준(기술 IP만)으로 필터됨.
+  patentList: PatentRecord[];
+}
+
+export interface PatentRecord {
+  type: string | null;       // 특허권 / 실용신안권
+  status: string | null;     // 등록 / 공개(출원 계류)
+  applied: string | null;
+  registered: string | null;
+  valid: boolean | null;     // false면 권리 소멸
 }
 
 // support_programs(실사업 목록) + support_records 집계. macroCategory는 원본 시트 간

@@ -34,6 +34,8 @@ class SupportRecord(BaseModel):
     amount: float
     programCode: str | None = None
     year: int | None = None
+    startDate: str | None = None   # 수행 시작일 — 동시 수혜(기간 겹침) 판정용
+    endDate: str | None = None     # 수행 종료일
 
 
 class Patents(BaseModel):
@@ -93,6 +95,16 @@ class TechScores(BaseModel):
     백분위기준: str | None = None        # 업종내 / 전체fallback
 
 
+class PatentRecord(BaseModel):
+    """특허 원장 1건 — 집계 숫자의 근거 확인용(드릴다운)."""
+
+    type: str | None = None        # 특허권 / 실용신안권 (상표·디자인은 집계에서 제외)
+    status: str | None = None      # 등록 / 공개(출원 계류)
+    applied: str | None = None
+    registered: str | None = None
+    valid: bool | None = None      # 등록유효여부 — False면 권리 소멸
+
+
 class Tech(BaseModel):
     patents: TechPatents
     rnd: TechRnd
@@ -100,6 +112,9 @@ class Tech(BaseModel):
     certification: TechCertification
     domain: TechDomain
     scores: TechScores
+    # 지표별 동종 대비 백분위(0~100). 절대값만으로는 판단이 어려워 함께 제공.
+    percentiles: dict[str, float | None] = Field(default_factory=dict)
+    patentList: list[PatentRecord] = Field(default_factory=list)
 
 
 class Support(BaseModel):

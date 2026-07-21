@@ -218,6 +218,56 @@ def compute_features(df: pd.DataFrame, verbose: bool = True) -> pd.DataFrame:
         out["흑자관측연수"] = 0
         out["흑자지속성"] = np.nan
 
+    # 영업외의존_연수: 영업이익<0 인데 당기순이익≥0 인 연수(= 본업 적자를 영업외로 연명).
+    # 영업이익·당기순이익 둘 다 관측된 연도만 분모(재무관측연수). 만성 연명(2379: 4년) 포착용.
+    # 점수 미반영(비단조·맥락 신호) → passthrough. 판정은 프론트 배지에서 임계값 적용.
+    ni_mat = wide("당기순이익손실")
+    if not op_mat.empty and not ni_mat.empty:
+        common_yrs = [y for y in op_mat.columns if y in ni_mat.columns]
+        if common_yrs:
+            op_c, ni_c = op_mat[common_yrs], ni_mat[common_yrs]
+            both_obs = (op_c.notna() & ni_c.notna())
+            fin_obs = both_obs.sum(axis=1)
+            lifeline = ((op_c < 0) & (ni_c >= 0) & both_obs).sum(axis=1).astype(float)
+            out["재무관측연수"] = fin_obs.astype(int)
+            out["영업외의존_연수"] = lifeline.where(fin_obs > 0)
+        else:
+            out["재무관측연수"] = 0
+            out["영업외의존_연수"] = np.nan
+    else:
+        out["재무관측연수"] = 0
+        out["영업외의존_연수"] = np.nan
+
+    # 고용 회전율: 국민연금 취업(신규취득)·퇴직(자격상실)·가입(재직규모)으로 인력 이동 측정.
+    # 가입자수만 보면 성장처럼 보이나 대량 입·퇴사일 수 있음(695: 순증 +42인데 회전율 2.29).
+    # ⚠️ METRIC_HINTS를 거치지 않고 find_year_cols 직접 호출 — 국민연금은 재무 점수축이 아니라
+    #    validate_scores 게이트(METRIC_HINTS 전멸 검사)의 fatal 대상이 되면 안 됨. 점수 미반영·맥락.
+    sub_map = find_year_cols(df, "국민연금가입자수")
+    emp_map = find_year_cols(df, "국민연금취업자수")
+    ret_map = find_year_cols(df, "국민연금퇴직자수")
+    common_e = sorted(set(sub_map) & set(emp_map) & set(ret_map))
+    if common_e:
+        sub_w = pd.DataFrame({y: _year_series(df, sub_map, y) for y in common_e}, index=df.index)
+        emp_w = pd.DataFrame({y: _year_series(df, emp_map, y) for y in common_e}, index=df.index)
+        ret_w = pd.DataFrame({y: _year_series(df, ret_map, y) for y in common_e}, index=df.index)
+        obs = (sub_w.notna() & emp_w.notna() & ret_w.notna() & (sub_w > 0))
+        out["고용관측연수"] = obs.sum(axis=1).astype(int)
+        # 최근 관측연도(가입자>0 & 셋 다 존재)의 값으로 비율 산출.
+        last_obs = obs.where(obs).apply(lambda r: r.last_valid_index(), axis=1)
+
+        def _at_last(mat: pd.DataFrame) -> pd.Series:
+            return pd.Series(
+                [mat.at[i, y] if pd.notna(y) else np.nan for i, y in last_obs.items()],
+                index=df.index,
+            )
+        sub_l, emp_l, ret_l = _at_last(sub_w), _at_last(emp_w), _at_last(ret_w)
+        out["이직률_최근"] = safe_ratio(ret_l, sub_l)          # 퇴직/가입 = 유출 강도
+        out["고용회전율_최근"] = safe_ratio(emp_l + ret_l, sub_l)  # (취업+퇴직)/가입 = 총 이동
+        out["고용순증_최근"] = emp_l - ret_l                   # 취업−퇴직 = 절대 증감
+    else:
+        out["고용관측연수"] = 0
+        out["이직률_최근"] = out["고용회전율_최근"] = out["고용순증_최근"] = np.nan
+
     # 수익성추세: 영업이익률을 연도별 횡단면 winsorize 후 기업별 기울기.
     # 원본 영업이익률 컬럼이 없으면(본선 변형) 영업이익/매출×100으로 대체 계산(%-스케일 유지).
     opm = wide("영업이익률")

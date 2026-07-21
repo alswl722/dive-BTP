@@ -154,7 +154,26 @@ SELECT
     ntis_consigned.n AS "NTIS위탁_행수",
     sup.support_count AS "지원건수",
     sup.support_amount_sum AS "총지원금_천원",
-    sup.support_years AS "지원연도수"
+    sup.support_years AS "지원연도수",
+
+    -- 국민연금 가입(재직규모)·취업(신규취득)·퇴직(자격상실): 고용 회전율 파생 입력.
+    -- features_finance가 find_year_cols("국민연금가입자수" 등)로 읽는다(컬럼명 스템 일치 필수).
+    -- ⚠️ CREATE OR REPLACE VIEW는 컬럼을 끝에만 추가할 수 있어 SELECT 말미에 둔다(순서 무관 — 이름으로 소비).
+    MAX(CASE WHEN ym.year = 2020 THEN ym.pension_subscribers END) AS "국민연금가입자수_2020",
+    MAX(CASE WHEN ym.year = 2021 THEN ym.pension_subscribers END) AS "국민연금가입자수_2021",
+    MAX(CASE WHEN ym.year = 2022 THEN ym.pension_subscribers END) AS "국민연금가입자수_2022",
+    MAX(CASE WHEN ym.year = 2023 THEN ym.pension_subscribers END) AS "국민연금가입자수_2023",
+    MAX(CASE WHEN ym.year = 2024 THEN ym.pension_subscribers END) AS "국민연금가입자수_2024",
+    MAX(CASE WHEN ym.year = 2020 THEN ym.pension_employed END) AS "국민연금취업자수_2020",
+    MAX(CASE WHEN ym.year = 2021 THEN ym.pension_employed END) AS "국민연금취업자수_2021",
+    MAX(CASE WHEN ym.year = 2022 THEN ym.pension_employed END) AS "국민연금취업자수_2022",
+    MAX(CASE WHEN ym.year = 2023 THEN ym.pension_employed END) AS "국민연금취업자수_2023",
+    MAX(CASE WHEN ym.year = 2024 THEN ym.pension_employed END) AS "국민연금취업자수_2024",
+    MAX(CASE WHEN ym.year = 2020 THEN ym.pension_retired END) AS "국민연금퇴직자수_2020",
+    MAX(CASE WHEN ym.year = 2021 THEN ym.pension_retired END) AS "국민연금퇴직자수_2021",
+    MAX(CASE WHEN ym.year = 2022 THEN ym.pension_retired END) AS "국민연금퇴직자수_2022",
+    MAX(CASE WHEN ym.year = 2023 THEN ym.pension_retired END) AS "국민연금퇴직자수_2023",
+    MAX(CASE WHEN ym.year = 2024 THEN ym.pension_retired END) AS "국민연금퇴직자수_2024"
 
 FROM companies c
 LEFT JOIN company_yearly_metrics ym ON ym.company_id = c.company_id

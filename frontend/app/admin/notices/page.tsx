@@ -4,7 +4,7 @@ import { NoticeEditor } from "@/components/notices/notice-editor";
 // 접근 제어는 AuthGate에서 처리(/admin 하위는 관리자만).
 export default function AdminNoticesPage() {
   return (
-    <div className="mx-auto max-w-3xl space-y-5">
+    <div className="space-y-5">
       <div>
         <div className="flex items-center gap-2">
           <Megaphone className="h-5 w-5 text-primary" />

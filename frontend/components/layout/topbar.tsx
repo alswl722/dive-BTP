@@ -33,7 +33,7 @@ export function TopBar() {
 
       {onSelectionScreen && (
         <div className="inline-flex shrink-0 items-center gap-0.5 rounded-md bg-muted p-0.5">
-          <ViewToggleButton active={viewMode === "table"} onClick={() => setViewMode("table")} icon={Table2} label="표" />
+          <ViewToggleButton active={viewMode === "table"} onClick={() => setViewMode("table")} icon={Table2} label="목록" />
           <ViewToggleButton active={viewMode === "board"} onClick={() => setViewMode("board")} icon={LayoutGrid} label="보드" />
         </div>
       )}

@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AlertTriangle, Paperclip, Pencil, Pin, PinOff, Plus, Trash2, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Pagination } from "@/components/ui/pagination";
 import {
   useNotices,
   noticeDate,
@@ -14,6 +15,8 @@ import {
 import { AttachmentList } from "@/components/notices/attachment-list";
 import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
+
+const PAGE_SIZE = 10;
 
 /** 관리자 전용 공지 작성·수정·삭제. 같은 /notices 화면에서 담당자는 읽기만 본다. */
 export function NoticeEditor() {
@@ -27,7 +30,16 @@ export function NoticeEditor() {
   const [attachments, setAttachments] = useState<NoticeAttachment[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [reading, setReading] = useState(false);
+  const [page, setPage] = useState(0);
   const fileRef = useRef<HTMLInputElement>(null);
+
+  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
+  const pageItems = sorted.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+
+  // 삭제로 목록이 줄어 현재 페이지가 범위를 벗어나면(예: 마지막 페이지 1건 삭제) 보정.
+  useEffect(() => {
+    if (page >= totalPages) setPage(Math.max(0, totalPages - 1));
+  }, [page, totalPages]);
 
   function reset() {
     setWriting(false);
@@ -113,10 +125,7 @@ export function NoticeEditor() {
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center justify-between">
-        <p className="text-[12px] text-muted-foreground">
-          작성한 공지는 심사 담당자의 공지사항 화면과 메인 페이지에 표시됩니다.
-        </p>
+      <div className="flex items-center justify-end">
         {!writing && (
           <button
             type="button"
@@ -206,8 +215,9 @@ export function NoticeEditor() {
           등록된 공지가 없습니다.
         </p>
       ) : (
+        <div className="space-y-3">
         <div className="divide-y rounded-lg border">
-          {sorted.map((n) => (
+          {pageItems.map((n) => (
             <div key={n.id} className={cn("px-3.5 py-2.5", n.pinned && "bg-primary/[0.03]")}>
               <div className="flex items-start gap-2">
                 <div className="min-w-0 flex-1">
@@ -243,6 +253,8 @@ export function NoticeEditor() {
               </div>
             </div>
           ))}
+        </div>
+        <Pagination page={page} totalPages={totalPages} onChange={setPage} />
         </div>
       )}
     </div>

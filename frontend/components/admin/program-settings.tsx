@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { AlertTriangle, Check, Search, Settings2, Undo2 } from "lucide-react";
+import { Check, Search, Settings2, Undo2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Pagination } from "@/components/ui/pagination";
 import { useAdminState } from "@/lib/admin-state";
 import { DEMO_ACCOUNTS } from "@/lib/auth";
 import { dashboardReferenceDate, programApplicantIds, programKey } from "@/lib/program-progress";
@@ -12,6 +13,8 @@ import type { Company, Program } from "@/types";
 
 /** 배정 대상은 담당자만 — 관리자는 배정과 무관하게 전 사업을 심사할 수 있어 선택지로 두면 오해를 준다. */
 const ASSIGNABLE = DEMO_ACCOUNTS.filter((a) => a.role === "담당자");
+
+const PAGE_SIZE = 10;
 
 /**
  * 지원사업 설정 — 사업별 담당자 배정과 진행 상태 지정.
@@ -28,9 +31,11 @@ export function ProgramSettings({ companies, programs }: { companies: Company[];
   // 기본은 진행중만 — 끝난 사업이 목록의 대부분(표본 52건 중 39건)이라
   // 전체를 깔면 지금 배정해야 할 건이 묻힌다.
   const [statusTab, setStatusTab] = useState<ProgramStatus | "전체">("진행중");
+  const [page, setPage] = useState(0);
 
   // 다른 화면에서 배정이 바뀌었거나 세션 복원이 늦게 끝난 경우 초안을 맞춰준다
   useEffect(() => setDraft(assigns), [assigns]);
+  useEffect(() => setPage(0), [q, statusTab]);
 
   const ref = useMemo(() => dashboardReferenceDate(programs), [programs]);
 
@@ -57,6 +62,9 @@ export function ProgramSettings({ companies, programs }: { companies: Company[];
     return [...matched].sort((a, b) => b.year - a.year || ((a.name ?? "") < (b.name ?? "") ? -1 : 1));
   }, [withApplicants, q, statusTab, ref, statuses]);
 
+  const totalPages = Math.max(1, Math.ceil(targets.length / PAGE_SIZE));
+  const pageItems = targets.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+
   const total = withApplicants.length;
   const unassigned = total - Object.values(assigns).filter(Boolean).length;
   const dirty = useMemo(
@@ -75,7 +83,7 @@ export function ProgramSettings({ companies, programs }: { companies: Company[];
   }
 
   return (
-    <div className="mx-auto max-w-4xl space-y-5">
+    <div className="mx-auto max-w-3xl space-y-5">
       <div>
         <div className="flex items-center gap-2">
           <Settings2 className="h-5 w-5 text-primary" />
@@ -91,19 +99,6 @@ export function ProgramSettings({ companies, programs }: { companies: Company[];
         <SummaryTile label="미배정" value={unassigned} tone={unassigned > 0 ? "warn" : "good"} />
         <SummaryTile label="상태 지정" value={Object.keys(statuses).length} />
       </div>
-
-      {unassigned > 0 && (
-        <p className="flex items-center gap-1.5 rounded-lg bg-warn-bg px-3.5 py-2.5 text-[11.5px] text-warn">
-          <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
-          배정되지 않은 사업이 {unassigned}건 있습니다. 담당자가 심사에 진입할 수 없습니다.
-          {/* 미배정 건수는 전체 기준이라 '진행중' 목록에 안 보일 수 있다 — 바로 넘어가게 한다 */}
-          {statusTab !== "전체" && (
-            <button type="button" onClick={() => setStatusTab("전체")} className="ml-auto shrink-0 underline">
-              전체 보기
-            </button>
-          )}
-        </p>
-      )}
 
       <div className="flex flex-wrap items-center gap-1.5">
         {(["진행중", "완료", "예정", "전체"] as const).map((t) => (
@@ -157,8 +152,9 @@ export function ProgramSettings({ companies, programs }: { companies: Company[];
           {q.trim() ? "검색 결과가 없습니다." : `'${statusTab}' 상태인 사업이 없습니다.`}
         </p>
       ) : (
+        <div className="space-y-3">
         <div className="divide-y rounded-lg border">
-          {targets.map((p) => {
+          {pageItems.map((p) => {
             const key = programKey(p);
             const applicants = programApplicantIds(p, companies).length;
             const status = resolveProgramStatus(p, ref, statuses);
@@ -216,6 +212,8 @@ export function ProgramSettings({ companies, programs }: { companies: Company[];
               </div>
             );
           })}
+        </div>
+        <Pagination page={page} totalPages={totalPages} onChange={setPage} />
         </div>
       )}
 

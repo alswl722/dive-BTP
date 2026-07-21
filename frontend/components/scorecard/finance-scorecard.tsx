@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AlertTriangle, ChevronDown } from "lucide-react";
+import { AlertTriangle, ArrowDown, ChevronDown } from "lucide-react";
 import { Line, LineChart, ReferenceDot, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Badge } from "@/components/ui/badge";
 import { cn, formatKRW } from "@/lib/utils";
@@ -320,18 +320,21 @@ function MetricRow({ company, metricKey }: { company: Company; metricKey: string
   const raw = company.rawMetrics[metricKey];
   const b = band(pct);
   return (
-    <div className="grid grid-cols-[1fr_auto] items-center gap-x-3 py-2">
+    <div className="grid grid-cols-[1fr_auto] items-center gap-x-3">
       <div className="min-w-0">
-        <div className="flex items-baseline gap-2">
+        <div className="flex items-center gap-1">
           <span className="truncate text-[12.5px] font-medium">{metricLabel(metricKey)}</span>
-          <span className="shrink-0 text-[10px] text-muted-foreground">
-            {LOWER_IS_BETTER.has(metricKey) ? "낮을수록 좋음" : "높을수록 좋음"}
-          </span>
+          {/* 원본값이 거꾸로 읽히는 지표만 ↓ 표시 — 나머지(높을수록 좋음)는 당연하므로 안내문 생략 */}
+          {LOWER_IS_BETTER.has(metricKey) && (
+            <ArrowDown className="h-3 w-3 shrink-0 text-muted-foreground" aria-label="낮을수록 좋음" />
+          )}
         </div>
-        <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-muted">
+        {/* 트랙 가운데 눈금 = P50(중간) 기준선 — 색 막대에 의미를 준다 */}
+        <div className="relative mt-1 h-1.5 w-full overflow-hidden rounded-full bg-muted">
           {isNum(pct) && (
             <div className={cn("h-full rounded-full", toneBar[b.tone])} style={{ width: `${Math.max(2, Math.min(100, pct))}%` }} />
           )}
+          <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-foreground/25" aria-hidden />
         </div>
       </div>
       <div className="text-right">
@@ -359,7 +362,7 @@ function DrillDownRow({ company, axis, open, onToggle }: { company: Company; axi
         </span>
       </button>
       {open && (
-        <div className="divide-y pb-2">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-3 pb-3 pt-1 sm:grid-cols-2">
           {AXIS_METRICS[axis].map((m) => (
             <MetricRow key={m} company={company} metricKey={m} />
           ))}
@@ -419,7 +422,11 @@ export function FinanceScorecard({ company }: { company: Company }) {
         {company.percentileBasis === "전체fallback" && (
           <Badge variant="warn" className="px-2 py-0.5 text-[10px]">업종 표본 부족 — 전체표본 대비 백분위</Badge>
         )}
-        <p>표본이 작아 순위 1칸 ≈ 9점 — 근소한 점수 차이는 무시할 것. 부채비율·판관비율은 낮을수록 좋음.</p>
+        <p>
+          막대 = 동종 대비 백분위(길수록 좋음) · 가운데 눈금 = P50 ·{" "}
+          <ArrowDown className="inline h-3 w-3 align-text-bottom" aria-hidden /> 표시는 원본값이 낮을수록 좋은 지표(막대는 방향 보정됨).
+        </p>
+        <p>표본이 작아 순위 1칸 ≈ 9점 — 근소한 점수 차이는 무시할 것.</p>
         {company.dataQuality.missing.length > 0 && (
           <p>재무지표 결측 {company.dataQuality.missing.length}건 — 일부 점수는 부분 데이터 기반.</p>
         )}

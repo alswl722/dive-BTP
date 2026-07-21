@@ -12,6 +12,7 @@ import { useAuth, isAdmin } from "@/lib/auth";
 import { Sidebar } from "@/components/layout/sidebar";
 import { TopBar } from "@/components/layout/topbar";
 import { ChatbotFab } from "@/components/chatbot-fab";
+import { NotesFab } from "@/components/notes-fab";
 
 const LOGIN_PATH = "/login";
 /** 관리자만 접근 가능한 경로 */
@@ -60,6 +61,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
         </div>
       </div>
       <ChatbotFab />
+      <NotesFab />
     </>
   );
 }

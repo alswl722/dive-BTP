@@ -6,13 +6,16 @@ import { AuthProvider } from "@/lib/auth";
 import { AdminStateProvider } from "@/lib/admin-state";
 import { NoticeProvider } from "@/lib/notices";
 import { ReviewStatusProvider, UiProvider } from "@/lib/app-state";
-import type { ReviewStatus } from "@/types";
+import { NotesDataProvider } from "@/lib/notes-data";
+import type { Company, Note, Program, ReviewStatus } from "@/types";
 
 export function Providers({
   initialReviewStatus,
+  notesData,
   children,
 }: {
   initialReviewStatus: Record<number, ReviewStatus>;
+  notesData: { companies: Company[]; programs: Program[]; initialNotes: Note[] };
   children: ReactNode;
 }) {
   return (
@@ -21,7 +24,9 @@ export function Providers({
         <ReviewStatusProvider initial={initialReviewStatus}>
           <AdminStateProvider>
             <NoticeProvider>
-              <UiProvider>{children}</UiProvider>
+              <NotesDataProvider value={notesData}>
+                <UiProvider>{children}</UiProvider>
+              </NotesDataProvider>
             </NoticeProvider>
           </AdminStateProvider>
         </ReviewStatusProvider>

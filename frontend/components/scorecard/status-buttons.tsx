@@ -79,11 +79,12 @@ export function StatusDropdown({ status, onChange }: { status: ReviewStatus; onC
 
 const STACK_OPTIONS: { status: ReviewStatus; activeClass: string; label: string }[] = [
   { status: "선정", activeClass: "border-good bg-good-bg text-good", label: "선정" },
-  { status: "보류", activeClass: "border-warn bg-warn-bg text-[hsl(30_75%_38%)]", label: "보류" },
+  { status: "후보", activeClass: "border-info bg-info-bg text-info", label: "후보" },
   { status: "제외", activeClass: "border-bad bg-bad-bg text-bad", label: "제외" },
 ];
 
-/** 스코어카드 헤더용 — 세로 라벨 스택. */
+/** 스코어카드 헤더용 — 세로 라벨 스택. 각 버튼이 목표 상태를 직접 지정(토글 아님) —
+ *  "후보"가 버튼으로 명시돼 있어 굳이 활성 버튼을 다시 눌러 해제할 필요가 없다. */
 export function StatusStack({ status, onChange }: { status: ReviewStatus; onChange: (next: ReviewStatus) => void }) {
   return (
     <div className="flex flex-col gap-1">
@@ -92,7 +93,7 @@ export function StatusStack({ status, onChange }: { status: ReviewStatus; onChan
         return (
           <button
             key={s}
-            onClick={() => onChange(active ? "후보" : s)}
+            onClick={() => onChange(s)}
             className={cn(
               "rounded-md border px-3 py-1 text-[11.5px] font-medium transition-colors",
               active ? activeClass : "border-border text-muted-foreground hover:bg-muted"

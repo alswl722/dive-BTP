@@ -82,6 +82,16 @@ export function sortCompanies(
   return [...companies].sort((a, b) => (valueOf(a) - valueOf(b)) * factor);
 }
 
+/** 팝오버에 묶인 연속값 필터(종합점수/4축/지원이력)만 세는 활성 개수 — 배지 표시용.
+ *  업종/인증/품질처럼 항상 노출된 칩 필터는 그 자체로 눈에 보여서 배지에 넣지 않는다. */
+export function countAdvancedFilters(f: CompanyFilters): number {
+  let n = 0;
+  if (f.minOverall > 0) n++;
+  for (const axis of AXES) if (f.minAxis[axis] > 0) n++;
+  if (f.minSupportYears > 0) n++;
+  return n;
+}
+
 export function reviewStatusCounts(companies: Company[], statuses: Record<number, ReviewStatus>) {
   const counts: Record<ReviewStatus, number> = { 후보: 0, 선정: 0, 보류: 0, 제외: 0 };
   for (const c of companies) {

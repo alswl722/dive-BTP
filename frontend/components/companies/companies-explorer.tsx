@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowLeft, List, X } from "lucide-react";
+import { X } from "lucide-react";
 import type { Company, Program } from "@/types";
 import { useReviewStatus, useUi } from "@/lib/app-state";
 import { DEFAULT_AXIS_WEIGHTS, DEFAULT_GROUP_WEIGHTS } from "@/lib/scoring";
@@ -12,7 +11,9 @@ import { latestSupportYear } from "@/lib/duplicate-risk";
 import { companyProgramKeys, programKey } from "@/lib/program-progress";
 import { useAdminState } from "@/lib/admin-state";
 import { useAuth, isAdmin } from "@/lib/auth";
-import { FilterPanel } from "@/components/companies/filter-panel";
+import { FilterBar } from "@/components/companies/filter-bar";
+import { AdvancedFilterPopover } from "@/components/companies/advanced-filter-popover";
+import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
 import { WeightPopover } from "@/components/companies/weight-popover";
 import { CompaniesTable } from "@/components/companies/companies-table";
 import { CompaniesBoard } from "@/components/companies/companies-board";
@@ -50,7 +51,6 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
     }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
-  const [filterPanelOpen, setFilterPanelOpen] = useState(true);
   const [weights, setWeights] = useState(DEFAULT_AXIS_WEIGHTS);
   const [groupWeights, setGroupWeights] = useState(DEFAULT_GROUP_WEIGHTS);
   const [sortKey, setSortKey] = useState<SortKey>("overall");
@@ -113,6 +113,10 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
     [programs, assigns, user]
   );
   const selectedProgram = programOptions.find((p) => programKey(p) === filters.programKey);
+  const programComboOptions: ComboboxOption[] = useMemo(
+    () => programOptions.map((p) => ({ value: programKey(p), label: p.name ?? p.programCode, group: String(p.year) })),
+    [programOptions]
+  );
 
   function toggleSelect(id: number) {
     setSelectedIds((prev) => {
@@ -141,47 +145,17 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
 
   return (
     <div className="flex items-start gap-4">
-      {filterPanelOpen && (
-        <FilterPanel companies={companies} filteredCount={sorted.length} filters={filters} onChange={setFilters} />
-      )}
-
-      <div className="flex min-w-0 flex-1 flex-col gap-4">
+      <div className="flex min-w-0 flex-1 flex-col gap-3">
         <div className="flex flex-wrap items-center gap-2.5">
-          <button
-            onClick={() => setFilterPanelOpen((v) => !v)}
-            title="필터 패널 접기/펼치기"
-            className={cn(
-              "flex h-8 w-8 shrink-0 items-center justify-center rounded-md border",
-              filterPanelOpen ? "border-primary text-primary" : "text-muted-foreground hover:bg-muted"
-            )}
-          >
-            <List className="h-4 w-4" />
-          </button>
-
-          {/* 심사는 사업 단위로 진행 — '전체 사업'으로 풀 수 없고 배정된 사업 간 전환만 가능 */}
-          <Link
-            href="/companies"
-            title="내 지원사업 목록"
-            className="flex h-8 shrink-0 items-center gap-1 rounded-md border px-2.5 text-[12px] text-muted-foreground hover:bg-muted"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" />
-            사업 목록
-          </Link>
-
-          <select
-            value={filters.programKey ?? ""}
-            onChange={(e) => {
-              const key = e.target.value;
-              if (key) router.push(`/companies?program=${key}`);
-            }}
-            className="rounded-md border bg-subtle px-2.5 py-1.5 text-[12.5px] outline-none focus:ring-2 focus:ring-ring/40"
-          >
-            {programOptions.map((p) => (
-              <option key={programKey(p)} value={programKey(p)}>
-                {p.year} · {p.name}
-              </option>
-            ))}
-          </select>
+          {/* 심사는 사업 단위로 진행 — '전체 사업'으로 풀 수 없고 배정된 사업 간 전환만 가능.
+              사업 목록 카드 페이지는 없앴으므로 전환은 이 콤보박스로만 한다. */}
+          <Combobox
+            options={programComboOptions}
+            value={filters.programKey}
+            onChange={(key) => router.push(`/companies?program=${key}`)}
+            placeholder="사업 선택"
+            className="w-[260px] shrink-0"
+          />
 
           <WeightPopover
             weights={weights}
@@ -189,6 +163,8 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
             groupWeights={groupWeights}
             onGroupChange={setGroupWeights}
           />
+
+          <AdvancedFilterPopover filters={filters} onChange={setFilters} />
 
           {selectedProgram && (
             <span className="flex items-center gap-1 rounded-full bg-info-bg px-2.5 py-1 text-[11.5px] text-info">
@@ -203,6 +179,8 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
             <span className="text-muted-foreground">/ {companies.length}개</span>
           </div>
         </div>
+
+        <FilterBar companies={companies} filters={filters} onChange={setFilters} />
 
         {selectedIds.size > 0 && (
           <div className="flex items-center gap-3 rounded-lg bg-primary px-4 py-2.5 text-primary-foreground">

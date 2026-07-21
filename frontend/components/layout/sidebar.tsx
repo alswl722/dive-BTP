@@ -52,10 +52,11 @@ export function Sidebar() {
       )}
     >
       <div className="flex h-14 shrink-0 items-center gap-2.5 bg-sidebar-logoBar px-4">
-        <div className="relative h-7 w-7 shrink-0 overflow-hidden rounded-md bg-primary">
+        {/* 로고 자체가 파란색 사선 마크라 브랜드블루 배경과 겹치면 묻힌다 — 흰 배경 칩으로 대비 확보 */}
+        <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-md bg-white">
           <Image src="/btp-symbol.png" alt="BTP" fill className="object-contain p-1" />
         </div>
-        {!sidebarCollapsed && <span className="truncate text-[13px] font-bold text-white">부산TP 심사</span>}
+        {!sidebarCollapsed && <span className="truncate text-[13px] font-bold text-white">BTP 기업 심사</span>}
       </div>
 
       <nav className="flex flex-col gap-1 p-3">

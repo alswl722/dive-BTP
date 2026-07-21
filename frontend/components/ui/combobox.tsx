@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Check, ChevronDown, Search } from "lucide-react";
+import { Check, ChevronDown, Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface ComboboxOption {
@@ -18,12 +18,15 @@ export function Combobox({
   onChange,
   placeholder = "선택",
   className,
+  clearable = false,
 }: {
   options: ComboboxOption[];
   value: string | null;
-  onChange: (value: string) => void;
+  onChange: (value: string | null) => void;
   placeholder?: string;
   className?: string;
+  /** true면 값이 선택된 상태에서 X 버튼으로 선택 해제(null)할 수 있다 — "전체" 같은 선택적 필터용. */
+  clearable?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -63,7 +66,19 @@ export function Combobox({
         className="flex w-full items-center gap-2 rounded-md border bg-subtle px-2.5 py-1.5 text-left text-[12.5px] outline-none focus:ring-2 focus:ring-ring/40"
       >
         <span className="min-w-0 flex-1 truncate">{selected?.label ?? placeholder}</span>
-        <ChevronDown className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+        {clearable && selected ? (
+          <X
+            role="button"
+            aria-label="선택 해제"
+            className="h-3.5 w-3.5 shrink-0 text-muted-foreground hover:text-foreground"
+            onClick={(e) => {
+              e.stopPropagation();
+              onChange(null);
+            }}
+          />
+        ) : (
+          <ChevronDown className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+        )}
       </button>
 
       {open && (

@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, THead, TBody, TR, TH, TD } from "@/components/ui/table";
 import { Pagination } from "@/components/ui/pagination";
+import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
 import { useAdminState } from "@/lib/admin-state";
 import { businessTypeLabel, resolveProgramStatus, PROGRAM_STATUS_BADGE, type ProgramStatus } from "@/lib/program-status";
 import { ProgramDetailPanel } from "@/components/programs/program-detail-panel";
@@ -65,7 +66,9 @@ export function ProgramsExplorer({
       const k = p.ministry ?? "미상";
       counts.set(k, (counts.get(k) ?? 0) + 1);
     }
-    return Array.from(counts.entries()).sort((a, b) => b[1] - a[1]);
+    // 가나다순 — 부처 수가 많아지면 건수순보다 이름으로 찾는 게 빠르다.
+    // 코드유닛 비교로 고정(서버/브라우저 콜레이션 차이로 인한 hydration mismatch 방지).
+    return Array.from(counts.entries()).sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
   }, [programs]);
 
   // 관리자가 지정한 진행 상태를 목록·필터·CSV에 반영한다
@@ -77,6 +80,15 @@ export function ProgramsExplorer({
       : programs;
     return Array.from(new Set(pool.flatMap((p) => p.detailItems))).sort();
   }, [programs, filters.businessType]);
+
+  const ministryOptions: ComboboxOption[] = useMemo(
+    () => ministries.map(([m, n]) => ({ value: m, label: `${m} (${n})` })),
+    [ministries]
+  );
+  const detailComboOptions: ComboboxOption[] = useMemo(
+    () => detailOptions.map((d) => ({ value: d, label: d })),
+    [detailOptions]
+  );
 
   const filtered = useMemo(
     () => applyProgramFilters(programs, filters, referenceDate, adminStatuses),
@@ -181,29 +193,23 @@ export function ProgramsExplorer({
             ))}
           </div>
 
-          <select
-            value={filters.ministry ?? ""}
-            onChange={(e) => update({ ministry: e.target.value || null })}
-            aria-label="부처 필터"
-            className="shrink-0 rounded-md border bg-subtle px-2 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-ring/40"
-          >
-            <option value="">부처 전체</option>
-            {ministries.map(([m, n]) => (
-              <option key={m} value={m}>{m} ({n})</option>
-            ))}
-          </select>
+          <Combobox
+            options={ministryOptions}
+            value={filters.ministry}
+            onChange={(v) => update({ ministry: v })}
+            placeholder="부처 전체"
+            className="w-[160px] shrink-0"
+            clearable
+          />
 
-          <select
-            value={filters.detailItem ?? ""}
-            onChange={(e) => update({ detailItem: e.target.value || null })}
-            aria-label="지원구분 필터"
-            className="shrink-0 rounded-md border bg-subtle px-2 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-ring/40"
-          >
-            <option value="">지원구분 전체</option>
-            {detailOptions.map((d) => (
-              <option key={d} value={d}>{d}</option>
-            ))}
-          </select>
+          <Combobox
+            options={detailComboOptions}
+            value={filters.detailItem}
+            onChange={(v) => update({ detailItem: v })}
+            placeholder="지원구분 전체"
+            className="w-[160px] shrink-0"
+            clearable
+          />
         </div>
 
         <div className="flex flex-nowrap items-center gap-2">

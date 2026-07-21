@@ -1,18 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ChevronDown, Inbox, Megaphone, Paperclip, Pencil, Pin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Pagination } from "@/components/ui/pagination";
 import { useNotices, noticeDate, type Notice } from "@/lib/notices";
 import { AttachmentList } from "@/components/notices/attachment-list";
 import { useAuth, isAdmin } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 
-/** 읽기 전용 공지 목록 — 담당자 화면과 메인 페이지 요약에 쓴다. */
-export function NoticeList({ compact = false, limit }: { compact?: boolean; limit?: number }) {
+const PAGE_SIZE = 10;
+
+/** 읽기 전용 공지 목록 — 담당자 화면과 메인 페이지 요약에 쓴다.
+ *  limit이 있으면(메인 페이지 요약) 자르기만 하고 페이지네이션은 안 붙인다 —
+ *  page가 있을 때만(전체 목록 페이지, /notices) 페이지네이션을 켠다. */
+export function NoticeList({ compact = false, limit, paginated = false }: { compact?: boolean; limit?: number; paginated?: boolean }) {
   const { sorted } = useNotices();
-  const items = limit ? sorted.slice(0, limit) : sorted;
+  const [page, setPage] = useState(0);
+  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
+
+  useEffect(() => {
+    if (page >= totalPages) setPage(Math.max(0, totalPages - 1));
+  }, [page, totalPages]);
+
+  const items = limit
+    ? sorted.slice(0, limit)
+    : paginated
+      ? sorted.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
+      : sorted;
 
   if (items.length === 0) {
     return (
@@ -24,15 +40,18 @@ export function NoticeList({ compact = false, limit }: { compact?: boolean; limi
   }
 
   return (
-    <div className="space-y-2">
-      {items.map((n) => (
-        <NoticeItem key={n.id} notice={n} compact={compact} />
-      ))}
+    <div className="space-y-3">
+      <div className="space-y-2">
+        {items.map((n) => (
+          <NoticeItem key={n.id} notice={n} compact={compact} />
+        ))}
+      </div>
       {limit && sorted.length > limit && (
         <Link href="/notices" className="block pt-1 text-[11.5px] text-primary hover:underline">
           공지 {sorted.length - limit}건 더 보기
         </Link>
       )}
+      {paginated && <Pagination page={page} totalPages={totalPages} onChange={setPage} />}
     </div>
   );
 }
@@ -119,7 +138,7 @@ export function NoticePage() {
           </Link>
         )}
       </div>
-      <NoticeList />
+      <NoticeList paginated />
     </div>
   );
 }

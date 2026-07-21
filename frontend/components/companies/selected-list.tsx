@@ -89,7 +89,7 @@ export function SelectedList({ companies, programs }: { companies: Company[]; pr
   }, [myPrograms, companies, statuses, referenceDate, adminStatuses]);
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6">
+    <div className="space-y-6">
       <div>
         <h1 className="text-[20px] font-extrabold tracking-tight">선정 목록</h1>
         <p className="mt-1 text-[12.5px] text-muted-foreground">

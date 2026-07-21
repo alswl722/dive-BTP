@@ -111,7 +111,8 @@ export function ProgramsExplorer({
     filters.detailItem !== null || filters.ministry !== null || filters.status !== null;
 
   return (
-    <div className="space-y-4">
+    <div className="flex items-start gap-4">
+      <div className="min-w-0 flex-1 space-y-4">
       {/* 제목 줄 오른쪽에 요약·CSV를 얹어 별도 행을 쓰지 않는다 */}
       <div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
         <div>
@@ -234,9 +235,7 @@ export function ProgramsExplorer({
         </div>
       </Card>
 
-      <div className="flex min-h-0 gap-4">
-        <div className="min-w-0 flex-1">
-          <Card>
+      <Card>
             <Table>
               <THead>
                 <TR>
@@ -302,21 +301,20 @@ export function ProgramsExplorer({
           <div className="mt-4">
             <Pagination page={page} totalPages={totalPages} onChange={setPage} />
           </div>
-        </div>
-
-        {openProgram && (
-          <div className="sticky top-6 max-h-[calc(100vh-100px)] w-[380px] shrink-0 overflow-y-auto rounded-xl bg-card p-5 shadow-modal">
-            <ProgramDetailPanel
-              program={openProgram}
-              programs={programs}
-              companies={companies}
-              notes={notes}
-              referenceDate={referenceDate}
-              onClose={() => setOpenKey(null)}
-            />
-          </div>
-        )}
       </div>
+
+      {openProgram && (
+        <div className="sticky top-6 max-h-[calc(100vh-100px)] w-[380px] shrink-0 overflow-y-auto rounded-xl bg-card p-5 shadow-modal">
+          <ProgramDetailPanel
+            program={openProgram}
+            programs={programs}
+            companies={companies}
+            notes={notes}
+            referenceDate={referenceDate}
+            onClose={() => setOpenKey(null)}
+          />
+        </div>
+      )}
     </div>
   );
 }

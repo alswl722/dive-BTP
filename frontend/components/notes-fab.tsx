@@ -4,9 +4,9 @@
 //   전체 목록·검색·수정은 /notes 페이지에 남기고, 여기선 "빠르게 쓰고 최근 것 확인"에 집중.
 //   전역 마운트(auth-gate)라 companies/programs/notes를 첫 펼침 때 클라이언트에서 로드.
 import { useRef, useState } from "react";
-import { NotebookPen, X } from "lucide-react";
+import { NotebookPen, Pencil, Trash2, X } from "lucide-react";
 import type { Note } from "@/types";
-import { createNote, notesPersisted } from "@/lib/api";
+import { createNote, deleteNote, notesPersisted, updateNote } from "@/lib/api";
 import { relativeTime } from "@/lib/notes";
 import { useNotesData } from "@/lib/notes-data";
 import { useFabState } from "@/lib/fab-state";
@@ -27,6 +27,8 @@ export function NotesFab() {
   const [open, setOpen] = useState(false);
   const [notes, setNotes] = useState<Note[]>(initialNotes);
   const [draft, setDraft] = useState("");
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editBody, setEditBody] = useState("");
 
   // 드래그로 패널 위치 조절. 아직 안 옮겼으면(dx=dy=0) 챗봇 열림 시 자동으로 살짝 왼쪽으로 비켜서고,
   // 한 번 옮기면 그 위치를 유지한다(사용자 배치 우선).
@@ -77,6 +79,31 @@ export function NotesFab() {
       if (saved) setNotes((prev) => prev.map((x) => (x.id === optimistic.id ? saved : x)));
     } catch (err) {
       console.error("메모 저장 실패:", err);
+    }
+  }
+
+  // 수정/삭제는 /notes 페이지(notes-explorer)와 동일한 낙관적 갱신 패턴.
+  async function saveEdit(id: number) {
+    const body = editBody.trim();
+    if (!body) return;
+    setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, body, updatedAt: new Date().toISOString() } : n)));
+    setEditingId(null);
+    try {
+      const saved = await updateNote(id, body);
+      if (saved) setNotes((prev) => prev.map((n) => (n.id === id ? saved : n)));
+    } catch (err) {
+      console.error("메모 수정 실패:", err);
+    }
+  }
+
+  async function remove(id: number) {
+    const prev = notes;
+    setNotes((cur) => cur.filter((n) => n.id !== id));
+    try {
+      await deleteNote(id);
+    } catch (err) {
+      console.error("메모 삭제 실패, 되돌림:", err);
+      setNotes(prev);
     }
   }
 
@@ -135,15 +162,51 @@ export function NotesFab() {
               </p>
             ) : (
               notes.map((n) => (
-                <div key={n.id} className="rounded-lg border p-2.5">
+                <div key={n.id} className="group rounded-lg border p-2.5">
                   <div className="mb-1 flex items-center gap-2">
                     <Badge variant="secondary" className="text-[10px]">{n.author}</Badge>
                     <span className="text-[10.5px] text-muted-foreground">{relativeTime(n.createdAt)}</span>
                     {n.updatedAt !== n.createdAt && (
                       <span className="text-[10px] text-muted-foreground">(수정됨)</span>
                     )}
+                    <div className="ml-auto flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+                      <button
+                        onClick={() => { setEditingId(n.id); setEditBody(n.body); }}
+                        aria-label="메모 수정"
+                        className="rounded p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
+                      >
+                        <Pencil className="h-3.5 w-3.5" />
+                      </button>
+                      <button
+                        onClick={() => remove(n.id)}
+                        aria-label="메모 삭제"
+                        className="rounded p-1 text-muted-foreground hover:bg-muted hover:text-bad"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
                   </div>
-                  <NoteBody body={n.body} className="text-[12px]" />
+                  {editingId === n.id ? (
+                    <div className="space-y-2">
+                      <MentionInput value={editBody} onChange={setEditBody} companies={companies} programs={programs} autoFocus />
+                      <div className="flex justify-end gap-1.5">
+                        <button
+                          onClick={() => setEditingId(null)}
+                          className="rounded-md border px-2.5 py-1 text-[12px] hover:bg-muted"
+                        >
+                          취소
+                        </button>
+                        <button
+                          onClick={() => saveEdit(n.id)}
+                          className="rounded-md bg-primary px-2.5 py-1 text-[12px] font-medium text-primary-foreground"
+                        >
+                          저장
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <NoteBody body={n.body} className="text-[12px]" />
+                  )}
                 </div>
               ))
             )}

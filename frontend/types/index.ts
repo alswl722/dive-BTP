@@ -150,11 +150,18 @@ export interface Tech {
     활동공백년수: number | null; // 마지막 출원 이후 경과(클수록 R&D 정체)
     소멸률: number | null;       // 등록특허 권리 소멸 비율(자금압박 신호)
     첫특허업력: number | null;
+    // 등록 특허 중 대표이사·임원 개인 명의 건수. 법인이 아닌 개인 자산이라
+    // 대표 이탈 시 회사에 남지 않는다(등록 대비 비중이 높으면 IP 소실 위험).
+    대표개인명의_등록: number | null;
   };
   rnd: { 집약도: number | null; 집약도추세: number | null };
   ntis: {
     주관과제수: number | null;
     정부연구비_원: number | null; // ⚠️ 단위 원(재무는 천원)
+    민간연구비_원: number | null; // 정부 과제에 매칭한 민간(자체) 연구비. 단위 원
+    민간부담률: number | null;    // 민간÷연구비합계(0~1). 자기 자본 매칭 비율. null=정부R&D 없음
+    최근수주연도: number | null;  // 최신 정부 과제 착수연도. null=정부R&D 없음
+    진행중과제수: number | null;  // 데이터 스냅샷 기준 총연구기간 진행 중인 과제 수
     부처다양성: number | null;
     위탁과제수: number | null;
     산학협력: boolean;
@@ -191,6 +198,9 @@ export interface PatentRecord {
   applied: string | null;
   registered: string | null;
   valid: boolean | null;     // false면 권리 소멸
+  // 회사와의 관계: 본인(법인)/대표이사/임원. 대표이사·임원=개인 명의라
+  // 법인 자산이 아니다(대표 이탈 시 회사에 남지 않음). null=미상.
+  relation: string | null;
 }
 
 // support_programs(실사업 목록) + support_records 집계. macroCategory는 원본 시트 간

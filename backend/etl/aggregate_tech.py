@@ -74,6 +74,16 @@ def aggregate_patents(patents: pd.DataFrame, as_of: pd.Timestamp | None = None) 
     out["특허유효등록_건수"] = reg_rows[reg_rows["is_valid"] == True].groupby(KEY).size()  # noqa: E712
     out["특허소멸_건수"] = reg_rows[reg_rows["is_valid"] == False].groupby(KEY).size()  # noqa: E712
 
+    # 권리 귀속: 등록 특허 중 대표이사·임원 '개인 명의' 건수.
+    # 법인이 아닌 개인 자산이라 대표 이탈 시 회사에 남지 않는다 → 회사 IP로 세면 과대평가.
+    # 점수(특허등록_건수)는 그대로 두고(직무발명 승계 여부를 알 수 없어 일괄 제외는 과함),
+    # 비중이 높으면 화면에서 "IP가 대표 개인에 집중" 경고를 띄우기 위한 참고 지표.
+    if "relation_code" in reg_rows.columns:
+        indiv = reg_rows[reg_rows["relation_code"].isin(["대표이사", "임원"])]
+        out["대표개인명의_등록특허_건수"] = indiv.groupby(KEY).size()
+    else:
+        out["대표개인명의_등록특허_건수"] = 0
+
     return out
 
 
@@ -85,7 +95,14 @@ def _dedup_lead(lead: pd.DataFrame) -> pd.DataFrame:
 
 
 def aggregate_ntis_lead(lead: pd.DataFrame) -> pd.DataFrame:
-    """NTIS 주관 → 기업별 (과제수, 정부연구비합, 부처다양성, 첫 수주연도). dedup 후."""
+    """NTIS 주관 → 기업별 집계. dedup 후.
+
+    과제수·정부연구비·부처다양성·첫수주연도에 더해 심사자용 두 신호를 추가:
+    - 민간부담률: 정부 과제에 회사가 자기 자본을 얼마나 매칭했나(민간÷연구비합계).
+      '지원금만 받는' 기업과 '자기 돈도 넣는' 기업을 가른다 → 반복지원 정당성 판단.
+    - 최근수주연도·진행중과제수: 정부 R&D가 '과거 실적'인지 '현재도 수행 중'인지.
+      스냅샷 기준일(base_date)이 총연구기간 안에 드는 과제 = 진행중.
+    """
     dd = _dedup_lead(lead)
     g = dd.groupby(KEY)
     out = pd.DataFrame({
@@ -94,6 +111,25 @@ def aggregate_ntis_lead(lead: pd.DataFrame) -> pd.DataFrame:
         "NTIS주관_부처다양성": g["ministry"].nunique(),
         "NTIS주관_첫수주연도": g["base_year"].min(),
     })
+    if "private_funding_krw" in dd.columns:
+        out["NTIS주관_민간연구비"] = g["private_funding_krw"].sum()
+    # 민간부담률 = 민간 ÷ 연구비합계 (0~1). 총액 0이면 NaN(계산 불가).
+    if {"private_funding_krw", "total_funding_krw"}.issubset(dd.columns):
+        pri = g["private_funding_krw"].sum()
+        tot = g["total_funding_krw"].sum()
+        out["NTIS주관_민간부담률"] = (pri / tot).where(tot > 0)
+
+    st = pd.to_datetime(dd["period_start_date"], errors="coerce")
+    en = pd.to_datetime(dd["period_end_date"], errors="coerce")
+    # 최근 수주연도 = 최신 총연구기간 시작연도(수주 시점 기준)
+    out["NTIS주관_최근수주연도"] = st.dt.year.groupby(dd[KEY]).max()
+    # 진행중 = 데이터 스냅샷 기준일이 총연구기간 안에 드는 과제 수
+    ref = pd.to_datetime(lead["base_date"], errors="coerce").max()
+    if pd.notna(ref):
+        ongoing = (st <= ref) & (en >= ref)
+        out["NTIS주관_진행중과제수"] = ongoing.groupby(dd[KEY]).sum()
+    else:
+        out["NTIS주관_진행중과제수"] = 0
     return out
 
 
@@ -139,14 +175,17 @@ def build(tables: dict[str, pd.DataFrame]) -> pd.DataFrame:
         out = out.join(p, how="left")
 
     # 건수류 결측 = 실제 0 (원장에 행이 없다 = 실적이 없다). 날짜·인증은 그대로.
-    int_count_cols = ["특허출원_건수", "특허등록_건수", "NTIS주관_과제수",
-                      "NTIS주관_부처다양성", "NTIS위탁_과제수",
+    int_count_cols = ["특허출원_건수", "특허등록_건수", "대표개인명의_등록특허_건수", "NTIS주관_과제수",
+                      "NTIS주관_부처다양성", "NTIS주관_진행중과제수", "NTIS위탁_과제수",
                       f"특허최근{RECENT_YEARS}년_출원건수", "특허유효등록_건수", "특허소멸_건수"]
     for c in int_count_cols:
         if c in out.columns:
             out[c] = out[c].fillna(0).astype(int)
-    if "NTIS주관_정부연구비" in out.columns:  # 금액(원)은 float 유지
-        out["NTIS주관_정부연구비"] = out["NTIS주관_정부연구비"].fillna(0.0)
+    for c in ["NTIS주관_정부연구비", "NTIS주관_민간연구비"]:  # 금액(원)은 float 유지, 무실적=0
+        if c in out.columns:
+            out[c] = out[c].fillna(0.0)
+    # 민간부담률·최근수주연도: 무실적(정부 R&D 없음)이면 NaN 유지 → company_view에서 None
+    #   (0으로 채우면 "부담률 0% / 수주 0년"으로 오독됨)
     for c in [f"인증_{x}" for x in CERT_ALL] + ["인증_핵심보유"]:
         if c in out.columns:
             out[c] = out[c].fillna(False).astype(bool)

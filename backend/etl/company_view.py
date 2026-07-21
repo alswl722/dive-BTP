@@ -376,6 +376,8 @@ def _prepare_tech_batch(tech_tables: dict | None) -> dict[int, dict]:
                     "applied": str(r["applied_date"]) if pd.notna(r.get("applied_date")) else None,
                     "registered": str(r["registered_date"]) if pd.notna(r.get("registered_date")) else None,
                     "valid": bool(r["is_valid"]) if pd.notna(r.get("is_valid")) else None,
+                    # 회사와의관계코드(본인/대표이사/임원) — 개인 명의 IP 식별용
+                    "relation": clean(r.get("relation_code")),
                 })
             rows.sort(key=lambda x: x["applied"] or "", reverse=True)
             if int(cid) in out:
@@ -401,6 +403,7 @@ def _tech_block(t: dict) -> dict:
             "활동공백년수": clean(t.get("특허_활동공백년수")),
             "소멸률": clean(t.get("특허소멸률")),
             "첫특허업력": clean(t.get("첫특허_업력")),
+            "대표개인명의_등록": clean(t.get("대표개인명의_등록특허_건수")),
         },
         "rnd": {
             "집약도": clean(t.get("R&D집약도")),
@@ -409,6 +412,10 @@ def _tech_block(t: dict) -> dict:
         "ntis": {
             "주관과제수": clean(t.get("NTIS주관_과제수")),
             "정부연구비_원": clean(t.get("NTIS주관_정부연구비")),
+            "민간연구비_원": clean(t.get("NTIS주관_민간연구비")),
+            "민간부담률": clean(t.get("NTIS주관_민간부담률")),
+            "최근수주연도": clean(t.get("NTIS주관_최근수주연도")),
+            "진행중과제수": clean(t.get("NTIS주관_진행중과제수")),
             "부처다양성": clean(t.get("NTIS주관_부처다양성")),
             "위탁과제수": clean(t.get("NTIS위탁_과제수")),
             "산학협력": bool(t.get("산학협력_여부")),

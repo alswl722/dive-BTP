@@ -9,6 +9,7 @@ import type { Note } from "@/types";
 import { createNote, notesPersisted } from "@/lib/api";
 import { relativeTime } from "@/lib/notes";
 import { useNotesData } from "@/lib/notes-data";
+import { useFabState } from "@/lib/fab-state";
 import { authorLabel, useRole } from "@/lib/roles";
 import { MentionInput } from "@/components/notes/mention-input";
 import { NoteBody } from "@/components/notes/note-body";
@@ -21,6 +22,7 @@ export function NotesFab() {
   const { role } = useRole();
   const author = authorLabel(role);
   const { companies, programs, initialNotes } = useNotesData();
+  const { chatbotOpen } = useFabState();
 
   const [open, setOpen] = useState(false);
   const [notes, setNotes] = useState<Note[]>(initialNotes);
@@ -50,7 +52,13 @@ export function NotesFab() {
   return (
     <div className="fixed bottom-6 right-24 z-50 flex flex-col items-end gap-3">
       {open && (
-        <div className="flex h-[520px] w-[380px] flex-col overflow-hidden rounded-xl bg-card shadow-modal">
+        <div
+          className={cn(
+            "flex h-[520px] w-[380px] flex-col overflow-hidden rounded-xl bg-card shadow-modal transition-transform duration-200",
+            // 챗봇도 열려 있으면 챗봇 패널(우측)과 겹치지 않게 왼쪽으로 비켜선다.
+            chatbotOpen && "-translate-x-[26.5rem]",
+          )}
+        >
           <div className="flex h-12 shrink-0 items-center justify-between bg-sidebar px-4">
             <span className="flex items-center gap-1.5 text-[13px] font-bold text-sidebar-foreground">
               <NotebookPen className="h-4 w-4" /> 메모

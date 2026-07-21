@@ -4,10 +4,11 @@
 //   navigate: 화면 이동 명령. 확인 문구를 잠깐 보여준 뒤 router.push.
 //   query:    데이터 조회. SQL 실행 결과 표 + 요약.
 //   clarify:  둘 다 아닌 요청. 안내 문구만.
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Sparkles, X, Send, ChevronDown, ChevronUp, ArrowRight } from "lucide-react";
 import { askChatbot, chatbotAvailable } from "@/lib/api";
+import { useFabState } from "@/lib/fab-state";
 import type { ChatbotAnswer } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -28,7 +29,10 @@ type Message =
 
 export function ChatbotFab() {
   const router = useRouter();
+  const { setChatbotOpen } = useFabState();
   const [open, setOpen] = useState(false);
+  // 챗봇 열림을 공유 상태로 알려, 메모 패널이 겹치지 않게 옆으로 비켜서게 한다.
+  useEffect(() => setChatbotOpen(open), [open, setChatbotOpen]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);

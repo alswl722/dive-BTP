@@ -32,7 +32,7 @@ export interface AxisVerdict {
 }
 
 /** 점수 하위 판정선 — 백분위 기준(절대값 아님). */
-const LOW_PERCENTILE = 25;
+export const LOW_PERCENTILE = 25;
 const HIGH_PERCENTILE = 65;
 /**
  * 특허 관련 절대 임계값 — **이 파일이 단일 출처**다.

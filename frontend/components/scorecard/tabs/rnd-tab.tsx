@@ -5,11 +5,11 @@ import { AlertTriangle, Check, ChevronDown, Info, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/ui/stat-card";
 import type { Company, Tech } from "@/types";
-import { cn } from "@/lib/utils";
+import { cn, formatKRW } from "@/lib/utils";
 // 임계값 단일 출처 — 심사 요약과 같은 기준으로 판정해야 화면끼리 어긋나지 않는다.
 import { PATENT_LAPSE_ALERT, STALE_PATENT_YEARS } from "@/lib/review-summary";
 
-/** 동종 대비 백분위를 담당자 언어로. 표본 부족이면 기준을 함께 알린다. */
+/** 동종 대비 백분위를 담당자 언어로. 표본 부족이면 '전체' 기준으로 자연스럽게 표기. */
 function rankText(p: number | null | undefined, basis: string | null | undefined): string | null {
   if (p == null) return null;
   const top = Math.max(1, Math.round(100 - p));
@@ -18,61 +18,85 @@ function rankText(p: number | null | undefined, basis: string | null | undefined
 }
 
 const pct = (v: number | null | undefined) => (v == null ? "—" : `${Math.round(v * 100)}%`);
-const num = (v: number | null | undefined) => (v == null ? "—" : `${v}`);
-const yr = (v: number | null | undefined) => (v == null ? "—" : `${v.toFixed(1)}년`);
+
+/** 정부연구비는 단위가 '원'(재무는 천원). formatKRW는 천원 입력이라 /1000으로 맞춘다. */
+function govFunding(won: number | null | undefined): string {
+  if (won == null) return "—";
+  if (won === 0) return "0원";
+  return formatKRW(won / 1000);
+}
+
+/** R&D 집약도 추세(기울기) → 담당자 언어. 미미한 변동은 신호로 보지 않는다. */
+function intensityTrend(slope: number | null | undefined): string | null {
+  if (slope == null || Math.abs(slope) < 0.02) return null;
+  return slope > 0 ? "투자 확대 추세" : "투자 축소 추세";
+}
 
 export function RndTab({ company }: { company: Company }) {
   const tech = company.tech;
   const basis = tech?.scores.백분위기준;
+  const applied = tech?.patents.출원 ?? 0;
+  const registered = tech?.patents.등록 ?? 0;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* 기술 분야 — "얼마나"가 아니라 "어느 분야에서" */}
       {tech && <DomainSection domain={tech.domain} />}
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <StatCard
-          label="특허 등록"
-          value={`${company.patents.등록 ?? 0}건`}
-          sub={tech ? rankText(tech.percentiles["특허등록"], basis) ?? `전환율 ${pct(tech.patents.등록전환율)}` : undefined}
-        />
-        <StatCard
-          label="특허 출원"
-          value={`${company.patents.출원 ?? 0}건`}
-          sub={tech ? rankText(tech.percentiles["특허출원"], basis) ?? "상표·디자인 제외" : "상표·디자인 제외"}
-        />
-        <StatCard
-          label="NTIS 주관"
-          value={`${company.ntis.주관 ?? 0}건`}
-          sub={tech ? rankText(tech.percentiles["NTIS과제수"], basis) ?? `${num(tech.ntis.부처다양성)}개 부처` : undefined}
-        />
-        <StatCard label="NTIS 위탁" value={`${company.ntis.위탁 ?? 0}건`} />
-      </div>
-      {tech?.scores.백분위기준 === "전체fallback" && (
-        <p className="-mt-3 text-[11px] text-muted-foreground">
-          ※ 동종업계 표본이 부족해 전체 기업 대비로 계산했습니다.
-        </p>
-      )}
+      {/* 특허 실적 — 규모(등록·출원)와 질·활동(전환율·최근출원)을 한 묶음으로 */}
+      <section className="space-y-2">
+        <SectionLabel>특허</SectionLabel>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <StatCard
+            label="특허 등록"
+            value={`${company.patents.등록 ?? 0}건`}
+            sub={rankText(tech?.percentiles["특허등록"], basis) ?? undefined}
+          />
+          <StatCard
+            label="특허 출원"
+            value={`${company.patents.출원 ?? 0}건`}
+            sub={rankText(tech?.percentiles["특허출원"], basis) ?? undefined}
+          />
+          <StatCard
+            label="특허 전환율"
+            value={pct(tech?.patents.등록전환율)}
+            sub={applied > 0 ? `출원 ${applied} · 등록 ${registered}` : undefined}
+          />
+          <StatCard
+            label="최근 3년 출원"
+            value={`${tech?.patents.최근3년출원 ?? 0}건`}
+            sub={tech?.patents.최근출원비중 != null ? `전체의 ${pct(tech.patents.최근출원비중)}` : undefined}
+          />
+        </div>
+      </section>
 
+      {/* 정부 R&D·투자 — 정부가 이 기업에 실제로 투입한 R&D 규모와 자체 투자 강도 */}
       {tech && (
-        <>
-          <PatentFunnel patents={tech.patents} />
-          <TechWarnings tech={tech} />
-          <div className="grid gap-3 sm:grid-cols-2">
+        <section className="space-y-2">
+          <SectionLabel>정부 R&D · 투자</SectionLabel>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <StatCard
+              label="NTIS 주관"
+              value={`${tech.ntis.주관과제수 ?? 0}건`}
+              sub={rankText(tech.percentiles["NTIS과제수"], basis) ?? (tech.ntis.부처다양성 != null ? `${tech.ntis.부처다양성}개 부처` : undefined)}
+            />
+            <StatCard label="NTIS 위탁" value={`${tech.ntis.위탁과제수 ?? 0}건`} sub="공동연구 참여" />
+            <StatCard
+              label="누적 정부연구비"
+              value={govFunding(tech.ntis.정부연구비_원)}
+              sub="정부 R&D 수주 총액"
+            />
             <StatCard
               label="R&D 집약도"
               value={pct(tech.rnd.집약도)}
-              sub={rankText(tech.percentiles["R&D집약도"], basis) ?? "연구개발비 ÷ 매출"}
-            />
-            <StatCard
-              label="최근 3년 출원"
-              value={`${tech.patents.최근3년출원 ?? 0}건`}
-              sub={`전체의 ${pct(tech.patents.최근출원비중)}`}
+              sub={intensityTrend(tech.rnd.집약도추세) ?? rankText(tech.percentiles["R&D집약도"], basis) ?? "연구개발비 ÷ 매출"}
             />
           </div>
-          <PatentDrilldown patents={tech.patentList} />
-        </>
+        </section>
       )}
+
+      {tech && <TechWarnings tech={tech} />}
+      {tech && <PatentDrilldown patents={tech.patentList} />}
 
       {/* 인증 — 실체와 교차해서 본다 */}
       <div>
@@ -108,6 +132,11 @@ export function RndTab({ company }: { company: Company }) {
   );
 }
 
+/** 지표 묶음 구분용 소제목 — 숫자 카드가 나열될 때 무엇에 대한 값인지 한눈에 잡아준다. */
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return <p className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">{children}</p>;
+}
+
 /** 기술 분야 · 정책 정렬. 추정으로 채운 경우 반드시 표기(확정값으로 오인 방지). */
 function DomainSection({ domain }: { domain: Tech["domain"] }) {
   const estimated = domain.출처 === "KSIC추정";
@@ -136,49 +165,6 @@ function DomainSection({ domain }: { domain: Tech["domain"] }) {
           ))}
         </div>
       )}
-
-      {domain.분야수 != null && domain.분야수 > 0 && (
-        <p className="mt-2 text-[11px] text-muted-foreground">
-          연구 분야 {domain.분야수}개
-          {domain.집중도 != null && ` · 집중도 ${domain.집중도.toFixed(2)} (1에 가까울수록 단일 분야 전문)`}
-        </p>
-      )}
-    </div>
-  );
-}
-
-/** 출원 → 등록 전환. "신청만 많은 기업"과 "권리를 실제로 받는 기업"을 가른다. */
-function PatentFunnel({ patents }: { patents: Tech["patents"] }) {
-  const applied = patents.출원 ?? 0;
-  const registered = patents.등록 ?? 0;
-  if (applied === 0) return null;
-
-  return (
-    <div>
-      <p className="mb-2 text-[12.5px] font-bold">
-        출원 → 등록 전환 <span className="font-normal text-muted-foreground">특허의 질</span>
-      </p>
-      <div className="space-y-1.5 rounded-lg bg-subtle p-3.5">
-        <FunnelBar label="출원" value={applied} max={applied} tone="bg-slate-300" />
-        <FunnelBar label="등록" value={registered} max={applied} tone="bg-primary" />
-        <p className="pt-1 text-[11px] text-muted-foreground">
-          전환율 <span className="font-bold text-foreground">{pct(registered / applied)}</span>
-          {patents.첫특허업력 != null && ` · 설립 후 첫 출원까지 ${yr(patents.첫특허업력)}`}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function FunnelBar({ label, value, max, tone }: { label: string; value: number; max: number; tone: string }) {
-  const width = max > 0 ? Math.max((value / max) * 100, 2) : 0;
-  return (
-    <div className="flex items-center gap-2.5">
-      <span className="w-8 shrink-0 text-[11px] text-muted-foreground">{label}</span>
-      <div className="h-4 flex-1 overflow-hidden rounded bg-white">
-        <div className={cn("h-full rounded", tone)} style={{ width: `${width}%` }} />
-      </div>
-      <span className="w-10 shrink-0 text-right text-[12px] font-bold tabular-nums">{value}</span>
     </div>
   );
 }

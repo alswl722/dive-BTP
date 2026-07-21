@@ -3,7 +3,7 @@
 // 메모 FAB — 챗봇 FAB처럼 우측 하단에서 펼쳐, 보던 페이지를 유지한 채 메모를 남긴다.
 //   전체 목록·검색·수정은 /notes 페이지에 남기고, 여기선 "빠르게 쓰고 최근 것 확인"에 집중.
 //   전역 마운트(auth-gate)라 companies/programs/notes를 첫 펼침 때 클라이언트에서 로드.
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { NotebookPen, X } from "lucide-react";
 import type { Note } from "@/types";
 import { createNote, notesPersisted } from "@/lib/api";
@@ -27,6 +27,37 @@ export function NotesFab() {
   const [open, setOpen] = useState(false);
   const [notes, setNotes] = useState<Note[]>(initialNotes);
   const [draft, setDraft] = useState("");
+
+  // 드래그로 패널 위치 조절. 아직 안 옮겼으면(dx=dy=0) 챗봇 열림 시 자동으로 살짝 왼쪽으로 비켜서고,
+  // 한 번 옮기면 그 위치를 유지한다(사용자 배치 우선).
+  const [drag, setDrag] = useState({ dx: 0, dy: 0 });
+  const [dragging, setDragging] = useState(false);
+  const dragRef = useRef<{ startX: number; startY: number; baseDx: number; baseDy: number } | null>(null);
+
+  function onDragStart(e: React.MouseEvent) {
+    e.preventDefault();
+    dragRef.current = { startX: e.clientX, startY: e.clientY, baseDx: drag.dx, baseDy: drag.dy };
+    setDragging(true);
+    const onMove = (ev: MouseEvent) => {
+      const d = dragRef.current;
+      if (!d) return;
+      setDrag({ dx: d.baseDx + (ev.clientX - d.startX), dy: d.baseDy + (ev.clientY - d.startY) });
+    };
+    const onUp = () => {
+      dragRef.current = null;
+      setDragging(false);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+      document.body.style.userSelect = "";
+    };
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    document.body.style.userSelect = "none";
+  }
+
+  const moved = drag.dx !== 0 || drag.dy !== 0;
+  // 안 옮겼고 챗봇이 열렸으면 챗봇 패널 바로 왼쪽(8px 간격)으로 비켜선다. 옮겼으면 드래그 위치 그대로.
+  const shiftX = !moved && chatbotOpen ? -356 : 0;
 
   async function submit() {
     const body = draft.trim();
@@ -54,16 +85,24 @@ export function NotesFab() {
       {open && (
         <div
           className={cn(
-            "flex h-[520px] w-[380px] flex-col overflow-hidden rounded-xl bg-card shadow-modal transition-transform duration-200",
-            // 챗봇도 열려 있으면 챗봇 패널(우측)과 겹치지 않게 왼쪽으로 비켜선다.
-            chatbotOpen && "-translate-x-[26.5rem]",
+            "flex h-[520px] w-[380px] flex-col overflow-hidden rounded-xl bg-card shadow-modal",
+            !dragging && "transition-transform duration-200",
           )}
+          style={{ transform: `translate(${drag.dx + shiftX}px, ${drag.dy}px)` }}
         >
-          <div className="flex h-12 shrink-0 items-center justify-between bg-sidebar px-4">
+          <div
+            onMouseDown={onDragStart}
+            className="flex h-12 shrink-0 cursor-move select-none items-center justify-between bg-sidebar px-4"
+          >
             <span className="flex items-center gap-1.5 text-[13px] font-bold text-sidebar-foreground">
               <NotebookPen className="h-4 w-4" /> 메모
             </span>
-            <button onClick={() => setOpen(false)} aria-label="닫기" className="text-sidebar-foreground hover:text-white">
+            <button
+              onMouseDown={(e) => e.stopPropagation()}
+              onClick={() => setOpen(false)}
+              aria-label="닫기"
+              className="text-sidebar-foreground hover:text-white"
+            >
               <X className="h-4 w-4" />
             </button>
           </div>

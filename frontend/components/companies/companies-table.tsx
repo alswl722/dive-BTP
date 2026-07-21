@@ -93,7 +93,9 @@ export function CompaniesTable({
                       {status}
                     </Badge>
                   </p>
-                  <p className="max-w-[220px] truncate text-[11px] text-muted-foreground">{c.industry ?? "-"}</p>
+                  <p className="truncate text-[11px] text-muted-foreground" title={c.industry ?? undefined}>
+                    {c.industry ?? "-"}
+                  </p>
                 </TD>
                 <TD>
                   <ScoreBadge score={resolveOverallScore(c, groupWeights, weights)} size="sm" />

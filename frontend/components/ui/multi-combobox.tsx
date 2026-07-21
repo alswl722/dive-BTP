@@ -90,6 +90,7 @@ export function MultiCombobox({
                     key={o.value}
                     type="button"
                     onClick={() => toggle(o.value)}
+                    title={o.label}
                     className={cn(
                       "flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-left text-[12.5px] hover:bg-muted",
                       checked && "bg-info-bg text-info"

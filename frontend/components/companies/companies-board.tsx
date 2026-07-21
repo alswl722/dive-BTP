@@ -95,7 +95,9 @@ export function CompaniesBoard({
                     />
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-[12.5px] font-bold">{c.name}</p>
-                      <p className="truncate text-[11px] text-muted-foreground">{c.industry ?? "업종 미상"}</p>
+                      <p className="truncate text-[11px] text-muted-foreground" title={c.industry ?? undefined}>
+                        {c.industry ?? "업종 미상"}
+                      </p>
                     </div>
                     <div className="flex shrink-0 items-center gap-1">
                       {dupRisk && <AlertTriangle className="h-3.5 w-3.5 text-bad" />}

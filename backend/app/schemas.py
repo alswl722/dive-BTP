@@ -129,6 +129,44 @@ class Support(BaseModel):
 class Passthrough(BaseModel):
     영업외손익비중: float | None = None
     자본잠식_플래그: float | None = None
+    # 영업외손익 괴리 배지 — 영업<0·순≥0(영업외로 연명)이 관측연수 중 몇 년인지(다년).
+    영업외의존_연수: float | None = None
+    재무관측연수: float | None = None
+    # 고용 회전율 배지 — 국민연금 취업·퇴직으로 인력 이동 측정(가입자수 성장 착시 방어).
+    이직률_최근: float | None = None
+    고용회전율_최근: float | None = None
+    고용순증_최근: float | None = None
+    고용관측연수: float | None = None
+
+
+class EmploymentYear(BaseModel):
+    """연도별 국민연금 가입/취업/퇴직 — 고용 배지 펼침표."""
+
+    year: int
+    가입: float | None = None
+    취업: float | None = None
+    퇴직: float | None = None
+
+
+class Employment(BaseModel):
+    """고용 배지 상세 — 포지션 바(회전율 업종내 백분위) + 연도별 시계열."""
+
+    회전율백분위: float | None = None
+    series: list[EmploymentYear] | None = None
+
+
+class NonopYear(BaseModel):
+    """연도별 영업이익·당기순이익(천원) — 영업외 연명 배지 펼침표."""
+
+    year: int
+    영업이익: float | None = None
+    당기순이익: float | None = None
+
+
+class NonopIncome(BaseModel):
+    """영업외 연명 배지 상세 — 연도별 본업 vs 최종 손익."""
+
+    series: list[NonopYear] | None = None
 
 
 class DataQuality(BaseModel):
@@ -210,6 +248,8 @@ class Company(BaseModel):
     support: Support
     supportHistory: list[SupportRecord]
     passthrough: Passthrough
+    employment: Employment | None = None         # 고용 회전율 배지 상세(바+시계열)
+    nonopIncome: NonopIncome | None = None       # 영업외 연명 배지 상세(연도별 손익)
     percentileBasis: str | None = None
     dataQuality: DataQuality
     reviewStatus: ReviewStatus = "후보"

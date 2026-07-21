@@ -73,7 +73,12 @@ SCORE_COLS = {
     "부채비율추세": ("안정성", "down"),
 }
 # 점수 제외, 원값 유지 (맥락·리스크·데이터품질)
-PASSTHROUGH = ["영업외손익비중", "자본잠식_플래그", "흑자관측연수", "데이터모순_판관비음수"]
+PASSTHROUGH = ["영업외손익비중", "자본잠식_플래그", "흑자관측연수", "데이터모순_판관비음수",
+               "영업외의존_연수", "재무관측연수",
+               "이직률_최근", "고용회전율_최근", "고용순증_최근", "고용관측연수"]
+
+# 맥락 지표 → 업종내 백분위(점수 미반영, 배지 포지션 바용). {파생컬럼: 출력백분위컬럼}
+CONTEXT_PCT_COLS = {"고용회전율_최근": "고용회전율_백분위"}
 
 
 # --- 순수 계산 --------------------------------------------------------------
@@ -143,16 +148,32 @@ def compute_scores(feat: pd.DataFrame, ksic: pd.Series) -> pd.DataFrame:
         if col in feat.columns:
             out[col] = feat[col].values
 
+    # 맥락 지표 백분위 (점수 미반영·축 미소속, 배지 포지션 바용).
+    # 방향 무보정(높을수록 불안정 그대로) — 프론트가 위치만 그리고 색은 임계로 판단.
+    # 'pct_' 접두를 피해 percentiles dict(company_view) 자동수집에 안 끼게 한다.
+    for src, dst in CONTEXT_PCT_COLS.items():
+        if src in feat.columns:
+            cv = pd.to_numeric(feat[src], errors="coerce")
+            if int(cv.notna().sum()) >= MIN_VALID:
+                within = cv.groupby(group).rank(pct=True) * 100
+                whole = cv.rank(pct=True) * 100
+                out[dst] = within.where(big, whole).values
+            else:
+                out[dst] = np.nan
+        else:
+            out[dst] = np.nan
+
     # 업종/기준 메타
     out["업종그룹"] = group.values
     out["백분위기준"] = np.where(big, "업종내", "전체fallback")
 
-    # 컬럼 순서: KEY → 축점수 → 유효컬럼수 → pct_* → passthrough → 메타
+    # 컬럼 순서: KEY → 축점수 → 유효컬럼수 → pct_* → passthrough → 맥락백분위 → 메타
     score_cols = [f"{a}점수" for a in AXES]
     valid_cols = [f"유효컬럼수_{a}" for a in AXES]
     pct_cols = [c for c in out.columns if c.startswith("pct_")]
+    ctx_cols = [d for d in CONTEXT_PCT_COLS.values() if d in out.columns]
     meta = [c for c in PASSTHROUGH if c in out.columns] + ["업종그룹", "백분위기준"]
-    return out[[KEY] + score_cols + valid_cols + pct_cols + meta]
+    return out[[KEY] + score_cols + valid_cols + pct_cols + ctx_cols + meta]
 
 
 # --- I/O 어댑터 -------------------------------------------------------------

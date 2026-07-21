@@ -61,6 +61,42 @@ def trend(df_row, df, hint):
             for y, c in ymap.items()]
 
 
+def employment_series(m, master):
+    """연도별 국민연금 가입/취업/퇴직 → [{year, 가입, 취업, 퇴직}]. 고용 배지 펼침표 원천.
+
+    master_table에 국민연금 컬럼이 없으면(뷰 미확장 환경) None → 프론트가 표를 숨긴다.
+    """
+    sub = col_year_map(master, "국민연금가입자수")
+    if not sub:
+        return None
+    emp = col_year_map(master, "국민연금취업자수")
+    ret = col_year_map(master, "국민연금퇴직자수")
+
+    def at(ymap, y):
+        return clean(pd.to_numeric(m[ymap[y]], errors="coerce")) if y in ymap else None
+
+    return [{"year": y, "가입": at(sub, y), "취업": at(emp, y), "퇴직": at(ret, y)}
+            for y in sorted(sub)]
+
+
+def nonop_series(m, master):
+    """연도별 영업이익·당기순이익(천원) → [{year, 영업이익, 당기순이익}]. 영업외 연명 배지 펼침표.
+
+    "본업 적자(영업<0)인데 최종 흑자(순≥0)"가 어느 해였는지를 심사자가 직접 확인.
+    두 컬럼 다 없으면 None. 값은 천원 원본 — 프론트가 억원으로 포맷.
+    """
+    op = col_year_map(master, "영업이익손실")
+    ni = col_year_map(master, "당기순이익손실")
+    if not op and not ni:
+        return None
+    years = sorted(set(op) | set(ni))
+
+    def at(ymap, y):
+        return clean(pd.to_numeric(m[ymap[y]], errors="coerce")) if y in ymap else None
+
+    return [{"year": y, "영업이익": at(op, y), "당기순이익": at(ni, y)} for y in years]
+
+
 def yn(v):
     return str(v).strip().upper() in {"Y", "1", "TRUE", "유", "T"}
 
@@ -524,6 +560,24 @@ def build_companies(
             "passthrough": {
                 "영업외손익비중": clean(s.get("영업외손익비중")),
                 "자본잠식_플래그": clean(s.get("자본잠식_플래그")),
+                # 영업외손익 괴리 배지용 다년 신호 — 영업<0·순≥0(영업외로 연명)이 5년 중 몇 년인지.
+                # 최근연도 부호(rawMetrics)만으론 2379(만성 연명) 같은 과거 다년 패턴을 놓침.
+                "영업외의존_연수": clean(s.get("영업외의존_연수")),
+                "재무관측연수": clean(s.get("재무관측연수")),
+                # 고용 회전율 배지용 — 가입자수만 보면 성장이나 실제 대량 입·퇴사일 수 있음(695).
+                "이직률_최근": clean(s.get("이직률_최근")),
+                "고용회전율_최근": clean(s.get("고용회전율_최근")),
+                "고용순증_최근": clean(s.get("고용순증_최근")),
+                "고용관측연수": clean(s.get("고용관측연수")),
+            },
+            # 고용 배지 상세 — 포지션 바(회전율 업종내 백분위) + 펼침표(연도별 시계열).
+            "employment": {
+                "회전율백분위": clean(s.get("고용회전율_백분위")),
+                "series": employment_series(m, master),
+            },
+            # 영업외 연명 배지 상세 — 연도별 영업이익 vs 당기순이익(펼침표).
+            "nonopIncome": {
+                "series": nonop_series(m, master),
             },
             "percentileBasis": clean(s.get("백분위기준")),
             "dataQuality": {"missing": missing, "ok": len(missing) == 0},

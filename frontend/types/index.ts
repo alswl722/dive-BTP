@@ -110,7 +110,23 @@ export interface Company {
   ntis: { 주관: number | null; 위탁: number | null };
   support: { 건수: number | null; 총지원금_천원: number | null; 지원연도수: number | null };
   supportHistory: SupportRecord[];
-  passthrough: { 영업외손익비중: number | null; 자본잠식_플래그: number | null };
+  passthrough: {
+    영업외손익비중: number | null;
+    자본잠식_플래그: number | null;
+    영업외의존_연수: number | null;
+    재무관측연수: number | null;
+    이직률_최근: number | null;
+    고용회전율_최근: number | null;
+    고용순증_최근: number | null;
+    고용관측연수: number | null;
+  };
+  employment?: {
+    회전율백분위: number | null;
+    series: { year: number; 가입: number | null; 취업: number | null; 퇴직: number | null }[] | null;
+  } | null;
+  nonopIncome?: {
+    series: { year: number; 영업이익: number | null; 당기순이익: number | null }[] | null;
+  } | null;
   percentileBasis: string | null; // "업종내" | "전체fallback"
   dataQuality: { missing: string[]; ok: boolean };
   _mock: string[]; // 목업으로 채운 필드(투명성)

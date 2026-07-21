@@ -21,6 +21,7 @@ export interface ReviewSignal {
   axis: AxisKey;
   title: string;
   detail: string;
+  kind?: "employment" | "lifeline"; // 특수 렌더(펼침표 등)를 붙일 신호 표식
 }
 
 export interface AxisVerdict {
@@ -39,8 +40,23 @@ const HIGH_PERCENTILE = 65;
  */
 export const STALE_PATENT_YEARS = 3;   // 마지막 출원 이후 이만큼 지나면 R&D 정체
 export const PATENT_LAPSE_ALERT = 0.1; // 등록 특허를 이 비율 이상 포기 = 유지 부담 신호
+// 본업 적자를 영업외 이익으로 흑자 전환한 해가 이 연수 이상이면 "만성 연명"(위험).
+// 최근연도 부호만 보면 2379(5년 중 4년 연명, 최근연도는 둘 다 적자)를 놓친다 → 다년 누적으로 판정.
+// 1년은 일회성일 수 있어 제외(표본 117·695·1049가 각 1년) → 2년을 만성 판정선으로.
+export const LIFELINE_CHRONIC_YEARS = 2;
+// 고용 회전율 판정선(가입자 대비 비율). 표본에서 695(이직률 0.93·회전율 2.29)만 불안정,
+// 나머지(117:0, 1730:0.19, 1878:0.10, 2379:0.45)는 아래 → 이 선이 695를 분리한다.
+export const TURNOVER_HIGH = 0.5;  // 이직률(퇴직/가입) 이 이상 = 유출 과다
+export const CHURN_HIGH = 0.8;     // 회전율((취업+퇴직)/가입) 이 이상 = 인력 이동 과다
 
 const pct = (v: number | null | undefined) => (v == null ? "—" : `${Math.round(v * 100)}%`);
+
+/** 고용 불안정 판정 — 배지와 동일 임계(이직률≥0.5 OR 회전율≥0.8). 목록 필터가 공유. */
+export function isEmploymentUnstable(c: Company): boolean {
+  const t = c.passthrough.이직률_최근;
+  const ch = c.passthrough.고용회전율_최근;
+  return (t != null && t >= TURNOVER_HIGH) || (ch != null && ch >= CHURN_HIGH);
+}
 
 /** 전 축을 훑어 심각도순 신호 목록을 만든다. */
 export function deriveReviewSignals(company: Company, latestYear: number): ReviewSignal[] {
@@ -70,6 +86,43 @@ export function deriveReviewSignals(company: Company, latestYear: number): Revie
       sev: "주의", axis: "재무", title: "흑자 지속성 낮음",
       detail: `최근 5년 중 영업흑자 ${profitYears}년. 수익 안정성을 확인하세요.`,
     });
+  }
+  // 본업 만성 적자를 영업외 이익으로 연명 — 지속가능성 낮음. 최근연도 부호가 아닌 다년 누적으로 판정.
+  const lifeline = company.passthrough.영업외의존_연수;
+  const finObs = company.passthrough.재무관측연수;
+  if (lifeline != null && lifeline >= LIFELINE_CHRONIC_YEARS) {
+    out.push({
+      sev: "위험", axis: "재무", title: "영업외 이익으로 연명", kind: "lifeline",
+      detail: `본업 적자를 영업외 이익으로 흑자 전환한 해가 ${finObs ? `${finObs}년 중 ` : ""}${lifeline}년. 지속가능성을 확인하세요.`,
+    });
+  }
+  // 본업 흑자인데 최근연도 최종 적자 — 이자·손상 등 영업외가 본업을 갉아먹음(단발 급성 신호).
+  const opm = company.rawMetrics["영업이익률_최근"];
+  const nim = company.rawMetrics["순이익률_최근"];
+  if (opm != null && nim != null && opm >= 0 && nim < 0) {
+    out.push({
+      sev: "주의", axis: "재무", title: "본업 흑자·최종 적자",
+      detail: `영업이익률 ${pct(opm)}인데 순이익률 ${pct(nim)}. 영업외 손실이 최종 적자를 만들었습니다.`,
+    });
+  }
+  // 고용 회전율 높음 — 채용이 많아 성장처럼 보여도 이직이 잦으면 인력이 정착 못 함.
+  // ⚠️ '주의'로 둔다(결격 아님). 성장기업의 정상 채용일 수 있어 확인이 필요한 사안.
+  // 문구는 순증(취업−퇴직) 부호로 분기 — '순증' 용어 대신 "채용이 퇴사보다 N명 많다"로 풀어씀.
+  const turnover = company.passthrough.이직률_최근;
+  const churn = company.passthrough.고용회전율_최근;
+  const netHire = company.passthrough.고용순증_최근;
+  if ((turnover != null && turnover >= TURNOVER_HIGH) || (churn != null && churn >= CHURN_HIGH)) {
+    // 세 지표(순증·이직률·회전율)는 모두 최근 관측연도 1년치 → 문구에 "최근 1년" 명시.
+    const rate = `이직률 ${pct(turnover)}·회전율 ${pct(churn)}`;
+    let detail: string;
+    if (netHire != null && netHire > 0) {
+      detail = `최근 1년 채용이 퇴사보다 ${netHire}명 많지만 ${rate}. 실제 성장인지 확인하세요.`;
+    } else if (netHire != null && netHire < 0) {
+      detail = `최근 1년 퇴사가 채용보다 ${Math.abs(netHire)}명 많고 ${rate}. 인력 이탈이 잦습니다.`;
+    } else {
+      detail = `최근 1년 채용과 퇴사가 맞먹고 ${rate}. 인력 이동이 큽니다.`;
+    }
+    out.push({ sev: "주의", axis: "재무", title: "고용 회전율 높음", kind: "employment", detail });
   }
   if (axisSpread(company.scores) >= AXIS_MISALIGNMENT_THRESHOLD) {
     const hi = AXES.reduce((a, b) => ((company.scores[b] ?? -1) > (company.scores[a] ?? -1) ? b : a));

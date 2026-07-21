@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ChevronRight, ChevronUp, Download, Search, X } from "lucide-react";
+import { AlertTriangle, ChevronRight, ChevronUp, Download, Search, X } from "lucide-react";
 import type { Company, Note, Program } from "@/types";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -345,11 +345,11 @@ function TotalAmountCell({ program: p }: { program: Program }) {
     // 프리뷰 패널이 열려 칼럼이 좁아지면 금액과 *가 갈라져 다음 줄로 떨어진다 — 한 덩어리로 묶는다.
     return (
       <span
-        className="whitespace-nowrap"
-        title={`선정 ${p.selectedCount}건 중 ${missing}건은 지원금 미기재 — 합계에서 제외됨`}
+        className="inline-flex items-center gap-0.5 whitespace-nowrap"
+        title={`지원금 미기재 ${missing}건은 0원으로 계산됨`}
       >
         {formatKRW(p.totalAmountThousand)}
-        <span className="ml-0.5 text-warn">*</span>
+        <AlertTriangle className="h-3 w-3 shrink-0 text-warn" aria-label="지원금 미기재 포함" />
       </span>
     );
   }

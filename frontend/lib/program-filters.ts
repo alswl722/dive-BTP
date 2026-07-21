@@ -1,5 +1,5 @@
 import type { Company, Program } from "@/types";
-import { programStatus, type ProgramStatus } from "@/lib/program-status";
+import { resolveProgramStatus, type ProgramStatus } from "@/lib/program-status";
 
 /** 지원사업 목록 필터 상태. 화면 컨트롤과 1:1. */
 export interface ProgramFilters {
@@ -39,7 +39,9 @@ export const programNameKey = (name: string | null, fallback: string) =>
 export function applyProgramFilters(
   programs: Program[],
   f: ProgramFilters,
-  referenceDate: Date
+  referenceDate: Date,
+  // 관리자가 지정한 상태 — 없으면 일정 기준 자동 판정
+  statusOverrides?: Record<string, ProgramStatus>
 ): Program[] {
   const q = f.q.trim().toLowerCase();
   return programs.filter((p) => {
@@ -52,7 +54,7 @@ export function applyProgramFilters(
     if (f.businessType && bizTypeKey(p) !== f.businessType) return false;
     if (f.detailItem && !p.detailItems.includes(f.detailItem)) return false;
     if (f.ministry && (p.ministry ?? "미상") !== f.ministry) return false;
-    if (f.status && programStatus(p, referenceDate) !== f.status) return false;
+    if (f.status && resolveProgramStatus(p, referenceDate, statusOverrides) !== f.status) return false;
     return true;
   });
 }
@@ -246,7 +248,11 @@ const CSV_HEADERS = [
 
 /** 화면 표시가 아닌 원값으로 내보낸다(엑셀에서 합계·정렬해야 하므로).
  *  신청 기록이 없는 사업은 신청/선정/금액을 빈 칸으로 — 0과 구분이 사라지면 안 된다. */
-export function programsToCsv(programs: Program[], referenceDate: Date): string {
+export function programsToCsv(
+  programs: Program[],
+  referenceDate: Date,
+  statusOverrides?: Record<string, ProgramStatus>
+): string {
   const lines = [CSV_HEADERS.join(",")];
   for (const p of programs) {
     const noRecord = p.applicantCount === 0;
@@ -262,7 +268,7 @@ export function programsToCsv(programs: Program[], referenceDate: Date): string 
         p.localGov,
         p.startDate,
         p.endDate,
-        programStatus(p, referenceDate),
+        resolveProgramStatus(p, referenceDate, statusOverrides),
         noRecord ? "" : p.applicantCount,
         noRecord ? "" : p.selectedCount,
         noRecord || p.selectedCount === 0 ? "" : p.totalAmountThousand,

@@ -21,6 +21,20 @@ export function programStatus(p: Program, ref: Date): ProgramStatus {
   return "진행중";
 }
 
+export const PROGRAM_STATUS_LIST: ProgramStatus[] = ["예정", "진행중", "완료"];
+
+/**
+ * 관리자 지정 상태가 있으면 그것을, 없으면 날짜 기준 자동 판정을 쓴다.
+ * (키를 직접 조합하는 이유는 program-progress ↔ program-status 순환 import 회피)
+ */
+export function resolveProgramStatus(
+  p: Program,
+  ref: Date,
+  overrides?: Record<string, ProgramStatus>
+): ProgramStatus {
+  return overrides?.[`${p.year}:${p.programCode}`] ?? programStatus(p, ref);
+}
+
 export const PROGRAM_STATUS_BADGE: Record<ProgramStatus, "info" | "warn" | "good"> = {
   진행중: "info",
   예정: "warn",

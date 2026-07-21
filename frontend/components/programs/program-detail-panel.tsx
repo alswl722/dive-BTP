@@ -6,11 +6,14 @@ import { useRouter } from "next/navigation";
 import type { Company, Note, Program } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/ui/stat-card";
-import { businessTypeLabel, programStatus, PROGRAM_STATUS_BADGE } from "@/lib/program-status";
+import { businessTypeLabel, resolveProgramStatus, PROGRAM_STATUS_BADGE } from "@/lib/program-status";
 import { coSupportedPrograms, coSupportThreshold, sameProgramRepeat, selectedCompanies } from "@/lib/program-filters";
 import { formatKRW } from "@/lib/utils";
 import { MentionedNotes } from "@/components/notes/notes-explorer";
 import { mentionsProgram } from "@/lib/notes";
+import { useAdminState } from "@/lib/admin-state";
+import { useAuth, isAdmin } from "@/lib/auth";
+import { programKey } from "@/lib/program-progress";
 
 export function ProgramDetailPanel({
   program: p,
@@ -28,7 +31,12 @@ export function ProgramDetailPanel({
   onClose: () => void;
 }) {
   const router = useRouter();
-  const status = programStatus(p, referenceDate);
+
+  // 지원 사업 화면은 전 사업 '열람'용 — 심사 진입은 배정받은 사업에만 연다(관리자는 전체).
+  const { assigns, statuses: adminStatuses } = useAdminState();
+  const { user } = useAuth();
+  const status = resolveProgramStatus(p, referenceDate, adminStatuses);
+  const canReview = isAdmin(user) || assigns[programKey(p)] === user?.username;
 
   const [showAllCo, setShowAllCo] = useState(false);
 
@@ -49,13 +57,16 @@ export function ProgramDetailPanel({
       <div className="flex items-start justify-between gap-2">
         <Badge variant={PROGRAM_STATUS_BADGE[status]}>{status}</Badge>
         <div className="flex shrink-0 items-center gap-1">
-          <button
-            onClick={() => router.push(`/companies?program=${p.year}:${p.programCode}`)}
-            aria-label="이 사업의 기업 목록 열기"
-            className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
-          >
-            <Maximize2 className="h-3.5 w-3.5" />
-          </button>
+          {canReview && (
+            <button
+              onClick={() => router.push(`/companies?program=${p.year}:${p.programCode}`)}
+              aria-label="이 사업의 기업 심사 화면 열기"
+              title="심사하기"
+              className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
+            >
+              <Maximize2 className="h-3.5 w-3.5" />
+            </button>
+          )}
           <button
             onClick={onClose}
             aria-label="닫기"

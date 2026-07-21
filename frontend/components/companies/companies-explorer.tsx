@@ -1,14 +1,17 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { List, X } from "lucide-react";
+import { ArrowLeft, List, X } from "lucide-react";
 import type { Company, Program } from "@/types";
 import { useReviewStatus, useUi } from "@/lib/app-state";
 import { DEFAULT_AXIS_WEIGHTS, DEFAULT_GROUP_WEIGHTS } from "@/lib/scoring";
 import { defaultFilters, applyFilters, sortCompanies, reviewStatusCounts, type CompanyFilters, type SortKey } from "@/lib/company-filters";
 import { latestSupportYear } from "@/lib/duplicate-risk";
 import { companyProgramKeys, programKey } from "@/lib/program-progress";
+import { useAdminState } from "@/lib/admin-state";
+import { useAuth, isAdmin } from "@/lib/auth";
 import { FilterPanel } from "@/components/companies/filter-panel";
 import { WeightPopover } from "@/components/companies/weight-popover";
 import { CompaniesTable } from "@/components/companies/companies-table";
@@ -18,6 +21,8 @@ import { ScorecardPanel } from "@/components/scorecard/scorecard-panel";
 import { cn } from "@/lib/utils";
 
 export function CompaniesExplorer({ companies, programs }: { companies: Company[]; programs: Program[] }) {
+  const { assigns } = useAdminState();
+  const { user } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const { statuses, setStatus } = useReviewStatus();
@@ -96,13 +101,16 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
   );
   const counts = useMemo(() => reviewStatusCounts(companiesWithLiveStatus, statuses), [companiesWithLiveStatus, statuses]);
 
+  // 배정된 사업만 전환 가능 — 목록에 없는 사업으로는 이동시키지 않는다(관리자는 전체)
+  const canReview = (p: Program) => isAdmin(user) || assigns[programKey(p)] === user?.username;
   const programOptions = useMemo(
     // localeCompare는 서버(Node ICU)와 브라우저의 콜레이션이 달라 hydration mismatch를 냄 —
     // 코드유닛 비교로 고정(한글 가나다 순서는 유니코드 순서와 동일).
     () => programs
-      .filter((p) => p.applicantCount > 0)
+      .filter((p) => p.applicantCount > 0 && canReview(p))
       .sort((a, b) => b.year - a.year || ((a.name ?? "") < (b.name ?? "") ? -1 : (a.name ?? "") > (b.name ?? "") ? 1 : 0)),
-    [programs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [programs, assigns, user]
   );
   const selectedProgram = programOptions.find((p) => programKey(p) === filters.programKey);
 
@@ -150,12 +158,24 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
             <List className="h-4 w-4" />
           </button>
 
+          {/* 심사는 사업 단위로 진행 — '전체 사업'으로 풀 수 없고 배정된 사업 간 전환만 가능 */}
+          <Link
+            href="/companies"
+            title="내 지원사업 목록"
+            className="flex h-8 shrink-0 items-center gap-1 rounded-md border px-2.5 text-[12px] text-muted-foreground hover:bg-muted"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            사업 목록
+          </Link>
+
           <select
             value={filters.programKey ?? ""}
-            onChange={(e) => setFilters({ ...filters, programKey: e.target.value || null })}
+            onChange={(e) => {
+              const key = e.target.value;
+              if (key) router.push(`/companies?program=${key}`);
+            }}
             className="rounded-md border bg-subtle px-2.5 py-1.5 text-[12.5px] outline-none focus:ring-2 focus:ring-ring/40"
           >
-            <option value="">전체 사업</option>
             {programOptions.map((p) => (
               <option key={programKey(p)} value={programKey(p)}>
                 {p.year} · {p.name}
@@ -171,12 +191,9 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
           />
 
           {selectedProgram && (
-            <button
-              onClick={() => setFilters({ ...filters, programKey: null })}
-              className="flex items-center gap-1 rounded-full bg-info-bg px-2.5 py-1 text-[11.5px] text-info"
-            >
-              {selectedProgram.name} <X className="h-3 w-3" />
-            </button>
+            <span className="flex items-center gap-1 rounded-full bg-info-bg px-2.5 py-1 text-[11.5px] text-info">
+              신청 {selectedProgram.applicantCount}개사
+            </span>
           )}
 
           <div className="ml-auto flex items-center gap-2 text-[12px]">
@@ -218,9 +235,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
                 companies={sorted}
                 weights={weights}
                 groupWeights={groupWeights}
-                latestYear={latestYear}
                 statuses={statuses}
-                onSetStatus={setStatus}
                 selectedIds={selectedIds}
                 onToggleSelect={toggleSelect}
                 onOpenDetail={setOpenId}

@@ -10,9 +10,7 @@ const notoSansKR = localFont({
   display: "swap",
 });
 import { Providers } from "@/components/providers";
-import { Sidebar } from "@/components/layout/sidebar";
-import { TopBar } from "@/components/layout/topbar";
-import { ChatbotFab } from "@/components/chatbot-fab";
+import { AuthGate } from "@/components/layout/auth-gate";
 import { listCompanies } from "@/lib/api";
 import type { ReviewStatus } from "@/types";
 
@@ -31,14 +29,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="ko" className={notoSansKR.variable}>
       <body className="font-sans">
         <Providers initialReviewStatus={initialReviewStatus}>
-          <div className="flex h-screen overflow-hidden bg-background">
-            <Sidebar />
-            <div className="flex flex-1 flex-col overflow-hidden">
-              <TopBar />
-              <main className="flex-1 overflow-y-auto p-6">{children}</main>
-            </div>
-          </div>
-          <ChatbotFab />
+          {/* 로그인 여부에 따라 앱 셸(사이드바·탑바) 또는 로그인 화면만 렌더 */}
+          <AuthGate>{children}</AuthGate>
         </Providers>
       </body>
     </html>

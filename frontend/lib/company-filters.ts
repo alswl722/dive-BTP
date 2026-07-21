@@ -61,7 +61,7 @@ export function applyFilters(
   });
 }
 
-export type SortKey = "revenueLatest" | "overall" | "supportCount";
+export type SortKey = "revenueLatest" | "overall" | "supportCount" | "techScore";
 export type SortDir = "asc" | "desc";
 
 export function sortCompanies(
@@ -75,6 +75,8 @@ export function sortCompanies(
   const valueOf = (c: Company): number => {
     if (key === "revenueLatest") return c.revenueLatest ?? -Infinity;
     if (key === "supportCount") return c.support.건수 ?? -Infinity;
+    // 기술 데이터가 없는 기업은 항상 뒤로 — 0점과 '데이터 없음'을 같이 두면 안 된다
+    if (key === "techScore") return c.tech?.scores.rndPatent ?? -Infinity;
     return resolveOverallScore(c, groupWeights, weights) ?? -Infinity;
   };
   return [...companies].sort((a, b) => (valueOf(a) - valueOf(b)) * factor);

@@ -1,5 +1,5 @@
 import { AXES, type Axis, type Company, type CompositeGroup, type ReviewStatus } from "@/types";
-import { resolveOverallScore, DEFAULT_AXIS_WEIGHTS, DEFAULT_GROUP_WEIGHTS } from "@/lib/scoring";
+import { resolveOverallScore, techGroupScore, DEFAULT_AXIS_WEIGHTS, DEFAULT_GROUP_WEIGHTS, DEFAULT_TECH_WEIGHTS, type TechAxis } from "@/lib/scoring";
 import { isDuplicateRisk } from "@/lib/duplicate-risk";
 import { isEmploymentUnstable } from "@/lib/review-summary";
 
@@ -39,13 +39,14 @@ export function applyFilters(
   groupWeights: Record<CompositeGroup, number>,
   weights: Record<Axis, number>,
   latestYear: number,
-  programApplicantKeySet: (c: Company) => Set<string> // 기업이 신청한 "year:code" 집합
+  programApplicantKeySet: (c: Company) => Set<string>, // 기업이 신청한 "year:code" 집합
+  techWeights: Record<TechAxis, number> = DEFAULT_TECH_WEIGHTS
 ): Company[] {
   const q = filters.q.trim().toLowerCase();
   return companies.filter((c) => {
     if (q && !(String(c.id).includes(q) || c.name.toLowerCase().includes(q) || (c.industry ?? "").toLowerCase().includes(q))) return false;
     if (filters.industries.length && !(c.industry && filters.industries.includes(c.industry))) return false;
-    const overall = resolveOverallScore(c, groupWeights, weights);
+    const overall = resolveOverallScore(c, groupWeights, weights, techWeights);
     if (filters.minOverall > 0 && (overall == null || overall < filters.minOverall)) return false;
     for (const axis of AXES) {
       const min = filters.minAxis[axis];
@@ -70,15 +71,16 @@ export function sortCompanies(
   key: SortKey,
   dir: SortDir,
   groupWeights: Record<CompositeGroup, number>,
-  weights: Record<Axis, number>
+  weights: Record<Axis, number>,
+  techWeights: Record<TechAxis, number> = DEFAULT_TECH_WEIGHTS
 ): Company[] {
   const factor = dir === "asc" ? 1 : -1;
   const valueOf = (c: Company): number => {
     if (key === "revenueLatest") return c.revenueLatest ?? -Infinity;
     if (key === "supportCount") return c.support.건수 ?? -Infinity;
     // 기술 데이터가 없는 기업은 항상 뒤로 — 0점과 '데이터 없음'을 같이 두면 안 된다
-    if (key === "techScore") return c.tech?.scores.rndPatent ?? -Infinity;
-    return resolveOverallScore(c, groupWeights, weights) ?? -Infinity;
+    if (key === "techScore") return techGroupScore(c, techWeights) ?? -Infinity;
+    return resolveOverallScore(c, groupWeights, weights, techWeights) ?? -Infinity;
   };
   return [...companies].sort((a, b) => (valueOf(a) - valueOf(b)) * factor);
 }

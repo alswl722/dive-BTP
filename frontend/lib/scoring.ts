@@ -35,6 +35,11 @@ export const DEFAULT_GROUP_WEIGHTS: Record<CompositeGroup, number> = {
   alignment: 33.34,
 };
 
+// 기술 그룹 세부축(R&D특허 / NTIS). 백엔드는 그룹 내 균등(각 1/6)이라 기본 50/50.
+export const TECH_AXES = ["R&D특허", "NTIS"] as const;
+export type TechAxis = (typeof TECH_AXES)[number];
+export const DEFAULT_TECH_WEIGHTS: Record<TechAxis, number> = { "R&D특허": 50, NTIS: 50 };
+
 const GROUP_AXES: Record<CompositeGroup, CompositeAxis[]> = {
   finance: ["성장성", "수익성", "효율성", "안정성"],
   tech: ["R&D특허", "NTIS"],
@@ -42,6 +47,33 @@ const GROUP_AXES: Record<CompositeGroup, CompositeAxis[]> = {
 };
 
 const CAP_MARGIN = 15;
+
+/** null을 건너뛰는 가중평균. 전부 null이거나 가중치 합이 0이면 null. */
+function weightedMean(pairs: [number | null | undefined, number][]): number | null {
+  let sum = 0;
+  let total = 0;
+  for (const [v, w] of pairs) {
+    if (v == null || !w) continue;
+    sum += v * w;
+    total += w;
+  }
+  return total === 0 ? null : sum / total;
+}
+
+/**
+ * 기술 그룹 점수 = R&D특허·NTIS 가중평균(0~100). 기업 목록의 '기술 점수' 컬럼값.
+ * R&D특허 한 축만 보면 정부 R&D 수주(NTIS)가 정반대인 기업이 뒤집혀 보이므로
+ * 두 축을 합쳐 기술력을 한 값으로 요약한다(종합점수의 기술 그룹 기여분과 동일 개념).
+ */
+export function techGroupScore(company: Company, techWeights: Record<TechAxis, number> = DEFAULT_TECH_WEIGHTS): number | null {
+  const bd = company.compositeScore?.breakdown;
+  const rp = bd ? bd["R&D특허"] : company.tech?.scores.rndPatent ?? null;
+  const nt = bd ? bd["NTIS"] : company.tech?.scores.ntis ?? null;
+  return weightedMean([
+    [rp, techWeights["R&D특허"]],
+    [nt, techWeights.NTIS],
+  ]);
+}
 
 /**
  * 종합점수 재계산(그룹 가중치 커스텀 시). 재무 세부축은 financeAxisWeights(0~100 비율)를
@@ -52,7 +84,8 @@ const CAP_MARGIN = 15;
 export function computeCompositeScore(
   breakdown: Record<CompositeAxis, number | null>,
   groupWeights: Record<CompositeGroup, number> = DEFAULT_GROUP_WEIGHTS,
-  financeAxisWeights: Record<Axis, number> = DEFAULT_AXIS_WEIGHTS
+  financeAxisWeights: Record<Axis, number> = DEFAULT_AXIS_WEIGHTS,
+  techAxisWeights: Record<TechAxis, number> = DEFAULT_TECH_WEIGHTS
 ): { score: number | null; rawWeightedAverage: number | null; lowestAxis: CompositeAxis | null; lowestAxisScore: number | null } {
   const axisWeights: Partial<Record<CompositeAxis, number>> = {};
   for (const group of Object.keys(GROUP_AXES) as CompositeGroup[]) {
@@ -61,6 +94,9 @@ export function computeCompositeScore(
     if (group === "finance") {
       const financeTotal = AXES.reduce((s, a) => s + (financeAxisWeights[a] ?? 0), 0) || 1;
       for (const a of AXES) axisWeights[a] = (gw * (financeAxisWeights[a] ?? 0)) / financeTotal;
+    } else if (group === "tech") {
+      const techTotal = TECH_AXES.reduce((s, a) => s + (techAxisWeights[a] ?? 0), 0) || 1;
+      for (const a of TECH_AXES) axisWeights[a] = (gw * (techAxisWeights[a] ?? 0)) / techTotal;
     } else {
       for (const a of axes) axisWeights[a] = gw / axes.length;
     }
@@ -95,23 +131,26 @@ export function computeCompositeScore(
 export function resolveOverallScore(
   company: Company,
   groupWeights: Record<CompositeGroup, number> = DEFAULT_GROUP_WEIGHTS,
-  financeAxisWeights: Record<Axis, number> = DEFAULT_AXIS_WEIGHTS
+  financeAxisWeights: Record<Axis, number> = DEFAULT_AXIS_WEIGHTS,
+  techAxisWeights: Record<TechAxis, number> = DEFAULT_TECH_WEIGHTS
 ): number | null {
-  const isCustom = isCustomWeights(groupWeights, financeAxisWeights);
+  const isCustom = isCustomWeights(groupWeights, financeAxisWeights, techAxisWeights);
   if (!isCustom) return company.compositeScore?.score ?? null;
   if (!company.compositeScore) return null;
-  return computeCompositeScore(company.compositeScore.breakdown, groupWeights, financeAxisWeights).score;
+  return computeCompositeScore(company.compositeScore.breakdown, groupWeights, financeAxisWeights, techAxisWeights).score;
 }
 
 export function isCustomWeights(
   groupWeights: Record<CompositeGroup, number>,
-  financeAxisWeights: Record<Axis, number>
+  financeAxisWeights: Record<Axis, number>,
+  techAxisWeights: Record<TechAxis, number> = DEFAULT_TECH_WEIGHTS
 ): boolean {
   const groupChanged = (Object.keys(DEFAULT_GROUP_WEIGHTS) as CompositeGroup[]).some(
     (g) => Math.abs(groupWeights[g] - DEFAULT_GROUP_WEIGHTS[g]) > 0.5
   );
   const axisChanged = AXES.some((a) => Math.abs(financeAxisWeights[a] - DEFAULT_AXIS_WEIGHTS[a]) > 0.5);
-  return groupChanged || axisChanged;
+  const techChanged = TECH_AXES.some((a) => Math.abs(techAxisWeights[a] - DEFAULT_TECH_WEIGHTS[a]) > 0.5);
+  return groupChanged || axisChanged || techChanged;
 }
 
 export const AXIS_MISALIGNMENT_THRESHOLD = 30;

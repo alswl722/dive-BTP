@@ -199,13 +199,17 @@ export function deriveReviewSignals(company: Company, latestYear: number): Revie
   }
 
   // --- 종합점수 캡 발동 (재무·기술·정합성 전 축 대상, docs/종합점수_설계노트.md §2) ---
-  // 최저축이 종합점수를 실제로 끌어내린 경우에만 신호 — lowestAxis가 재무4축이면 위
-  // "축 어긋남" 신호와 중복되므로 기술/정합성 축일 때만 별도 표시.
+  // 최저축이 종합점수를 실제로 끌어내린 경우에만 신호. lowestAxis가 재무4축이면 위
+  // "축 어긋남" 신호와 겹치므로 axisMap에서 제외(기술/정합성 축만 매핑).
+  // 나아가 같은 축에 이미 구체 신호가 있으면(예: R&D특허 최저 + "특허 권리 소멸")
+  // 캡 신호는 그 신호를 복창할 뿐이라 축 태그만 두 번 뜬다 — 이 경우 생략한다.
+  // 캡 신호의 값은 "구체 신호가 없는데 조용히 낮은 축"(예: 별도 경고 없는 NTIS)을
+  // 드러내는 데 있으므로, 그 축의 유일한 신호일 때만 남긴다.
   const cs = company.compositeScore;
   if (cs?.rawWeightedAverage != null && cs.score != null && cs.rawWeightedAverage - cs.score > 0.5 && cs.lowestAxis) {
     const axisMap: Partial<Record<string, AxisKey>> = { "R&D특허": "R&D", NTIS: "R&D", 정합성: "사업정체성" };
     const target = axisMap[cs.lowestAxis];
-    if (target) {
+    if (target && !out.some((s) => s.axis === target)) {
       out.push({
         sev: "주의", axis: target, title: `${cs.lowestAxis} 저점이 종합점수를 끌어내림`,
         detail: `${cs.lowestAxis} ${Math.round(cs.lowestAxisScore ?? 0)}점 때문에 종합점수가 ${Math.round(cs.rawWeightedAverage)}점에서 ${Math.round(cs.score)}점으로 조정됐습니다.`,
@@ -226,7 +230,9 @@ export function deriveReviewSignals(company: Company, latestYear: number): Revie
       detail: "같은 업종 기업이 적어 전체 기업 대비 백분위로 계산했습니다.",
     });
   }
-  if (tech?.domain.출처 === "KSIC추정") {
+  // 정보성 데이터 출처 안내 — R&D 축에 이미 신호가 있으면 축 태그만 중복시키므로 생략.
+  // (기술분야 추정 여부는 R&D 탭 DomainSection의 '업종 기반 추정' 배지로도 확인 가능)
+  if (tech?.domain.출처 === "KSIC추정" && !out.some((s) => s.axis === "R&D")) {
     out.push({
       sev: "정보", axis: "R&D", title: "기술분야는 업종 기반 추정",
       detail: "국가R&D 이력이 없어 업종코드로 추정한 값입니다.",

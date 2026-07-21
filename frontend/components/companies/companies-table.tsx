@@ -8,7 +8,7 @@ import { Pagination } from "@/components/ui/pagination";
 import { Badge } from "@/components/ui/badge";
 import { ScoreBadge } from "@/components/ui/score-badge";
 import { AxisMiniBars } from "@/components/companies/axis-mini-bars";
-import { resolveOverallScore } from "@/lib/scoring";
+import { resolveOverallScore, techGroupScore, DEFAULT_TECH_WEIGHTS, type TechAxis } from "@/lib/scoring";
 import { cn } from "@/lib/utils";
 import type { SortDir, SortKey } from "@/lib/company-filters";
 
@@ -26,6 +26,7 @@ export function CompaniesTable({
   companies,
   weights,
   groupWeights,
+  techWeights = DEFAULT_TECH_WEIGHTS,
   selectedIds,
   onToggleSelect,
   onOpenDetail,
@@ -37,6 +38,7 @@ export function CompaniesTable({
   companies: Company[];
   weights: Record<Axis, number>;
   groupWeights: Record<CompositeGroup, number>;
+  techWeights?: Record<TechAxis, number>;
   selectedIds: Set<number>;
   onToggleSelect: (id: number) => void;
   onOpenDetail: (id: number) => void;
@@ -63,7 +65,7 @@ export function CompaniesTable({
             <TH className="w-[260px]">기업 · 업종</TH>
             <SortableTH label="종합점수" active={sortKey === "overall"} dir={sortDir} onClick={() => onSort("overall")} />
             <TH className="w-[172px]">4축 점수</TH>
-            <SortableTH label="R&D 점수" active={sortKey === "techScore"} dir={sortDir} onClick={() => onSort("techScore")} />
+            <SortableTH label="기술 점수" active={sortKey === "techScore"} dir={sortDir} onClick={() => onSort("techScore")} />
             <SortableTH label="지원건수" active={sortKey === "supportCount"} dir={sortDir} onClick={() => onSort("supportCount")} />
           </TR>
         </THead>
@@ -96,14 +98,14 @@ export function CompaniesTable({
                   <p className="max-w-[220px] truncate text-[11px] text-muted-foreground">{c.industry ?? "-"}</p>
                 </TD>
                 <TD>
-                  <ScoreBadge score={resolveOverallScore(c, groupWeights, weights)} size="sm" />
+                  <ScoreBadge score={resolveOverallScore(c, groupWeights, weights, techWeights)} size="sm" />
                 </TD>
                 <TD>
                   <AxisMiniBars scores={c.scores} />
                 </TD>
                 <TD>
-                  {/* 축4 R&D·특허 점수. 기술 데이터가 없는 기업은 0이 아니라 '-' */}
-                  <ScoreBadge score={c.tech?.scores.rndPatent ?? null} size="sm" />
+                  {/* 기술 그룹 점수(R&D특허+NTIS). 데이터 없는 기업은 0이 아니라 '-' */}
+                  <ScoreBadge score={techGroupScore(c, techWeights)} size="sm" />
                 </TD>
                 <TD className="tabular-nums">{c.support.건수 ?? 0}건</TD>
               </TR>

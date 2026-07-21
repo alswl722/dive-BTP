@@ -43,6 +43,9 @@ export function SelectedList({ companies, programs }: { companies: Company[]; pr
   const referenceDate = useMemo(() => dashboardReferenceDate(programs), [programs]);
 
   const [openKey, setOpenKey] = useState<string | null>(null);
+  // 기본은 진행중만 — program-settings.tsx와 동일한 이유: 완료 건이 대부분이라
+  // 전체를 깔면 지금 신경 써야 할 진행중 사업이 묻힌다.
+  const [statusTab, setStatusTab] = useState<ProgramStatus | "전체">("진행중");
 
   // 신청 기록이 있고(=심사 대상이 존재) 내가 배정받은(관리자는 전체) 사업만.
   const myPrograms = useMemo(
@@ -88,8 +91,19 @@ export function SelectedList({ companies, programs }: { companies: Company[]; pr
       });
   }, [myPrograms, companies, statuses, referenceDate, adminStatuses]);
 
+  const statusCounts = useMemo(() => {
+    const c: Record<ProgramStatus, number> = { 예정: 0, 진행중: 0, 완료: 0 };
+    for (const r of rows) c[r.status]++;
+    return c;
+  }, [rows]);
+
+  const visibleRows = useMemo(
+    () => (statusTab === "전체" ? rows : rows.filter((r) => r.status === statusTab)),
+    [rows, statusTab]
+  );
+
   return (
-    <div className="space-y-6">
+    <div className="max-w-3xl space-y-6">
       <div>
         <h1 className="text-[20px] font-extrabold tracking-tight">선정 목록</h1>
         <p className="mt-1 text-[12.5px] text-muted-foreground">
@@ -103,66 +117,93 @@ export function SelectedList({ companies, programs }: { companies: Company[]; pr
           {admin ? "신청 기록이 있는 사업이 없습니다." : "아직 배정받은 사업이 없습니다. 관리자에게 배정을 요청하세요."}
         </div>
       ) : (
-        <div className="space-y-2.5">
-          {rows.map(({ program, progKey, counts, decided, status }) => {
-            const open = openKey === progKey;
-            const decidedCount = decided.선정.length + decided.제외.length;
-            return (
-              <section key={progKey} className="rounded-xl border">
-                <button
-                  onClick={() => setOpenKey(open ? null : progKey)}
-                  className="flex w-full items-center gap-3 p-4 text-left"
-                >
-                  <ChevronDown className={cn("h-4 w-4 shrink-0 text-muted-foreground transition-transform", open && "rotate-180")} />
-                  <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-baseline gap-2">
-                      <h2 className="truncate text-[14px] font-bold">{program.name ?? program.programCode}</h2>
-                      <Badge variant={PROGRAM_STATUS_BADGE[status]} className="shrink-0">{status}</Badge>
-                      <span className="shrink-0 text-[11px] text-muted-foreground">{program.year}년</span>
-                    </div>
-                  </div>
-                  <div className="flex shrink-0 items-center gap-3 text-[12px]">
-                    <CountPill label="후보" value={counts.후보} tone="text-info" />
-                    <CountPill label="선정" value={counts.선정} tone="text-good" />
-                    <CountPill label="제외" value={counts.제외} tone="text-bad" />
-                  </div>
-                </button>
-
-                {open && (
-                  <div className="space-y-2.5 border-t p-4 pt-3.5">
-                    {decidedCount === 0 ? (
-                      <p className="text-[12px] text-muted-foreground">
-                        아직 결정된 기업이 없습니다. 기업 선정 화면에서 선정/제외를 지정하세요.
-                      </p>
-                    ) : (
-                      DECISION_STATUSES.map((s) =>
-                        decided[s].length === 0 ? null : (
-                          <div key={s} className="space-y-1.5">
-                            <div className="flex items-center gap-2">
-                              <Badge variant={STATUS_VARIANT[s]}>{s}</Badge>
-                              <span className="text-[11.5px] text-muted-foreground">{decided[s].length}개</span>
-                            </div>
-                            <div className="divide-y rounded-lg border">
-                              {decided[s].map((c) => (
-                                <CompanyRow key={c.id} company={c} latestYear={latestYear} />
-                              ))}
-                            </div>
-                          </div>
-                        )
-                      )
-                    )}
-                    <Link
-                      href={`/companies?program=${progKey}`}
-                      className="inline-block text-[11.5px] text-primary hover:underline"
-                    >
-                      이 사업 심사하러 가기
-                    </Link>
-                  </div>
+        <>
+          <div className="flex flex-wrap items-center gap-1.5">
+            {(["진행중", "완료", "예정", "전체"] as const).map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setStatusTab(t)}
+                className={cn(
+                  "rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors",
+                  statusTab === t ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/70"
                 )}
-              </section>
-            );
-          })}
-        </div>
+              >
+                {t}
+                <span className="ml-1 tabular-nums opacity-70">
+                  {t === "전체" ? rows.length : statusCounts[t]}
+                </span>
+              </button>
+            ))}
+          </div>
+
+          {visibleRows.length === 0 ? (
+            <p className="rounded-lg border p-8 text-center text-[12.5px] text-muted-foreground">
+              '{statusTab}' 상태인 사업이 없습니다.
+            </p>
+          ) : (
+            <div className="space-y-2.5">
+              {visibleRows.map(({ program, progKey, counts, decided, status }) => {
+                const open = openKey === progKey;
+                const decidedCount = decided.선정.length + decided.제외.length;
+                return (
+                  <section key={progKey} className="rounded-xl border">
+                    <button
+                      onClick={() => setOpenKey(open ? null : progKey)}
+                      className="flex w-full items-center gap-3 p-4 text-left"
+                    >
+                      <ChevronDown className={cn("h-4 w-4 shrink-0 text-muted-foreground transition-transform", open && "rotate-180")} />
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-baseline gap-2">
+                          <h2 className="truncate text-[14px] font-bold">{program.name ?? program.programCode}</h2>
+                          <Badge variant={PROGRAM_STATUS_BADGE[status]} className="shrink-0">{status}</Badge>
+                          <span className="shrink-0 text-[11px] text-muted-foreground">{program.year}년</span>
+                        </div>
+                      </div>
+                      <div className="flex shrink-0 items-center gap-3 text-[12px]">
+                        <CountPill label="후보" value={counts.후보} tone="text-info" />
+                        <CountPill label="선정" value={counts.선정} tone="text-good" />
+                        <CountPill label="제외" value={counts.제외} tone="text-bad" />
+                      </div>
+                    </button>
+
+                    {open && (
+                      <div className="space-y-2.5 border-t p-4 pt-3.5">
+                        {decidedCount === 0 ? (
+                          <p className="text-[12px] text-muted-foreground">
+                            아직 결정된 기업이 없습니다. 기업 선정 화면에서 선정/제외를 지정하세요.
+                          </p>
+                        ) : (
+                          DECISION_STATUSES.map((s) =>
+                            decided[s].length === 0 ? null : (
+                              <div key={s} className="space-y-1.5">
+                                <div className="flex items-center gap-2">
+                                  <Badge variant={STATUS_VARIANT[s]}>{s}</Badge>
+                                  <span className="text-[11.5px] text-muted-foreground">{decided[s].length}개</span>
+                                </div>
+                                <div className="divide-y rounded-lg border">
+                                  {decided[s].map((c) => (
+                                    <CompanyRow key={c.id} company={c} latestYear={latestYear} />
+                                  ))}
+                                </div>
+                              </div>
+                            )
+                          )
+                        )}
+                        <Link
+                          href={`/companies?program=${progKey}`}
+                          className="inline-block text-[11.5px] text-primary hover:underline"
+                        >
+                          이 사업 심사하러 가기
+                        </Link>
+                      </div>
+                    )}
+                  </section>
+                );
+              })}
+            </div>
+          )}
+        </>
       )}
     </div>
   );

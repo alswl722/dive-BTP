@@ -83,7 +83,7 @@ export function ProgramSettings({ companies, programs }: { companies: Company[];
   }
 
   return (
-    <div className="space-y-5">
+    <div className="mx-auto max-w-3xl space-y-5">
       <div>
         <div className="flex items-center gap-2">
           <Settings2 className="h-5 w-5 text-primary" />

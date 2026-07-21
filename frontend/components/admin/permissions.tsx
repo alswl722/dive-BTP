@@ -63,7 +63,7 @@ export function Permissions({ companies, programs }: { companies: Company[]; pro
   const pageItems = rows.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
 
   return (
-    <div className="space-y-5">
+    <div className="mx-auto max-w-3xl space-y-5">
       <div>
         <div className="flex items-center gap-2">
           <KeyRound className="h-5 w-5 text-primary" />

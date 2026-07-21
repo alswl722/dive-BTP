@@ -274,7 +274,8 @@
         "최근출원비중": 0.05263157894736842,
         "활동공백년수": 1.3853524982888432,
         "소멸률": 0.0,
-        "첫특허업력": 15.077344284736482
+        "첫특허업력": 15.077344284736482,
+        "대표개인명의_등록": 2
       },
       "rnd": {
         "집약도": 0.03166904700623724,
@@ -285,7 +286,11 @@
         "정부연구비_원": 1230000000.0,
         "부처다양성": 2,
         "위탁과제수": 1,
-        "산학협력": false
+        "산학협력": false,
+        "민간연구비_원": 1107500000.0,
+        "민간부담률": 0.4737967914438503,
+        "최근수주연도": 2024,
+        "진행중과제수": 3
       },
       "certification": {
         "보유수": 3,
@@ -323,133 +328,152 @@
           "status": "등록",
           "applied": "2024-11-27",
           "registered": "2025-06-23",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-11-07",
           "registered": "2025-07-25",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2022-03-17",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2021-04-21",
           "registered": "2022-04-13",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2020-12-14",
           "registered": "2022-03-16",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-11-16",
           "registered": "2020-07-01",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-11-16",
           "registered": "2020-07-21",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-08-30",
           "registered": "2020-03-06",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-03-23",
           "registered": "2019-07-15",
-          "valid": true
+          "valid": true,
+          "relation": "대표이사"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-10-20",
           "registered": "2018-07-10",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-10-20",
           "registered": "2018-07-25",
-          "valid": true
+          "valid": true,
+          "relation": "대표이사"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-10-20",
           "registered": "2019-01-11",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-08-25",
           "registered": "2018-07-10",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-08-25",
           "registered": "2018-09-07",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-07-18",
           "registered": "2018-07-10",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-07-18",
           "registered": "2018-07-10",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2016-08-18",
           "registered": "2017-04-26",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2016-08-18",
           "registered": "2017-04-26",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2014-10-08",
           "registered": "2016-03-03",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         }
       ]
     },
@@ -809,7 +833,8 @@
         "최근출원비중": 0.14285714285714285,
         "활동공백년수": 1.5249828884325805,
         "소멸률": 0.0,
-        "첫특허업력": 0.0
+        "첫특허업력": 0.0,
+        "대표개인명의_등록": 0
       },
       "rnd": {
         "집약도": 0.49794910376477125,
@@ -820,7 +845,11 @@
         "정부연구비_원": 1364363000.0,
         "부처다양성": 2,
         "위탁과제수": 4,
-        "산학협력": false
+        "산학협력": false,
+        "민간연구비_원": 317511000.0,
+        "민간부담률": 0.1875435248337418,
+        "최근수주연도": 2024,
+        "진행중과제수": 2
       },
       "certification": {
         "보유수": 2,
@@ -860,49 +889,56 @@
           "status": "공개",
           "applied": "2024-10-07",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-12-01",
           "registered": "2025-04-28",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-09-26",
           "registered": "2025-04-28",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2019-11-01",
           "registered": "2021-06-16",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2019-03-22",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-11-30",
           "registered": "2020-01-10",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2016-02-23",
           "registered": "2017-08-17",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         }
       ]
     },
@@ -1282,7 +1318,8 @@
         "최근출원비중": 0.0,
         "활동공백년수": 3.572895277207392,
         "소멸률": 0.0,
-        "첫특허업력": 0.0
+        "첫특허업력": 0.0,
+        "대표개인명의_등록": 3
       },
       "rnd": {
         "집약도": 0.1336479955507051,
@@ -1293,7 +1330,11 @@
         "정부연구비_원": 85500000.0,
         "부처다양성": 1,
         "위탁과제수": 0,
-        "산학협력": false
+        "산학협력": false,
+        "민간연구비_원": 0.0,
+        "민간부담률": 0.0,
+        "최근수주연도": 2022,
+        "진행중과제수": 0
       },
       "certification": {
         "보유수": 3,
@@ -1331,154 +1372,176 @@
           "status": "등록",
           "applied": "2022-09-20",
           "registered": "2025-06-10",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-09-20",
           "registered": "2026-03-30",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2022-01-28",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2021-11-19",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2021-11-19",
           "registered": "2023-11-28",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2020-10-27",
           "registered": "2022-03-22",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2020-10-27",
           "registered": "2023-05-10",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2019-11-22",
           "registered": "2021-04-27",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2019-08-12",
           "registered": "2021-01-06",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-08-11",
           "registered": "2018-12-19",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-08-11",
           "registered": "2019-08-16",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2015-05-06",
           "registered": "2017-02-01",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2015-05-06",
           "registered": "2017-02-01",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2014-08-21",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2014-05-27",
           "registered": "2016-10-10",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2012-07-24",
           "registered": "2014-02-21",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2012-05-02",
           "registered": "2013-09-17",
-          "valid": true
+          "valid": true,
+          "relation": "대표이사"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2011-11-28",
           "registered": "2012-07-05",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2010-09-14",
           "registered": "2011-06-02",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2010-09-14",
           "registered": "2013-03-15",
-          "valid": true
+          "valid": true,
+          "relation": "대표이사"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2010-04-19",
           "registered": "2012-10-30",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2009-02-20",
           "registered": "2011-03-25",
-          "valid": true
+          "valid": true,
+          "relation": "대표이사"
         }
       ]
     },
@@ -1798,7 +1861,8 @@
         "최근출원비중": 0.5,
         "활동공백년수": 1.5249828884325805,
         "소멸률": 0.0,
-        "첫특허업력": 4.314852840520191
+        "첫특허업력": 4.314852840520191,
+        "대표개인명의_등록": 0
       },
       "rnd": {
         "집약도": 0.06699542644816886,
@@ -1809,7 +1873,11 @@
         "정부연구비_원": 0.0,
         "부처다양성": 0,
         "위탁과제수": 0,
-        "산학협력": false
+        "산학협력": false,
+        "민간연구비_원": null,
+        "민간부담률": null,
+        "최근수주연도": null,
+        "진행중과제수": 0
       },
       "certification": {
         "보유수": 2,
@@ -1847,14 +1915,16 @@
           "status": "공개",
           "applied": "2024-10-07",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "실용신안권",
           "status": "등록",
           "applied": "2023-02-24",
           "registered": "2024-06-03",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         }
       ]
     },
@@ -2344,7 +2414,8 @@
         "최근출원비중": 0.25,
         "활동공백년수": 1.8124572210814511,
         "소멸률": 0.09090909090909091,
-        "첫특허업력": 0.0
+        "첫특허업력": 0.0,
+        "대표개인명의_등록": 1
       },
       "rnd": {
         "집약도": 0.8964804279244729,
@@ -2355,7 +2426,11 @@
         "정부연구비_원": 430000000.0,
         "부처다양성": 1,
         "위탁과제수": 1,
-        "산학협력": false
+        "산학협력": false,
+        "민간연구비_원": 107502000.0,
+        "민간부담률": 0.20000297673310982,
+        "최근수주연도": 2021,
+        "진행중과제수": 0
       },
       "certification": {
         "보유수": 1,
@@ -2395,168 +2470,192 @@
           "status": "공개",
           "applied": "2024-06-24",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2023-11-28",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2023-11-28",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2023-11-08",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2023-11-06",
           "registered": "2024-03-18",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2023-09-19",
           "registered": "2025-04-10",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2023-03-03",
           "registered": "2025-04-10",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2022-11-24",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2022-01-24",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2021-11-12",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2021-01-15",
           "registered": "2023-03-22",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2020-11-19",
           "registered": "2021-07-13",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2020-10-30",
           "registered": "2021-12-07",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2019-05-24",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2019-04-17",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2018-12-05",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2018-12-05",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2018-12-05",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-09-21",
           "registered": "2021-03-19",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-11-14",
           "registered": "2018-12-14",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-11-01",
           "registered": "2018-08-03",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-03-03",
           "registered": "2018-11-23",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2014-09-16",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2014-08-26",
           "registered": "2016-10-17",
-          "valid": false
+          "valid": false,
+          "relation": "대표이사"
         }
       ]
     },
@@ -2926,7 +3025,8 @@
         "최근출원비중": 0.18604651162790697,
         "활동공백년수": 1.4948665297741273,
         "소멸률": 0.0967741935483871,
-        "첫특허업력": 0.0
+        "첫특허업력": 0.0,
+        "대표개인명의_등록": 0
       },
       "rnd": {
         "집약도": 0.14089990533709357,
@@ -2937,7 +3037,11 @@
         "정부연구비_원": 1787000000.0,
         "부처다양성": 3,
         "위탁과제수": 0,
-        "산학협력": false
+        "산학협력": false,
+        "민간연구비_원": 455150000.0,
+        "민간부담률": 0.2029971232968356,
+        "최근수주연도": 2023,
+        "진행중과제수": 0
       },
       "certification": {
         "보유수": 2,
@@ -2978,301 +3082,344 @@
           "status": "공개",
           "applied": "2024-10-18",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2024-04-12",
           "registered": "2024-08-13",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2023-12-22",
           "registered": "2026-03-13",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2023-12-13",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2023-12-13",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2023-10-16",
           "registered": "2024-07-31",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2023-10-05",
           "registered": "2025-02-17",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2023-04-28",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-10-07",
           "registered": "2023-08-22",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-08-30",
           "registered": "2023-01-12",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-02-24",
           "registered": "2023-10-04",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2021-12-01",
           "registered": "2022-04-20",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2021-08-03",
           "registered": "2023-08-09",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2021-07-08",
           "registered": "2021-11-01",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2021-04-27",
           "registered": "2023-01-18",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2021-02-24",
           "registered": "2021-09-16",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2020-05-22",
           "registered": "2020-07-22",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2019-12-26",
           "registered": "2021-08-18",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2019-10-11",
           "registered": "2020-09-09",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2019-05-28",
           "registered": "2019-11-06",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-11-13",
           "registered": "2019-03-06",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-06-13",
           "registered": "2018-05-30",
-          "valid": false
+          "valid": false,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2016-10-28",
           "registered": "2018-05-03",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2016-07-07",
           "registered": "2018-03-28",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2016-03-16",
           "registered": "2020-12-04",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2016-02-02",
           "registered": "2018-01-02",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2015-10-13",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2015-06-17",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2015-06-17",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2015-06-17",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2015-01-30",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2015-01-14",
           "registered": "2016-10-20",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2015-01-14",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2014-11-26",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2014-08-18",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2014-04-29",
           "registered": "2014-12-03",
-          "valid": false
+          "valid": false,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2014-02-28",
           "registered": "2014-12-03",
-          "valid": false
+          "valid": false,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2013-12-17",
           "registered": "2016-01-31",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2012-06-11",
           "registered": "2013-09-02",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2008-06-30",
           "registered": "2010-11-26",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2007-08-21",
           "registered": "2009-02-26",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2007-04-06",
           "registered": "2008-11-18",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2006-12-26",
           "registered": "2008-02-27",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         }
       ]
     },
@@ -3602,7 +3749,8 @@
         "최근출원비중": 0.13953488372093023,
         "활동공백년수": 1.6016427104722792,
         "소멸률": 0.03125,
-        "첫특허업력": 0.0
+        "첫특허업력": 0.0,
+        "대표개인명의_등록": 1
       },
       "rnd": {
         "집약도": 0.030486602106243883,
@@ -3613,7 +3761,11 @@
         "정부연구비_원": 3352943000.0,
         "부처다양성": 4,
         "위탁과제수": 1,
-        "산학협력": false
+        "산학협력": false,
+        "민간연구비_원": 2069447920.0,
+        "민간부담률": 0.3816486030852235,
+        "최근수주연도": 2024,
+        "진행중과제수": 0
       },
       "certification": {
         "보유수": 3,
@@ -3655,301 +3807,344 @@
           "status": "공개",
           "applied": "2024-09-09",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2024-09-09",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2024-05-22",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2023-12-06",
           "registered": "2024-11-07",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2023-11-28",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2023-11-28",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-06-10",
           "registered": "2024-09-13",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2022-05-24",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-02-10",
           "registered": "2023-06-08",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2021-11-09",
           "registered": "2022-05-24",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2021-03-25",
           "registered": "2021-12-22",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2020-12-18",
           "registered": "2022-02-04",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2020-07-14",
           "registered": "2022-05-25",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2019-07-12",
           "registered": "2021-04-21",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2019-03-14",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-07-23",
           "registered": "2020-02-17",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-04-27",
           "registered": "2020-02-17",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-02-10",
           "registered": "2018-12-18",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-02-01",
           "registered": "2018-12-18",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-02-01",
           "registered": "2019-02-01",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-02-01",
           "registered": "2019-02-01",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-02-01",
           "registered": "2019-02-11",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-09-25",
           "registered": "2019-06-24",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-08-16",
           "registered": "2017-10-26",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-08-16",
           "registered": "2017-11-06",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-08-16",
           "registered": "2018-01-09",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-08-16",
           "registered": "2018-05-18",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-08-08",
           "registered": "2018-08-20",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-08-08",
           "registered": "2018-12-18",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-02-17",
           "registered": "2018-02-22",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2017-02-15",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2016-08-10",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2016-08-10",
           "registered": "2018-05-08",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2016-07-25",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2016-03-30",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2015-12-11",
           "registered": "2017-10-25",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2015-12-11",
           "registered": "2018-01-08",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2013-11-28",
           "registered": "2015-06-18",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2012-10-05",
           "registered": "2014-03-21",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2012-06-11",
           "registered": "2013-10-18",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2010-12-31",
           "registered": "2013-02-14",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2009-06-12",
           "registered": "2009-09-22",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "실용신안권",
           "status": "등록",
           "applied": "2000-02-29",
           "registered": "2000-05-18",
-          "valid": false
+          "valid": false,
+          "relation": "임원"
         }
       ]
     },
@@ -4319,7 +4514,8 @@
         "최근출원비중": 0.2413793103448276,
         "활동공백년수": 1.0431211498973305,
         "소멸률": 0.029411764705882353,
-        "첫특허업력": 2.529774127310062
+        "첫특허업력": 2.529774127310062,
+        "대표개인명의_등록": 1
       },
       "rnd": {
         "집약도": 0.02678332491426244,
@@ -4330,7 +4526,11 @@
         "정부연구비_원": 0.0,
         "부처다양성": 0,
         "위탁과제수": 0,
-        "산학협력": false
+        "산학협력": false,
+        "민간연구비_원": null,
+        "민간부담률": null,
+        "최근수주연도": null,
+        "진행중과제수": 0
       },
       "certification": {
         "보유수": 2,
@@ -4368,406 +4568,464 @@
           "status": "등록",
           "applied": "2025-04-01",
           "registered": "2025-12-10",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2024-11-19",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2024-09-26",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2024-08-27",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2024-03-27",
           "registered": "2026-01-14",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2024-03-22",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2024-03-22",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2024-01-25",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2024-01-12",
           "registered": "2025-06-09",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2023-10-31",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2023-10-31",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2023-10-31",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2023-10-30",
           "registered": "2026-06-18",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2023-09-07",
           "registered": "2026-01-22",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2023-01-17",
           "registered": "2025-01-07",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-11-25",
           "registered": "2025-05-28",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-11-25",
           "registered": "2025-05-28",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-10-14",
           "registered": "2025-01-07",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-09-20",
           "registered": "2025-08-27",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2022-04-20",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-02-15",
           "registered": "2024-03-20",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2021-12-14",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2021-12-14",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2021-03-02",
           "registered": "2023-09-15",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2020-11-20",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2020-11-16",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2020-11-16",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2020-06-16",
           "registered": "2021-11-26",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2020-06-16",
           "registered": "2022-02-04",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2020-06-11",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2020-06-11",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2020-02-03",
           "registered": "2021-08-17",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2019-10-02",
           "registered": "2021-01-13",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2019-05-24",
           "registered": "2021-09-29",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-12-28",
           "registered": "2020-07-21",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-08-27",
           "registered": "2020-04-27",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2018-05-29",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-02-13",
           "registered": "2020-01-30",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-01-17",
           "registered": "2018-11-30",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-01-10",
           "registered": "2019-04-04",
-          "valid": true
+          "valid": true,
+          "relation": "대표이사"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-10-30",
           "registered": "2019-07-04",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-07-27",
           "registered": "2020-05-26",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-05-19",
           "registered": "2019-07-04",
-          "valid": false
+          "valid": false,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-01-18",
           "registered": "2019-04-04",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2016-12-13",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2016-12-12",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2016-12-09",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2016-12-09",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2016-03-03",
           "registered": "2016-10-04",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2015-11-17",
           "registered": "2016-05-16",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2015-09-24",
           "registered": "2017-02-02",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2015-08-19",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2015-04-06",
           "registered": "2017-02-02",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2014-12-17",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2014-11-24",
           "registered": "2016-05-18",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2014-11-24",
           "registered": "2017-05-31",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2014-09-29",
           "registered": "2015-06-15",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2013-09-25",
           "registered": "2013-12-19",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         }
       ]
     },
@@ -5157,7 +5415,8 @@
         "최근출원비중": 0.3333333333333333,
         "활동공백년수": 1.3908281998631074,
         "소멸률": 0.0,
-        "첫특허업력": 14.677618069815194
+        "첫특허업력": 14.677618069815194,
+        "대표개인명의_등록": 0
       },
       "rnd": {
         "집약도": 0.038436363190009856,
@@ -5168,7 +5427,11 @@
         "정부연구비_원": 765000000.0,
         "부처다양성": 2,
         "위탁과제수": 0,
-        "산학협력": false
+        "산학협력": false,
+        "민간연구비_원": 176750000.0,
+        "민간부담률": 0.18768250597292274,
+        "최근수주연도": 2021,
+        "진행중과제수": 0
       },
       "certification": {
         "보유수": 1,
@@ -5208,84 +5471,96 @@
           "status": "공개",
           "applied": "2024-11-25",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2023-11-20",
           "registered": "2026-02-20",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2023-10-30",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2023-10-30",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-12-22",
           "registered": "2024-09-02",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-12-21",
           "registered": "2025-02-28",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2021-11-26",
           "registered": "2024-03-04",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2021-11-19",
           "registered": "2023-07-13",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2018-01-19",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2010-10-19",
           "registered": "2014-05-15",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2010-10-14",
           "registered": "2011-08-16",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2010-06-16",
           "registered": "2011-11-03",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         }
       ]
     },
@@ -5675,7 +5950,8 @@
         "최근출원비중": 0.14814814814814814,
         "활동공백년수": 0.0,
         "소멸률": 0.13333333333333333,
-        "첫특허업력": 0.0
+        "첫특허업력": 0.0,
+        "대표개인명의_등록": 1
       },
       "rnd": {
         "집약도": 0.0326161899300713,
@@ -5686,7 +5962,11 @@
         "정부연구비_원": 1034000000.0,
         "부처다양성": 3,
         "위탁과제수": 0,
-        "산학협력": false
+        "산학협력": false,
+        "민간연구비_원": 391559000.0,
+        "민간부담률": 0.2711047289742015,
+        "최근수주연도": 2025,
+        "진행중과제수": 1
       },
       "certification": {
         "보유수": 3,
@@ -5726,189 +6006,216 @@
           "status": "공개",
           "applied": "2026-04-17",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2024-01-03",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2023-06-05",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2023-05-04",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2022-04-28",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2022-04-28",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-04-28",
           "registered": "2026-02-27",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2022-02-25",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2021-09-27",
           "registered": "2022-08-19",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2021-06-10",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2020-12-29",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2020-07-13",
           "registered": "2022-02-15",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2020-07-10",
           "registered": "2022-02-15",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2020-06-05",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2020-05-21",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2020-03-31",
           "registered": "2021-04-06",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2020-03-31",
           "registered": "2020-12-22",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2020-03-31",
           "registered": "2020-12-22",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2020-02-19",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2019-10-02",
           "registered": "2020-08-25",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2019-09-24",
           "registered": "2020-12-22",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2019-09-18",
           "registered": "2020-12-22",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-02-02",
           "registered": "2018-12-28",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-08-01",
           "registered": "2019-12-31",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2015-02-11",
           "registered": "2016-11-28",
-          "valid": false
+          "valid": false,
+          "relation": "대표이사"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2009-09-11",
           "registered": "2012-01-11",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2000-08-07",
           "registered": "2007-02-01",
-          "valid": false
+          "valid": false,
+          "relation": "본인"
         }
       ]
     },
@@ -6228,7 +6535,8 @@
         "최근출원비중": 0.11538461538461539,
         "활동공백년수": 1.3278576317590691,
         "소멸률": 0.0,
-        "첫특허업력": 2.951403148528405
+        "첫특허업력": 2.951403148528405,
+        "대표개인명의_등록": 0
       },
       "rnd": {
         "집약도": 0.5698448114429149,
@@ -6239,7 +6547,11 @@
         "정부연구비_원": 6066400000.0,
         "부처다양성": 4,
         "위탁과제수": 1,
-        "산학협력": false
+        "산학협력": false,
+        "민간연구비_원": 884818000.0,
+        "민간부담률": 0.12728963470862228,
+        "최근수주연도": 2025,
+        "진행중과제수": 2
       },
       "certification": {
         "보유수": 3,
@@ -6280,182 +6592,208 @@
           "status": "공개",
           "applied": "2024-12-18",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2023-12-28",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2023-11-22",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2022-12-30",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-12-27",
           "registered": "2025-10-20",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-12-19",
           "registered": "2025-10-10",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2022-01-21",
           "registered": "2022-10-11",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2021-09-10",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2020-11-26",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2020-11-23",
           "registered": "2023-10-04",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2019-12-31",
           "registered": "2020-07-22",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2019-12-05",
           "registered": "2021-11-01",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2019-11-22",
           "registered": "2020-06-13",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2019-09-26",
           "registered": "2021-05-24",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-10-30",
           "registered": "2019-12-05",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-06-28",
           "registered": "2019-12-05",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-03-23",
           "registered": "2020-02-05",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-03-08",
           "registered": "2019-05-02",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2018-01-30",
           "registered": "2019-06-14",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2017-07-25",
           "registered": "2020-02-05",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2016-12-05",
           "registered": "2018-11-30",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2016-12-05",
           "registered": "2018-11-30",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2016-07-14",
           "registered": "2016-09-28",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2014-07-29",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         },
         {
           "type": "특허권",
           "status": "등록",
           "applied": "2014-07-29",
           "registered": "2016-03-21",
-          "valid": true
+          "valid": true,
+          "relation": "본인"
         },
         {
           "type": "특허권",
           "status": "공개",
           "applied": "2014-04-16",
           "registered": null,
-          "valid": false
+          "valid": false,
+          "relation": null
         }
       ]
     },

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AlertTriangle, Check, ChevronDown, Info, X } from "lucide-react";
+import { AlertTriangle, Check, ChevronDown, Info, UserRound, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/ui/stat-card";
 import type { Company, Tech } from "@/types";
@@ -68,24 +68,54 @@ export function RndTab({ company }: { company: Company }) {
             sub={tech?.patents.최근출원비중 != null ? `전체의 ${pct(tech.patents.최근출원비중)}` : undefined}
           />
         </div>
+
+        {/* 권리 귀속 — 등록 특허 중 대표·임원 개인 명의가 있으면 알린다.
+            법인 자산이 아니라 대표 이탈 시 회사에 남지 않으므로 심사자가 알아야 한다.
+            (점수에서 빼진 않는다 — 직무발명 승계 여부를 알 수 없어 일괄 제외는 과함) */}
+        {tech && (tech.patents.대표개인명의_등록 ?? 0) > 0 && (
+          <p className="flex items-start gap-1.5 text-[11.5px] text-muted-foreground">
+            <UserRound className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+            <span>
+              등록 특허 {tech.patents.등록 ?? 0}건 중{" "}
+              <b className="text-foreground">{tech.patents.대표개인명의_등록}건이 대표·임원 개인 명의</b>입니다. 법인 자산이 아니라
+              대표 이탈 시 회사에 남지 않습니다. (아래 특허 목록에서 확인)
+            </span>
+          </p>
+        )}
       </section>
 
-      {/* 정부 R&D·투자 — 정부가 이 기업에 실제로 투입한 R&D 규모와 자체 투자 강도 */}
+      {/* 정부 R&D·투자 — 정부가 투입한 규모 + 회사 자체 투자 의지 + 현재 활동성 */}
       {tech && (
         <section className="space-y-2">
           <SectionLabel>정부 R&D · 투자</SectionLabel>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             <StatCard
               label="NTIS 주관"
               value={`${tech.ntis.주관과제수 ?? 0}건`}
               sub={rankText(tech.percentiles["NTIS과제수"], basis) ?? (tech.ntis.부처다양성 != null ? `${tech.ntis.부처다양성}개 부처` : undefined)}
             />
-            <StatCard label="NTIS 위탁" value={`${tech.ntis.위탁과제수 ?? 0}건`} sub="공동연구 참여" />
             <StatCard
               label="누적 정부연구비"
               value={govFunding(tech.ntis.정부연구비_원)}
               sub="정부 R&D 수주 총액"
             />
+            {/* 민간부담률 — 정부 과제에 회사가 자기 돈을 얼마나 매칭했나(지원금만 vs 자기투자) */}
+            <StatCard
+              label="민간부담률"
+              value={tech.ntis.민간부담률 != null ? pct(tech.ntis.민간부담률) : "—"}
+              sub={
+                tech.ntis.민간부담률 != null
+                  ? `자체 R&D ${govFunding(tech.ntis.민간연구비_원)}`
+                  : "정부 R&D 없음"
+              }
+            />
+            {/* 정부 R&D 진행중 — '과거의 영광'인지 '현재도 수행 중'인지 */}
+            <StatCard
+              label="정부 R&D 진행중"
+              value={`${tech.ntis.진행중과제수 ?? 0}건`}
+              sub={tech.ntis.최근수주연도 != null ? `최근 수주 ${tech.ntis.최근수주연도}` : "정부 R&D 없음"}
+            />
+            <StatCard label="NTIS 위탁" value={`${tech.ntis.위탁과제수 ?? 0}건`} sub="공동연구 참여" />
             <StatCard
               label="R&D 집약도"
               value={pct(tech.rnd.집약도)}
@@ -203,11 +233,18 @@ function PatentDrilldown({ patents }: { patents: Tech["patentList"] }) {
           <div className="max-h-[280px] divide-y overflow-y-auto">
             {patents.map((p, i) => (
               <div key={i} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-2 px-3 py-2 text-[11.5px]">
-                <span className="flex items-center gap-1.5">
+                <span className="flex flex-wrap items-center gap-1.5">
                   <span>{p.type}</span>
                   <Badge variant={p.status === "등록" ? "good" : "secondary"} className="text-[10px]">
                     {p.status}
                   </Badge>
+                  {/* 개인 명의(대표이사·임원)만 표시 — 법인 명의는 정상이라 뱃지 없음 */}
+                  {(p.relation === "대표이사" || p.relation === "임원") && (
+                    <Badge variant="warn" className="gap-0.5 text-[10px]">
+                      <UserRound className="h-2.5 w-2.5" />
+                      {p.relation} 명의
+                    </Badge>
+                  )}
                 </span>
                 <span className="text-right tabular-nums text-muted-foreground">{p.applied ?? "—"}</span>
                 <span className="text-right tabular-nums text-muted-foreground">{p.registered ?? "—"}</span>
@@ -219,6 +256,7 @@ function PatentDrilldown({ patents }: { patents: Tech["patentList"] }) {
           </div>
           <p className="border-t bg-subtle px-3 py-2 text-[10.5px] text-muted-foreground">
             기술 IP(특허권·실용신안)만 표시 — 상표권·디자인권은 R&amp;D 산출물이 아니라 집계·목록에서 제외됩니다.
+            <span className="text-warn"> · ‘대표이사/임원 명의’는 법인이 아닌 개인 자산(대표 이탈 시 회사에 남지 않음).</span>
           </p>
         </div>
       )}
@@ -256,6 +294,18 @@ function TechWarnings({ tech }: { tech: Tech }) {
       key: "lapse",
       tone: "warn",
       text: `등록 특허의 ${pct(lapse)}가 권리 소멸 상태입니다. 연차료 미납 등 유지 부담 가능성을 확인하세요.`,
+    });
+  }
+  // IP가 대표 개인에 집중 — 등록 특허의 상당수가 법인이 아닌 대표·임원 개인 명의면
+  // 대표 이탈 시 회사 기술자산이 통째로 빠져나갈 수 있다. 소수(1~2건)까지 경고하면
+  // 과잉이라 "3건 이상 & 등록의 1/3 이상"일 때만 위험으로 올린다(그 미만은 위 안내문으로 표시).
+  const indiv = tech.patents.대표개인명의_등록 ?? 0;
+  const reg = tech.patents.등록 ?? 0;
+  if (indiv >= 3 && reg > 0 && indiv / reg >= 0.34) {
+    warnings.push({
+      key: "indiv-ip",
+      tone: "warn",
+      text: `등록 특허 ${reg}건 중 ${indiv}건(${pct(indiv / reg)})이 대표·임원 개인 명의입니다. IP가 대표 개인에 집중돼 이탈 시 회사 기술자산 소실 위험이 큽니다.`,
     });
   }
 

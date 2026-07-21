@@ -556,7 +556,12 @@
           "당기순이익": 2177608
         }
       ]
-    }
+    },
+    "foundedDate": "1999-09-10",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": "부가가치세 일반과세자",
+    "capitalThousand": 950000.0
   },
   {
     "id": 616,
@@ -1021,7 +1026,12 @@
           "당기순이익": -39356
         }
       ]
-    }
+    },
+    "foundedDate": "2016-12-23",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": "부가가치세 일반과세자",
+    "capitalThousand": 300000.0
   },
   {
     "id": 117,
@@ -1624,7 +1634,12 @@
           "당기순이익": 85135
         }
       ]
-    }
+    },
+    "foundedDate": "2010-02-02",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": "부가가치세 일반과세자",
+    "capitalThousand": 100000.0
   },
   {
     "id": 1878,
@@ -2007,7 +2022,12 @@
           "당기순이익": -215957
         }
       ]
-    }
+    },
+    "foundedDate": "2018-11-01",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": "부가가치세 일반과세자",
+    "capitalThousand": 560000.0
   },
   {
     "id": 1786,
@@ -2738,7 +2758,12 @@
           "당기순이익": 10548
         }
       ]
-    }
+    },
+    "foundedDate": "2018-07-26",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": "부가가치세 일반과세자",
+    "capitalThousand": 220000.0
   },
   {
     "id": 2379,
@@ -3502,7 +3527,12 @@
           "당기순이익": -327358
         }
       ]
-    }
+    },
+    "foundedDate": "2014-02-28",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": "부가가치세 일반과세자",
+    "capitalThousand": 900000.0
   },
   {
     "id": 672,
@@ -4227,7 +4257,12 @@
           "당기순이익": 160074
         }
       ]
-    }
+    },
+    "foundedDate": "2003-08-01",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": "부가가치세 일반과세자",
+    "capitalThousand": 1400000.0
   },
   {
     "id": 1730,
@@ -5108,7 +5143,12 @@
           "당기순이익": 1022689
         }
       ]
-    }
+    },
+    "foundedDate": "2011-03-16",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": "부가가치세 일반과세자",
+    "capitalThousand": 1200000.0
   },
   {
     "id": 2080,
@@ -5643,7 +5683,12 @@
           "당기순이익": 31153
         }
       ]
-    }
+    },
+    "foundedDate": "1995-10-12",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": "부가가치세 일반과세자",
+    "capitalThousand": 350000.0
   },
   {
     "id": 695,
@@ -6298,7 +6343,12 @@
           "당기순이익": 322049
         }
       ]
-    }
+    },
+    "foundedDate": "2017-08-01",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": "부가가치세 일반과세자",
+    "capitalThousand": 7690477.0
   },
   {
     "id": 1049,
@@ -6876,6 +6926,11 @@
           "당기순이익": 515701
         }
       ]
-    }
+    },
+    "foundedDate": "2011-05-04",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": "부가가치세 일반과세자",
+    "capitalThousand": 225000.0
   }
 ]

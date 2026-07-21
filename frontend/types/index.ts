@@ -101,6 +101,12 @@ export interface Company {
   region: string | null;
   revenueLatest: number | null; // 천원
   avgSalaryLatest: number | null; // 천원(원본 "원" 단위를 /1000으로 통일)
+  // 기업 기본 상태(CRETOP식 기본 식별 정보 — 심사 전 "살아있는·검증된 기업인가" 확인)
+  foundedDate: string | null;   // 설립일(YYYY-MM-DD). 업력 계산 원천
+  companyStatus: string | null; // 기업상태 텍스트("정상" 등)
+  isClosed: boolean;            // 휴·폐업 여부 — 지원 대상에서 즉시 걸러야 하는 신호
+  closureType: string | null;   // 휴폐업 구분(휴업/폐업). isClosed일 때만 의미
+  capitalThousand: number | null; // 납입자본금(천원). 기업 규모 맥락
   scores: AxisScores;
   percentiles: Record<string, number | null>; // 파생컬럼 → 0~100 백분위
   rawMetrics: Record<string, number | null>; // 파생컬럼 원값

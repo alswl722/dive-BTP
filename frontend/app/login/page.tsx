@@ -39,11 +39,12 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center px-4">
       <div className="w-full max-w-[380px]">
         <div className="mb-7 flex flex-col items-center">
-          <div className="relative mb-3 h-12 w-12 overflow-hidden rounded-xl bg-primary">
+          {/* 로고 자체가 파란색 사선 마크라 브랜드블루 배경과 겹치면 묻힌다 — 흰 배경 칩으로 대비 확보 */}
+          <div className="relative mb-3 h-12 w-12 overflow-hidden rounded-xl bg-white shadow-sm">
             <Image src="/btp-symbol.png" alt="BTP" fill className="object-contain p-2" />
           </div>
-          <h1 className="text-[19px] font-extrabold tracking-tight">부산TP 기업 선정 시스템</h1>
-          <p className="mt-1 text-[12.5px] text-muted-foreground">심사 담당자 · 관리자 전용</p>
+          <h1 className="text-[19px] font-extrabold tracking-tight">BTP 기업 심사</h1>
+          <p className="mt-1 text-[12.5px] text-muted-foreground">부산테크노파크 심사 담당자 · 관리자 전용</p>
         </div>
 
         <form onSubmit={submit} className="space-y-3 rounded-xl border bg-card p-5 shadow-sm">

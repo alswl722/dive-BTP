@@ -6,7 +6,6 @@ import { isEmploymentUnstable } from "@/lib/review-summary";
 export interface CompanyFilters {
   q: string;
   industries: string[];
-  regions: string[];
   minOverall: number;
   minAxis: Record<Axis, number>;
   certs: string[];
@@ -22,7 +21,6 @@ export function defaultFilters(): CompanyFilters {
   return {
     q: "",
     industries: [],
-    regions: [],
     minOverall: 0,
     minAxis: { 성장성: 0, 수익성: 0, 효율성: 0, 안정성: 0 },
     certs: [],
@@ -47,7 +45,6 @@ export function applyFilters(
   return companies.filter((c) => {
     if (q && !(String(c.id).includes(q) || c.name.toLowerCase().includes(q) || (c.industry ?? "").toLowerCase().includes(q))) return false;
     if (filters.industries.length && !(c.industry && filters.industries.includes(c.industry))) return false;
-    if (filters.regions.length && !(c.region && filters.regions.includes(c.region))) return false;
     const overall = resolveOverallScore(c, groupWeights, weights);
     if (filters.minOverall > 0 && (overall == null || overall < filters.minOverall)) return false;
     for (const axis of AXES) {
@@ -84,6 +81,16 @@ export function sortCompanies(
     return resolveOverallScore(c, groupWeights, weights) ?? -Infinity;
   };
   return [...companies].sort((a, b) => (valueOf(a) - valueOf(b)) * factor);
+}
+
+/** 팝오버에 묶인 연속값 필터(종합점수/4축/지원이력)만 세는 활성 개수 — 배지 표시용.
+ *  업종/인증/품질처럼 항상 노출된 칩 필터는 그 자체로 눈에 보여서 배지에 넣지 않는다. */
+export function countAdvancedFilters(f: CompanyFilters): number {
+  let n = 0;
+  if (f.minOverall > 0) n++;
+  for (const axis of AXES) if (f.minAxis[axis] > 0) n++;
+  if (f.minSupportYears > 0) n++;
+  return n;
 }
 
 export function reviewStatusCounts(companies: Company[], statuses: Record<number, ReviewStatus>) {

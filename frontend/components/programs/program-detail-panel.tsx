@@ -81,7 +81,11 @@ export function ProgramDetailPanel({
         <h2 className="text-[17px] font-extrabold leading-snug tracking-tight">{p.name ?? p.programCode}</h2>
         <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
           <Badge variant="info">{businessTypeLabel(p.businessType)}</Badge>
-          {p.macroCategory && <Badge variant="secondary">{p.macroCategory}</Badge>}
+          {/* macroCategory는 businessType과 다른 분류축(상위 카테고리)이라 보통 함께 보여줄 가치가 있지만,
+              RnD처럼 값이 같아지는 사업에서는 "R&D"·"RnD" 중복 뱃지로만 보인다 — 그 경우만 숨긴다. */}
+          {p.macroCategory && p.macroCategory !== businessTypeLabel(p.businessType) && (
+            <Badge variant="secondary">{p.macroCategory}</Badge>
+          )}
           <span className="text-[11px] text-muted-foreground">{p.year}년 · {p.programCode}</span>
         </div>
       </div>

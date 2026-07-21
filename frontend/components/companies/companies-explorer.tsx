@@ -100,7 +100,16 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
     () => sortCompanies(filtered, sortKey, sortDir, groupWeights, weights),
     [filtered, sortKey, sortDir, groupWeights, weights]
   );
-  const counts = useMemo(() => reviewStatusCounts(companiesWithLiveStatus), [companiesWithLiveStatus]);
+  // 상태 카운트는 "이 사업 신청 기업" 기준으로만 좁힌다 — 검색어·업종 등 다른 필터까지
+  // 반영하면 그 필터를 건드릴 때마다 후보/선정/제외 총합이 흔들려 헷갈린다.
+  const applicantsForCounts = useMemo(
+    () =>
+      filters.programKey
+        ? companiesWithLiveStatus.filter((c) => companyProgramKeys(c).has(filters.programKey!))
+        : companiesWithLiveStatus,
+    [companiesWithLiveStatus, filters.programKey]
+  );
+  const counts = useMemo(() => reviewStatusCounts(applicantsForCounts), [applicantsForCounts]);
 
   // 배정된 사업만 전환 가능 — 목록에 없는 사업으로는 이동시키지 않는다(관리자는 전체)
   const canReview = (p: Program) => isAdmin(user) || assigns[programKey(p)] === user?.username;
@@ -113,7 +122,6 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [programs, assigns, user]
   );
-  const selectedProgram = programOptions.find((p) => programKey(p) === filters.programKey);
   const programComboOptions: ComboboxOption[] = useMemo(
     () => programOptions.map((p) => ({ value: programKey(p), label: p.name ?? p.programCode, group: String(p.year) })),
     [programOptions]
@@ -191,17 +199,11 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
             고용 불안정
           </label>
 
-          {selectedProgram && (
-            <span className="flex items-center gap-1 rounded-full bg-info-bg px-2.5 py-1 text-[11.5px] text-info">
-              신청 {selectedProgram.applicantCount}개사
-            </span>
-          )}
-
-          <div className="ml-auto flex items-center gap-2 text-[12px]">
+          <div className="ml-auto flex items-center gap-2 text-[12px] text-muted-foreground">
             <CountPill label="후보" value={counts.후보} tone="text-info" />
             <CountPill label="선정" value={counts.선정} tone="text-good" />
             <CountPill label="제외" value={counts.제외} tone="text-bad" />
-            <span className="text-muted-foreground">/ {companies.length}개</span>
+            <span>/ <span className="font-bold text-foreground">{applicantsForCounts.length}</span>개 기업</span>
           </div>
         </div>
 

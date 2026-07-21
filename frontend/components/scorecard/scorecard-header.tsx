@@ -4,7 +4,7 @@ import { AlertTriangle, Clock, Maximize2, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ScoreBadge } from "@/components/ui/score-badge";
 import { StatusStack } from "@/components/scorecard/status-buttons";
-import { resolveOverallScore, DEFAULT_AXIS_WEIGHTS, DEFAULT_GROUP_WEIGHTS, isCustomWeights } from "@/lib/scoring";
+import { resolveOverallScore, DEFAULT_AXIS_WEIGHTS, DEFAULT_GROUP_WEIGHTS, DEFAULT_TECH_WEIGHTS, isCustomWeights, type TechAxis } from "@/lib/scoring";
 import { useReviewStatus } from "@/lib/app-state";
 import { isDuplicateRisk, recentSelectionCount, DUPLICATE_RISK_WINDOW_YEARS } from "@/lib/duplicate-risk";
 import { DuplicateFlagBadge } from "@/components/axis9/DuplicateFlagBadge";
@@ -16,6 +16,7 @@ export function ScorecardHeader({
   programKey,
   weights = DEFAULT_AXIS_WEIGHTS,
   groupWeights = DEFAULT_GROUP_WEIGHTS,
+  techWeights = DEFAULT_TECH_WEIGHTS,
   onClose,
   onExpand,
 }: {
@@ -24,6 +25,7 @@ export function ScorecardHeader({
   programKey?: string | null; // 현재 심사 중인 사업 — 없으면(직접 진입) 상태 변경 비활성
   weights?: Record<Axis, number>;
   groupWeights?: Record<CompositeGroup, number>;
+  techWeights?: Record<TechAxis, number>;
   onClose?: () => void;
   onExpand?: () => void;
 }) {
@@ -31,8 +33,8 @@ export function ScorecardHeader({
   const status = statusOf(company.id, programKey);
   const dupRisk = isDuplicateRisk(company, latestYear);
   const recentCount = recentSelectionCount(company, latestYear);
-  const overall = resolveOverallScore(company, groupWeights, weights);
-  const custom = isCustomWeights(groupWeights, weights);
+  const overall = resolveOverallScore(company, groupWeights, weights, techWeights);
+  const custom = isCustomWeights(groupWeights, weights, techWeights);
   // 커스텀 가중치면 프론트 재계산 결과의 lowestAxis를, 아니면 서버 compositeScore를 그대로 근거로 삼는다.
   const cs = company.compositeScore;
   const lowestAxis = cs?.lowestAxis ?? null;

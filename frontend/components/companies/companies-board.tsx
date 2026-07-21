@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card";
 import { ScoreBadge } from "@/components/ui/score-badge";
 import { StatusDropdown } from "@/components/scorecard/status-buttons";
 import { AxisMiniBars } from "@/components/companies/axis-mini-bars";
-import { resolveOverallScore } from "@/lib/scoring";
+import { resolveOverallScore, DEFAULT_TECH_WEIGHTS, type TechAxis } from "@/lib/scoring";
 import { isDuplicateRisk } from "@/lib/duplicate-risk";
 import { formatKRW, cn } from "@/lib/utils";
 
@@ -22,6 +22,7 @@ export function CompaniesBoard({
   companies,
   weights,
   groupWeights,
+  techWeights = DEFAULT_TECH_WEIGHTS,
   latestYear,
   onSetStatus,
   selectedIds,
@@ -31,6 +32,7 @@ export function CompaniesBoard({
   companies: Company[];
   weights: Record<Axis, number>;
   groupWeights: Record<CompositeGroup, number>;
+  techWeights?: Record<TechAxis, number>;
   latestYear: number;
   onSetStatus: (id: number, status: ReviewStatus) => void;
   selectedIds: Set<number>;
@@ -101,7 +103,7 @@ export function CompaniesBoard({
                     </div>
                     <div className="flex shrink-0 items-center gap-1">
                       {dupRisk && <AlertTriangle className="h-3.5 w-3.5 text-bad" />}
-                      <ScoreBadge score={resolveOverallScore(c, groupWeights, weights)} size="sm" />
+                      <ScoreBadge score={resolveOverallScore(c, groupWeights, weights, techWeights)} size="sm" />
                     </div>
                   </div>
 

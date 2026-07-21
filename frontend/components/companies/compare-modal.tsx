@@ -16,7 +16,7 @@ import {
 import { AXES, type Axis, type Company, type CompositeGroup } from "@/types";
 import { Card } from "@/components/ui/card";
 import { ScoreBadge } from "@/components/ui/score-badge";
-import { resolveOverallScore } from "@/lib/scoring";
+import { resolveOverallScore, DEFAULT_TECH_WEIGHTS, type TechAxis } from "@/lib/scoring";
 import { formatKRW, cn } from "@/lib/utils";
 
 const COMPARE_COLORS = ["hsl(var(--info))", "hsl(var(--good))", "hsl(var(--axis-efficiency))", "hsl(var(--bad))"];
@@ -31,17 +31,19 @@ export function CompareModal({
   companies,
   weights,
   groupWeights,
+  techWeights = DEFAULT_TECH_WEIGHTS,
   onRemove,
   onClose,
 }: {
   companies: Company[];
   weights: Record<Axis, number>;
   groupWeights: Record<CompositeGroup, number>;
+  techWeights?: Record<TechAxis, number>;
   onRemove: (id: number) => void;
   onClose: () => void;
 }) {
   const rows: Row[] = [
-    { label: "종합점수", value: (c) => resolveOverallScore(c, groupWeights, weights), fmt: (v) => (v == null ? "—" : `${Math.round(v)}점`) },
+    { label: "종합점수", value: (c) => resolveOverallScore(c, groupWeights, weights, techWeights), fmt: (v) => (v == null ? "—" : `${Math.round(v)}점`) },
     { label: "최근매출", value: (c) => c.revenueLatest, fmt: (v) => formatKRW(v) },
     { label: "누적지원금", value: (c) => c.support.총지원금_천원, fmt: (v) => formatKRW(v) },
     { label: "지원건수", value: (c) => c.support.건수, fmt: (v) => (v == null ? "—" : `${v}건`) },
@@ -84,7 +86,7 @@ export function CompareModal({
                 >
                   <X className="h-3.5 w-3.5" />
                 </button>
-                <ScoreBadge score={resolveOverallScore(c, groupWeights, weights)} size="sm" />
+                <ScoreBadge score={resolveOverallScore(c, groupWeights, weights, techWeights)} size="sm" />
                 <div className="min-w-0">
                   <p className="truncate text-[12.5px] font-bold">{c.name}</p>
                   <p className="truncate text-[11px] text-muted-foreground">{c.industry ?? "-"}</p>

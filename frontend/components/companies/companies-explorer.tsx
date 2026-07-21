@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { X } from "lucide-react";
 import type { Company, Program } from "@/types";
 import { useReviewStatus, useUi } from "@/lib/app-state";
-import { DEFAULT_AXIS_WEIGHTS, DEFAULT_GROUP_WEIGHTS } from "@/lib/scoring";
+import { DEFAULT_AXIS_WEIGHTS, DEFAULT_GROUP_WEIGHTS, DEFAULT_TECH_WEIGHTS } from "@/lib/scoring";
 import { defaultFilters, applyFilters, sortCompanies, reviewStatusCounts, type CompanyFilters, type SortKey } from "@/lib/company-filters";
 import { latestSupportYear } from "@/lib/duplicate-risk";
 import { companyProgramKeys, programKey } from "@/lib/program-progress";
@@ -53,6 +53,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
   }, [searchParams]);
   const [weights, setWeights] = useState(DEFAULT_AXIS_WEIGHTS);
   const [groupWeights, setGroupWeights] = useState(DEFAULT_GROUP_WEIGHTS);
+  const [techWeights, setTechWeights] = useState(DEFAULT_TECH_WEIGHTS);
   const [sortKey, setSortKey] = useState<SortKey>("overall");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
@@ -93,12 +94,12 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
   );
 
   const filtered = useMemo(
-    () => applyFilters(companiesWithLiveStatus, filters, groupWeights, weights, latestYear, companyProgramKeys),
-    [companiesWithLiveStatus, filters, groupWeights, weights, latestYear]
+    () => applyFilters(companiesWithLiveStatus, filters, groupWeights, weights, latestYear, companyProgramKeys, techWeights),
+    [companiesWithLiveStatus, filters, groupWeights, weights, latestYear, techWeights]
   );
   const sorted = useMemo(
-    () => sortCompanies(filtered, sortKey, sortDir, groupWeights, weights),
-    [filtered, sortKey, sortDir, groupWeights, weights]
+    () => sortCompanies(filtered, sortKey, sortDir, groupWeights, weights, techWeights),
+    [filtered, sortKey, sortDir, groupWeights, weights, techWeights]
   );
   // 상태 카운트는 "이 사업 신청 기업" 기준으로만 좁힌다 — 검색어·업종 등 다른 필터까지
   // 반영하면 그 필터를 건드릴 때마다 후보/선정/제외 총합이 흔들려 헷갈린다.
@@ -175,6 +176,8 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
             onChange={setWeights}
             groupWeights={groupWeights}
             onGroupChange={setGroupWeights}
+            techWeights={techWeights}
+            onTechChange={setTechWeights}
           />
 
           <AdvancedFilterPopover filters={filters} onChange={setFilters} />
@@ -237,6 +240,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
                 companies={sorted}
                 weights={weights}
                 groupWeights={groupWeights}
+                techWeights={techWeights}
                 selectedIds={selectedIds}
                 onToggleSelect={toggleSelect}
                 onOpenDetail={setOpenId}
@@ -250,6 +254,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
                 companies={sorted}
                 weights={weights}
                 groupWeights={groupWeights}
+                techWeights={techWeights}
                 latestYear={latestYear}
                 onSetStatus={(id, status) => {
                   if (filters.programKey) setStatus(id, filters.programKey, status);
@@ -278,6 +283,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
                   programKey={filters.programKey}
                   weights={weights}
                   groupWeights={groupWeights}
+                  techWeights={techWeights}
                   onClose={() => setOpenId(null)}
                   onExpand={() => router.push(`/companies/${openCompany.id}`)}
                 />
@@ -292,6 +298,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
           companies={compareCompanies}
           weights={weights}
           groupWeights={groupWeights}
+          techWeights={techWeights}
           onRemove={(id) => setSelectedIds((prev) => { const n = new Set(prev); n.delete(id); return n; })}
           onClose={() => setCompareOpen(false)}
         />

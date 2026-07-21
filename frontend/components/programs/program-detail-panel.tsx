@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { AlertTriangle, Building2, Calendar, Landmark, Maximize2, Repeat, X } from "lucide-react";
+import { AlertTriangle, Calendar, Landmark, Maximize2, Repeat, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { Company, Note, Program } from "@/types";
 import { Badge } from "@/components/ui/badge";
@@ -92,7 +92,6 @@ export function ProgramDetailPanel({
 
       <div className="space-y-1.5 text-[12px]">
         <Row icon={<Landmark className="h-3.5 w-3.5" />} label="부처" value={p.ministry ?? "—"} />
-        <Row icon={<Building2 className="h-3.5 w-3.5" />} label="지자체" value={p.localGov ?? "—"} />
         <Row
           icon={<Calendar className="h-3.5 w-3.5" />}
           label="사업기간"

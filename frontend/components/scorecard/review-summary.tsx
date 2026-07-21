@@ -97,7 +97,7 @@ export function ReviewSummary({
 
       {/* 통합 위험 신호 — 심각도순 */}
       {signals.length > 0 && (
-        <div className="space-y-1.5">
+        <div className="space-y-1">
           {signals.map((s, i) => {
             if (s.kind === "employment") {
               return (
@@ -129,24 +129,25 @@ export function ReviewSummary({
                 type="button"
                 onClick={() => onJumpTab?.(s.axis)}
                 disabled={!onJumpTab}
+                title={s.detail}
                 className={cn(
-                  "flex w-full items-start gap-2 rounded-lg px-3 py-2.5 text-left",
+                  "flex w-full items-start gap-2 rounded-lg px-2.5 py-1.5 text-left",
                   style.wrap,
                   onJumpTab && "transition-opacity hover:opacity-80"
                 )}
               >
                 <Icon
                   className={cn(
-                    "mt-0.5 h-3.5 w-3.5 shrink-0",
+                    "mt-[3px] h-3.5 w-3.5 shrink-0",
                     s.sev === "위험" ? "text-bad" : s.sev === "주의" ? "text-[hsl(30_75%_38%)]" : "text-muted-foreground"
                   )}
                 />
                 <span className="min-w-0 flex-1">
                   <span className="flex items-center gap-1.5">
-                    <span className="text-[12px] font-bold">{s.title}</span>
+                    <span className="text-[12px] font-bold leading-tight">{s.title}</span>
                     <span className="text-[10.5px] text-muted-foreground">{s.axis}</span>
                   </span>
-                  <span className="mt-0.5 block text-[11.5px] leading-relaxed text-muted-foreground">
+                  <span className="mt-0.5 block text-[11px] leading-snug text-muted-foreground line-clamp-1">
                     {s.detail}
                   </span>
                 </span>
@@ -182,7 +183,7 @@ function EmploymentSignal({
   const Icon = SEV_STYLE[sev].icon;
 
   return (
-    <div className={cn("rounded-lg px-3 py-2.5", SEV_STYLE[sev].wrap)}>
+    <div className={cn("rounded-lg px-2.5 py-2", SEV_STYLE[sev].wrap)}>
       <div className="flex items-start gap-2">
         <Icon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[hsl(30_75%_38%)]" />
         <div className="min-w-0 flex-1">
@@ -253,7 +254,7 @@ function LifelineSignal({
   const Icon = SEV_STYLE[sev].icon;
 
   return (
-    <div className={cn("rounded-lg px-3 py-2.5", SEV_STYLE[sev].wrap)}>
+    <div className={cn("rounded-lg px-2.5 py-2", SEV_STYLE[sev].wrap)}>
       <div className="flex items-start gap-2">
         <Icon className={cn("mt-0.5 h-3.5 w-3.5 shrink-0", sev === "위험" ? "text-bad" : "text-[hsl(30_75%_38%)]")} />
         <div className="min-w-0 flex-1">

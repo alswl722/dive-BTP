@@ -8,14 +8,21 @@ const toneClass: Record<ReturnType<typeof overallScoreTone>, string> = {
   bad: "bg-bad-bg text-bad",
 };
 
-/** 종합점수 원형 배지. size: sm(표/리스트용) | lg(스코어카드 헤더용) */
-export function ScoreBadge({ score, size = "sm", className }: { score: number | null; className?: string; size?: "sm" | "lg" }) {
+const sizeClass = {
+  sm: "h-8 w-8 text-[12px]",
+  lg: "h-16 w-16 text-[22px]",
+  xl: "h-24 w-24 text-[40px]",
+} as const;
+
+/** 종합점수 원형 배지. size: sm(표/리스트용) | lg(스코어카드 헤더용) | xl(강조) */
+export function ScoreBadge({ score, size = "sm", className, title }: { score: number | null; className?: string; size?: keyof typeof sizeClass; title?: string }) {
   const tone = overallScoreTone(score);
   return (
     <div
+      title={title}
       className={cn(
         "flex shrink-0 items-center justify-center rounded-full font-extrabold tabular-nums",
-        size === "sm" ? "h-8 w-8 text-[12px]" : "h-16 w-16 text-[22px]",
+        sizeClass[size],
         toneClass[tone],
         className
       )}

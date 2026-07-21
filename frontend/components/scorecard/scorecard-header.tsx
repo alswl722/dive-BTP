@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertTriangle, Clock, Maximize2, ShieldAlert, ShieldCheck, X } from "lucide-react";
+import { AlertTriangle, Maximize2, ShieldAlert, ShieldCheck, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ScoreBadge } from "@/components/ui/score-badge";
 import { StatusStack } from "@/components/scorecard/status-buttons";
@@ -78,7 +78,6 @@ export function ScorecardHeader({
           </span>
           {dupRisk && (
             <div className="inline-flex items-center gap-1.5 rounded-full bg-orangeTone-bg px-2.5 py-1 text-[11px] font-medium text-orangeTone">
-              <Clock className="h-3 w-3" />
               최근 {DUPLICATE_RISK_WINDOW_YEARS}년 {recentCount}회 수혜
             </div>
           )}
@@ -138,19 +137,12 @@ export function ScorecardHeader({
           {/* 종합점수 = 재무4축+기술2축+정합성, 최저축 캡 적용(docs/종합점수_설계노트.md).
               축별 breakdown이 진짜 판단 근거이므로 이 배지 단독으로 판단하지 않도록 아래
               경고 박스와 각 탭의 축별 점수를 항상 함께 노출한다. */}
-          <div className="flex flex-col items-center gap-1">
-            <ScoreBadge score={overall} size="lg" />
-            <span
-              className="text-[10px] leading-none text-muted-foreground"
-              title="재무4축·기술2축·정합성 가중평균(최저축 캡 적용). 축별 점수는 아래 탭에서 확인"
-            >
-              종합점수{custom && " (커스텀)"}
-            </span>
-            {lowestAxis && lowestAxisScore != null && (
-              <span className="text-[10px] leading-none text-muted-foreground">
-                최저축 {lowestAxis} {Math.round(lowestAxisScore)}
-              </span>
-            )}
+          <div className="flex flex-col items-center">
+            <ScoreBadge
+              score={overall}
+              size="xl"
+              title={`종합점수${custom ? " (커스텀)" : ""} — 재무4축·기술2축·정합성 가중평균(최저축 캡 적용). 축별 점수는 아래 탭에서 확인`}
+            />
           </div>
           <StatusStack
             status={status}

@@ -18,8 +18,6 @@ const FLAG_STYLE: Record<FlagStatus, {
 
 export function DuplicateFlagBadge({ flag }: { flag: DuplicateFlag | null }) {
   if (!flag) return null;
-  const style = FLAG_STYLE[flag.status];
-  const Icon = style.icon;
 
   return (
     <div className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium"
@@ -31,7 +29,6 @@ export function DuplicateFlagBadge({ flag }: { flag: DuplicateFlag | null }) {
                   flag.status === "cleared" ? "hsl(140 55% 30%)" :
                   flag.status === "observe" ? "hsl(210 60% 40%)" : "hsl(220 15% 40%)",
          }}>
-      <Icon className="h-3 w-3" />
       <span>{flag.label}</span>
     </div>
   );

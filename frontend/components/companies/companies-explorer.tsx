@@ -179,6 +179,16 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
             데이터 품질 이슈 제외
           </label>
 
+          <label className="flex shrink-0 cursor-pointer items-center gap-1.5 text-[12px] text-muted-foreground">
+            <input
+              type="checkbox"
+              checked={filters.employmentRiskOnly}
+              onChange={(e) => setFilters({ ...filters, employmentRiskOnly: e.target.checked })}
+              className="h-3.5 w-3.5 accent-primary"
+            />
+            고용 불안정
+          </label>
+
           {selectedProgram && (
             <span className="flex items-center gap-1 rounded-full bg-info-bg px-2.5 py-1 text-[11.5px] text-info">
               신청 {selectedProgram.applicantCount}개사

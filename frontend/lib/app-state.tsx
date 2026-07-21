@@ -7,10 +7,14 @@
 import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
 import type { ReviewStatus } from "@/types";
 import { updateReviewStatus } from "@/lib/api";
+import { statusKey } from "@/lib/status-key";
+
+export const DEFAULT_REVIEW_STATUS: ReviewStatus = "후보";
 
 interface ReviewStatusContextValue {
-  statuses: Record<number, ReviewStatus>;
-  setStatus: (id: number, status: ReviewStatus) => void;
+  statuses: Record<string, ReviewStatus>; // key = statusKey(companyId, programKey)
+  statusOf: (companyId: number, programKey: string | null | undefined) => ReviewStatus;
+  setStatus: (companyId: number, programKey: string, status: ReviewStatus) => void;
 }
 
 const ReviewStatusContext = createContext<ReviewStatusContextValue | null>(null);
@@ -19,24 +23,40 @@ export function ReviewStatusProvider({
   initial,
   children,
 }: {
-  initial: Record<number, ReviewStatus>;
+  initial: Record<string, ReviewStatus>;
   children: ReactNode;
 }) {
   const [statuses, setStatuses] = useState(initial);
 
-  const setStatus = useCallback((id: number, status: ReviewStatus) => {
+  const statusOf = useCallback(
+    (companyId: number, programKey: string | null | undefined): ReviewStatus =>
+      programKey ? statuses[statusKey(companyId, programKey)] ?? DEFAULT_REVIEW_STATUS : DEFAULT_REVIEW_STATUS,
+    [statuses],
+  );
+
+  const setStatus = useCallback((companyId: number, programKey: string, status: ReviewStatus) => {
+    const key = statusKey(companyId, programKey);
     let previous: ReviewStatus | undefined;
     setStatuses((prev) => {
-      previous = prev[id];
-      return { ...prev, [id]: status };
+      previous = prev[key];
+      return { ...prev, [key]: status };
     });
-    updateReviewStatus(id, status).catch((err) => {
-      console.error("찜 상태 저장 실패, 이전 상태로 롤백:", err);
-      setStatuses((prev) => (previous === undefined ? prev : { ...prev, [id]: previous }));
+    updateReviewStatus(companyId, programKey, status).catch((err) => {
+      console.error("심사 상태 저장 실패, 이전 상태로 롤백:", err);
+      setStatuses((prev) => {
+        const next = { ...prev };
+        if (previous === undefined) delete next[key];
+        else next[key] = previous;
+        return next;
+      });
     });
   }, []);
 
-  return <ReviewStatusContext.Provider value={{ statuses, setStatus }}>{children}</ReviewStatusContext.Provider>;
+  return (
+    <ReviewStatusContext.Provider value={{ statuses, statusOf, setStatus }}>
+      {children}
+    </ReviewStatusContext.Provider>
+  );
 }
 
 export function useReviewStatus() {

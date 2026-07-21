@@ -13,6 +13,7 @@ import { type Axis, type Company, type CompositeGroup } from "@/types";
 export function ScorecardHeader({
   company,
   latestYear,
+  programKey,
   weights = DEFAULT_AXIS_WEIGHTS,
   groupWeights = DEFAULT_GROUP_WEIGHTS,
   onClose,
@@ -20,13 +21,14 @@ export function ScorecardHeader({
 }: {
   company: Company;
   latestYear: number;
+  programKey?: string | null; // 현재 심사 중인 사업 — 없으면(직접 진입) 상태 변경 비활성
   weights?: Record<Axis, number>;
   groupWeights?: Record<CompositeGroup, number>;
   onClose?: () => void;
   onExpand?: () => void;
 }) {
-  const { statuses, setStatus } = useReviewStatus();
-  const status = statuses[company.id] ?? company.reviewStatus;
+  const { statusOf, setStatus } = useReviewStatus();
+  const status = statusOf(company.id, programKey);
   const dupRisk = isDuplicateRisk(company, latestYear);
   const recentCount = recentSelectionCount(company, latestYear);
   const overall = resolveOverallScore(company, groupWeights, weights);
@@ -106,7 +108,11 @@ export function ScorecardHeader({
               </span>
             )}
           </div>
-          <StatusStack status={status} onChange={(next) => setStatus(company.id, next)} />
+          <StatusStack
+            status={status}
+            disabled={!programKey}
+            onChange={(next) => programKey && setStatus(company.id, programKey, next)}
+          />
         </div>
       </div>
 

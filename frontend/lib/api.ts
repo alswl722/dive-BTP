@@ -47,15 +47,28 @@ export async function listPrograms(): Promise<Program[]> {
  *  없으면(fixture 모드) 호출부가 들고 있는 클라이언트 상태만 세션 내 갱신하도록 false 반환.
  *  브라우저는 NEXT_PUBLIC_API_BASE_URL(docker 네트워크 전용 호스트명)을 직접 못 찾으므로
  *  같은 오리진의 /api/review-status 라우트 핸들러(서버에서 실행)를 거친다. */
-export async function updateReviewStatus(id: number, status: Company["reviewStatus"]): Promise<boolean> {
+/** 사업 단위 심사 상태 저장 — 같은 오리진 프록시(/api/review-status/[id])가 백엔드로 전달. */
+export async function updateReviewStatus(
+  companyId: number,
+  programKey: string,
+  status: Company["reviewStatus"],
+): Promise<boolean> {
   if (!API_BASE) return false;
-  const res = await fetch(`/api/review-status/${id}`, {
+  const res = await fetch(`/api/review-status/${companyId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ status }),
+    body: JSON.stringify({ status, programKey }),
   });
-  if (!res.ok) throw new Error(`PATCH review-status ${id} → ${res.status}`);
+  if (!res.ok) throw new Error(`PATCH review-status ${companyId} → ${res.status}`);
   return true;
+}
+
+/** 전체 (기업, 사업) 심사 상태. RootLayout(서버)이 초기 로드. */
+export async function listReviewStatuses(): Promise<
+  { companyId: number; programKey: string; status: Company["reviewStatus"] }[]
+> {
+  if (API_BASE) return fromApi("/review-status");
+  return [];
 }
 
 /* ------------------------------------------------------------------ */

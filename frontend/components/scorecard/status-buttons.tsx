@@ -84,8 +84,17 @@ const STACK_OPTIONS: { status: ReviewStatus; activeClass: string; label: string 
 ];
 
 /** 스코어카드 헤더용 — 세로 라벨 스택. 각 버튼이 목표 상태를 직접 지정(토글 아님) —
- *  "후보"가 버튼으로 명시돼 있어 굳이 활성 버튼을 다시 눌러 해제할 필요가 없다. */
-export function StatusStack({ status, onChange }: { status: ReviewStatus; onChange: (next: ReviewStatus) => void }) {
+ *  "후보"가 버튼으로 명시돼 있어 굳이 활성 버튼을 다시 눌러 해제할 필요가 없다.
+ *  상태는 사업 단위 — 사업 없이(검색·챗봇으로) 직접 연 스코어카드에선 disabled + 안내. */
+export function StatusStack({
+  status,
+  onChange,
+  disabled = false,
+}: {
+  status: ReviewStatus;
+  onChange: (next: ReviewStatus) => void;
+  disabled?: boolean;
+}) {
   return (
     <div className="flex flex-col gap-1">
       {STACK_OPTIONS.map(({ status: s, activeClass, label }) => {
@@ -94,15 +103,22 @@ export function StatusStack({ status, onChange }: { status: ReviewStatus; onChan
           <button
             key={s}
             onClick={() => onChange(s)}
+            disabled={disabled}
             className={cn(
               "rounded-md border px-3 py-1 text-[11.5px] font-medium transition-colors",
-              active ? activeClass : "border-border text-muted-foreground hover:bg-muted"
+              disabled && "cursor-not-allowed opacity-40",
+              active && !disabled ? activeClass : "border-border text-muted-foreground hover:bg-muted"
             )}
           >
             {label}
           </button>
         );
       })}
+      {disabled && (
+        <p className="max-w-[72px] text-[9.5px] leading-tight text-muted-foreground">
+          사업을 선택해 심사
+        </p>
+      )}
     </div>
   );
 }

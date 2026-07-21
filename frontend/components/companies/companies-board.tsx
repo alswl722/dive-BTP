@@ -23,7 +23,6 @@ export function CompaniesBoard({
   weights,
   groupWeights,
   latestYear,
-  statuses,
   onSetStatus,
   selectedIds,
   onToggleSelect,
@@ -33,7 +32,6 @@ export function CompaniesBoard({
   weights: Record<Axis, number>;
   groupWeights: Record<CompositeGroup, number>;
   latestYear: number;
-  statuses: Record<number, ReviewStatus>;
   onSetStatus: (id: number, status: ReviewStatus) => void;
   selectedIds: Set<number>;
   onToggleSelect: (id: number) => void;
@@ -42,7 +40,7 @@ export function CompaniesBoard({
   const [dragOverCol, setDragOverCol] = useState<ReviewStatus | null>(null);
 
   function statusOf(c: Company): ReviewStatus {
-    const s = statuses[c.id] ?? c.reviewStatus;
+    const s = c.reviewStatus;
     return s === "보류" ? "후보" : s; // 보드뷰는 3레인만(디자인 스펙) — 보류는 드롭다운으로 표시/변경
   }
 
@@ -81,7 +79,7 @@ export function CompaniesBoard({
             )}
 
             {items.map((c) => {
-              const status = statuses[c.id] ?? c.reviewStatus;
+              const status = c.reviewStatus;
               const dupRisk = isDuplicateRisk(c, latestYear);
               return (
                 <Card

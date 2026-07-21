@@ -14,7 +14,7 @@ export function Providers({
   notesData,
   children,
 }: {
-  initialReviewStatus: Record<number, ReviewStatus>;
+  initialReviewStatus: Record<string, ReviewStatus>; // key = statusKey(companyId, programKey)
   notesData: { companies: Company[]; programs: Program[]; initialNotes: Note[] };
   children: ReactNode;
 }) {

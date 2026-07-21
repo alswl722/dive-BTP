@@ -26,7 +26,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
   const { user } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { statuses, setStatus } = useReviewStatus();
+  const { statusOf, setStatus } = useReviewStatus();
   const { viewMode } = useUi();
 
   const latestYear = useMemo(() => latestSupportYear(companies), [companies]);
@@ -86,9 +86,10 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
   };
   const [compareOpen, setCompareOpen] = useState(false);
 
+  // 상태는 현재 선택된 사업(filters.programKey) 기준 — 같은 기업이 사업마다 다른 상태를 가진다.
   const companiesWithLiveStatus = useMemo(
-    () => companies.map((c) => ({ ...c, reviewStatus: statuses[c.id] ?? c.reviewStatus })),
-    [companies, statuses]
+    () => companies.map((c) => ({ ...c, reviewStatus: statusOf(c.id, filters.programKey) })),
+    [companies, statusOf, filters.programKey]
   );
 
   const filtered = useMemo(
@@ -99,7 +100,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
     () => sortCompanies(filtered, sortKey, sortDir, groupWeights, weights),
     [filtered, sortKey, sortDir, groupWeights, weights]
   );
-  const counts = useMemo(() => reviewStatusCounts(companiesWithLiveStatus, statuses), [companiesWithLiveStatus, statuses]);
+  const counts = useMemo(() => reviewStatusCounts(companiesWithLiveStatus), [companiesWithLiveStatus]);
 
   // 배정된 사업만 전환 가능 — 목록에 없는 사업으로는 이동시키지 않는다(관리자는 전체)
   const canReview = (p: Program) => isAdmin(user) || assigns[programKey(p)] === user?.username;
@@ -128,7 +129,8 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
   }
 
   function bulkSetStatus(status: "선정" | "보류" | "제외") {
-    selectedIds.forEach((id) => setStatus(id, status));
+    if (!filters.programKey) return; // 사업 단위 — 사업 선택 없이는 상태 변경 불가
+    selectedIds.forEach((id) => setStatus(id, filters.programKey!, status));
     setSelectedIds(new Set());
   }
 
@@ -224,7 +226,6 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
                 companies={sorted}
                 weights={weights}
                 groupWeights={groupWeights}
-                statuses={statuses}
                 selectedIds={selectedIds}
                 onToggleSelect={toggleSelect}
                 onOpenDetail={setOpenId}
@@ -239,8 +240,9 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
                 weights={weights}
                 groupWeights={groupWeights}
                 latestYear={latestYear}
-                statuses={statuses}
-                onSetStatus={setStatus}
+                onSetStatus={(id, status) => {
+                  if (filters.programKey) setStatus(id, filters.programKey, status);
+                }}
                 selectedIds={selectedIds}
                 onToggleSelect={toggleSelect}
                 onOpenDetail={setOpenId}
@@ -262,6 +264,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
                 <ScorecardPanel
                   company={openCompany}
                   latestYear={latestYear}
+                  programKey={filters.programKey}
                   weights={weights}
                   groupWeights={groupWeights}
                   onClose={() => setOpenId(null)}

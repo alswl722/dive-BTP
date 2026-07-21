@@ -1,7 +1,7 @@
-import { listCompanies } from "@/lib/api";
+import { listCompanies, listPrograms } from "@/lib/api";
 import { SelectedList } from "@/components/companies/selected-list";
 
 export default async function SelectedPage() {
-  const companies = await listCompanies();
-  return <SelectedList companies={companies} />;
+  const [companies, programs] = await Promise.all([listCompanies(), listPrograms()]);
+  return <SelectedList companies={companies} programs={programs} />;
 }

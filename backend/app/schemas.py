@@ -267,11 +267,21 @@ class Company(BaseModel):
 
 class ReviewStatusUpdate(BaseModel):
     status: ReviewStatus
+    programKey: str            # "연도:사업코드" — 사업 단위 상태
 
 
 class ReviewStatusResponse(BaseModel):
-    id: int
+    companyId: int
+    programKey: str
     reviewStatus: ReviewStatus
+
+
+class ProgramReviewStatus(BaseModel):
+    """GET /review-status 항목 — 전체 (기업, 사업) 상태."""
+
+    companyId: int
+    programKey: str
+    status: ReviewStatus
 
 
 class RankingRow(BaseModel):

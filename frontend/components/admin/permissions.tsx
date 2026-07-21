@@ -6,7 +6,6 @@ import { KeyRound, Lock, LockOpen, Search, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useAdminState } from "@/lib/admin-state";
 import { DEMO_ACCOUNTS } from "@/lib/auth";
-import { useReviewStatus } from "@/lib/app-state";
 import { computeOverallScore } from "@/lib/scoring";
 import { programKey } from "@/lib/program-progress";
 import { cn } from "@/lib/utils";
@@ -20,7 +19,6 @@ import type { Company, Program } from "@/types";
  */
 export function Permissions({ companies, programs }: { companies: Company[]; programs: Program[] }) {
   const { locks, toggleLock, assigns } = useAdminState();
-  const { statuses } = useReviewStatus();
   const [q, setQ] = useState("");
 
   const lockedCount = Object.values(locks).filter(Boolean).length;
@@ -42,13 +40,11 @@ export function Permissions({ companies, programs }: { companies: Company[]; pro
           (c) => c.name.toLowerCase().includes(needle) || (c.industry ?? "").toLowerCase().includes(needle)
         )
       : companies;
-    return [...matched].sort((a, b) => {
-      const sa = statuses[a.id] ?? a.reviewStatus;
-      const sb = statuses[b.id] ?? b.reviewStatus;
-      const decided = (s: string) => (s === "후보" ? 1 : 0);
-      return decided(sa) - decided(sb) || (computeOverallScore(b.scores) ?? 0) - (computeOverallScore(a.scores) ?? 0);
-    });
-  }, [companies, statuses, q]);
+    // 심사 상태가 (기업 × 사업) 단위로 바뀌어 단일 기업 상태가 없다 → 종합점수순으로만 정렬.
+    return [...matched].sort(
+      (a, b) => (computeOverallScore(b.scores) ?? 0) - (computeOverallScore(a.scores) ?? 0),
+    );
+  }, [companies, q]);
 
   return (
     <div className="mx-auto max-w-4xl space-y-5">
@@ -129,18 +125,12 @@ export function Permissions({ companies, programs }: { companies: Company[]; pro
           <div className="divide-y rounded-lg border">
             {rows.map((c) => {
               const locked = Boolean(locks[c.id]);
-              const status = statuses[c.id] ?? c.reviewStatus;
               return (
                 <div key={c.id} className="flex items-center gap-3 px-3.5 py-2.5">
                   <Link href={`/companies/${c.id}`} className="min-w-0 flex-1 hover:underline">
                     <p className="truncate text-[12.5px] font-medium">{c.name}</p>
                     <p className="truncate text-[11px] text-muted-foreground">{c.industry ?? "업종 미상"}</p>
                   </Link>
-                  <Badge
-                    variant={status === "선정" ? "good" : status === "제외" ? "bad" : status === "보류" ? "warn" : "secondary"}
-                  >
-                    {status}
-                  </Badge>
                   <button
                     type="button"
                     onClick={() => toggleLock(c.id)}

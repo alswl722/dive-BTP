@@ -27,7 +27,6 @@ export function CompaniesTable({
   companies,
   weights,
   groupWeights,
-  statuses,
   selectedIds,
   onToggleSelect,
   onOpenDetail,
@@ -39,7 +38,6 @@ export function CompaniesTable({
   companies: Company[];
   weights: Record<Axis, number>;
   groupWeights: Record<CompositeGroup, number>;
-  statuses: Record<number, ReviewStatus>;
   selectedIds: Set<number>;
   onToggleSelect: (id: number) => void;
   onOpenDetail: (id: number) => void;
@@ -72,7 +70,7 @@ export function CompaniesTable({
         </THead>
         <TBody>
           {pageItems.map((c) => {
-            const status = statuses[c.id] ?? c.reviewStatus;
+            const status = c.reviewStatus;
             return (
               <TR
                 key={c.id}

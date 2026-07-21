@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertTriangle, Clock, Maximize2, MapPin, X } from "lucide-react";
+import { AlertTriangle, Clock, Maximize2, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ScoreBadge } from "@/components/ui/score-badge";
 import { StatusStack } from "@/components/scorecard/status-buttons";
@@ -71,12 +71,6 @@ export function ScorecardHeader({
           <h2 className="truncate text-[18px] font-extrabold tracking-tight">{company.name}</h2>
           <p className="mt-0.5 truncate text-[12px] text-muted-foreground">
             {company.industry ?? "업종 미상"} {company.industryCode && `· ${company.industryCode}`}
-            {company.region && (
-              <>
-                {" · "}
-                <MapPin className="mb-0.5 inline h-3 w-3" /> {company.region}
-              </>
-            )}
           </p>
           <div className="mt-1.5 flex flex-wrap gap-1.5">
             {!company.dataQuality.ok && (

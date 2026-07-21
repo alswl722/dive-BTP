@@ -1,6 +1,7 @@
 import { AXES, type Axis, type Company, type CompositeGroup, type ReviewStatus } from "@/types";
 import { resolveOverallScore, DEFAULT_AXIS_WEIGHTS, DEFAULT_GROUP_WEIGHTS } from "@/lib/scoring";
 import { isDuplicateRisk } from "@/lib/duplicate-risk";
+import { isEmploymentUnstable } from "@/lib/review-summary";
 
 export interface CompanyFilters {
   q: string;
@@ -13,6 +14,7 @@ export interface CompanyFilters {
   excludeQualityIssues: boolean;
   qualityIssueOnly: boolean;
   dupRiskOnly: boolean;
+  employmentRiskOnly: boolean;
   programKey: string | null; // "year:code"
 }
 
@@ -28,6 +30,7 @@ export function defaultFilters(): CompanyFilters {
     excludeQualityIssues: false,
     qualityIssueOnly: false,
     dupRiskOnly: false,
+    employmentRiskOnly: false,
     programKey: null,
   };
 }
@@ -56,6 +59,7 @@ export function applyFilters(
     if (filters.excludeQualityIssues && !c.dataQuality.ok) return false;
     if (filters.qualityIssueOnly && c.dataQuality.ok) return false;
     if (filters.dupRiskOnly && !isDuplicateRisk(c, latestYear)) return false;
+    if (filters.employmentRiskOnly && !isEmploymentUnstable(c)) return false;
     if (filters.programKey && !programApplicantKeySet(c).has(filters.programKey)) return false;
     return true;
   });

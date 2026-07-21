@@ -130,6 +130,18 @@ export function FilterPanel({
         </label>
       </AccordionSection>
 
+      <AccordionSection title="심사 신호">
+        <label className="flex cursor-pointer items-center gap-2 text-[11.5px]">
+          <input
+            type="checkbox"
+            checked={filters.employmentRiskOnly}
+            onChange={(e) => onChange({ ...filters, employmentRiskOnly: e.target.checked })}
+            className="h-3.5 w-3.5 accent-primary"
+          />
+          고용 불안정
+        </label>
+      </AccordionSection>
+
       <AccordionSection title="데이터 품질">
         <label className="flex cursor-pointer items-center gap-2 text-[11.5px]">
           <input

@@ -11,7 +11,7 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field
 
 Axis = Literal["성장성", "수익성", "효율성", "안정성"]
-ReviewStatus = Literal["후보", "선정", "보류", "제외"]
+ReviewStatus = Literal["후보", "선정", "제외"]
 
 # 축8 사업정체성 정합성 판정 (LLM 기반)
 MatchType = Literal["직접일치", "간접관련", "무관", "판단유보"]

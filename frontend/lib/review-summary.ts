@@ -31,6 +31,33 @@ export interface AxisVerdict {
   detail: string | null;
 }
 
+// 조기경보 등급 — KODATA CRETOP의 조기경보(EW리포트) 개념을 지원사업 심사 맥락으로 특화.
+// 흩어진 위험 신호(자본잠식·영업외 연명·고용회전·특허소멸·IP 대표집중 등)를 한 등급으로 롤업해
+// "이 기업에 지원금을 줘도 되나(부실/소멸 위험)"를 한눈에 준다. 신호 심각도의 집계일 뿐
+// 새 판정을 하지 않는다 — 근거(reasons)를 항상 함께 노출.
+export type RiskGrade = "양호" | "주의관찰" | "위험" | "휴폐업";
+
+export interface RiskAssessment {
+  grade: RiskGrade;
+  tone: "good" | "warn" | "bad" | "muted";
+  reasons: string[]; // 등급 근거가 된 신호 제목들
+  counts: { 위험: number; 주의: number };
+}
+
+export function deriveRiskGrade(company: Company, latestYear: number): RiskAssessment {
+  // 휴·폐업은 다른 어떤 지표보다 우선 — 존재하지 않는 기업엔 지원 불가
+  if (company.isClosed) {
+    return { grade: "휴폐업", tone: "muted", reasons: [company.closureType ?? "휴·폐업 상태"], counts: { 위험: 0, 주의: 0 } };
+  }
+  const signals = deriveReviewSignals(company, latestYear);
+  const danger = signals.filter((s) => s.sev === "위험");
+  const caution = signals.filter((s) => s.sev === "주의");
+  const counts = { 위험: danger.length, 주의: caution.length };
+  if (danger.length > 0) return { grade: "위험", tone: "bad", reasons: danger.map((s) => s.title), counts };
+  if (caution.length > 0) return { grade: "주의관찰", tone: "warn", reasons: caution.map((s) => s.title), counts };
+  return { grade: "양호", tone: "good", reasons: [], counts };
+}
+
 /** 점수 하위 판정선 — 백분위 기준(절대값 아님). */
 export const LOW_PERCENTILE = 25;
 const HIGH_PERCENTILE = 65;

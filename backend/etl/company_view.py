@@ -500,6 +500,16 @@ def build_companies(
         salary = col_year_map(master, "1인평균연간급여")
         salary_latest = pd.to_numeric(m[salary[max(salary)]], errors="coerce") if salary else None
 
+        # 기업 기본 상태 — master_table이 기업정보 시트의 원본 한글 컬럼을 그대로 담는다.
+        # 컬럼명이 뷰마다 다를 수 있어 방어적으로 조회(없으면 None). 자본금은 연도별 중 최신.
+        founded_col = mcol("설립일자")
+        status_col = next((c for c in master.columns if str(c) == "기업상태"), None)  # '_휴폐업여부' 등과 구분
+        closed_col = next((c for c in master.columns if "휴폐업여부" in str(c)), None)
+        closure_col = next((c for c in master.columns if "휴폐업구분" in str(c)), None)
+        cap = col_year_map(master, "납입자본금")
+        cap_latest = pd.to_numeric(m[cap[max(cap)]], errors="coerce") if cap else None
+        founded = m[founded_col] if founded_col else None
+
         # 데이터 품질: 재무 핵심 연도 결측 체크
         missing = []
         for hint in ["매출액", "영업이익손실", "자본총계"]:
@@ -531,6 +541,11 @@ def build_companies(
             "industry": clean(m[ind_col]) if ind_col else None,
             "industryCode": clean(m[ksic_col]) if ksic_col else None,
             "region": clean(m[region_col]) if region_col else None,
+            "foundedDate": str(pd.Timestamp(founded).date()) if founded is not None and pd.notna(founded) else None,
+            "companyStatus": clean(m[status_col]) if status_col else None,
+            "isClosed": bool(m[closed_col]) if closed_col and pd.notna(m[closed_col]) else False,
+            "closureType": clean(m[closure_col]) if closure_col else None,
+            "capitalThousand": clean(cap_latest),
             "revenueLatest": clean(rev_latest),
             # CLAUDE.md 알려진 이슈: 1인평균연간급여 원본 단위는 "원"(다른 재무지표는 "천원") → /1000으로
             # 스케일 통일해서 revenueLatest 등과 같은 "_천원" 관례로 맞춘다.

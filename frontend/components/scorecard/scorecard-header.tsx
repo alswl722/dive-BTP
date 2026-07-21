@@ -1,12 +1,14 @@
 "use client";
 
-import { AlertTriangle, Clock, Maximize2, X } from "lucide-react";
+import { AlertTriangle, Clock, Maximize2, ShieldAlert, ShieldCheck, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ScoreBadge } from "@/components/ui/score-badge";
 import { StatusStack } from "@/components/scorecard/status-buttons";
 import { resolveOverallScore, DEFAULT_AXIS_WEIGHTS, DEFAULT_GROUP_WEIGHTS, DEFAULT_TECH_WEIGHTS, isCustomWeights, type TechAxis } from "@/lib/scoring";
 import { useReviewStatus } from "@/lib/app-state";
 import { isDuplicateRisk, recentSelectionCount, DUPLICATE_RISK_WINDOW_YEARS } from "@/lib/duplicate-risk";
+import { deriveRiskGrade } from "@/lib/review-summary";
+import { formatKRW, cn } from "@/lib/utils";
 import { DuplicateFlagBadge } from "@/components/axis9/DuplicateFlagBadge";
 import { type Axis, type Company, type CompositeGroup } from "@/types";
 
@@ -42,10 +44,38 @@ export function ScorecardHeader({
   // 캡이 실제로 발동했는지(가중평균 - 캡후 종합점수 차이가 있으면 축 어긋남이 점수를 끌어내렸다는 뜻)
   const capActive = cs?.rawWeightedAverage != null && cs.score != null && cs.rawWeightedAverage - cs.score > 0.5;
 
+  // 조기경보 등급 + 기업 기본 상태(설립·업력·자본금) — CRETOP식 "살아있는·검증된 기업인가"
+  const risk = deriveRiskGrade(company, latestYear);
+  const foundedYear = company.foundedDate ? Number(company.foundedDate.slice(0, 4)) : null;
+  const ageYears = foundedYear ? latestYear - foundedYear : null;
+  const basicInfo = [
+    foundedYear ? `설립 ${foundedYear}${ageYears != null && ageYears >= 0 ? ` · 업력 ${ageYears}년` : ""}` : null,
+    company.capitalThousand != null ? `자본금 ${formatKRW(company.capitalThousand)}` : null,
+  ].filter(Boolean);
+
   return (
     <div className="space-y-3">
       <div className="flex items-start justify-between gap-2">
         <div className="flex min-w-0 flex-wrap items-center gap-2">
+          {/* 조기경보 등급 — 흩어진 위험 신호의 롤업. 근거는 title/아래 심사요약에 병기 */}
+          <span
+            title={risk.reasons.length ? `근거: ${risk.reasons.join(", ")}` : "위험 신호 없음"}
+            className={cn(
+              "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11.5px] font-bold",
+              risk.tone === "good" ? "bg-good-bg text-good"
+                : risk.tone === "warn" ? "bg-warn-bg text-[hsl(30_75%_38%)]"
+                : risk.tone === "bad" ? "bg-bad-bg text-bad"
+                : "bg-muted text-muted-foreground"
+            )}
+          >
+            {risk.tone === "good" ? <ShieldCheck className="h-3.5 w-3.5" /> : <ShieldAlert className="h-3.5 w-3.5" />}
+            조기경보 {risk.grade}
+            {risk.counts.위험 + risk.counts.주의 > 0 && (
+              <span className="font-normal opacity-80">
+                ({[risk.counts.위험 ? `위험 ${risk.counts.위험}` : null, risk.counts.주의 ? `주의 ${risk.counts.주의}` : null].filter(Boolean).join("·")})
+              </span>
+            )}
+          </span>
           {dupRisk && (
             <div className="inline-flex items-center gap-1.5 rounded-full bg-orangeTone-bg px-2.5 py-1 text-[11px] font-medium text-orangeTone">
               <Clock className="h-3 w-3" />
@@ -76,7 +106,19 @@ export function ScorecardHeader({
           <p className="mt-0.5 truncate text-[12px] text-muted-foreground">
             {company.industry ?? "업종 미상"} {company.industryCode && `· ${company.industryCode}`}
           </p>
+          {basicInfo.length > 0 && (
+            <p className="mt-0.5 truncate text-[11.5px] text-muted-foreground">
+              {basicInfo.join(" · ")}
+              {company.companyStatus && !company.isClosed && <span className="text-good"> · {company.companyStatus}</span>}
+            </p>
+          )}
           <div className="mt-1.5 flex flex-wrap gap-1.5">
+            {company.isClosed && (
+              <Badge variant="bad">
+                <AlertTriangle className="mr-1 h-3 w-3" />
+                {company.closureType ?? "휴·폐업"}
+              </Badge>
+            )}
             {!company.dataQuality.ok && (
               <Badge variant="warn">
                 <AlertTriangle className="mr-1 h-3 w-3" />

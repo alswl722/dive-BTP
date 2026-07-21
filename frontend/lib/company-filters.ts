@@ -6,7 +6,6 @@ import { isEmploymentUnstable } from "@/lib/review-summary";
 export interface CompanyFilters {
   q: string;
   industries: string[];
-  regions: string[];
   minOverall: number;
   minAxis: Record<Axis, number>;
   certs: string[];
@@ -22,7 +21,6 @@ export function defaultFilters(): CompanyFilters {
   return {
     q: "",
     industries: [],
-    regions: [],
     minOverall: 0,
     minAxis: { 성장성: 0, 수익성: 0, 효율성: 0, 안정성: 0 },
     certs: [],
@@ -47,7 +45,6 @@ export function applyFilters(
   return companies.filter((c) => {
     if (q && !(String(c.id).includes(q) || c.name.toLowerCase().includes(q) || (c.industry ?? "").toLowerCase().includes(q))) return false;
     if (filters.industries.length && !(c.industry && filters.industries.includes(c.industry))) return false;
-    if (filters.regions.length && !(c.region && filters.regions.includes(c.region))) return false;
     const overall = resolveOverallScore(c, groupWeights, weights);
     if (filters.minOverall > 0 && (overall == null || overall < filters.minOverall)) return false;
     for (const axis of AXES) {

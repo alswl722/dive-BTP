@@ -148,7 +148,8 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
       <div className="flex min-w-0 flex-1 flex-col gap-3">
         <div className="flex flex-wrap items-center gap-2.5">
           {/* 심사는 사업 단위로 진행 — '전체 사업'으로 풀 수 없고 배정된 사업 간 전환만 가능.
-              사업 목록 카드 페이지는 없앴으므로 전환은 이 콤보박스로만 한다. */}
+              사업 목록 카드 페이지는 없앴으므로 전환은 이 콤보박스로만 한다.
+              사업 이름 → 업종 → 인증 → 축가중치 → 필터 → 데이터 품질 이슈 제외 순서로 고정. */}
           <Combobox
             options={programComboOptions}
             value={filters.programKey}
@@ -156,6 +157,8 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
             placeholder="사업 선택"
             className="w-[260px] shrink-0"
           />
+
+          <FilterBar companies={companies} filters={filters} onChange={setFilters} />
 
           <WeightPopover
             weights={weights}
@@ -165,6 +168,16 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
           />
 
           <AdvancedFilterPopover filters={filters} onChange={setFilters} />
+
+          <label className="flex shrink-0 cursor-pointer items-center gap-1.5 text-[12px] text-muted-foreground">
+            <input
+              type="checkbox"
+              checked={filters.excludeQualityIssues}
+              onChange={(e) => setFilters({ ...filters, excludeQualityIssues: e.target.checked, qualityIssueOnly: false })}
+              className="h-3.5 w-3.5 accent-primary"
+            />
+            데이터 품질 이슈 제외
+          </label>
 
           {selectedProgram && (
             <span className="flex items-center gap-1 rounded-full bg-info-bg px-2.5 py-1 text-[11.5px] text-info">
@@ -179,8 +192,6 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
             <span className="text-muted-foreground">/ {companies.length}개</span>
           </div>
         </div>
-
-        <FilterBar companies={companies} filters={filters} onChange={setFilters} />
 
         {selectedIds.size > 0 && (
           <div className="flex items-center gap-3 rounded-lg bg-primary px-4 py-2.5 text-primary-foreground">

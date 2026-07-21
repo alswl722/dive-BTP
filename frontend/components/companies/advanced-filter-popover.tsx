@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { SlidersHorizontal } from "lucide-react";
+import { Filter } from "lucide-react";
 import { AXES, type Axis } from "@/types";
 import { cn } from "@/lib/utils";
 import { countAdvancedFilters, defaultFilters, type CompanyFilters } from "@/lib/company-filters";
@@ -39,7 +39,7 @@ export function AdvancedFilterPopover({
           activeCount > 0 ? "border-primary text-primary" : "text-foreground hover:bg-muted"
         )}
       >
-        <SlidersHorizontal className="h-3.5 w-3.5" />
+        <Filter className="h-3.5 w-3.5" />
         필터
         {activeCount > 0 && (
           <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">

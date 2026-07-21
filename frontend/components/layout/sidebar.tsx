@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Home, ClipboardList, Building2, ListChecks, NotebookPen, PencilLine, Settings2, KeyRound, ChevronsLeft, ChevronsRight, ChevronDown, User, Settings, LogOut } from "lucide-react";
+import { Home, ClipboardList, Building2, ListChecks, PencilLine, Settings2, KeyRound, ChevronsLeft, ChevronsRight, ChevronDown, User, Settings, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUi, useReviewStatus } from "@/lib/app-state";
 import { useAuth, isAdmin } from "@/lib/auth";
@@ -19,7 +19,8 @@ const NAV = [
   { href: "/programs", label: "지원 사업", icon: ClipboardList },
   { href: "/companies", label: "기업 선정", icon: Building2 },
   { href: "/selected", label: "선정 목록", icon: ListChecks },
-  { href: "/notes", label: "메모", icon: NotebookPen },
+  // 메모는 우측 하단 플로팅 FAB(NotesFab)로 이동 — 보던 페이지를 유지한 채 작성.
+  // 전체 목록·검색은 /notes 페이지에 그대로 있으나(FAB 하단 링크), 상시 메뉴에선 제거.
 ];
 
 /**

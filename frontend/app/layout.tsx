@@ -11,7 +11,7 @@ const notoSansKR = localFont({
 });
 import { Providers } from "@/components/providers";
 import { AuthGate } from "@/components/layout/auth-gate";
-import { listCompanies } from "@/lib/api";
+import { listCompanies, listNotes, listPrograms } from "@/lib/api";
 import type { ReviewStatus } from "@/types";
 
 export const metadata: Metadata = {
@@ -20,7 +20,12 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const companies = await listCompanies();
+  // 메모 FAB(전역 클라이언트)가 브라우저에서 백엔드를 직접 못 부르므로 서버에서 함께 받아 내려준다.
+  const [companies, programs, initialNotes] = await Promise.all([
+    listCompanies(),
+    listPrograms(),
+    listNotes(),
+  ]);
   const initialReviewStatus: Record<number, ReviewStatus> = Object.fromEntries(
     companies.map((c) => [c.id, c.reviewStatus])
   );
@@ -28,7 +33,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="ko" className={notoSansKR.variable}>
       <body className="font-sans">
-        <Providers initialReviewStatus={initialReviewStatus}>
+        <Providers
+          initialReviewStatus={initialReviewStatus}
+          notesData={{ companies, programs, initialNotes }}
+        >
           {/* 로그인 여부에 따라 앱 셸(사이드바·탑바) 또는 로그인 화면만 렌더 */}
           <AuthGate>{children}</AuthGate>
         </Providers>

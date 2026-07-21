@@ -4,7 +4,7 @@
 export const AXES = ["성장성", "수익성", "효율성", "안정성"] as const;
 export type Axis = (typeof AXES)[number];
 
-export const REVIEW_STATUSES = ["후보", "선정", "보류", "제외"] as const;
+export const REVIEW_STATUSES = ["후보", "선정", "제외"] as const;
 export type ReviewStatus = (typeof REVIEW_STATUSES)[number];
 
 // 축8 사업정체성 정합성 (LLM 판정)

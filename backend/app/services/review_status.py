@@ -1,8 +1,9 @@
-"""사업 단위 심사 상태(후보/선정/보류/제외) 조회·갱신 — company_program_review_status 테이블.
+"""사업 단위 심사 상태(후보/선정/제외) 조회·갱신 — company_program_review_status 테이블.
 
 같은 기업이 여러 사업에 신청할 수 있어 상태를 (company_id, program_key)로 구분한다.
 행이 없는 (기업,사업)은 기본값 '후보'로 취급(마이그레이션 014 COMMENT 참고).
 program_key = "연도:사업코드" (프론트 programKey와 동일 포맷).
+'보류'는 015에서 폐지 — 미결정은 '후보'로 통일한다.
 """
 
 from __future__ import annotations
@@ -12,7 +13,7 @@ from sqlalchemy import text
 from app.db import get_engine
 
 DEFAULT_STATUS = "후보"
-VALID_STATUSES = {"후보", "선정", "보류", "제외"}
+VALID_STATUSES = {"후보", "선정", "제외"}
 
 
 def get_all_statuses() -> list[dict]:

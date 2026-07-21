@@ -43,7 +43,7 @@ export async function listPrograms(): Promise<Program[]> {
   return programsFixture as unknown as Program[];
 }
 
-/** 찜 상태(선정/보류/제외) 갱신. API_BASE 있으면 DB(company_review_status)에 영속화,
+/** 찜 상태(선정/제외) 갱신. API_BASE 있으면 DB(company_review_status)에 영속화,
  *  없으면(fixture 모드) 호출부가 들고 있는 클라이언트 상태만 세션 내 갱신하도록 false 반환.
  *  브라우저는 NEXT_PUBLIC_API_BASE_URL(docker 네트워크 전용 호스트명)을 직접 못 찾으므로
  *  같은 오리진의 /api/review-status 라우트 핸들러(서버에서 실행)를 거친다. */

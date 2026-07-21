@@ -13,10 +13,9 @@ import { cn } from "@/lib/utils";
 import type { SortDir, SortKey } from "@/lib/company-filters";
 
 /** 심사 상태 → 뱃지 색. 컬럼을 없애고 기업명 옆에 붙이면서 한 곳으로 모았다. */
-const STATUS_VARIANT: Record<ReviewStatus, "good" | "bad" | "warn" | "secondary"> = {
+const STATUS_VARIANT: Record<ReviewStatus, "good" | "bad" | "secondary"> = {
   선정: "good",
   제외: "bad",
-  보류: "warn",
   후보: "secondary",
 };
 

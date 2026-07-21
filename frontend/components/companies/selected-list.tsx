@@ -14,19 +14,18 @@ import { formatKRW } from "@/lib/utils";
 import { type Company, type Program, type ReviewStatus } from "@/types";
 
 // 결정된 상태만(후보 제외) 사업별로 묶는다.
-const DECISION_STATUSES = ["선정", "보류", "제외"] as const;
+const DECISION_STATUSES = ["선정", "제외"] as const;
 type Decision = (typeof DECISION_STATUSES)[number];
-const STATUS_VARIANT: Record<Decision, "good" | "warn" | "bad"> = {
+const STATUS_VARIANT: Record<Decision, "good" | "bad"> = {
   선정: "good",
-  보류: "warn",
   제외: "bad",
 };
 
 /**
- * 심사 결과 목록 — 사업별로 선정/보류/제외를 그룹화한다.
+ * 심사 결과 목록 — 사업별로 선정/제외를 그룹화한다.
  *
  * 상태가 (기업 × 사업) 단위라, 같은 기업이 사업마다 다른 결정을 가질 수 있다.
- * 사업 단위로 묶어 "이 사업에서 누가 선정/보류/제외됐나"를 한눈에 본다.
+ * 사업 단위로 묶어 "이 사업에서 누가 선정/제외됐나"를 한눈에 본다.
  */
 export function SelectedList({ companies, programs }: { companies: Company[]; programs: Program[] }) {
   const { statuses } = useReviewStatus();
@@ -48,7 +47,7 @@ export function SelectedList({ companies, programs }: { companies: Company[]; pr
       const progKey = key.slice(sep + 1);
       const company = companyById.get(cid);
       if (!company) continue;
-      if (!map.has(progKey)) map.set(progKey, { 선정: [], 보류: [], 제외: [] });
+      if (!map.has(progKey)) map.set(progKey, { 선정: [], 제외: [] });
       map.get(progKey)![status as Decision].push(company);
     }
     for (const groups of map.values()) {
@@ -71,7 +70,7 @@ export function SelectedList({ companies, programs }: { companies: Company[]; pr
   );
 
   const total = useMemo(() => {
-    const t: Record<Decision, number> = { 선정: 0, 보류: 0, 제외: 0 };
+    const t: Record<Decision, number> = { 선정: 0, 제외: 0 };
     for (const groups of perProgram.values())
       for (const s of DECISION_STATUSES) t[s] += groups[s].length;
     return t;
@@ -98,13 +97,13 @@ export function SelectedList({ companies, programs }: { companies: Company[]; pr
       {programKeys.length === 0 ? (
         <div className="flex items-center gap-2 rounded-lg border border-dashed px-3.5 py-8 text-[12.5px] text-muted-foreground">
           <Inbox className="h-4 w-4 shrink-0" />
-          아직 심사 결정이 없습니다. 기업 선정 화면에서 사업을 고르고 선정/보류/제외를 지정하세요.
+          아직 심사 결정이 없습니다. 기업 선정 화면에서 사업을 고르고 선정/제외를 지정하세요.
         </div>
       ) : (
         programKeys.map((progKey) => {
           const program = programByKey.get(progKey);
           const groups = perProgram.get(progKey)!;
-          const count = groups.선정.length + groups.보류.length + groups.제외.length;
+          const count = groups.선정.length + groups.제외.length;
           return (
             <section key={progKey} className="space-y-2.5 rounded-xl border p-4">
               <div className="flex items-baseline gap-2">

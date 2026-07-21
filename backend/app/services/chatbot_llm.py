@@ -110,7 +110,7 @@ SCHEMA_DOC = """다음은 PostgreSQL 스키마 요약이다. 이 스키마만 �
   (한 레코드 안의 결측 필드 개수를 묻는 경우는 cardinality(missing_fields) = N)
 
 ## company_review_status — 심사 찜 상태 (PK: company_id)
-- status TEXT ('후보' | '선정' | '보류' | '제외')
+- status TEXT ('후보' | '선정' | '제외')
 
 ## notes / note_mentions — 심사 메모
 - notes(id, body, author, created_at)

@@ -95,7 +95,7 @@ export function countAdvancedFilters(f: CompanyFilters): number {
 
 // c.reviewStatus는 호출부(explorer)가 현재 사업 기준으로 세팅해 넘긴다.
 export function reviewStatusCounts(companies: Company[]) {
-  const counts: Record<ReviewStatus, number> = { 후보: 0, 선정: 0, 보류: 0, 제외: 0 };
+  const counts: Record<ReviewStatus, number> = { 후보: 0, 선정: 0, 제외: 0 };
   for (const c of companies) counts[c.reviewStatus]++;
   return counts;
 }

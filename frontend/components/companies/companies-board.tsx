@@ -39,15 +39,10 @@ export function CompaniesBoard({
 }) {
   const [dragOverCol, setDragOverCol] = useState<ReviewStatus | null>(null);
 
-  function statusOf(c: Company): ReviewStatus {
-    const s = c.reviewStatus;
-    return s === "보류" ? "후보" : s; // 보드뷰는 3레인만(디자인 스펙) — 보류는 드롭다운으로 표시/변경
-  }
-
   return (
     <div className="grid grid-cols-3 gap-4">
       {COLUMNS.map(({ status, label, tone }) => {
-        const items = companies.filter((c) => statusOf(c) === status);
+        const items = companies.filter((c) => c.reviewStatus === status);
         return (
           <div
             key={status}

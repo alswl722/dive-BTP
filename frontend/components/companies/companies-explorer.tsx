@@ -128,7 +128,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
     });
   }
 
-  function bulkSetStatus(status: "선정" | "보류" | "제외") {
+  function bulkSetStatus(status: "선정" | "제외") {
     if (!filters.programKey) return; // 사업 단위 — 사업 선택 없이는 상태 변경 불가
     selectedIds.forEach((id) => setStatus(id, filters.programKey!, status));
     setSelectedIds(new Set());
@@ -210,7 +210,6 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
             <span className="text-[12.5px] font-medium">{selectedIds.size}개 선택됨</span>
             <div className="ml-auto flex items-center gap-2">
               <BulkButton onClick={() => bulkSetStatus("선정")}>선정 처리</BulkButton>
-              <BulkButton onClick={() => bulkSetStatus("보류")}>보류 처리</BulkButton>
               <BulkButton onClick={() => bulkSetStatus("제외")}>제외 처리</BulkButton>
               <button
                 onClick={() => setCompareOpen(true)}

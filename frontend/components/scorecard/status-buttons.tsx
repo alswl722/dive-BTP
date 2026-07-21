@@ -6,11 +6,10 @@ import { REVIEW_STATUSES, type ReviewStatus } from "@/types";
 
 const OPTIONS: { status: ReviewStatus; activeClass: string; label: string }[] = [
   { status: "선정", activeClass: "bg-good text-white", label: "선정" },
-  { status: "보류", activeClass: "bg-warn text-white", label: "보류" },
   { status: "제외", activeClass: "bg-bad text-white", label: "제외" },
 ];
 
-/** 선정/보류/제외 3버튼 토글. 다시 누르면 "후보"로 돌아감. 표/보드/스코어카드 헤더 공용.
+/** 선정/제외 2버튼 토글. 다시 누르면 "후보"로 돌아감. 표/보드/스코어카드 헤더 공용.
  *  아이콘은 셀 폭에서 뜻이 잘 안 잡혀(체크/일시정지/X → 담당자에게 학습 부담) 텍스트 라벨로 노출. */
 export function StatusButtons({
   status,
@@ -49,7 +48,6 @@ export function StatusButtons({
 const STATUS_TONE: Record<ReviewStatus, string> = {
   후보: "text-info",
   선정: "text-good",
-  보류: "text-[hsl(30_75%_38%)]",
   제외: "text-bad",
 };
 

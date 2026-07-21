@@ -11,7 +11,8 @@ const notoSansKR = localFont({
 });
 import { Providers } from "@/components/providers";
 import { AuthGate } from "@/components/layout/auth-gate";
-import { listCompanies, listNotes, listPrograms } from "@/lib/api";
+import { listCompanies, listNotes, listPrograms, listReviewStatuses } from "@/lib/api";
+import { statusKey } from "@/lib/status-key";
 import type { ReviewStatus } from "@/types";
 
 export const metadata: Metadata = {
@@ -20,14 +21,16 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  // 메모 FAB(전역 클라이언트)가 브라우저에서 백엔드를 직접 못 부르므로 서버에서 함께 받아 내려준다.
-  const [companies, programs, initialNotes] = await Promise.all([
+  // 메모 FAB(전역 클라이언트)용 데이터 + 심사 상태를 서버에서 함께 받아 내려준다.
+  const [companies, programs, initialNotes, reviewStatuses] = await Promise.all([
     listCompanies(),
     listPrograms(),
     listNotes(),
+    listReviewStatuses(),
   ]);
-  const initialReviewStatus: Record<number, ReviewStatus> = Object.fromEntries(
-    companies.map((c) => [c.id, c.reviewStatus])
+  // 심사 상태는 (기업, 사업) 단위 — statusKey로 keyed map을 만든다.
+  const initialReviewStatus: Record<string, ReviewStatus> = Object.fromEntries(
+    reviewStatuses.map((r) => [statusKey(r.companyId, r.programKey), r.status])
   );
 
   return (

@@ -24,9 +24,11 @@ from company_view import KEY, build_companies, build_dashboard, build_rankings  
 
 
 def _with_review_status(rows: list[dict]) -> list[dict]:
-    statuses = review_status_service.get_all_statuses()
+    # 상태는 이제 (기업, 사업) 단위(company_program_review_status) — 기업 객체에 단일 상태를
+    # 실을 수 없다. 프론트는 GET /review-status로 전체 상태를 받아 사업별로 적용한다.
+    # 스키마 호환을 위해 기본값만 채운다(이 필드는 더 이상 권위 없음).
     for row in rows:
-        row["reviewStatus"] = statuses.get(row["id"], review_status_service.DEFAULT_STATUS)
+        row["reviewStatus"] = review_status_service.DEFAULT_STATUS
     return rows
 
 
@@ -149,7 +151,7 @@ def get_company(company_id: int) -> dict | None:
     if score.empty:
         return None
     company = build_companies(score, feat, master, sr, sp, bp, llm_cache, tech)[0]
-    company["reviewStatus"] = review_status_service.get_status(company_id)
+    company["reviewStatus"] = review_status_service.DEFAULT_STATUS  # 사업 단위 → GET /review-status 사용
     return company
 
 

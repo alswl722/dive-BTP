@@ -9,78 +9,130 @@ import { useReviewStatus } from "@/lib/app-state";
 import { resolveOverallScore } from "@/lib/scoring";
 import { deriveReviewSignals } from "@/lib/review-summary";
 import { latestSupportYear } from "@/lib/duplicate-risk";
+import { programKey as makeProgramKey } from "@/lib/program-progress";
 import { formatKRW } from "@/lib/utils";
-import { REVIEW_STATUSES, type Company, type ReviewStatus } from "@/types";
+import { type Company, type Program, type ReviewStatus } from "@/types";
 
-const STATUS_VARIANT: Record<ReviewStatus, "good" | "info" | "warn" | "bad"> = {
+// 결정된 상태만(후보 제외) 사업별로 묶는다.
+const DECISION_STATUSES = ["선정", "보류", "제외"] as const;
+type Decision = (typeof DECISION_STATUSES)[number];
+const STATUS_VARIANT: Record<Decision, "good" | "warn" | "bad"> = {
   선정: "good",
-  후보: "info",
   보류: "warn",
   제외: "bad",
 };
 
 /**
- * 심사 상태별 목록 — 담당자가 지금까지 내린 판단을 한곳에서 확인한다.
+ * 심사 결과 목록 — 사업별로 선정/보류/제외를 그룹화한다.
  *
- * 기업 탐색기(/companies)가 "찾는" 화면이라면 여기는 "정리된 결과"를 보는 화면.
- * 각 기업의 미해결 위험 신호를 함께 보여줘, 선정한 기업에 남은 리스크를 놓치지 않게 한다.
+ * 상태가 (기업 × 사업) 단위라, 같은 기업이 사업마다 다른 결정을 가질 수 있다.
+ * 사업 단위로 묶어 "이 사업에서 누가 선정/보류/제외됐나"를 한눈에 본다.
  */
-export function SelectedList({ companies }: { companies: Company[] }) {
+export function SelectedList({ companies, programs }: { companies: Company[]; programs: Program[] }) {
   const { statuses } = useReviewStatus();
   const latestYear = useMemo(() => latestSupportYear(companies), [companies]);
 
-  const grouped = useMemo(() => {
-    const map: Record<ReviewStatus, Company[]> = { 선정: [], 후보: [], 보류: [], 제외: [] };
-    for (const c of companies) {
-      const s = statuses[c.id] ?? c.reviewStatus;
-      if (map[s]) map[s].push(c);
+  const companyById = useMemo(() => new Map(companies.map((c) => [c.id, c])), [companies]);
+  const programByKey = useMemo(
+    () => new Map(programs.map((p) => [makeProgramKey(p), p])),
+    [programs],
+  );
+
+  // statuses 맵(key = "companyId|programKey") → 사업별 상태 그룹.
+  const perProgram = useMemo(() => {
+    const map = new Map<string, Record<Decision, Company[]>>();
+    for (const [key, status] of Object.entries(statuses)) {
+      if (!(DECISION_STATUSES as readonly string[]).includes(status)) continue;
+      const sep = key.indexOf("|");
+      const cid = Number(key.slice(0, sep));
+      const progKey = key.slice(sep + 1);
+      const company = companyById.get(cid);
+      if (!company) continue;
+      if (!map.has(progKey)) map.set(progKey, { 선정: [], 보류: [], 제외: [] });
+      map.get(progKey)![status as Decision].push(company);
     }
-    // 각 그룹은 종합점수 높은 순
-    for (const s of REVIEW_STATUSES) {
-      map[s].sort((a, b) => (resolveOverallScore(b) ?? 0) - (resolveOverallScore(a) ?? 0));
+    for (const groups of map.values()) {
+      for (const s of DECISION_STATUSES) {
+        groups[s].sort((a, b) => (resolveOverallScore(b) ?? 0) - (resolveOverallScore(a) ?? 0));
+      }
     }
     return map;
-  }, [companies, statuses]);
+  }, [statuses, companyById]);
+
+  // 결정이 있는 사업만, 연도·이름 순으로.
+  const programKeys = useMemo(
+    () =>
+      [...perProgram.keys()].sort((a, b) => {
+        const pa = programByKey.get(a);
+        const pb = programByKey.get(b);
+        return (pb?.year ?? 0) - (pa?.year ?? 0) || (pa?.name ?? a).localeCompare(pb?.name ?? b);
+      }),
+    [perProgram, programByKey],
+  );
+
+  const total = useMemo(() => {
+    const t: Record<Decision, number> = { 선정: 0, 보류: 0, 제외: 0 };
+    for (const groups of perProgram.values())
+      for (const s of DECISION_STATUSES) t[s] += groups[s].length;
+    return t;
+  }, [perProgram]);
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
       <div>
         <h1 className="text-[20px] font-extrabold tracking-tight">선정 목록</h1>
         <p className="mt-1 text-[12.5px] text-muted-foreground">
-          심사 상태별로 정리된 기업 목록입니다. 각 기업의 미해결 위험 신호를 함께 확인하세요.
+          사업별 심사 결과입니다. 같은 기업도 사업마다 결정이 다를 수 있습니다.
         </p>
       </div>
 
-      <div className="grid grid-cols-4 gap-3">
-        {REVIEW_STATUSES.map((s) => (
+      <div className="grid grid-cols-3 gap-3">
+        {DECISION_STATUSES.map((s) => (
           <div key={s} className="rounded-lg bg-subtle py-3 text-center">
             <p className="text-[11px] text-muted-foreground">{s}</p>
-            <p className="mt-0.5 text-[20px] font-extrabold tabular-nums">{grouped[s].length}</p>
+            <p className="mt-0.5 text-[20px] font-extrabold tabular-nums">{total[s]}</p>
           </div>
         ))}
       </div>
 
-      {REVIEW_STATUSES.map((status) => (
-        <section key={status} className="space-y-2">
-          <div className="flex items-center gap-2">
-            <Badge variant={STATUS_VARIANT[status]}>{status}</Badge>
-            <span className="text-[12px] text-muted-foreground">{grouped[status].length}개</span>
-          </div>
+      {programKeys.length === 0 ? (
+        <div className="flex items-center gap-2 rounded-lg border border-dashed px-3.5 py-8 text-[12.5px] text-muted-foreground">
+          <Inbox className="h-4 w-4 shrink-0" />
+          아직 심사 결정이 없습니다. 기업 선정 화면에서 사업을 고르고 선정/보류/제외를 지정하세요.
+        </div>
+      ) : (
+        programKeys.map((progKey) => {
+          const program = programByKey.get(progKey);
+          const groups = perProgram.get(progKey)!;
+          const count = groups.선정.length + groups.보류.length + groups.제외.length;
+          return (
+            <section key={progKey} className="space-y-2.5 rounded-xl border p-4">
+              <div className="flex items-baseline gap-2">
+                <h2 className="text-[14px] font-bold">{program?.name ?? progKey}</h2>
+                <span className="text-[11px] text-muted-foreground">
+                  {program ? `${program.year}년 · ` : ""}결정 {count}개사
+                </span>
+              </div>
 
-          {grouped[status].length === 0 ? (
-            <div className="flex items-center gap-2 rounded-lg border border-dashed px-3.5 py-5 text-[12px] text-muted-foreground">
-              <Inbox className="h-4 w-4 shrink-0" />
-              아직 {status} 상태인 기업이 없습니다. 기업 상세에서 상태를 지정하세요.
-            </div>
-          ) : (
-            <div className="divide-y rounded-lg border">
-              {grouped[status].map((c) => (
-                <CompanyRow key={c.id} company={c} latestYear={latestYear} />
-              ))}
-            </div>
-          )}
-        </section>
-      ))}
+              {DECISION_STATUSES.map((status) =>
+                groups[status].length === 0 ? null : (
+                  <div key={status} className="space-y-1.5">
+                    <div className="flex items-center gap-2">
+                      <Badge variant={STATUS_VARIANT[status]}>{status}</Badge>
+                      <span className="text-[11.5px] text-muted-foreground">{groups[status].length}개</span>
+                    </div>
+                    <div className="divide-y rounded-lg border">
+                      {groups[status].map((c) => (
+                        <CompanyRow key={c.id} company={c} latestYear={latestYear} />
+                      ))}
+                    </div>
+                  </div>
+                ),
+              )}
+            </section>
+          );
+        })
+      )}
     </div>
   );
 }

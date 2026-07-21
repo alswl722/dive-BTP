@@ -16,13 +16,12 @@ export default async function DashboardPage() {
   // 배정 여부는 클라이언트(localStorage)에만 있으므로 여기서는 거르지 않는다 —
   // 심사 대상 사업 전체의 행을 만들어 넘기고, 내 배정 건만 고르는 일은 OngoingReviews가 한다.
   // (진행중만 넘기면 배정받은 '완료' 사업이 메인에서 사라져 기업 선정 화면과 어긋난다)
+  // 심사완료/선정 카운트는 사업 단위 리뷰 상태(useReviewStatus)가 있어야 정확하다 —
+  // 그 상태는 클라이언트 컨텍스트에만 있으므로 여기서는 applicantCount만 계산하고
+  // 나머지는 OngoingReviews(클라이언트)가 companies를 받아 사업별로 직접 센다.
   const ongoing = programs
     .filter((p) => p.applicantCount > 0)
-    .map((p) => {
-      const applicantIds = programApplicantIds(p, companies);
-      const reviewedCount = applicantIds.filter((id) => companies.find((c) => c.id === id)?.reviewStatus !== "후보").length;
-      return { program: p, applicantCount: applicantIds.length, reviewedCount };
-    })
+    .map((p) => ({ program: p, applicantCount: programApplicantIds(p, companies).length }))
     .sort((a, b) => (daysUntil(a.program.endDate, referenceDate) ?? 0) - (daysUntil(b.program.endDate, referenceDate) ?? 0));
 
   const activeCount = activePrograms(programs, referenceDate).length;
@@ -56,7 +55,7 @@ export default async function DashboardPage() {
               </Link>
             </div>
             {/* 배정 필터는 클라이언트(sessionStorage)에서 — 서버는 행만 계산한다 */}
-            <OngoingReviews rows={ongoing} referenceDate={formatDate(referenceDate)} />
+            <OngoingReviews rows={ongoing} companies={companies} referenceDate={formatDate(referenceDate)} />
           </div>
         </div>
 

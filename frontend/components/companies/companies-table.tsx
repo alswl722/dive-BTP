@@ -88,12 +88,14 @@ export function CompaniesTable({
                   />
                 </TD>
                 <TD>
-                  {/* 상태는 별도 컬럼 대신 기업명 옆 뱃지로 — 변경은 상세 패널·일괄 처리에서 */}
+                  {/* 상태는 별도 컬럼 대신 기업명 옆 뱃지로 — 기본값 '후보'는 노이즈라 숨기고 선정/제외만 표시 */}
                   <p className="flex items-center gap-1.5 font-medium">
                     <span className="truncate">{c.name}</span>
-                    <Badge variant={STATUS_VARIANT[status]} className="shrink-0 px-1.5 py-0 text-[10px]">
-                      {status}
-                    </Badge>
+                    {status !== "후보" && (
+                      <Badge variant={STATUS_VARIANT[status]} className="shrink-0 px-1.5 py-0 text-[10px]">
+                        {status}
+                      </Badge>
+                    )}
                   </p>
                   <p className="truncate text-[11px] text-muted-foreground" title={c.industry ?? undefined}>
                     {c.industry ?? "-"}

@@ -310,6 +310,8 @@ def _prepare_axis9_batch(sr: pd.DataFrame, score_df: pd.DataFrame) -> tuple[pd.D
         m = metrics_lookup[cid]
         f = flags_lookup.get(cid, {})
         s = segs_lookup.get(cid, {})
+        # 성장 판정 원 수치 — 프론트 근거 카드가 임계값(30) 대비 표시. 없으면 None 유지.
+        g = growth_signals.get(cid)
         flags_by_id[cid] = {
             "status": f.get("flag") or "unknown",
             "label": f.get("flag_label") or "성장률 미제공",
@@ -321,6 +323,9 @@ def _prepare_axis9_batch(sr: pd.DataFrame, score_df: pd.DataFrame) -> tuple[pd.D
             "totalAmountThousand": float(m.get("total_amount_thousand_krw", 0.0)),
             "businessTypeDiversity": int(m.get("business_type_diversity", 0)),
             "maxConsecutiveYears": int(m.get("max_consecutive_years", 0)),
+            "growthScore": g.growth_score if g else None,
+            "revenueCagr": g.revenue_cagr if g else None,
+            "revenueDelta": g.revenue_delta if g else None,
         }
     return metrics_df, flags_by_id
 

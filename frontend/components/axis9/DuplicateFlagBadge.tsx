@@ -2,6 +2,7 @@
 
 import { AlertTriangle, CheckCircle2, Eye, Info, HelpCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 import type { DuplicateFlag, FlagStatus } from "@/types";
 
 const FLAG_STYLE: Record<FlagStatus, {
@@ -85,7 +86,10 @@ export function DuplicateFlagDetailPanel({ flag }: { flag: DuplicateFlag | null 
         </div>
       </div>
 
-      {/* 성장률 상태 */}
+      {/* 성장 판정 근거 카드 — 임계값(하위 30%) 대비 실측 수치 노출 */}
+      <GrowthEvidenceCard flag={flag} />
+
+      {/* 성장률 상태 + 반복 지원 요약 라인 */}
       <div className="flex items-center gap-2 rounded-lg border p-3 text-[12.5px]">
         <Info className="h-4 w-4 shrink-0 text-muted-foreground" />
         <p className="text-muted-foreground">
@@ -119,6 +123,72 @@ export function DuplicateFlagDetailPanel({ flag }: { flag: DuplicateFlag | null 
           </p>
         </div>
       )}
+    </div>
+  );
+}
+
+/**
+ * 성장 판정 근거 카드 — 축1(재무축) 산출을 임계값(하위 30%) 대비 표시.
+ *
+ * 왜 별 카드로 뽑았나: "성장/정체" 라벨만 있고 근거 수치가 없으면 담당자가
+ * 왜 그렇게 판정됐는지 확인 못한다. 임계선(30) + 실측 성장성점수·CAGR·매출증가액을
+ * 나란히 놓아 "임의값 아닌 실 지표로 판정" 근거를 발표·심사 양쪽에 노출한다.
+ *
+ * growthScore가 null이면 카드 자체를 렌더링하지 않고 "판정 불가" 라인이
+ * 아래 요약 배지가 대신 알림 — 카드가 빈 껍데기로 보이는 것 방지.
+ */
+function GrowthEvidenceCard({ flag }: { flag: DuplicateFlag }) {
+  const score = flag.growthScore;
+  if (score == null) return null;   // 축1 미연결 or 자본잠식 — 아래 요약 라인이 대신 안내
+
+  const STAGNANT_THRESHOLD = 30;    // axis9_thresholds.yaml flag_logic.growth_score_stagnant
+  const cagrPct = flag.revenueCagr != null ? `${(flag.revenueCagr * 100).toFixed(1)}%` : "—";
+  const deltaKrw = flag.revenueDelta != null
+    ? `${flag.revenueDelta >= 0 ? "+" : ""}${flag.revenueDelta.toLocaleString()} 천원`
+    : "—";
+  const percentileLabel = score < STAGNANT_THRESHOLD
+    ? `하위 ${Math.round(score)}% (정체 임계선 이내)`
+    : `상위 ${Math.round(100 - score)}% (성장)`;
+
+  return (
+    <div className="rounded-lg border p-3">
+      <div className="mb-2 flex items-center gap-1.5">
+        <Info className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+        <p className="text-[12px] font-bold">성장 판정 근거</p>
+        <span className="text-[10.5px] text-muted-foreground">
+          · 임계선: 성장성점수 {STAGNANT_THRESHOLD} 미만 = 정체
+        </span>
+      </div>
+      <div className="grid grid-cols-3 gap-2">
+        <div className="rounded bg-subtle p-2 text-center">
+          <p className="text-[10px] text-muted-foreground">성장성점수</p>
+          <p className="mt-0.5 text-[15px] font-extrabold tabular-nums">
+            {Math.round(score)}
+            <span className="ml-0.5 text-[10px] font-normal text-muted-foreground">/100</span>
+          </p>
+          <p className="mt-0.5 text-[10px] text-muted-foreground">{percentileLabel}</p>
+        </div>
+        <div className="rounded bg-subtle p-2 text-center">
+          <p className="text-[10px] text-muted-foreground">매출 CAGR</p>
+          <p className={cn(
+            "mt-0.5 text-[15px] font-extrabold tabular-nums",
+            flag.revenueCagr != null && flag.revenueCagr < 0 && "text-bad",
+          )}>
+            {cagrPct}
+          </p>
+          <p className="mt-0.5 text-[10px] text-muted-foreground">최근 4개년</p>
+        </div>
+        <div className="rounded bg-subtle p-2 text-center">
+          <p className="text-[10px] text-muted-foreground">매출 증가액</p>
+          <p className={cn(
+            "mt-0.5 text-[15px] font-extrabold tabular-nums",
+            flag.revenueDelta != null && flag.revenueDelta < 0 && "text-bad",
+          )}>
+            {deltaKrw}
+          </p>
+          <p className="mt-0.5 text-[10px] text-muted-foreground">4년 누적</p>
+        </div>
+      </div>
     </div>
   );
 }

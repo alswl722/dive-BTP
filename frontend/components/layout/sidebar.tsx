@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useMemo, useState } from "react";
 import { Home, ClipboardList, Building2, ListChecks, PencilLine, Settings2, KeyRound, ChevronsLeft, ChevronsRight, ChevronDown, User, Settings, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -11,8 +11,7 @@ import { useAuth, isAdmin } from "@/lib/auth";
 import { useAdminState } from "@/lib/admin-state";
 import { useNotesData } from "@/lib/notes-data";
 import { statusKey } from "@/lib/status-key";
-import { dashboardReferenceDate, activePrograms, programApplicantIds, programKey as makeProgramKey } from "@/lib/program-progress";
-import { REVIEW_STATUSES, type ReviewStatus } from "@/types";
+import { programApplicantIds, programKey as makeProgramKey } from "@/lib/program-progress";
 
 /**
  * 심사 담당자·관리자 공통 메뉴.
@@ -40,7 +39,6 @@ const ADMIN_NAV = [
 
 export function Sidebar() {
   const path = usePathname();
-  const searchParams = useSearchParams();
   const { sidebarCollapsed, toggleSidebar } = useUi();
   const { statuses } = useReviewStatus();
   const { user, logout } = useAuth();
@@ -49,32 +47,28 @@ export function Sidebar() {
   const [profileOpen, setProfileOpen] = useState(false);
   const admin = isAdmin(user);
 
-  // 기업 선정 화면(/companies?program=...)에서 고른 사업 — 다른 화면에선 선택 사업이 없다.
-  const selectedProgramKey = path.startsWith("/companies") ? searchParams.get("program") : null;
-  const selectedProgram = useMemo(
-    () => programs.find((p) => makeProgramKey(p) === selectedProgramKey) ?? null,
-    [programs, selectedProgramKey]
+  // 심사는 (기업 × 사업) 단위라 특정 사업 하나가 아니라 "내가 배정받은 사업 전체"가 맥락이다.
+  // 배정 사업이 여럿이므로 사이드바는 그 전체를 집계해 항상 의미 있게 보여준다
+  // (특정 사업의 세부 카운트는 기업 선정 화면 자체에 있어 여기서 중복하지 않는다).
+  const myPrograms = useMemo(
+    () => programs.filter((p) => p.applicantCount > 0 && (admin || assigns[makeProgramKey(p)] === user?.username)),
+    [programs, assigns, admin, user]
   );
 
-  // 선택된 사업의 신청기업만 대상으로 후보/선정/제외 3종을 센다.
-  const programCounts = useMemo(() => {
-    const c: Record<ReviewStatus, number> = { 후보: 0, 선정: 0, 제외: 0 };
-    if (!selectedProgram) return c;
-    const progKey = makeProgramKey(selectedProgram);
-    for (const cid of programApplicantIds(selectedProgram, companies)) {
-      const status = statuses[statusKey(cid, progKey)] ?? "후보";
-      c[status]++;
+  // 워크로드 요약 — 선정/제외 합산은 사업마다 정원이 달라 의미가 없다(A선정2 + B선정5 = ?).
+  // 대신 "얼마나 남았나"만 집계: 배정 사업 전체의 (기업 × 사업) 중 아직 후보(미검토)인 건수.
+  const progress = useMemo(() => {
+    let total = 0;
+    let reviewed = 0;
+    for (const p of myPrograms) {
+      const pk = makeProgramKey(p);
+      for (const cid of programApplicantIds(p, companies)) {
+        total++;
+        if ((statuses[statusKey(cid, pk)] ?? "후보") !== "후보") reviewed++;
+      }
     }
-    return c;
-  }, [selectedProgram, companies, statuses]);
-
-  // 내가 배정받은 진행중 사업 개수(관리자는 진행중 전체 사업 개수).
-  const myProgramCount = useMemo(() => {
-    const ref = dashboardReferenceDate(programs);
-    return activePrograms(programs, ref).filter(
-      (p) => admin || assigns[makeProgramKey(p)] === user?.username
-    ).length;
-  }, [programs, assigns, admin, user]);
+    return { total, reviewed, untouched: total - reviewed, pct: total ? Math.round((reviewed / total) * 100) : 0 };
+  }, [myPrograms, companies, statuses]);
 
   return (
     <aside
@@ -111,19 +105,47 @@ export function Sidebar() {
 
       <div className="mt-auto flex flex-col gap-3 p-3">
         {!sidebarCollapsed ? (
-          <div className="space-y-1.5 rounded-lg bg-sidebar-logoBar p-3">
-            <p className="truncate text-[10.5px] font-medium text-sidebar-foreground/70">이번 심사 현황</p>
-            {REVIEW_STATUSES.map((s) => (
-              <MiniStatRow key={s} label={s} value={selectedProgram ? programCounts[s] : null} />
-            ))}
-            <div className="mt-1 flex items-center justify-between border-t border-white/10 pt-1.5 text-[12px]">
-              <span className="text-sidebar-foreground/80">{admin ? "진행중 전체 사업" : "내 배정 사업"}</span>
-              <span className="font-bold tabular-nums text-white">{myProgramCount}개</span>
-            </div>
+          <div className="space-y-2 rounded-lg bg-sidebar-logoBar p-3">
+            <p className="truncate text-[10.5px] font-medium text-sidebar-foreground/70">
+              {admin ? "전체 사업 심사" : "내 배정 사업"}
+            </p>
+            {myPrograms.length === 0 ? (
+              <p className="py-1 text-[11px] text-sidebar-foreground/60">배정된 사업이 없습니다.</p>
+            ) : (
+              <>
+                <div className="flex items-baseline justify-between">
+                  <span className="text-[12px] text-sidebar-foreground/80">배정 사업</span>
+                  <span className="text-[12px] font-bold tabular-nums text-white">{myPrograms.length}개</span>
+                </div>
+                <div className="flex items-baseline justify-between">
+                  <span className="text-[12px] text-sidebar-foreground/80">미검토</span>
+                  <span
+                    className={cn(
+                      "text-[13px] font-extrabold tabular-nums",
+                      progress.untouched > 0 ? "text-white" : "text-good"
+                    )}
+                  >
+                    {progress.untouched}건
+                  </span>
+                </div>
+                {/* 진행률 — 선정/제외를 나누지 않고 '심사 착수' 기준(후보 아님)으로만 */}
+                <div className="space-y-1 pt-0.5">
+                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/15">
+                    <div className="h-full rounded-full bg-white/70" style={{ width: `${progress.pct}%` }} />
+                  </div>
+                  <p className="text-right text-[10px] text-sidebar-foreground/60 tabular-nums">
+                    심사 {progress.reviewed}/{progress.total} · {progress.pct}%
+                  </p>
+                </div>
+              </>
+            )}
           </div>
         ) : (
-          <div className="rounded-lg bg-sidebar-logoBar py-2 text-center text-[11px] font-bold text-white">
-            {myProgramCount}
+          <div
+            className="rounded-lg bg-sidebar-logoBar py-2 text-center text-[11px] font-bold text-white"
+            title={`미검토 ${progress.untouched}건 · 배정 사업 ${myPrograms.length}개`}
+          >
+            {progress.untouched}
           </div>
         )}
 
@@ -227,14 +249,6 @@ function NavGroup({
   );
 }
 
-function MiniStatRow({ label, value }: { label: string; value: number | null }) {
-  return (
-    <div className="flex items-center justify-between text-[12px]">
-      <span className="text-sidebar-foreground/80">{label}</span>
-      <span className="font-bold tabular-nums text-white">{value ?? "-"}</span>
-    </div>
-  );
-}
 
 function ProfileMenuItem({
   icon: Icon,

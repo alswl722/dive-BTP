@@ -396,20 +396,6 @@ export function FinanceScorecard({ company }: { company: Company }) {
           ))}
         </div>
       </div>
-
-      <div className="space-y-1 text-[10.5px] leading-relaxed text-muted-foreground">
-        {company.percentileBasis === "전체fallback" && (
-          <Badge variant="warn" className="px-2 py-0.5 text-[10px]">업종 표본 부족 — 전체표본 대비 백분위</Badge>
-        )}
-        <p>
-          막대 = 동종 대비 백분위(길수록 좋음) · 가운데 눈금 = P50 ·{" "}
-          <ArrowDown className="inline h-3 w-3 align-text-bottom" aria-hidden /> 표시는 원본값이 낮을수록 좋은 지표(막대는 방향 보정됨).
-        </p>
-        <p>표본이 작아 순위 1칸 ≈ 9점 — 근소한 점수 차이는 무시할 것.</p>
-        {company.dataQuality.missing.length > 0 && (
-          <p>재무지표 결측 {company.dataQuality.missing.length}건 — 일부 점수는 부분 데이터 기반.</p>
-        )}
-      </div>
     </div>
   );
 }

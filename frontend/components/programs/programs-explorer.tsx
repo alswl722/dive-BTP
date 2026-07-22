@@ -21,6 +21,7 @@ import { formatKRW, cn } from "@/lib/utils";
 import { toCsv, downloadCsv, printTable } from "@/lib/export";
 import { savePdfTable } from "@/lib/pdf";
 import { ExportDialog } from "@/components/ui/export-dialog";
+import { useToast } from "@/lib/toast";
 
 const PAGE_SIZE = 15;
 const STATUSES: ProgramStatus[] = ["진행중", "예정", "완료"];
@@ -76,6 +77,7 @@ export function ProgramsExplorer({
 
   // 관리자가 지정한 진행 상태를 목록·필터·CSV에 반영한다
   const { statuses: adminStatuses } = useAdminState();
+  const { toast } = useToast();
   const [exportOpen, setExportOpen] = useState(false);
 
   // 내보내기 — 다이얼로그에서 고른 연도·유형·부처로 프로그램을 추린다(화면 필터와 독립).
@@ -196,15 +198,27 @@ export function ProgramsExplorer({
               .map((p) => ({ value: programKeyOf(p), label: `${p.year} · ${p.name ?? p.programCode}` })),
           }}
           count={(sel, direct) => exportRows(sel, direct).length}
-          onExport={(format, sel, direct) => {
+          defaultFileName={(sel) => {
+            const parts = [sel.year && `${sel.year}년`, sel.type && businessTypeLabel(sel.type === "미분류" ? null : sel.type), sel.ministry].filter(Boolean);
+            return ["지원사업", ...parts].join("_") || "지원사업";
+          }}
+          onExport={(format, sel, direct, fileName) => {
             const rows = exportRows(sel, direct);
             const parts = [sel.year && `${sel.year}년`, sel.type && businessTypeLabel(sel.type === "미분류" ? null : sel.type), sel.ministry].filter(Boolean);
-            const name = ["지원사업", ...parts].join("_") || "지원사업";
             const subtitle = parts.join(" · ") || "전체";
-            if (format === "csv") downloadCsv(name, toCsv(EXPORT_HEADERS, rows));
-            else if (format === "pdf") savePdfTable(name, "지원사업 정보", EXPORT_HEADERS, rows, subtitle);
-            else printTable("지원사업 정보", EXPORT_HEADERS, rows, subtitle);
             setExportOpen(false);
+            if (format === "csv") {
+              downloadCsv(fileName, toCsv(EXPORT_HEADERS, rows));
+              toast(`${fileName}.csv 다운로드 완료`);
+            } else if (format === "pdf") {
+              // PDF 생성은 비동기 — 실제 저장이 끝나면 알린다.
+              savePdfTable(fileName, "지원사업 정보", EXPORT_HEADERS, rows, subtitle)
+                .then(() => toast(`${fileName}.pdf 다운로드 완료`))
+                .catch(() => toast("PDF 생성에 실패했습니다.", "error"));
+            } else {
+              printTable("지원사업 정보", EXPORT_HEADERS, rows, subtitle);
+              toast("인쇄 창을 열었습니다.", "info");
+            }
           }}
           onClose={() => setExportOpen(false)}
         />

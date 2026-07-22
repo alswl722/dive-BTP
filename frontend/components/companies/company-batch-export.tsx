@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Download, FileSpreadsheet, FileText, Printer, X } from "lucide-react";
+import { ArrowLeft, Download, FileSpreadsheet, FileText, Printer, X } from "lucide-react";
 import type { Company, Program } from "@/types";
 import { useAdminState } from "@/lib/admin-state";
 import { useAuth, isAdmin } from "@/lib/auth";
@@ -11,6 +11,7 @@ import { programApplicantIds, programKey } from "@/lib/program-progress";
 import { companySections, companyWideRow, COMPANY_WIDE_HEADERS } from "@/lib/company-report";
 import { toCsv, downloadCsv, printReports } from "@/lib/export";
 import { savePdfReports } from "@/lib/pdf";
+import { useToast } from "@/lib/toast";
 import { cn } from "@/lib/utils";
 
 type Format = "csv" | "pdf" | "print";
@@ -20,6 +21,9 @@ const FORMAT_META: Record<Format, { label: string; Icon: typeof FileText }> = {
   csv: { label: "CSV(엑셀)", Icon: FileSpreadsheet },
   print: { label: "인쇄", Icon: Printer },
 };
+
+/** 형식별 파일 확장자. print는 파일이 없다. */
+const EXT: Record<Format, string> = { pdf: ".pdf", csv: ".csv", print: "" };
 
 /**
  * 심사 결과 배치 내보내기 — 사업을 고르고 그 사업 신청 기업을 골라 상세를 한 파일로.
@@ -35,7 +39,7 @@ export function CompanyBatchExport({ companies, programs }: { companies: Company
         className="inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-[12.5px] font-medium hover:bg-muted"
       >
         <Download className="h-3.5 w-3.5" />
-        심사 결과 내보내기
+        내보내기
       </button>
       {open && <BatchDialog companies={companies} programs={programs} onClose={() => setOpen(false)} />}
     </>
@@ -46,6 +50,7 @@ function BatchDialog({ companies, programs, onClose }: { companies: Company[]; p
   const { assigns } = useAdminState();
   const { user } = useAuth();
   const { statusOf, reasonOf } = useReviewStatus();
+  const { toast } = useToast();
   const admin = isAdmin(user);
   const latestYear = useMemo(() => latestSupportYear(companies), [companies]);
 
@@ -56,6 +61,8 @@ function BatchDialog({ companies, programs, onClose }: { companies: Company[]; p
   );
 
   const [format, setFormat] = useState<Format>("pdf");
+  const [phase, setPhase] = useState<"options" | "name">("options");
+  const [fileName, setFileName] = useState("");
   const [progKey, setProgKey] = useState<string>(() => (myPrograms[0] ? programKey(myPrograms[0]) : ""));
   const program = myPrograms.find((p) => programKey(p) === progKey) ?? null;
 
@@ -71,10 +78,14 @@ function BatchDialog({ companies, programs, onClose }: { companies: Company[]; p
   useEffect(() => setPicked(new Set(applicants.map((c) => c.id))), [progKey, applicants.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      if (phase === "name") setPhase("options");
+      else onClose();
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+  }, [onClose, phase]);
 
   const chosen = applicants.filter((c) => picked.has(c.id));
   const allPicked = applicants.length > 0 && picked.size === applicants.length;
@@ -88,20 +99,40 @@ function BatchDialog({ companies, programs, onClose }: { companies: Company[]; p
     });
   }
 
-  function exportNow() {
+  const baseName = () => `${(program?.name ?? program?.programCode ?? "심사 결과")} 심사 결과`;
+
+  // 내보내기 버튼 — 인쇄는 파일이 없어 바로 실행, 파일 형식은 이름 입력 단계로.
+  function goExport() {
+    if (!program || chosen.length === 0) return;
+    if (format === "print") {
+      const decisionOf = (c: Company) => ({ status: statusOf(c.id, programKey(program)), reason: reasonOf(c.id, programKey(program)) });
+      const docs = chosen.map((c) => ({ name: c.name, subtitle: c.industry ?? undefined, sections: companySections(c, latestYear, decisionOf(c)) }));
+      printReports(baseName(), docs);
+      onClose();
+      toast(`${chosen.length}개사 인쇄 창을 열었습니다.`, "info");
+      return;
+    }
+    setFileName(baseName());
+    setPhase("name");
+  }
+
+  function confirmDownload() {
     if (!program || chosen.length === 0) return;
     const pk = programKey(program);
-    const name = program.name ?? program.programCode;
     const decisionOf = (c: Company) => ({ status: statusOf(c.id, pk), reason: reasonOf(c.id, pk) });
+    const name = fileName.trim().replace(/\.(csv|pdf)$/i, "") || baseName();
+    const count = chosen.length;
+    onClose();
     if (format === "csv") {
       const rows = chosen.map((c) => companyWideRow(c, latestYear, decisionOf(c)));
       downloadCsv(name, toCsv(COMPANY_WIDE_HEADERS, rows));
+      toast(`${count}개사 · ${name}.csv 다운로드 완료`);
     } else {
       const docs = chosen.map((c) => ({ name: c.name, subtitle: c.industry ?? undefined, sections: companySections(c, latestYear, decisionOf(c)) }));
-      if (format === "pdf") savePdfReports(`${name} 심사 결과`, docs);
-      else printReports(`${name} 심사 결과`, docs);
+      savePdfReports(name, docs)
+        .then(() => toast(`${count}개사 · ${name}.pdf 다운로드 완료`))
+        .catch(() => toast("PDF 생성에 실패했습니다.", "error"));
     }
-    onClose();
   }
 
   return (
@@ -118,6 +149,8 @@ function BatchDialog({ companies, programs, onClose }: { companies: Company[]; p
           </button>
         </div>
 
+        {phase === "options" ? (
+        <>
         <div className="space-y-3">
           <label className="space-y-1">
             <span className="text-[11px] font-medium text-muted-foreground">형식</span>
@@ -201,7 +234,7 @@ function BatchDialog({ companies, programs, onClose }: { companies: Company[]; p
           </button>
           <button
             type="button"
-            onClick={exportNow}
+            onClick={goExport}
             disabled={chosen.length === 0}
             className={cn(
               "inline-flex items-center gap-1.5 rounded-md px-3.5 py-2 text-[12.5px] font-medium transition-colors",
@@ -212,6 +245,49 @@ function BatchDialog({ companies, programs, onClose }: { companies: Company[]; p
             {chosen.length}개사 {format === "print" ? "인쇄" : "내보내기"}
           </button>
         </div>
+        </>
+        ) : (
+        <>
+          <label className="space-y-1">
+            <span className="text-[11px] font-medium text-muted-foreground">파일 이름</span>
+            <div className="flex items-stretch overflow-hidden rounded-md border focus-within:border-primary">
+              <input
+                value={fileName}
+                autoFocus
+                onFocus={(e) => e.currentTarget.select()}
+                onChange={(e) => setFileName(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && confirmDownload()}
+                placeholder={baseName()}
+                className="min-w-0 flex-1 bg-background px-3 py-2 text-[12.5px] outline-none"
+              />
+              <span className="flex items-center bg-muted px-2.5 text-[12px] font-medium text-muted-foreground">{EXT[format]}</span>
+            </div>
+          </label>
+          <p className="mt-2 text-[11px] text-muted-foreground">
+            확장자 <b className="text-foreground">{EXT[format]}</b>는 자동으로 붙습니다. {chosen.length}개사 저장됩니다.
+          </p>
+          <div className="mt-4 flex items-center justify-between">
+            <button
+              type="button"
+              onClick={() => setPhase("options")}
+              className="inline-flex items-center gap-1 rounded-md px-3 py-2 text-[12.5px] text-muted-foreground hover:bg-muted"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              뒤로
+            </button>
+            <button
+              type="button"
+              // 한글 IME 조합 중 첫 클릭이 포커스 이동(조합 확정)에 먹히지 않도록 기본동작을 막는다.
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={confirmDownload}
+              className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3.5 py-2 text-[12.5px] font-medium text-primary-foreground transition-colors hover:opacity-90"
+            >
+              <Download className="h-3.5 w-3.5" />
+              다운로드
+            </button>
+          </div>
+        </>
+        )}
       </div>
     </div>
   );

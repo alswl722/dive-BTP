@@ -152,8 +152,8 @@ export function Sidebar() {
         <div className="relative">
           {profileOpen && (
             <div className="absolute bottom-full left-0 mb-2 w-[190px] overflow-hidden rounded-lg bg-white py-1 shadow-modal">
-              <ProfileMenuItem icon={User} label="프로필 설정" onClick={() => setProfileOpen(false)} />
-              <ProfileMenuItem icon={Settings} label="시스템 설정" onClick={() => setProfileOpen(false)} />
+              <ProfileMenuItem icon={User} label="프로필 설정" href="/settings/profile" onClick={() => setProfileOpen(false)} />
+              <ProfileMenuItem icon={Settings} label="시스템 설정" href="/settings/system" onClick={() => setProfileOpen(false)} />
               {/* 권한은 로그인 계정으로 정해지므로 임의 전환은 제공하지 않는다 */}
               <ProfileMenuItem
                 icon={LogOut}
@@ -254,18 +254,30 @@ function ProfileMenuItem({
   icon: Icon,
   label,
   onClick,
+  href,
 }: {
   icon: typeof User;
   label: string;
   onClick: () => void;
+  href?: string;
 }) {
-  return (
-    <button
-      onClick={onClick}
-      className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[12.5px] text-foreground hover:bg-muted"
-    >
+  const cls = "flex w-full items-center gap-2.5 px-3 py-2 text-left text-[12.5px] text-foreground hover:bg-muted";
+  const inner = (
+    <>
       <Icon className="h-3.5 w-3.5 text-muted-foreground" />
       {label}
+    </>
+  );
+  if (href) {
+    return (
+      <Link href={href} onClick={onClick} className={cls}>
+        {inner}
+      </Link>
+    );
+  }
+  return (
+    <button onClick={onClick} className={cls}>
+      {inner}
     </button>
   );
 }

@@ -7,27 +7,23 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MentionInput } from "@/components/notes/mention-input";
 import { NoteBody } from "@/components/notes/note-body";
-import { createNote, deleteNote, notesPersisted, updateNote } from "@/lib/api";
+import { notesPersisted } from "@/lib/api";
 import { plainText, relativeTime } from "@/lib/notes";
-import { authorLabel, useRole } from "@/lib/roles";
+import { useNotesStore } from "@/lib/notes-store";
+import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 
-/** 서버 저장 실패 시에도 화면에는 남기기 위한 임시 id(음수로 실제 id와 구분). */
-let tempId = -1;
-
 export function NotesExplorer({
-  initialNotes,
   companies,
   programs,
 }: {
-  initialNotes: Note[];
   companies: Company[];
   programs: Program[];
 }) {
-  const { role } = useRole();
-  const author = authorLabel(role);
+  const { user } = useAuth();
+  const author = user?.name ?? "심사자";
+  const { notes, create, saveEdit: storeSaveEdit, remove } = useNotesStore();
 
-  const [notes, setNotes] = useState<Note[]>(initialNotes);
   const [draft, setDraft] = useState("");
   const [q, setQ] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -41,49 +37,18 @@ export function NotesExplorer({
     );
   }, [notes, q]);
 
-  async function submit() {
+  function submit() {
     const body = draft.trim();
     if (!body) return;
     setDraft("");
-    const optimistic: Note = {
-      id: tempId--,
-      body,
-      author,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      mentions: [],
-    };
-    setNotes((prev) => [optimistic, ...prev]);
-    try {
-      const saved = await createNote(body, author);
-      if (saved) setNotes((prev) => prev.map((n) => (n.id === optimistic.id ? saved : n)));
-    } catch (err) {
-      console.error("메모 저장 실패:", err);
-    }
+    create(body, author);
   }
 
-  async function saveEdit(id: number) {
+  function saveEdit(id: number) {
     const body = editBody.trim();
     if (!body) return;
-    setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, body, updatedAt: new Date().toISOString() } : n)));
     setEditingId(null);
-    try {
-      const saved = await updateNote(id, body);
-      if (saved) setNotes((prev) => prev.map((n) => (n.id === id ? saved : n)));
-    } catch (err) {
-      console.error("메모 수정 실패:", err);
-    }
-  }
-
-  async function remove(id: number) {
-    const prev = notes;
-    setNotes((cur) => cur.filter((n) => n.id !== id));
-    try {
-      await deleteNote(id);
-    } catch (err) {
-      console.error("메모 삭제 실패, 되돌림:", err);
-      setNotes(prev);
-    }
+    storeSaveEdit(id, body);
   }
 
   return (

@@ -7,6 +7,7 @@ import { AdminStateProvider } from "@/lib/admin-state";
 import { NoticeProvider } from "@/lib/notices";
 import { ReviewStatusProvider, UiProvider } from "@/lib/app-state";
 import { NotesDataProvider } from "@/lib/notes-data";
+import { NotesStoreProvider } from "@/lib/notes-store";
 import type { Company, Note, Program, ReviewStatus } from "@/types";
 
 export function Providers({
@@ -25,7 +26,9 @@ export function Providers({
           <AdminStateProvider>
             <NoticeProvider>
               <NotesDataProvider value={notesData}>
-                <UiProvider>{children}</UiProvider>
+                <NotesStoreProvider initial={notesData.initialNotes}>
+                  <UiProvider>{children}</UiProvider>
+                </NotesStoreProvider>
               </NotesDataProvider>
             </NoticeProvider>
           </AdminStateProvider>

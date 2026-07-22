@@ -39,10 +39,32 @@ interface AuthContextValue {
   loading: boolean;
   login: (username: string, password: string) => { ok: boolean; error?: string };
   logout: () => void;
+  /** 프로필(이름·부서) 수정 — 데모용 세션 반영. 계정·역할은 로그인 계정 고정이라 못 바꾼다. */
+  updateProfile: (patch: Partial<Pick<SessionUser, "name" | "dept">>) => void;
+  /** 비밀번호 변경 — 데모용. 오버라이드를 localStorage에 저장하고 login이 참조한다. */
+  changePassword: (current: string, next: string) => { ok: boolean; error?: string };
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 const STORAGE_KEY = "btp.session";
+// ⚠️ 데모용 비밀번호 오버라이드(username → password). 실 인증이 아니며 평문 저장이지만,
+//    계정·비번이 이미 클라이언트 코드에 하드코딩된 데모 범위와 동일한 수준이다.
+const PWD_KEY = "btp.pwd";
+
+function readPwdOverrides(): Record<string, string> {
+  try {
+    return JSON.parse(localStorage.getItem(PWD_KEY) ?? "{}") as Record<string, string>;
+  } catch {
+    return {};
+  }
+}
+
+/** 계정의 현재 유효 비밀번호(오버라이드 우선, 없으면 기본값). */
+function effectivePassword(username: string): string | null {
+  const acc = DEMO_ACCOUNTS.find((a) => a.username === username);
+  if (!acc) return null;
+  return readPwdOverrides()[username] ?? acc.password;
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<SessionUser | null>(null);
@@ -61,8 +83,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = useCallback((username: string, password: string) => {
-    const found = DEMO_ACCOUNTS.find((a) => a.username === username.trim() && a.password === password);
-    if (!found) return { ok: false, error: "아이디 또는 비밀번호가 올바르지 않습니다." };
+    const found = DEMO_ACCOUNTS.find((a) => a.username === username.trim());
+    // 비밀번호는 오버라이드(변경분) 우선, 없으면 기본값
+    if (!found || effectivePassword(found.username) !== password) {
+      return { ok: false, error: "아이디 또는 비밀번호가 올바르지 않습니다." };
+    }
     const session: SessionUser = {
       username: found.username, role: found.role, name: found.name, dept: found.dept,
     };
@@ -84,7 +109,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  return <AuthContext.Provider value={{ user, loading, login, logout }}>{children}</AuthContext.Provider>;
+  const updateProfile = useCallback((patch: Partial<Pick<SessionUser, "name" | "dept">>) => {
+    setUser((prev) => {
+      if (!prev) return prev;
+      const next = { ...prev, ...patch };
+      try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(next)); } catch { /* noop */ }
+      return next;
+    });
+  }, []);
+
+  const changePassword = useCallback((current: string, next: string) => {
+    if (!user) return { ok: false, error: "로그인이 필요합니다." };
+    if (effectivePassword(user.username) !== current) {
+      return { ok: false, error: "현재 비밀번호가 일치하지 않습니다." };
+    }
+    if (next.length < 4) return { ok: false, error: "새 비밀번호는 4자 이상이어야 합니다." };
+    if (next === current) return { ok: false, error: "현재 비밀번호와 다르게 설정하세요." };
+    try {
+      const overrides = readPwdOverrides();
+      overrides[user.username] = next;
+      localStorage.setItem(PWD_KEY, JSON.stringify(overrides));
+    } catch {
+      return { ok: false, error: "저장에 실패했습니다." };
+    }
+    return { ok: true };
+  }, [user]);
+
+  return (
+    <AuthContext.Provider value={{ user, loading, login, logout, updateProfile, changePassword }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {

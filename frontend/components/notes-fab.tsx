@@ -5,27 +5,25 @@
 //   전역 마운트(auth-gate)라 companies/programs/notes를 첫 펼침 때 클라이언트에서 로드.
 import { useRef, useState } from "react";
 import { NotebookPen, Pencil, Trash2, X } from "lucide-react";
-import type { Note } from "@/types";
-import { createNote, deleteNote, notesPersisted, updateNote } from "@/lib/api";
+import { notesPersisted } from "@/lib/api";
 import { relativeTime } from "@/lib/notes";
 import { useNotesData } from "@/lib/notes-data";
 import { useFabState } from "@/lib/fab-state";
-import { authorLabel, useRole } from "@/lib/roles";
+import { useNotesStore } from "@/lib/notes-store";
+import { useAuth } from "@/lib/auth";
 import { MentionInput } from "@/components/notes/mention-input";
 import { NoteBody } from "@/components/notes/note-body";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
-let tempId = -1;
-
 export function NotesFab() {
-  const { role } = useRole();
-  const author = authorLabel(role);
-  const { companies, programs, initialNotes } = useNotesData();
+  const { user } = useAuth();
+  const author = user?.name ?? "심사자";
+  const { companies, programs } = useNotesData();
+  const { notes, create, saveEdit: storeSaveEdit, remove } = useNotesStore();
   const { chatbotOpen } = useFabState();
 
   const [open, setOpen] = useState(false);
-  const [notes, setNotes] = useState<Note[]>(initialNotes);
   const [draft, setDraft] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editBody, setEditBody] = useState("");
@@ -61,50 +59,18 @@ export function NotesFab() {
   // 안 옮겼고 챗봇이 열렸으면 챗봇 패널 바로 왼쪽(8px 간격)으로 비켜선다. 옮겼으면 드래그 위치 그대로.
   const shiftX = !moved && chatbotOpen ? -356 : 0;
 
-  async function submit() {
+  function submit() {
     const body = draft.trim();
     if (!body) return;
     setDraft("");
-    const optimistic: Note = {
-      id: tempId--,
-      body,
-      author,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      mentions: [],
-    };
-    setNotes((prev) => [optimistic, ...prev]);
-    try {
-      const saved = await createNote(body, author);
-      if (saved) setNotes((prev) => prev.map((x) => (x.id === optimistic.id ? saved : x)));
-    } catch (err) {
-      console.error("메모 저장 실패:", err);
-    }
+    create(body, author);
   }
 
-  // 수정/삭제는 /notes 페이지(notes-explorer)와 동일한 낙관적 갱신 패턴.
-  async function saveEdit(id: number) {
+  function saveEdit(id: number) {
     const body = editBody.trim();
     if (!body) return;
-    setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, body, updatedAt: new Date().toISOString() } : n)));
     setEditingId(null);
-    try {
-      const saved = await updateNote(id, body);
-      if (saved) setNotes((prev) => prev.map((n) => (n.id === id ? saved : n)));
-    } catch (err) {
-      console.error("메모 수정 실패:", err);
-    }
-  }
-
-  async function remove(id: number) {
-    const prev = notes;
-    setNotes((cur) => cur.filter((n) => n.id !== id));
-    try {
-      await deleteNote(id);
-    } catch (err) {
-      console.error("메모 삭제 실패, 되돌림:", err);
-      setNotes(prev);
-    }
+    storeSaveEdit(id, body);
   }
 
   return (

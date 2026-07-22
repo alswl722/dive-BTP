@@ -4,6 +4,7 @@ import { Check, Clock, Sparkles, AlertTriangle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { StatCard } from "@/components/ui/stat-card";
+import { AxisSignals } from "@/components/scorecard/axis-signals";
 import type { Company, MatchType, AlignmentJudgment } from "@/types";
 
 const MATCH_STYLE: Record<MatchType, { badge: "good" | "info" | "warn" | "bad" | "slate"; dot: string; text: string }> = {
@@ -13,7 +14,7 @@ const MATCH_STYLE: Record<MatchType, { badge: "good" | "info" | "warn" | "bad" |
   판단유보: { badge: "slate", dot: "bg-slate-400", text: "text-slate-500" },
 };
 
-export function BusinessFitTab({ company }: { company: Company }) {
+export function BusinessFitTab({ company, latestYear }: { company: Company; latestYear: number }) {
   const fit = company.businessFit;
   const hasSupportHistory = (company.supportHistory ?? []).length > 0;
 
@@ -44,6 +45,8 @@ export function BusinessFitTab({ company }: { company: Company }) {
 
   return (
     <div className="space-y-5">
+      <AxisSignals company={company} latestYear={latestYear} axis="사업정체성" />
+
       {/* 상단 요약 배너 */}
       <Card className="p-5 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
         <div className="flex items-start justify-between gap-4">

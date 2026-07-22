@@ -1,19 +1,21 @@
 import { AlertTriangle, Layers } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/ui/stat-card";
+import { AxisSignals } from "@/components/scorecard/axis-signals";
 import { cn, formatKRW } from "@/lib/utils";
 import { deptKey, findConcurrentPairs, summarizeConcurrent } from "@/lib/concurrent-support";
 import type { Company } from "@/types";
 
 const resultVariant = { 선정: "good", 탈락: "bad", 포기: "secondary" } as const;
 
-export function SupportHistoryTab({ company }: { company: Company }) {
+export function SupportHistoryTab({ company, latestYear }: { company: Company; latestYear: number }) {
   const h = company.supportHistory;
   const concurrent = summarizeConcurrent(company);
   const pairs = findConcurrentPairs(company).filter((p) => p.crossDept && p.sameType);
 
   return (
     <div className="space-y-5">
+      <AxisSignals company={company} latestYear={latestYear} axis="지원이력" />
       <ConcurrentPanel summary={concurrent} pairs={pairs} />
 
       <div className="grid grid-cols-3 gap-3">

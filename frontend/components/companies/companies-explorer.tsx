@@ -2,11 +2,11 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { X } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import type { Company, Program } from "@/types";
 import { useReviewStatus, useUi } from "@/lib/app-state";
 import { DEFAULT_AXIS_WEIGHTS, DEFAULT_GROUP_WEIGHTS, DEFAULT_TECH_WEIGHTS } from "@/lib/scoring";
-import { defaultFilters, applyFilters, sortCompanies, reviewStatusCounts, type CompanyFilters, type SortKey } from "@/lib/company-filters";
+import { defaultFilters, applyFilters, sortCompanies, reviewStatusCounts, MAX_COMPARE, type CompanyFilters, type SortKey } from "@/lib/company-filters";
 import { latestSupportYear } from "@/lib/duplicate-risk";
 import { companyProgramKeys, programKey } from "@/lib/program-progress";
 import { useAdminState } from "@/lib/admin-state";
@@ -128,11 +128,21 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
     [programOptions]
   );
 
+  // 비교는 "지금 심사 중인 사업" 단위로만 — 사업 선택 없이는 비교 대상을 고를 수 없고,
+  // 사업을 바꾸면 이전 사업에서 고른 선택은 버린다(섞여서 비교되는 것 방지).
+  useEffect(() => {
+    setSelectedIds(new Set());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters.programKey]);
+
   function toggleSelect(id: number) {
+    if (!filters.programKey) return;
+    const company = companiesWithLiveStatus.find((c) => c.id === id);
+    if (!company || !companyProgramKeys(company).has(filters.programKey)) return;
     setSelectedIds((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
-      else if (next.size < 4) next.add(id);
+      else if (next.size < MAX_COMPARE) next.add(id);
       return next;
     });
   }
@@ -152,6 +162,10 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
   }
 
   const openCompany = sorted.find((c) => c.id === openId) ?? companiesWithLiveStatus.find((c) => c.id === openId) ?? null;
+  // 프리뷰 패널에서 목록을 오가며 심사할 수 있도록 — 현재 정렬 순서 기준 이전/다음 기업
+  const openIndex = openCompany ? sorted.findIndex((c) => c.id === openCompany.id) : -1;
+  const prevCompany = openIndex > 0 ? sorted[openIndex - 1] : undefined;
+  const nextCompany = openIndex >= 0 ? sorted[openIndex + 1] : undefined;
   const compareCompanies = companiesWithLiveStatus.filter((c) => selectedIds.has(c.id));
 
   return (
@@ -203,6 +217,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
           </label>
 
           <div className="ml-auto flex items-center gap-2 text-[12px] text-muted-foreground">
+            {!filters.programKey && <span>사업을 선택하면 기업을 비교할 수 있어요 ·</span>}
             <CountPill label="후보" value={counts.후보} tone="text-info" />
             <CountPill label="선정" value={counts.선정} tone="text-good" />
             <CountPill label="제외" value={counts.제외} tone="text-bad" />
@@ -245,6 +260,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
                 latestYear={latestYear}
                 selectedIds={selectedIds}
                 onToggleSelect={toggleSelect}
+                compareDisabled={!filters.programKey}
                 onOpenDetail={setOpenId}
                 openId={openId}
                 sortKey={sortKey}
@@ -263,6 +279,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
                 }}
                 selectedIds={selectedIds}
                 onToggleSelect={toggleSelect}
+                compareDisabled={!filters.programKey}
                 onOpenDetail={setOpenId}
               />
             )}
@@ -290,6 +307,26 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
                   onExpand={() => router.push(`/companies/${openCompany.id}`)}
                 />
               </div>
+              {/* 목록으로 안 돌아가고 바로 이전/다음 기업으로 — 내용을 가리지 않도록 반투명 원형 버튼.
+                  왼쪽은 폭 조절 핸들과 같은 자리라 z-index를 더 높여 버튼 클릭이 우선되게 한다. */}
+              {prevCompany && (
+                <button
+                  onClick={() => setOpenId(prevCompany.id)}
+                  title={`이전 기업: ${prevCompany.name}`}
+                  className="absolute -left-3 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-foreground/10 text-foreground/60 shadow-sm backdrop-blur-sm transition-colors hover:bg-foreground/20 hover:text-foreground"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+              )}
+              {nextCompany && (
+                <button
+                  onClick={() => setOpenId(nextCompany.id)}
+                  title={`다음 기업: ${nextCompany.name}`}
+                  className="absolute -right-3 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-foreground/10 text-foreground/60 shadow-sm backdrop-blur-sm transition-colors hover:bg-foreground/20 hover:text-foreground"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              )}
             </div>
           )}
         </div>
@@ -301,6 +338,10 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
           weights={weights}
           groupWeights={groupWeights}
           techWeights={techWeights}
+          latestYear={latestYear}
+          onSetStatus={(id, status) => {
+            if (filters.programKey) setStatus(id, filters.programKey, status);
+          }}
           onRemove={(id) => setSelectedIds((prev) => { const n = new Set(prev); n.delete(id); return n; })}
           onClose={() => setCompareOpen(false)}
         />

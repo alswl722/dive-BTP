@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AlertTriangle, Check, ChevronDown, Info, UserRound, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/ui/stat-card";
+import { AxisSignals } from "@/components/scorecard/axis-signals";
 import type { Company, Tech } from "@/types";
 import { cn, formatKRW } from "@/lib/utils";
 // 임계값 단일 출처 — 심사 요약과 같은 기준으로 판정해야 화면끼리 어긋나지 않는다.
@@ -32,7 +33,7 @@ function intensityTrend(slope: number | null | undefined): string | null {
   return slope > 0 ? "투자 확대 추세" : "투자 축소 추세";
 }
 
-export function RndTab({ company }: { company: Company }) {
+export function RndTab({ company, latestYear }: { company: Company; latestYear: number }) {
   const tech = company.tech;
   const basis = tech?.scores.백분위기준;
   const applied = tech?.patents.출원 ?? 0;
@@ -40,6 +41,8 @@ export function RndTab({ company }: { company: Company }) {
 
   return (
     <div className="space-y-5">
+      <AxisSignals company={company} latestYear={latestYear} axis="R&D" />
+
       {/* 기술 분야 — "얼마나"가 아니라 "어느 분야에서" */}
       {tech && <DomainSection domain={tech.domain} />}
 

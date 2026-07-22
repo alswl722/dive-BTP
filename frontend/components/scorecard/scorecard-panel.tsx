@@ -56,11 +56,11 @@ export function ScorecardPanel({
         <Tabs tabs={[...TAB_LIST]} active={tab} onChange={(t) => setTab(t as Tab)} />
         <div>
           {tab === "개요" && <OverviewTab company={company} />}
-          {tab === "재무" && <FinanceTab company={company} />}
-          {tab === "R&D" && <RndTab company={company} />}
-          {tab === "지원이력" && <SupportHistoryTab company={company} />}
+          {tab === "재무" && <FinanceTab company={company} latestYear={latestYear} />}
+          {tab === "R&D" && <RndTab company={company} latestYear={latestYear} />}
+          {tab === "지원이력" && <SupportHistoryTab company={company} latestYear={latestYear} />}
           {tab === "중복수혜" && <DuplicateRiskTab company={company} latestYear={latestYear} />}
-          {tab === "사업정체성" && <BusinessFitTab company={company} />}
+          {tab === "사업정체성" && <BusinessFitTab company={company} latestYear={latestYear} />}
         </div>
       </div>
       {/* 심사 상태만 지정하고 근거를 남길 곳이 없던 문제 — 여기서 바로 기록 */}

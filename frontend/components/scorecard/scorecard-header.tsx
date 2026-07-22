@@ -70,11 +70,6 @@ export function ScorecardHeader({
           >
             {risk.tone === "good" ? <ShieldCheck className="h-3.5 w-3.5" /> : <ShieldAlert className="h-3.5 w-3.5" />}
             건전성 {risk.grade}
-            {risk.counts.위험 + risk.counts.주의 > 0 && (
-              <span className="font-normal opacity-80">
-                ({[risk.counts.위험 ? `위험 ${risk.counts.위험}` : null, risk.counts.주의 ? `주의 ${risk.counts.주의}` : null].filter(Boolean).join("·")})
-              </span>
-            )}
           </span>
           {dupRisk && (
             <div className="inline-flex items-center gap-1.5 rounded-full bg-orangeTone-bg px-2.5 py-1 text-[11px] font-medium text-orangeTone">

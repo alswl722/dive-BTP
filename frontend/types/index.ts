@@ -107,6 +107,7 @@ export interface Company {
   isClosed: boolean;            // 휴·폐업 여부 — 지원 대상에서 즉시 걸러야 하는 신호
   closureType: string | null;   // 휴폐업 구분(휴업/폐업). isClosed일 때만 의미
   capitalThousand: number | null; // 납입자본금(천원). 기업 규모 맥락
+  listingType: string | null;   // 상장구분(코스피/코스닥) 또는 외감구분(외감/일반법인) — 값 그대로, 해석은 배지에서
   scores: AxisScores;
   percentiles: Record<string, number | null>; // 파생컬럼 → 0~100 백분위
   rawMetrics: Record<string, number | null>; // 파생컬럼 원값

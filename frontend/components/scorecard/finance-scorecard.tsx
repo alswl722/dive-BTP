@@ -51,6 +51,12 @@ function metricLabel(key: string) {
   return key.replace("_최근", "").replace(/_/g, " ");
 }
 
+/** 백분위(0~100, 100=최상위) → "상위/하위 N%" 자연어. P50 이상은 상위, 미만은 하위. 극단값은 최소 1%로 표기. */
+function percentileLabel(pct: number): string {
+  const p = Math.round(pct);
+  return p >= 50 ? `상위 ${Math.max(1, 100 - p)}%` : `하위 ${Math.max(1, p)}%`;
+}
+
 function formatRaw(key: string, value: number | null | undefined): string {
   if (!isNum(value)) return "—";
   if (key.includes("회전율")) return `${value.toFixed(2)}회`;
@@ -324,7 +330,7 @@ function MetricRow({ company, metricKey }: { company: Company; metricKey: string
       </div>
       <div className="text-right">
         <div className="text-[12.5px] font-bold tabular-nums">{formatRaw(metricKey, raw)}</div>
-        <div className="text-[10px] tabular-nums text-muted-foreground">{isNum(pct) ? `P${Math.round(pct)}` : "—"}</div>
+        <div className="text-[10px] tabular-nums text-muted-foreground">{isNum(pct) ? percentileLabel(pct) : "—"}</div>
       </div>
     </div>
   );

@@ -5,8 +5,12 @@ import { AlertTriangle, Maximize2, ShieldAlert, ShieldCheck, X } from "lucide-re
 import { Badge } from "@/components/ui/badge";
 import { ScoreBadge } from "@/components/ui/score-badge";
 import { StatusStack } from "@/components/scorecard/status-buttons";
+import { FavoriteToggle } from "@/components/companies/favorite-toggle";
 import { resolveOverallScore, DEFAULT_AXIS_WEIGHTS, DEFAULT_GROUP_WEIGHTS, DEFAULT_TECH_WEIGHTS, isCustomWeights, type TechAxis } from "@/lib/scoring";
 import { useReviewStatus } from "@/lib/app-state";
+import { useAdminState } from "@/lib/admin-state";
+import { useAuth } from "@/lib/auth";
+import { canReviewProgram } from "@/lib/program-progress";
 import { isDuplicateRisk, recentSelectionCount, DUPLICATE_RISK_WINDOW_YEARS } from "@/lib/duplicate-risk";
 import { deriveRiskGrade } from "@/lib/review-summary";
 import { formatKRW, cn } from "@/lib/utils";
@@ -48,12 +52,18 @@ export function ScorecardHeader({
   onExpand?: () => void;
 }) {
   const { statusOf, setStatus, reasonOf } = useReviewStatus();
+  const { assigns } = useAdminState();
+  const { user } = useAuth();
+  // 조회는 사업 배정과 무관하게 열려 있으나, 선정/제외 등 상태 변경은 배정된 담당자·관리자만.
+  const canReview = canReviewProgram(user, assigns, programKey);
   const status = statusOf(company.id, programKey);
   const reason = reasonOf(company.id, programKey);
-  // 선정/제외를 고르면 사유 모달을 띄운다(후보=미결정은 바로 반영). 사업 없이는 상태 변경 불가.
+  // 선정/제외를 고르면 사유 모달을 띄운다(후보=미결정은 바로 반영). 사업 미선택이거나
+  // 배정된 담당자·관리자가 아니면 상태 변경 불가(canReview — StatusStack이 disabled로도 막지만
+  // 여기서도 이중 방어).
   const [pending, setPending] = useState<"선정" | "제외" | null>(null);
   function onDecision(next: typeof status) {
-    if (!programKey) return;
+    if (!programKey || !canReview) return;
     if (next === "선정" || next === "제외") setPending(next);
     else setStatus(company.id, programKey, next); // 후보로 되돌리기
   }
@@ -120,7 +130,10 @@ export function ScorecardHeader({
 
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <h2 className="truncate text-[18px] font-extrabold tracking-tight">{company.name}</h2>
+          <div className="flex min-w-0 items-center gap-1.5">
+            <FavoriteToggle companyId={company.id} size="md" className="-ml-1" />
+            <h2 className="truncate text-[18px] font-extrabold tracking-tight">{company.name}</h2>
+          </div>
           <p className="mt-0.5 truncate text-[12px] text-muted-foreground">
             {company.industry ?? "업종 미상"} {company.industryCode && `· ${company.industryCode}`}
           </p>
@@ -167,7 +180,12 @@ export function ScorecardHeader({
               title={`종합점수${custom ? " (커스텀)" : ""} — 재무4축·기술2축·정합성 가중평균(최저축 캡 적용). 축별 점수는 아래 탭에서 확인`}
             />
           </div>
-          <StatusStack status={status} disabled={!programKey} onChange={onDecision} />
+          <StatusStack
+            status={status}
+            disabled={!canReview}
+            lockReason={!programKey ? "사업을 선택해 심사" : "배정된 담당자만 심사"}
+            onChange={onDecision}
+          />
         </div>
       </div>
 

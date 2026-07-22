@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import { ScoreBadge } from "@/components/ui/score-badge";
 import { StatusDropdown } from "@/components/scorecard/status-buttons";
 import { AxisMiniBars } from "@/components/companies/axis-mini-bars";
+import { FavoriteToggle } from "@/components/companies/favorite-toggle";
 import { resolveOverallScore, DEFAULT_TECH_WEIGHTS, type TechAxis } from "@/lib/scoring";
 import { isDuplicateRisk } from "@/lib/duplicate-risk";
 import { MAX_COMPARE } from "@/lib/company-filters";
@@ -25,6 +26,8 @@ export function CompaniesBoard({
   techWeights = DEFAULT_TECH_WEIGHTS,
   latestYear,
   onSetStatus,
+  canReview = true,
+  lockReason = "배정된 담당자만 심사",
   selectedIds,
   onToggleSelect,
   compareDisabled = false,
@@ -36,6 +39,10 @@ export function CompaniesBoard({
   techWeights?: Record<TechAxis, number>;
   latestYear: number;
   onSetStatus: (id: number, status: ReviewStatus) => void;
+  /** 배정된 담당자·관리자가 아니면 false — 카드 조회는 그대로, 상태 변경(드래그·드롭다운)만 잠근다. */
+  canReview?: boolean;
+  /** canReview가 false일 때 보여줄 사유 — "사업 미선택"과 "배정 안 됨"을 구분해 안내한다. */
+  lockReason?: string;
   selectedIds: Set<number>;
   onToggleSelect: (id: number) => void;
   compareDisabled?: boolean; // 사업 미선택 — 비교 체크박스 전체 비활성화
@@ -51,12 +58,14 @@ export function CompaniesBoard({
           <div
             key={status}
             onDragOver={(e) => {
+              if (!canReview) return;
               e.preventDefault();
               setDragOverCol(status);
             }}
             onDragLeave={() => setDragOverCol((cur) => (cur === status ? null : cur))}
             onDrop={(e) => {
               e.preventDefault();
+              if (!canReview) return;
               const id = Number(e.dataTransfer.getData("text/company-id"));
               if (Number.isFinite(id)) onSetStatus(id, status);
               setDragOverCol(null);
@@ -83,7 +92,7 @@ export function CompaniesBoard({
               return (
                 <Card
                   key={c.id}
-                  draggable
+                  draggable={canReview}
                   onDragStart={(e) => e.dataTransfer.setData("text/company-id", String(c.id))}
                   onClick={() => onOpenDetail(c.id)}
                   className="cursor-pointer space-y-2.5 p-3 active:opacity-70"
@@ -105,6 +114,7 @@ export function CompaniesBoard({
                       </p>
                     </div>
                     <div className="flex shrink-0 items-center gap-1">
+                      <FavoriteToggle companyId={c.id} />
                       {dupRisk && <AlertTriangle className="h-3.5 w-3.5 text-bad" />}
                       <ScoreBadge score={resolveOverallScore(c, groupWeights, weights, techWeights)} size="sm" />
                     </div>
@@ -124,7 +134,7 @@ export function CompaniesBoard({
                     >
                       <Eye className="h-3 w-3" /> 상세보기
                     </button>
-                    <StatusDropdown status={status} onChange={(next) => onSetStatus(c.id, next)} />
+                    <StatusDropdown status={status} onChange={(next) => onSetStatus(c.id, next)} disabled={!canReview} />
                   </div>
                 </Card>
               );

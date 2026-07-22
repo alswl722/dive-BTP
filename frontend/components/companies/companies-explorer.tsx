@@ -8,9 +8,9 @@ import { useReviewStatus, useUi } from "@/lib/app-state";
 import { DEFAULT_AXIS_WEIGHTS, DEFAULT_GROUP_WEIGHTS, DEFAULT_TECH_WEIGHTS } from "@/lib/scoring";
 import { defaultFilters, applyFilters, sortCompanies, reviewStatusCounts, MAX_COMPARE, type CompanyFilters, type SortKey } from "@/lib/company-filters";
 import { latestSupportYear } from "@/lib/duplicate-risk";
-import { companyProgramKeys, programKey } from "@/lib/program-progress";
+import { canReviewProgram, companyProgramKeys, programKey } from "@/lib/program-progress";
 import { useAdminState } from "@/lib/admin-state";
-import { useAuth, isAdmin } from "@/lib/auth";
+import { useAuth } from "@/lib/auth";
 import { FilterBar } from "@/components/companies/filter-bar";
 import { AdvancedFilterPopover } from "@/components/companies/advanced-filter-popover";
 import { Card } from "@/components/ui/card";
@@ -22,6 +22,13 @@ import { CompareModal } from "@/components/companies/compare-modal";
 import { ScorecardPanel } from "@/components/scorecard/scorecard-panel";
 import { cn } from "@/lib/utils";
 import { CompanyBatchExport } from "@/components/companies/company-batch-export";
+
+// URL의 program=all — "전체 사업"(사업 필터 없이 전 기업 조회). null(=사업 미선택, 자동이동 대상)과
+// 구분해야 하므로 쿼리 문자열 단계에서 별도 sentinel을 쓰고, 이 함수로만 실제 programKey로 변환한다.
+const ALL_PROGRAMS = "all";
+function programKeyFromQuery(raw: string | null): string | null {
+  return raw && raw !== ALL_PROGRAMS ? raw : null;
+}
 
 export function CompaniesExplorer({ companies, programs }: { companies: Company[]; programs: Program[] }) {
   const { assigns } = useAdminState();
@@ -38,7 +45,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
     q: searchParams.get("q") ?? "",
     dupRiskOnly: searchParams.get("dupRisk") === "1",
     qualityIssueOnly: searchParams.get("qualityIssue") === "1",
-    programKey: searchParams.get("program"),
+    programKey: programKeyFromQuery(searchParams.get("program")),
   }));
   // 이미 /companies에 머무른 채(같은 라우트, 리마운트 없음) 새 링크를 눌러 쿼리스트링만 바뀌는
   // 경우(대시보드 "이어서 심사하기", 다른 사업/필터 링크 재클릭 등)를 위 useState 초기값만으로는
@@ -49,7 +56,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
       q: searchParams.get("q") ?? "",
       dupRiskOnly: searchParams.get("dupRisk") === "1",
       qualityIssueOnly: searchParams.get("qualityIssue") === "1",
-      programKey: searchParams.get("program"),
+      programKey: programKeyFromQuery(searchParams.get("program")),
     }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
@@ -125,21 +132,38 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
   );
   const counts = useMemo(() => reviewStatusCounts(applicantsForCounts), [applicantsForCounts]);
 
-  // 배정된 사업만 전환 가능 — 목록에 없는 사업으로는 이동시키지 않는다(관리자는 전체)
-  const canReview = (p: Program) => isAdmin(user) || assigns[programKey(p)] === user?.username;
+  // 조회는 전 직원에게 열려 있다 — 사업을 배정받지 않았어도 콤보박스에서 고를 수 있다.
+  // 실제 심사 권한(선정/제외 등 상태 변경)은 canReviewCurrent로 별도 판단해 잠근다.
   const programOptions = useMemo(
     // localeCompare는 서버(Node ICU)와 브라우저의 콜레이션이 달라 hydration mismatch를 냄 —
     // 코드유닛 비교로 고정(한글 가나다 순서는 유니코드 순서와 동일).
     () => programs
-      .filter((p) => p.applicantCount > 0 && canReview(p))
+      .filter((p) => p.applicantCount > 0)
       .sort((a, b) => b.year - a.year || ((a.name ?? "") < (b.name ?? "") ? -1 : (a.name ?? "") > (b.name ?? "") ? 1 : 0)),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [programs, assigns, user]
+    [programs]
+  );
+  // 조회 자체는 전 사업 공개지만, 실제로 심사를 진행할 사업은 대개 내 담당 사업이다 —
+  // 전체 사업이 연도별로만 나열되면 담당 사업을 매번 스크롤해서 찾아야 한다. "내 담당
+  // 사업" 그룹을 맨 위에 별도로 두고, 같은 사업이 아래 연도 그룹에도 그대로 남아있게 해
+  // "전체에서 훑어보기"와 "내 사업 빨리 찾기"를 둘 다 지원한다.
+  // 관리자는 isAdmin만으로 모든 사업을 심사할 수 있어(assigns 배정과 무관) 이 그룹에 넣으면
+  // 연도별 그룹과 그대로 중복된다 — assigns에 실제로 이름이 적힌 사업만 "내 담당"으로 친다.
+  const myProgramOptions = useMemo(
+    () => programOptions.filter((p) => assigns[programKey(p)] === user?.username),
+    [programOptions, assigns, user]
   );
   const programComboOptions: ComboboxOption[] = useMemo(
-    () => programOptions.map((p) => ({ value: programKey(p), label: p.name ?? p.programCode, group: String(p.year) })),
-    [programOptions]
+    () => [
+      // 검색·필터가 특정 사업 신청 기업으로만 좁혀져 다른 사업 기업이 안 뜨는 문제 —
+      // "전체 사업"을 고르면 사업 필터 없이 전체 기업에서 검색·필터링한다.
+      { value: ALL_PROGRAMS, label: "전체 사업", group: "전체" },
+      ...myProgramOptions.map((p) => ({ value: programKey(p), label: p.name ?? p.programCode, group: "내 담당 사업" })),
+      ...programOptions.map((p) => ({ value: programKey(p), label: p.name ?? p.programCode, group: String(p.year) })),
+    ],
+    [programOptions, myProgramOptions]
   );
+  // 현재 선택된 사업의 심사 권한 — 없으면(배정 안 됨, 관리자 아님) 상태 변경 버튼을 잠근다.
+  const canReviewCurrent = canReviewProgram(user, assigns, filters.programKey);
 
   // 비교는 "지금 심사 중인 사업" 단위로만 — 사업 선택 없이는 비교 대상을 고를 수 없고,
   // 사업을 바꾸면 이전 사업에서 고른 선택은 버린다(섞여서 비교되는 것 방지).
@@ -161,7 +185,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
   }
 
   function bulkSetStatus(status: "후보" | "선정" | "제외") {
-    if (!filters.programKey) return; // 사업 단위 — 사업 선택 없이는 상태 변경 불가
+    if (!filters.programKey || !canReviewCurrent) return; // 사업 단위 + 배정된 담당자·관리자만
     selectedIds.forEach((id) => setStatus(id, filters.programKey!, status));
     setSelectedIds(new Set());
   }
@@ -185,12 +209,13 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
     <div className="flex items-start gap-4">
       <div className="flex min-w-0 flex-1 flex-col gap-3">
         <Card className="flex flex-wrap items-center gap-2.5 p-2.5">
-          {/* 심사는 사업 단위로 진행 — '전체 사업'으로 풀 수 없고 배정된 사업 간 전환만 가능.
+          {/* 심사는 사업 단위로 진행 — 조회는 전 직원에게 열려 있어 모든 사업을 고를 수 있다.
+              배정된 담당자·관리자가 아니면 선정/제외 등 상태 변경만 잠긴다(canReviewCurrent).
               사업 목록 카드 페이지는 없앴으므로 전환은 이 콤보박스로만 한다.
               사업 이름 → 업종 → 인증 → 축가중치 → 필터 → 데이터 품질 이슈 제외 순서로 고정. */}
           <Combobox
             options={programComboOptions}
-            value={filters.programKey}
+            value={filters.programKey ?? ALL_PROGRAMS}
             onChange={(key) => router.push(`/companies?program=${key}`)}
             placeholder="사업 선택"
             className="w-[260px] shrink-0"
@@ -251,9 +276,17 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
           <div className="flex items-center gap-3 rounded-lg bg-primary px-4 py-2.5 text-primary-foreground">
             <span className="text-[12.5px] font-medium">{selectedIds.size}개 선택됨</span>
             <div className="ml-auto flex items-center gap-2">
-              <BulkButton onClick={() => bulkSetStatus("선정")}>선정 처리</BulkButton>
-              <BulkButton onClick={() => bulkSetStatus("제외")}>제외 처리</BulkButton>
-              <BulkButton onClick={() => bulkSetStatus("후보")}>후보 처리</BulkButton>
+              {canReviewCurrent ? (
+                <>
+                  <BulkButton onClick={() => bulkSetStatus("선정")}>선정 처리</BulkButton>
+                  <BulkButton onClick={() => bulkSetStatus("제외")}>제외 처리</BulkButton>
+                  <BulkButton onClick={() => bulkSetStatus("후보")}>후보 처리</BulkButton>
+                </>
+              ) : (
+                <span className="text-[11.5px] text-white/80">
+                  {filters.programKey ? "배정된 담당자만 상태 변경 가능" : "사업을 선택해야 상태 변경 가능"}
+                </span>
+              )}
               <button
                 onClick={() => setCompareOpen(true)}
                 disabled={selectedIds.size < 2}
@@ -297,8 +330,9 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
                 techWeights={techWeights}
                 latestYear={latestYear}
                 onSetStatus={(id, status) => {
-                  if (filters.programKey) setStatus(id, filters.programKey, status);
+                  if (filters.programKey && canReviewCurrent) setStatus(id, filters.programKey, status);
                 }}
+                canReview={canReviewCurrent}
                 selectedIds={selectedIds}
                 onToggleSelect={toggleSelect}
                 compareDisabled={!filters.programKey}

@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { RoleGreeting } from "@/components/dashboard/role-greeting";
 import { RecentlyViewedPanel } from "@/components/dashboard/recently-viewed-panel";
+import { FavoritesPanel } from "@/components/dashboard/favorites-panel";
 import { NoticeList } from "@/components/notices/notice-list";
 import { OngoingReviews } from "@/components/dashboard/ongoing-reviews";
 import { daysUntil, formatDday, cn } from "@/lib/utils";
@@ -57,6 +58,11 @@ export default async function DashboardPage() {
             {/* 배정 필터는 클라이언트(sessionStorage)에서 — 서버는 행만 계산한다 */}
             <OngoingReviews rows={ongoing} companies={companies} referenceDate={formatDate(referenceDate)} />
           </div>
+
+          <Card className="p-5">
+            <p className="mb-3 text-[13px] font-bold">관심 기업</p>
+            <FavoritesPanel companies={companies} />
+          </Card>
         </div>
 
         <div className="space-y-5">

@@ -1,4 +1,6 @@
 import type { Program, Company } from "@/types";
+import type { AssignMap } from "@/lib/admin-state";
+import { isAdmin, type SessionUser } from "@/lib/auth";
 
 /** "오늘" 기준일. 실제 오늘(2026)로 계산하면 표본 지원이력(2022~2024)과 겹치는 진행중 사업이
  *  0건이라 신청 이력이 있는 사업들의 최신 마감일(데이터 마지막 시점)을 기준일로 삼는다. */
@@ -36,4 +38,14 @@ export function programKey(p: Program): string {
 /** 이 기업이 신청 이력을 가진 사업의 "year:code" 집합. */
 export function companyProgramKeys(c: Company): Set<string> {
   return new Set(c.supportHistory.filter((h) => h.programCode && h.year).map((h) => `${h.year}:${h.programCode}`));
+}
+
+/**
+ * 이 사업의 심사(선정/제외 등 상태 변경)를 할 수 있는가 — 배정된 담당자이거나 관리자.
+ * 기업 목록 조회 자체는 배정과 무관하게 전 직원에게 열려 있고(투명성), 상태 변경만 이 체크로 잠근다.
+ * 단일 소스 — companies-explorer/companies-entry/scorecard-header 등 호출부가 각자 재구현하지 않는다.
+ */
+export function canReviewProgram(user: SessionUser | null, assigns: AssignMap, key: string | null | undefined): boolean {
+  if (!key) return false;
+  return isAdmin(user) || assigns[key] === user?.username;
 }

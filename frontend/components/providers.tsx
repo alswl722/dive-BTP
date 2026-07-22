@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { RoleProvider } from "@/lib/roles";
 import { AuthProvider } from "@/lib/auth";
 import { AdminStateProvider } from "@/lib/admin-state";
+import { FavoritesProvider } from "@/lib/favorites";
 import { NoticeProvider } from "@/lib/notices";
 import { ReviewStatusProvider, UiProvider } from "@/lib/app-state";
 import { NotesDataProvider } from "@/lib/notes-data";
@@ -26,13 +27,15 @@ export function Providers({
         <RoleProvider>
           <ReviewStatusProvider initial={initialReviewStatus}>
             <AdminStateProvider>
-              <NoticeProvider>
-                <NotesDataProvider value={notesData}>
-                  <NotesStoreProvider initial={notesData.initialNotes}>
-                    <UiProvider>{children}</UiProvider>
-                  </NotesStoreProvider>
-                </NotesDataProvider>
-              </NoticeProvider>
+              <FavoritesProvider>
+                <NoticeProvider>
+                  <NotesDataProvider value={notesData}>
+                    <NotesStoreProvider initial={notesData.initialNotes}>
+                      <UiProvider>{children}</UiProvider>
+                    </NotesStoreProvider>
+                  </NotesDataProvider>
+                </NoticeProvider>
+              </FavoritesProvider>
             </AdminStateProvider>
           </ReviewStatusProvider>
         </RoleProvider>

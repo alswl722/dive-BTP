@@ -13,6 +13,7 @@ import { useAdminState } from "@/lib/admin-state";
 import { useAuth, isAdmin } from "@/lib/auth";
 import { FilterBar } from "@/components/companies/filter-bar";
 import { AdvancedFilterPopover } from "@/components/companies/advanced-filter-popover";
+import { Card } from "@/components/ui/card";
 import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
 import { WeightPopover } from "@/components/companies/weight-popover";
 import { CompaniesTable } from "@/components/companies/companies-table";
@@ -183,7 +184,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
   return (
     <div className="flex items-start gap-4">
       <div className="flex min-w-0 flex-1 flex-col gap-3">
-        <div className="flex flex-wrap items-center gap-2.5">
+        <Card className="flex flex-wrap items-center gap-2.5 p-2.5">
           {/* 심사는 사업 단위로 진행 — '전체 사업'으로 풀 수 없고 배정된 사업 간 전환만 가능.
               사업 목록 카드 페이지는 없앴으므로 전환은 이 콤보박스로만 한다.
               사업 이름 → 업종 → 인증 → 축가중치 → 필터 → 데이터 품질 이슈 제외 순서로 고정. */}
@@ -244,7 +245,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
             <CountPill label="제외" value={counts.제외} tone="text-bad" />
             <span>/ <span className="font-bold text-foreground">{applicantsForCounts.length}</span>개 기업</span>
           </div>
-        </div>
+        </Card>
 
         {selectedIds.size > 0 && (
           <div className="flex items-center gap-3 rounded-lg bg-primary px-4 py-2.5 text-primary-foreground">

@@ -142,8 +142,7 @@ export function NotesFab() {
               </p>
             )}
             <MentionInput value={draft} onChange={setDraft} companies={companies} programs={programs} />
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] text-muted-foreground">@기업 · #사업으로 연결 · {author}</span>
+            <div className="flex items-center justify-end">
               <button
                 onClick={submit}
                 disabled={!draft.trim()}

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AlertTriangle, ArrowDown, ChevronDown } from "lucide-react";
-import { Line, LineChart, ReferenceDot, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, ReferenceDot, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Badge } from "@/components/ui/badge";
 import { cn, formatKRW } from "@/lib/utils";
 import { AXES, type Axis, type Company, type SupportRecord, type TrendPoint } from "@/types";
@@ -49,12 +49,6 @@ const toneBadge: Record<string, "good" | "warn" | "bad" | "secondary"> = { good:
 
 function metricLabel(key: string) {
   return key.replace("_최근", "").replace(/_/g, " ");
-}
-
-/** 백분위 → "상위 X% / 하위 X%" — 방향을 틀리면 오독이라 한 곳에서만 정의. */
-function percentilePosition(pct: number): string {
-  const s = Math.round(pct);
-  return s >= 50 ? `상위 ${100 - s}%` : `하위 ${s}%`;
 }
 
 function formatRaw(key: string, value: number | null | undefined): string {
@@ -188,14 +182,23 @@ function Sparkline({
 }) {
   const points = data.filter((d) => isNum(d.value));
   if (points.length < 2) {
-    return <div className="flex h-12 items-center text-[10px] text-muted-foreground">추세 데이터 부족</div>;
+    return <div className="flex h-16 items-center text-[10px] text-muted-foreground">추세 데이터 부족</div>;
   }
   // 지원받은 연도 중 추세값이 있는 지점 → 도트 좌표
   const dots = data.filter((d) => isNum(d.value) && supportsByYear[d.year]) as { year: number; value: number }[];
+  const color = `hsl(${colorVar})`;
+  // 같은 id를 써도 각 차트가 독립 <svg>라 스코프가 겹치지 않는다(전 축 동일 브랜드 블루).
+  const gradId = "financeAreaGrad";
   return (
-    <div className="h-12 w-full">
+    <div className="h-16 w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data} margin={{ top: 6, bottom: 4, left: 4, right: 4 }}>
+        <AreaChart data={data} margin={{ top: 6, bottom: 4, left: 4, right: 4 }}>
+          <defs>
+            <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={color} stopOpacity={0.3} />
+              <stop offset="100%" stopColor={color} stopOpacity={0.02} />
+            </linearGradient>
+          </defs>
           {/* XAxis 없으면 ReferenceDot(x=연도) 좌표 매칭이 안 됨 — hide로 숨기고 스케일만 제공 */}
           <XAxis dataKey="year" hide />
           <YAxis hide domain={["dataMin", "dataMax"]} />
@@ -209,12 +212,15 @@ function Sparkline({
               />
             )}
           />
-          <Line
+          <Area
             type="monotone"
             dataKey="value"
-            stroke={`hsl(${colorVar})`}
-            strokeWidth={1.75}
+            stroke={color}
+            strokeWidth={2}
+            fill={`url(#${gradId})`}
+            baseValue="dataMin"
             dot={false}
+            activeDot={{ r: 3.5, fill: color, stroke: "hsl(var(--card))", strokeWidth: 1.5 }}
             isAnimationActive={false}
             connectNulls
           />
@@ -230,7 +236,7 @@ function Sparkline({
               isFront
             />
           ))}
-        </LineChart>
+        </AreaChart>
       </ResponsiveContainer>
     </div>
   );
@@ -240,27 +246,18 @@ function Sparkline({
 /* 축 타일                                                             */
 /* ------------------------------------------------------------------ */
 
+// 색은 대표색(브랜드 블루 --primary)으로 통일 — 4축 그래프를 한 톤의 그라데이션 영역 차트로 본다.
 const TREND_FOR_AXIS: Partial<Record<Axis, { key: string; colorVar: string; allowNegative: boolean; format: (v: number) => string }>> = {
-  성장성: { key: "매출액", colorVar: "var(--axis-growth)", allowNegative: false, format: (v) => formatKRW(v) },
-  수익성: { key: "영업이익률", colorVar: "var(--axis-profit)", allowNegative: true, format: (v) => `${v.toFixed(1)}%` },
-  안정성: { key: "자본총계", colorVar: "var(--axis-stability)", allowNegative: true, format: (v) => formatKRW(v) },
+  성장성: { key: "매출액", colorVar: "var(--primary)", allowNegative: false, format: (v) => formatKRW(v) },
+  수익성: { key: "영업이익률", colorVar: "var(--primary)", allowNegative: true, format: (v) => `${v.toFixed(1)}%` },
+  안정성: { key: "자본총계", colorVar: "var(--primary)", allowNegative: true, format: (v) => formatKRW(v) },
 };
-
-function worstMetric(company: Company, axis: Axis) {
-  let worst: { key: string; pct: number } | null = null;
-  for (const key of AXIS_METRICS[axis]) {
-    const pct = company.percentiles[key];
-    if (isNum(pct) && (worst === null || pct < worst.pct)) worst = { key, pct };
-  }
-  return worst;
-}
 
 function AxisTile({ company, axis, supportsByYear }: { company: Company; axis: Axis; supportsByYear: SupportsByYear }) {
   const score = company.scores[axis];
   const metricCount = AXIS_METRICS[axis].length;
   const singleMetric = metricCount === 1;
   const b = band(score);
-  const worst = worstMetric(company, axis);
   const trend = TREND_FOR_AXIS[axis];
   const trendData = trend ? company.trends[trend.key] : undefined;
 
@@ -275,11 +272,10 @@ function AxisTile({ company, axis, supportsByYear }: { company: Company; axis: A
         )}
       </div>
 
-      <div className="flex items-end justify-between gap-2">
+      <div className="flex items-end gap-2">
         <span className={cn("text-[32px] font-extrabold leading-none tracking-tight tabular-nums", scoreTone(score))}>
           {isNum(score) ? Math.round(score) : "—"}
         </span>
-        <span className="pb-0.5 text-[10.5px] text-muted-foreground">지표 {metricCount}개 기반</span>
       </div>
 
       {trend && trendData ? (
@@ -291,22 +287,11 @@ function AxisTile({ company, axis, supportsByYear }: { company: Company; axis: A
           formatValue={trend.format}
         />
       ) : (
-        <div className="flex h-12 items-center text-[12px] font-medium">
+        <div className="flex h-16 items-center text-[12px] font-medium">
           총자산회전율 {formatRaw("총자산회전율", company.rawMetrics["총자산회전율"])}
           <span className="ml-1.5 text-[10.5px] text-muted-foreground">· 자산 급감 시 착시 주의</span>
         </div>
       )}
-
-      <p className="text-[10.5px] leading-snug text-muted-foreground">
-        {worst ? (
-          <>
-            {metricLabel(worst.key)} {formatRaw(worst.key, company.rawMetrics[worst.key])}{" "}
-            <span className="whitespace-nowrap">({percentilePosition(worst.pct)})</span>
-          </>
-        ) : (
-          "근거 지표 없음"
-        )}
-      </p>
     </div>
   );
 }
@@ -395,13 +380,7 @@ export function FinanceScorecard({ company }: { company: Company }) {
       <RiskGate rules={riskRules} />
 
       <div>
-        <p className="mb-2 text-[12.5px] font-bold">
-          재무 4축 <span className="font-normal text-muted-foreground">· 백분위 0~100 · 종합점수 없음(4축 나란히 읽기)</span>
-          <span className="ml-2 text-[10.5px] font-normal text-muted-foreground">
-            <span className="mr-1 inline-block h-2 w-2 rounded-full bg-good align-middle" />
-            추세 위 점 = 지원받은 연도 (hover로 내역)
-          </span>
-        </p>
+        <p className="mb-2 text-[12.5px] font-bold">재무 4축</p>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {AXES.map((axis) => (
             <AxisTile key={axis} company={company} axis={axis} supportsByYear={supportsByYear} />

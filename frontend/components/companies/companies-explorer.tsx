@@ -242,6 +242,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
                 weights={weights}
                 groupWeights={groupWeights}
                 techWeights={techWeights}
+                latestYear={latestYear}
                 selectedIds={selectedIds}
                 onToggleSelect={toggleSelect}
                 onOpenDetail={setOpenId}

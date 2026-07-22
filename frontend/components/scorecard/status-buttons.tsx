@@ -51,17 +51,28 @@ const STATUS_TONE: Record<ReviewStatus, string> = {
   제외: "text-bad",
 };
 
-/** 보드 카드용 — 상태를 드롭다운(select)으로 변경. */
-export function StatusDropdown({ status, onChange }: { status: ReviewStatus; onChange: (next: ReviewStatus) => void }) {
+/** 보드 카드용 — 상태를 드롭다운(select)으로 변경. disabled면 배정된 담당자·관리자가
+ *  아니라는 뜻 — 조회(카드 자체)는 그대로 보이고 상태 변경만 잠근다. */
+export function StatusDropdown({
+  status,
+  onChange,
+  disabled = false,
+}: {
+  status: ReviewStatus;
+  onChange: (next: ReviewStatus) => void;
+  disabled?: boolean;
+}) {
   return (
     <div className="relative">
       <select
         value={status}
+        disabled={disabled}
+        title={disabled ? "배정된 담당자만 심사" : undefined}
         onClick={(e) => e.stopPropagation()}
         onChange={(e) => onChange(e.target.value as ReviewStatus)}
         className={cn(
           "appearance-none rounded-md border bg-card py-1 pl-2.5 pr-6 text-[11px] font-medium outline-none",
-          STATUS_TONE[status]
+          disabled ? "cursor-not-allowed opacity-40" : STATUS_TONE[status]
         )}
       >
         {REVIEW_STATUSES.map((s) => (
@@ -83,15 +94,18 @@ const STACK_OPTIONS: { status: ReviewStatus; activeClass: string; label: string 
 
 /** 스코어카드 헤더용 — 세로 라벨 스택. 각 버튼이 목표 상태를 직접 지정(토글 아님) —
  *  "후보"가 버튼으로 명시돼 있어 굳이 활성 버튼을 다시 눌러 해제할 필요가 없다.
- *  상태는 사업 단위 — 사업 없이(검색·챗봇으로) 직접 연 스코어카드에선 disabled + 안내. */
+ *  상태는 사업 단위 — 사업 미선택이거나 배정된 담당자·관리자가 아니면 disabled + 사유 안내.
+ *  조회 자체는 배정과 무관하게 항상 가능(투명성) — 이 잠금은 "결정"만 막는다. */
 export function StatusStack({
   status,
   onChange,
   disabled = false,
+  lockReason = "사업을 선택해 심사",
 }: {
   status: ReviewStatus;
   onChange: (next: ReviewStatus) => void;
   disabled?: boolean;
+  lockReason?: string;
 }) {
   return (
     <div className="flex flex-col gap-1">
@@ -114,7 +128,7 @@ export function StatusStack({
       })}
       {disabled && (
         <p className="max-w-[72px] text-[9.5px] leading-tight text-muted-foreground">
-          사업을 선택해 심사
+          {lockReason}
         </p>
       )}
     </div>

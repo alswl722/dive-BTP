@@ -6,7 +6,7 @@ export default async function CompaniesPage() {
   const [companies, programs] = await Promise.all([listCompanies(), listPrograms()]);
   return (
     <Suspense>
-      {/* 사업 미선택이면 배정 사업 목록, 선택하면 해당 사업의 기업 심사 화면 */}
+      {/* 사업 미선택이면 첫 사업으로 자동 이동, 선택하면 해당 사업의 기업 조회 화면(조회는 전 직원 공통) */}
       <CompaniesEntry companies={companies} programs={programs} />
     </Suspense>
   );

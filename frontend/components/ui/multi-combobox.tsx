@@ -63,7 +63,7 @@ export function MultiCombobox({
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-left text-[12.5px] font-medium",
+          "flex items-center gap-1.5 rounded-md border bg-subtle px-3 py-1.5 text-left text-[12.5px] font-medium",
           values.length > 0 ? "border-primary text-primary" : "text-foreground hover:bg-muted"
         )}
       >

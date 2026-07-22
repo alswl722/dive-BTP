@@ -8,6 +8,7 @@ import { Pagination } from "@/components/ui/pagination";
 import { Badge } from "@/components/ui/badge";
 import { ScoreBadge } from "@/components/ui/score-badge";
 import { AxisMiniBars } from "@/components/companies/axis-mini-bars";
+import { FavoriteToggle } from "@/components/companies/favorite-toggle";
 import { resolveOverallScore, techGroupScore, DEFAULT_TECH_WEIGHTS, type TechAxis } from "@/lib/scoring";
 import { deriveRiskGrade, deriveReviewSignals, type RiskAssessment, type Severity } from "@/lib/review-summary";
 import { useUi } from "@/lib/app-state";
@@ -107,6 +108,7 @@ export function CompaniesTable({
                 <TD>
                   {/* 상태는 별도 컬럼 대신 기업명 옆 뱃지로 — 기본값 '후보'는 노이즈라 숨기고 선정/제외만 표시 */}
                   <p className="flex items-center gap-1.5 font-medium">
+                    <FavoriteToggle companyId={c.id} />
                     <span className="truncate">{c.name}</span>
                     {status !== "후보" && (
                       <Badge variant={STATUS_VARIANT[status]} className="shrink-0 px-1.5 py-0 text-[10px]">

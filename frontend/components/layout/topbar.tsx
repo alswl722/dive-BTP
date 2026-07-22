@@ -17,10 +17,11 @@ export function TopBar() {
   function onSearch(e: FormEvent) {
     e.preventDefault();
     if (!q.trim()) return;
-    // 기존 쿼리(특히 program=)를 날리면 CompaniesEntry의 "사업 미선택 시 자동이동"
-    // 이펙트가 즉시 되돌려버린다(program 파라미터 유실 → 첫 배정사업으로 replace).
-    // q만 덮어쓰고 나머지 파라미터는 보존해야 검색이 실제로 반영된다.
-    const params = new URLSearchParams(searchParams.toString());
+    // 이펙트가 즉시 되돌려버린다(program 파라미터 유실 → 첫 사업으로 replace돼 검색
+    // 대상이 그 사업 신청 기업으로만 좁혀짐) — q만 덮어쓰고 나머지 파라미터는 보존한다.
+    // 메인페이지 등 /companies 밖에서 검색할 때는 애초에 기준으로 삼을 사업 쿼리가
+    // 없으므로 "전체 사업"(program=all)으로 진입해 전 기업 대상으로 검색한다.
+    const params = onSelectionScreen ? new URLSearchParams(searchParams.toString()) : new URLSearchParams({ program: "all" });
     params.set("q", q.trim());
     router.push(`/companies?${params.toString()}`);
   }

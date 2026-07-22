@@ -12,7 +12,7 @@ import { resolveOverallScore, techGroupScore, DEFAULT_TECH_WEIGHTS, type TechAxi
 import { deriveRiskGrade, deriveReviewSignals, type RiskAssessment, type Severity } from "@/lib/review-summary";
 import { useUi } from "@/lib/app-state";
 import { cn } from "@/lib/utils";
-import type { SortDir, SortKey } from "@/lib/company-filters";
+import { MAX_COMPARE, type SortDir, type SortKey } from "@/lib/company-filters";
 
 /** 심사 상태 → 뱃지 색. 컬럼을 없애고 기업명 옆에 붙이면서 한 곳으로 모았다. */
 const STATUS_VARIANT: Record<ReviewStatus, "good" | "bad" | "secondary"> = {
@@ -29,8 +29,6 @@ const RISK_VARIANT: Record<RiskAssessment["tone"], "good" | "warn" | "bad" | "se
   muted: "secondary",
 };
 
-const MAX_COMPARE = 4;
-
 export function CompaniesTable({
   companies,
   weights,
@@ -39,6 +37,7 @@ export function CompaniesTable({
   latestYear,
   selectedIds,
   onToggleSelect,
+  compareDisabled = false,
   onOpenDetail,
   openId,
   sortKey,
@@ -52,6 +51,7 @@ export function CompaniesTable({
   latestYear: number;
   selectedIds: Set<number>;
   onToggleSelect: (id: number) => void;
+  compareDisabled?: boolean; // 사업 미선택 — 비교 체크박스 전체 비활성화
   onOpenDetail: (id: number) => void;
   openId: number | null;
   sortKey: SortKey;
@@ -98,9 +98,10 @@ export function CompaniesTable({
                   <input
                     type="checkbox"
                     checked={selectedIds.has(c.id)}
-                    disabled={!selectedIds.has(c.id) && selectedIds.size >= MAX_COMPARE}
+                    disabled={compareDisabled || (!selectedIds.has(c.id) && selectedIds.size >= MAX_COMPARE)}
                     onChange={() => onToggleSelect(c.id)}
-                    className="h-3.5 w-3.5 accent-primary"
+                    title={compareDisabled ? "사업을 선택하면 비교할 수 있습니다" : undefined}
+                    className="h-3.5 w-3.5 accent-primary disabled:cursor-not-allowed disabled:opacity-40"
                   />
                 </TD>
                 <TD>

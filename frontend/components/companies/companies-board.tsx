@@ -9,9 +9,9 @@ import { StatusDropdown } from "@/components/scorecard/status-buttons";
 import { AxisMiniBars } from "@/components/companies/axis-mini-bars";
 import { resolveOverallScore, DEFAULT_TECH_WEIGHTS, type TechAxis } from "@/lib/scoring";
 import { isDuplicateRisk } from "@/lib/duplicate-risk";
+import { MAX_COMPARE } from "@/lib/company-filters";
 import { formatKRW, cn } from "@/lib/utils";
 
-const MAX_COMPARE = 4;
 const COLUMNS: { status: ReviewStatus; label: string; tone: string }[] = [
   { status: "후보", label: "후보", tone: "text-info" },
   { status: "선정", label: "선정", tone: "text-good" },
@@ -27,6 +27,7 @@ export function CompaniesBoard({
   onSetStatus,
   selectedIds,
   onToggleSelect,
+  compareDisabled = false,
   onOpenDetail,
 }: {
   companies: Company[];
@@ -37,6 +38,7 @@ export function CompaniesBoard({
   onSetStatus: (id: number, status: ReviewStatus) => void;
   selectedIds: Set<number>;
   onToggleSelect: (id: number) => void;
+  compareDisabled?: boolean; // 사업 미선택 — 비교 체크박스 전체 비활성화
   onOpenDetail: (id: number) => void;
 }) {
   const [dragOverCol, setDragOverCol] = useState<ReviewStatus | null>(null);
@@ -90,10 +92,11 @@ export function CompaniesBoard({
                     <input
                       type="checkbox"
                       checked={selectedIds.has(c.id)}
-                      disabled={!selectedIds.has(c.id) && selectedIds.size >= MAX_COMPARE}
+                      disabled={compareDisabled || (!selectedIds.has(c.id) && selectedIds.size >= MAX_COMPARE)}
                       onClick={(e) => e.stopPropagation()}
                       onChange={() => onToggleSelect(c.id)}
-                      className="mt-0.5 h-3.5 w-3.5 shrink-0 accent-primary"
+                      title={compareDisabled ? "사업을 선택하면 비교할 수 있습니다" : undefined}
+                      className="mt-0.5 h-3.5 w-3.5 shrink-0 accent-primary disabled:cursor-not-allowed disabled:opacity-40"
                     />
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-[12.5px] font-bold">{c.name}</p>

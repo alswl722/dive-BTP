@@ -4,6 +4,7 @@ import { formatKRW } from "@/lib/utils";
 import type { Company } from "@/types";
 import { DUPLICATE_RISK_THRESHOLD, recentSelectionCount, recordYear, riskLevel, RISK_LEVEL_BADGE, selectionsByYear } from "@/lib/duplicate-risk";
 import { DuplicateFlagDetailPanel } from "@/components/axis9/DuplicateFlagBadge";
+import { AxisSignals } from "@/components/scorecard/axis-signals";
 
 export function DuplicateRiskTab({ company, latestYear }: { company: Company; latestYear: number }) {
   const count = recentSelectionCount(company, latestYear);
@@ -16,6 +17,8 @@ export function DuplicateRiskTab({ company, latestYear }: { company: Company; la
 
   return (
     <div className="space-y-5">
+      <AxisSignals company={company} latestYear={latestYear} axis="중복수혜" />
+
       {/* 축9 상세 판정 (성장률 교차 truth table + 세그먼트) */}
       <DuplicateFlagDetailPanel flag={company.duplicateFlag} />
 

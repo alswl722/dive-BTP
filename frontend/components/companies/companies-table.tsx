@@ -10,6 +10,7 @@ import { ScoreBadge } from "@/components/ui/score-badge";
 import { AxisMiniBars } from "@/components/companies/axis-mini-bars";
 import { resolveOverallScore, techGroupScore, DEFAULT_TECH_WEIGHTS, type TechAxis } from "@/lib/scoring";
 import { deriveRiskGrade, deriveReviewSignals, type RiskAssessment, type Severity } from "@/lib/review-summary";
+import { useUi } from "@/lib/app-state";
 import { cn } from "@/lib/utils";
 import type { SortDir, SortKey } from "@/lib/company-filters";
 
@@ -28,7 +29,6 @@ const RISK_VARIANT: Record<RiskAssessment["tone"], "good" | "warn" | "bad" | "se
   muted: "secondary",
 };
 
-const PAGE_SIZE = 8;
 const MAX_COMPARE = 4;
 
 export function CompaniesTable({
@@ -58,16 +58,17 @@ export function CompaniesTable({
   sortDir: SortDir;
   onSort: (key: SortKey) => void;
 }) {
+  const { pageSize } = useUi();
   const [page, setPage] = useState(0);
   // 건전성 배지 hover 상세 툴팁 — 테이블이 overflow-x-auto라 셀 안 절대배치는 잘린다.
   // 뷰포트 기준 fixed로 띄워 클리핑을 회피(배지 위치를 hover 시 측정).
   const [tip, setTip] = useState<{ company: Company; x: number; y: number } | null>(null);
   // companies는 부모에서 필터/정렬/가중치 변경마다 새 배열로 memo되므로, 내용이나 순서가 바뀌면
   // (예: 가중치 조정으로 재정렬만 되고 길이는 그대로인 경우도) 여기서 항상 1페이지로 리셋된다.
-  useEffect(() => setPage(0), [companies]);
+  useEffect(() => setPage(0), [companies, pageSize]);
 
-  const totalPages = Math.max(1, Math.ceil(companies.length / PAGE_SIZE));
-  const pageItems = companies.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+  const totalPages = Math.max(1, Math.ceil(companies.length / pageSize));
+  const pageItems = companies.slice(page * pageSize, (page + 1) * pageSize);
 
   return (
     <div className="space-y-3">

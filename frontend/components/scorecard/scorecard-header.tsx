@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { AlertTriangle, Maximize2, ShieldAlert, ShieldCheck, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ScoreBadge } from "@/components/ui/score-badge";
@@ -10,6 +11,7 @@ import { isDuplicateRisk, recentSelectionCount, DUPLICATE_RISK_WINDOW_YEARS } fr
 import { deriveRiskGrade } from "@/lib/review-summary";
 import { formatKRW, cn } from "@/lib/utils";
 import { DuplicateFlagBadge } from "@/components/axis9/DuplicateFlagBadge";
+import { DecisionReasonModal } from "@/components/scorecard/decision-reason-modal";
 import { type Axis, type Company, type CompositeGroup } from "@/types";
 
 export function ScorecardHeader({
@@ -31,8 +33,16 @@ export function ScorecardHeader({
   onClose?: () => void;
   onExpand?: () => void;
 }) {
-  const { statusOf, setStatus } = useReviewStatus();
+  const { statusOf, setStatus, reasonOf } = useReviewStatus();
   const status = statusOf(company.id, programKey);
+  const reason = reasonOf(company.id, programKey);
+  // 선정/제외를 고르면 사유 모달을 띄운다(후보=미결정은 바로 반영). 사업 없이는 상태 변경 불가.
+  const [pending, setPending] = useState<"선정" | "제외" | null>(null);
+  function onDecision(next: typeof status) {
+    if (!programKey) return;
+    if (next === "선정" || next === "제외") setPending(next);
+    else setStatus(company.id, programKey, next); // 후보로 되돌리기
+  }
   const dupRisk = isDuplicateRisk(company, latestYear);
   const recentCount = recentSelectionCount(company, latestYear);
   const overall = resolveOverallScore(company, groupWeights, weights, techWeights);
@@ -144,11 +154,7 @@ export function ScorecardHeader({
               title={`종합점수${custom ? " (커스텀)" : ""} — 재무4축·기술2축·정합성 가중평균(최저축 캡 적용). 축별 점수는 아래 탭에서 확인`}
             />
           </div>
-          <StatusStack
-            status={status}
-            disabled={!programKey}
-            onChange={(next) => programKey && setStatus(company.id, programKey, next)}
-          />
+          <StatusStack status={status} disabled={!programKey} onChange={onDecision} />
         </div>
       </div>
 
@@ -163,6 +169,31 @@ export function ScorecardHeader({
             </p>
           </div>
         </div>
+      )}
+
+      {/* 심사 결정 사유 — 선정/제외 시 남긴 근거. 클릭하면 다시 수정 */}
+      {(status === "선정" || status === "제외") && reason && (
+        <button
+          type="button"
+          onClick={() => setPending(status)}
+          className="flex w-full items-start gap-1.5 rounded-lg border px-3 py-2 text-left text-[11.5px] hover:bg-muted/50"
+        >
+          <span className={cn("shrink-0 font-bold", status === "선정" ? "text-good" : "text-bad")}>{status} 사유</span>
+          <span className="min-w-0 flex-1 text-muted-foreground">{reason}</span>
+        </button>
+      )}
+
+      {pending && programKey && (
+        <DecisionReasonModal
+          company={company.name}
+          decision={pending}
+          initialReason={reason}
+          onClose={() => setPending(null)}
+          onConfirm={(r) => {
+            setStatus(company.id, programKey, pending, r);
+            setPending(null);
+          }}
+        />
       )}
     </div>
   );

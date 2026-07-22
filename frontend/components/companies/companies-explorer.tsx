@@ -20,6 +20,7 @@ import { CompaniesBoard } from "@/components/companies/companies-board";
 import { CompareModal } from "@/components/companies/compare-modal";
 import { ScorecardPanel } from "@/components/scorecard/scorecard-panel";
 import { cn } from "@/lib/utils";
+import { CompanyBatchExport } from "@/components/companies/company-batch-export";
 
 export function CompaniesExplorer({ companies, programs }: { companies: Company[]; programs: Program[] }) {
   const { assigns } = useAdminState();
@@ -27,7 +28,7 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
   const router = useRouter();
   const searchParams = useSearchParams();
   const { statusOf, setStatus } = useReviewStatus();
-  const { viewMode } = useUi();
+  const { viewMode, defaultWeights, setDefaultWeights } = useUi();
 
   const latestYear = useMemo(() => latestSupportYear(companies), [companies]);
 
@@ -54,6 +55,17 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
   const [weights, setWeights] = useState(DEFAULT_AXIS_WEIGHTS);
   const [groupWeights, setGroupWeights] = useState(DEFAULT_GROUP_WEIGHTS);
   const [techWeights, setTechWeights] = useState(DEFAULT_TECH_WEIGHTS);
+  // 저장된 기본 가중치를 최초 로드 시 한 번 적용(localStorage 복원이 비동기라 effect로).
+  // 사용자가 이후 팝오버에서 바꾸면 defaultApplied 가드로 덮어쓰지 않는다.
+  const defaultApplied = useRef(false);
+  useEffect(() => {
+    if (defaultWeights && !defaultApplied.current) {
+      defaultApplied.current = true;
+      setGroupWeights(defaultWeights.group);
+      setWeights(defaultWeights.finance);
+      setTechWeights(defaultWeights.tech);
+    }
+  }, [defaultWeights]);
   const [sortKey, setSortKey] = useState<SortKey>("overall");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
@@ -178,9 +190,18 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
             onGroupChange={setGroupWeights}
             techWeights={techWeights}
             onTechChange={setTechWeights}
+            onSaveDefault={(w) => {
+              setGroupWeights(w.group);
+              setWeights(w.finance);
+              setTechWeights(w.tech);
+              defaultApplied.current = true; // 저장 후엔 자동 적용 로직이 덮어쓰지 않게
+              setDefaultWeights(w);
+            }}
           />
 
           <AdvancedFilterPopover filters={filters} onChange={setFilters} />
+
+          <CompanyBatchExport companies={companies} programs={programs} />
 
           <label className="flex shrink-0 cursor-pointer items-center gap-1.5 text-[12px] text-muted-foreground">
             <input

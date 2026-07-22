@@ -51,6 +51,7 @@ export function WeightPopover({
   onGroupChange,
   techWeights,
   onTechChange,
+  onSaveDefault,
 }: {
   weights: Record<Axis, number>;
   onChange: (w: Record<Axis, number>) => void;
@@ -58,6 +59,8 @@ export function WeightPopover({
   onGroupChange: (w: Record<CompositeGroup, number>) => void;
   techWeights: Record<TechAxis, number>;
   onTechChange: (w: Record<TechAxis, number>) => void;
+  /** 현재 초안을 '기본 가중치'로 저장(다음 진입 시 이 값으로 시작). 없으면 저장 버튼 숨김. */
+  onSaveDefault?: (w: { group: Record<CompositeGroup, number>; finance: Record<Axis, number>; tech: Record<TechAxis, number> }) => void;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -68,6 +71,7 @@ export function WeightPopover({
   const [draftAxis, setDraftAxis] = useState(weights);
   const [draftTech, setDraftTech] = useState(techWeights);
   const [appliedFlash, setAppliedFlash] = useState(false);
+  const [savedFlash, setSavedFlash] = useState(false);
 
   // 팝오버를 열 때(또는 외부에서 가중치가 바뀌었을 때) 초안을 현재 적용값으로 맞춘다
   useEffect(() => {
@@ -102,6 +106,14 @@ export function WeightPopover({
     onTechChange(draftTech);
     setAppliedFlash(true);
     window.setTimeout(() => setAppliedFlash(false), 1500);
+  }
+
+  function saveAsDefault() {
+    // 초안을 적용하면서 동시에 기본값으로 저장 — 다음 진입부터 이 값으로 시작
+    apply();
+    onSaveDefault?.({ group: draftGroup, finance: draftAxis, tech: draftTech });
+    setSavedFlash(true);
+    window.setTimeout(() => setSavedFlash(false), 1500);
   }
 
   return (
@@ -225,26 +237,38 @@ export function WeightPopover({
               </p>
             </div>
 
-            <div className="flex items-center justify-between border-t pt-3">
-              <span className="text-[11px] text-muted-foreground">
-                {dirty ? "변경사항이 아직 적용되지 않았습니다" : appliedFlash ? "적용되었습니다" : "종합점수에 즉시 반영됩니다"}
-              </span>
-              <button
-                type="button"
-                onClick={apply}
-                disabled={!dirty}
-                className={cn(
-                  "inline-flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-[12px] font-medium transition-colors",
-                  dirty
-                    ? "bg-primary text-primary-foreground hover:opacity-90"
-                    : appliedFlash
-                      ? "bg-good-bg text-good"
-                      : "bg-muted text-muted-foreground"
-                )}
-              >
-                <Check className="h-3.5 w-3.5" />
-                {appliedFlash && !dirty ? "적용됨" : "적용"}
-              </button>
+            <div className="space-y-2 border-t pt-3">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] text-muted-foreground">
+                  {dirty ? "변경사항이 아직 적용되지 않았습니다" : savedFlash ? "기본값으로 저장됨" : appliedFlash ? "적용되었습니다" : "종합점수에 즉시 반영됩니다"}
+                </span>
+                <button
+                  type="button"
+                  onClick={apply}
+                  disabled={!dirty}
+                  className={cn(
+                    "inline-flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-[12px] font-medium transition-colors",
+                    dirty
+                      ? "bg-primary text-primary-foreground hover:opacity-90"
+                      : appliedFlash
+                        ? "bg-good-bg text-good"
+                        : "bg-muted text-muted-foreground"
+                  )}
+                >
+                  <Check className="h-3.5 w-3.5" />
+                  {appliedFlash && !dirty ? "적용됨" : "적용"}
+                </button>
+              </div>
+              {/* 현재 값을 기본으로 저장 — 다음에 기업 선정을 열 때 이 가중치로 시작 */}
+              {onSaveDefault && (
+                <button
+                  type="button"
+                  onClick={saveAsDefault}
+                  className="w-full rounded-md border py-1.5 text-[11.5px] text-muted-foreground hover:bg-muted"
+                >
+                  현재 값을 기본 가중치로 저장
+                </button>
+              )}
             </div>
           </div>
         </>

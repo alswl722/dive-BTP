@@ -48,6 +48,37 @@
   --axis-stability: 355 47% 53%; /* 안정성 #c0505a */
 }
 
+/* 다크 테마 — 중립 토큰과 시맨틱 배경만 덮는다. 브랜드/축 색, 사이드바(원래 다크)는 유지.
+   토큰 기반 컴포넌트는 자동으로 적응한다(bg-background·text-foreground·bg-card 등). */
+:root[data-theme="dark"] {
+  --background: 206 30% 10%;
+  --foreground: 206 18% 90%;
+  --card: 206 24% 14%;
+  --card-foreground: 206 18% 90%;
+  --primary: 200 90% 52%;
+  --primary-foreground: 206 45% 9%;
+  --muted: 206 22% 18%;
+  --muted-foreground: 206 14% 62%;
+  --muted-foreground-faint: 206 12% 44%;
+  --accent: 27 85% 60%;
+  --border: 206 16% 26%;
+  --input: 206 16% 26%;
+  --ring: 200 90% 52%;
+  --subtle: 206 24% 16%;
+
+  /* 시맨틱 — 전경은 다크 대비 위해 밝게, 배경 틴트는 저명도로 */
+  --good: 155 48% 56%;
+  --good-bg: 152 28% 17%;
+  --info: 200 88% 62%;
+  --info-bg: 202 42% 18%;
+  --warn: 44 78% 60%;
+  --warn-bg: 44 40% 18%;
+  --bad: 355 62% 66%;
+  --bad-bg: 356 34% 21%;
+  --orange-tone: 27 80% 62%;
+  --orange-tone-bg: 29 40% 18%;
+}
+
 * {
   border-color: hsl(var(--border));
 }

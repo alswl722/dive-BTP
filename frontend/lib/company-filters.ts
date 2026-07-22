@@ -3,6 +3,9 @@ import { resolveOverallScore, techGroupScore, DEFAULT_AXIS_WEIGHTS, DEFAULT_GROU
 import { isDuplicateRisk } from "@/lib/duplicate-risk";
 import { isEmploymentUnstable } from "@/lib/review-summary";
 
+// 기업 비교는 사업 단위로만 가능(같은 사업 신청 기업끼리) — 화면 가독성상 최대 4개사.
+export const MAX_COMPARE = 4;
+
 export interface CompanyFilters {
   q: string;
   industries: string[];

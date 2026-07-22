@@ -169,3 +169,19 @@ export function overallScoreTone(score: number | null): "good" | "info" | "slate
   if (score >= 35) return "slate";
   return "bad";
 }
+
+/** 축/지표 점수 → 등급 라벨·톤. 임계값(75/50/25)은 스코어카드·비교 화면에서 동일하게 쓴다. */
+export function scoreBand(score: number | null | undefined): { label: string; tone: "good" | "warn" | "bad" | "muted" } {
+  if (score == null || !Number.isFinite(score)) return { label: "정보없음", tone: "muted" };
+  if (score >= 75) return { label: "상위", tone: "good" };
+  if (score >= 50) return { label: "중상위", tone: "good" };
+  if (score >= 25) return { label: "중하위", tone: "warn" };
+  return { label: "하위", tone: "bad" };
+}
+
+export const SCORE_BAND_BADGE: Record<ReturnType<typeof scoreBand>["tone"], "good" | "warn" | "bad" | "secondary"> = {
+  good: "good",
+  warn: "warn",
+  bad: "bad",
+  muted: "secondary",
+};

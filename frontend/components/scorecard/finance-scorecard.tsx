@@ -5,6 +5,7 @@ import { AlertTriangle, ArrowDown, ChevronDown } from "lucide-react";
 import { Area, AreaChart, ReferenceDot, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Badge } from "@/components/ui/badge";
 import { cn, formatKRW } from "@/lib/utils";
+import { scoreBand, SCORE_BAND_BADGE } from "@/lib/scoring";
 import { AXES, type Axis, type Company, type SupportRecord, type TrendPoint } from "@/types";
 
 // 축별 세부지표(백분위 드릴다운) — backend scoring_finance.py의 SCORE_COLS와 동일한 매핑.
@@ -27,14 +28,7 @@ function isNum(v: number | null | undefined): v is number {
   return typeof v === "number" && Number.isFinite(v);
 }
 
-/** 백분위 → 등급 라벨/톤. 임계값(75/50/25)은 카드 전체에서 동일하게 쓴다. */
-function band(score: number | null | undefined): { label: string; tone: "good" | "warn" | "bad" | "muted" } {
-  if (!isNum(score)) return { label: "정보없음", tone: "muted" };
-  if (score >= 75) return { label: "상위", tone: "good" };
-  if (score >= 50) return { label: "중상위", tone: "good" };
-  if (score >= 25) return { label: "중하위", tone: "warn" };
-  return { label: "하위", tone: "bad" };
-}
+const band = scoreBand;
 
 /** 점수 숫자 톤(60/40) — band와 별도로 큰 숫자의 색만 결정. */
 function scoreTone(score: number | null | undefined): string {
@@ -45,7 +39,7 @@ function scoreTone(score: number | null | undefined): string {
 }
 
 const toneBar: Record<string, string> = { good: "bg-good", warn: "bg-warn", bad: "bg-bad", muted: "bg-muted-foreground/40" };
-const toneBadge: Record<string, "good" | "warn" | "bad" | "secondary"> = { good: "good", warn: "warn", bad: "bad", muted: "secondary" };
+const toneBadge = SCORE_BAND_BADGE;
 
 function metricLabel(key: string) {
   return key.replace("_최근", "").replace(/_/g, " ");

@@ -44,7 +44,7 @@ export function ScorecardHeader({
   // 캡이 실제로 발동했는지(가중평균 - 캡후 종합점수 차이가 있으면 축 어긋남이 점수를 끌어내렸다는 뜻)
   const capActive = cs?.rawWeightedAverage != null && cs.score != null && cs.rawWeightedAverage - cs.score > 0.5;
 
-  // 조기경보 등급 + 기업 기본 상태(설립·업력·자본금) — CRETOP식 "살아있는·검증된 기업인가"
+  // 건전성 등급 + 기업 기본 상태(설립·업력·자본금) — CRETOP식 "살아있는·검증된 기업인가"
   const risk = deriveRiskGrade(company, latestYear);
   const foundedYear = company.foundedDate ? Number(company.foundedDate.slice(0, 4)) : null;
   const ageYears = foundedYear ? latestYear - foundedYear : null;
@@ -57,7 +57,7 @@ export function ScorecardHeader({
     <div className="space-y-3">
       <div className="flex items-start justify-between gap-2">
         <div className="flex min-w-0 flex-wrap items-center gap-2">
-          {/* 조기경보 등급 — 흩어진 위험 신호의 롤업. 근거는 title/아래 심사요약에 병기 */}
+          {/* 건전성 등급 — 흩어진 위험 신호의 롤업. 근거는 title/아래 심사요약에 병기 */}
           <span
             title={risk.reasons.length ? `근거: ${risk.reasons.join(", ")}` : "위험 신호 없음"}
             className={cn(
@@ -69,7 +69,7 @@ export function ScorecardHeader({
             )}
           >
             {risk.tone === "good" ? <ShieldCheck className="h-3.5 w-3.5" /> : <ShieldAlert className="h-3.5 w-3.5" />}
-            조기경보 {risk.grade}
+            건전성 {risk.grade}
             {risk.counts.위험 + risk.counts.주의 > 0 && (
               <span className="font-normal opacity-80">
                 ({[risk.counts.위험 ? `위험 ${risk.counts.위험}` : null, risk.counts.주의 ? `주의 ${risk.counts.주의}` : null].filter(Boolean).join("·")})

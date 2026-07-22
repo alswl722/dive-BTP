@@ -1,7 +1,10 @@
 """심사 챗봇 LLM — 자연어 질문 → 의도 분류(navigate·query·clarify) → 안전 SELECT SQL → 결과 요약.
 
-축8과 같은 DeepSeek V3 (deepseek-chat) 재사용. 3가지 종류의 질문을 한 번의 LLM
-호출로 분류하고 필요한 필드(path 또는 sql)를 함께 생성한다:
+기본 프로바이더: OpenAI `gpt-5-mini` (챗 UX 우선 — SQL 첫 시도 성공률·요약 자연스러움).
+축8은 실측으로 DeepSeek 채택했지만, 챗봇은 이 파일에서만 gpt-5-mini로 스위치한다.
+DeepSeek 폴백은 `CHATBOT_LLM_PROVIDER=deepseek` env로 강제 가능(둘 다 OpenAI 호환 SDK).
+
+3가지 종류의 질문을 한 번의 LLM 호출로 분류하고 필요한 필드(path 또는 sql)를 함께 생성:
 
   1) classify_intent(question) — 스키마 요약 + 라우트 화이트리스트 + 질문
         → {kind: navigate|query|clarify, path?, sql?, clarification?}
@@ -240,27 +243,72 @@ class LLMCallMetrics:
 
 
 # ============================================================
-# 프로바이더 (axis8_llm과 같은 구조 — 자동 감지)
+# 프로바이더 — 기본 gpt-5-mini(OpenAI), DeepSeek는 대체
 # ============================================================
-DEFAULT_PROVIDER = "deepseek"
-DEFAULT_MODEL = "deepseek-chat"
-DEEPSEEK_BASE_URL = "https://api.deepseek.com/v1"
-KEY_ENV = "DEEPSEEK_API_KEY"
+# 챗봇은 축8과 별개로 UX 우선(요약 자연스러움 + SQL 첫 시도 성공률).
+# 축8은 파일럿 실측으로 DeepSeek 채택했지만, 챗봇은 이 파일에서만 gpt-5-mini로 스위치.
+_PROVIDERS: dict[str, dict[str, Any]] = {
+    "openai":   {"key_env": "OPENAI_API_KEY",   "base_url": None,                            "default_model": "gpt-5-mini"},
+    "deepseek": {"key_env": "DEEPSEEK_API_KEY", "base_url": "https://api.deepseek.com/v1",   "default_model": "deepseek-chat"},
+}
+DEFAULT_PROVIDER = "openai"
 
 
-def _has_key() -> bool:
-    v = os.environ.get(KEY_ENV, "").strip()
+def _has_key(env_name: str) -> bool:
+    v = os.environ.get(env_name, "").strip()
     return bool(v) and v != "API_HERE"
+
+
+def _resolve_provider() -> str:
+    """CHATBOT_LLM_PROVIDER env로 강제 지정 가능. 미지정 시 default(openai) → 대체 순."""
+    explicit = os.environ.get("CHATBOT_LLM_PROVIDER", "").strip().lower()
+    if explicit in _PROVIDERS and _has_key(_PROVIDERS[explicit]["key_env"]):
+        return explicit
+    if _has_key(_PROVIDERS[DEFAULT_PROVIDER]["key_env"]):
+        return DEFAULT_PROVIDER
+    for prov, cfg in _PROVIDERS.items():
+        if _has_key(cfg["key_env"]):
+            return prov
+    return DEFAULT_PROVIDER   # 키 없으면 default 반환 → is_available()가 False로 잡음
 
 
 def is_available() -> bool:
     """챗봇 활성화 가능 여부 — 라우터가 503 반환 판단에 사용."""
-    return _has_key()
+    prov = _resolve_provider()
+    return _has_key(_PROVIDERS[prov]["key_env"])
 
 
-def _client():
+def _client_and_model() -> tuple[Any, str, str]:
+    """(client, model, provider_name) 반환. 두 프로바이더 다 OpenAI 호환 SDK 사용."""
     from openai import OpenAI  # lazy import
-    return OpenAI(api_key=os.environ[KEY_ENV], base_url=DEEPSEEK_BASE_URL)
+    prov = _resolve_provider()
+    cfg = _PROVIDERS[prov]
+    kwargs: dict[str, Any] = {"api_key": os.environ[cfg["key_env"]]}
+    if cfg["base_url"]:
+        kwargs["base_url"] = cfg["base_url"]
+    return OpenAI(**kwargs), cfg["default_model"], prov
+
+
+def _call_params(model: str, *, max_tokens: int, temperature: float) -> dict[str, Any]:
+    """gpt-5 계열은 max_completion_tokens · reasoning_effort · 온도 제약이 있어 파라미터가 다름."""
+    if model.startswith("gpt-5"):
+        # gpt-5-mini는 temperature 커스텀 불가(1 고정), reasoning_effort=minimal로 챗 응답성 확보.
+        # reasoning 토큰이 max_completion_tokens에서 차감되므로 여유를 둔다.
+        return {
+            "max_completion_tokens": max(max_tokens * 4, 2000),
+            "reasoning_effort": "minimal",
+        }
+    return {"max_tokens": max_tokens, "temperature": temperature}
+
+
+def _cache_hit_tokens(usage: Any) -> int:
+    """OpenAI(prompt_tokens_details.cached_tokens) / DeepSeek(prompt_cache_hit_tokens) 둘 다 대응."""
+    details = getattr(usage, "prompt_tokens_details", None)
+    if details is not None:
+        cached = getattr(details, "cached_tokens", None)
+        if cached is not None:
+            return int(cached) or 0
+    return int(getattr(usage, "prompt_cache_hit_tokens", 0) or 0)
 
 
 # ============================================================
@@ -295,18 +343,17 @@ def classify_intent(
             f"</previous_attempt_failed>"
         )
 
-    client = _client()
+    client, model, provider = _client_and_model()
     last_err: Exception | None = None
     for attempt in range(max_retries + 1):
         resp = client.chat.completions.create(
-            model=DEFAULT_MODEL,
+            model=model,
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT_INTENT},
                 {"role": "user", "content": user_content},
             ],
             response_format={"type": "json_object"},
-            max_tokens=800,
-            temperature=0.1,
+            **_call_params(model, max_tokens=800, temperature=0.1),
         )
         raw = resp.choices[0].message.content or ""
         try:
@@ -315,16 +362,16 @@ def classify_intent(
             metrics = LLMCallMetrics(
                 input_tokens=resp.usage.prompt_tokens,
                 output_tokens=resp.usage.completion_tokens,
-                cache_read_input_tokens=getattr(resp.usage, "prompt_cache_hit_tokens", 0) or 0,
-                model=DEFAULT_MODEL,
-                provider=DEFAULT_PROVIDER,
+                cache_read_input_tokens=_cache_hit_tokens(resp.usage),
+                model=model,
+                provider=provider,
             )
             return parsed, metrics
         except (json.JSONDecodeError, ValidationError) as e:
             last_err = e
             if attempt == max_retries:
                 raise RuntimeError(
-                    f"DeepSeek 의도 분류 응답 검증 실패 ({max_retries + 1}회 시도): {e}. "
+                    f"{provider} 의도 분류 응답 검증 실패 ({max_retries + 1}회 시도): {e}. "
                     f"raw={raw[:200]}"
                 )
     raise RuntimeError(f"unreachable: {last_err}")
@@ -340,7 +387,7 @@ def summarize(
     columns: list[str],
 ) -> tuple[str, LLMCallMetrics]:
     """실행 결과 → 담당자용 한/두 문장. 표 자체는 UI가 렌더링."""
-    client = _client()
+    client, model, provider = _client_and_model()
 
     # 결과가 크면 앞 30건만 요약에 넘긴다 (토큰 · 프라이버시 · 요약 품질)
     sample = rows[:30]
@@ -354,20 +401,19 @@ def summarize(
     user_content = json.dumps(payload, ensure_ascii=False, default=str)
 
     resp = client.chat.completions.create(
-        model=DEFAULT_MODEL,
+        model=model,
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT_SUMMARY},
             {"role": "user", "content": user_content},
         ],
-        max_tokens=300,
-        temperature=0.3,
+        **_call_params(model, max_tokens=300, temperature=0.3),
     )
     text = (resp.choices[0].message.content or "").strip()
     metrics = LLMCallMetrics(
         input_tokens=resp.usage.prompt_tokens,
         output_tokens=resp.usage.completion_tokens,
-        cache_read_input_tokens=getattr(resp.usage, "prompt_cache_hit_tokens", 0) or 0,
-        model=DEFAULT_MODEL,
-        provider=DEFAULT_PROVIDER,
+        cache_read_input_tokens=_cache_hit_tokens(resp.usage),
+        model=model,
+        provider=provider,
     )
     return text, metrics

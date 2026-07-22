@@ -272,8 +272,16 @@ def build_business_fit(
 # ============================================================
 # 축9 (BTP 지원이력 flag) — 배치 계산 후 기업별 lookup
 # ============================================================
-def _prepare_axis9_batch(sr: pd.DataFrame, score_df: pd.DataFrame) -> tuple[pd.DataFrame, dict[int, dict]]:
-    """전 기업 axis9 metrics + flag 판정 배치. 반환: (metrics_df, flags_by_id)."""
+def _prepare_axis9_batch(
+    sr: pd.DataFrame,
+    score_df: pd.DataFrame,
+    feat_df: pd.DataFrame | None = None,
+) -> tuple[pd.DataFrame, dict[int, dict]]:
+    """전 기업 axis9 metrics + flag 판정 배치. 반환: (metrics_df, flags_by_id).
+
+    feat_df(features_finance) 옵셔널 — 넘기면 매출_CAGR·매출_증가액이 GrowthSignal에
+    조인돼 프론트 성장 판정 근거 카드에서 실측 수치로 표시된다.
+    """
     # support_records를 axis9 서비스가 기대하는 컬럼명으로 매핑
     sr_selected = sr[sr["selection_result"] == "지원대상"].copy()
     if sr_selected.empty:
@@ -282,6 +290,20 @@ def _prepare_axis9_batch(sr: pd.DataFrame, score_df: pd.DataFrame) -> tuple[pd.D
     # axis9.compute_support_metrics는 company_id, year, business_type, support_amount_thousand_krw, program_code 컬럼 요구
     # DB에서 온 sr은 이미 그 이름 사용
     metrics_df = axis9_svc.compute_support_metrics(sr_selected)
+
+    # features_finance에서 CAGR·증가액 lookup (기업일련번호 → (cagr, delta))
+    # score_df는 백분위(0~100 성장성점수)만 있고 원 지표는 features_finance에 있어 별도 조인 필요.
+    cagr_by_id: dict[int, float] = {}
+    delta_by_id: dict[int, float] = {}
+    if feat_df is not None and not feat_df.empty and KEY in feat_df.columns:
+        for _, row in feat_df.iterrows():
+            cid = int(row[KEY])
+            c = row.get("매출_CAGR")
+            d = row.get("매출_증가액")
+            if pd.notna(c):
+                cagr_by_id[cid] = float(c)
+            if pd.notna(d):
+                delta_by_id[cid] = float(d)
 
     # 성장률 신호 조립: features_score의 성장성점수를 growth_score로 사용 (docs/성장률_인터페이스.md)
     growth_signals: dict[int, axis9_svc.GrowthSignal] = {}
@@ -292,8 +314,8 @@ def _prepare_axis9_batch(sr: pd.DataFrame, score_df: pd.DataFrame) -> tuple[pd.D
             growth_signals[cid] = axis9_svc.GrowthSignal(
                 company_id=cid,
                 growth_score=None if pd.isna(score_val) else float(score_val),
-                revenue_cagr=None,
-                revenue_delta=None,
+                revenue_cagr=cagr_by_id.get(cid),
+                revenue_delta=delta_by_id.get(cid),
             )
 
     config = axis9_svc.load_config()
@@ -484,7 +506,7 @@ def build_companies(
     # 축8·축9 사전 준비 (배치)
     whitelist = axis8_svc.load_whitelist()
     accept_conf = axis8_svc.load_accept_confidence()
-    _, axis9_flags = _prepare_axis9_batch(sr, score)
+    _, axis9_flags = _prepare_axis9_batch(sr, score, feat_df=feat)
     # 축4·5·6 + 도메인 (원장 기반 — master 집계컬럼 대체)
     tech_by_id = _prepare_tech_batch(tech_tables)
     # 종합점수 config — 배치 전체에서 한 번만 로드

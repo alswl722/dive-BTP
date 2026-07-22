@@ -6,6 +6,7 @@ import { ScorecardPanel } from "@/components/scorecard/scorecard-panel";
 import { RecentlyViewedTracker } from "@/components/scorecard/recently-viewed-tracker";
 import { latestSupportYear } from "@/lib/duplicate-risk";
 import { MentionedNotes } from "@/components/notes/notes-explorer";
+import { CompanyExportButton } from "@/components/scorecard/company-export-button";
 
 export async function generateStaticParams() {
   const companies = await listCompanies();
@@ -24,9 +25,12 @@ export default async function ScorecardPage({ params }: { params: Promise<{ id: 
   return (
     <div className="mx-auto max-w-3xl">
       <RecentlyViewedTracker companyId={company.id} />
-      <Link href="/companies" className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
-        <ArrowLeft className="h-4 w-4" /> 기업 목록
-      </Link>
+      <div className="mb-4 flex items-center justify-between">
+        <Link href="/companies" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+          <ArrowLeft className="h-4 w-4" /> 기업 목록
+        </Link>
+        <CompanyExportButton company={company} latestYear={latestSupportYear(companies)} />
+      </div>
       <ScorecardPanel company={company} latestYear={latestSupportYear(companies)} />
 
       <div className="mt-6">

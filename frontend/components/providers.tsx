@@ -8,6 +8,7 @@ import { NoticeProvider } from "@/lib/notices";
 import { ReviewStatusProvider, UiProvider } from "@/lib/app-state";
 import { NotesDataProvider } from "@/lib/notes-data";
 import { NotesStoreProvider } from "@/lib/notes-store";
+import { ToastProvider } from "@/lib/toast";
 import type { Company, Note, Program, ReviewStatus } from "@/types";
 
 export function Providers({
@@ -20,20 +21,22 @@ export function Providers({
   children: ReactNode;
 }) {
   return (
-    <AuthProvider>
-      <RoleProvider>
-        <ReviewStatusProvider initial={initialReviewStatus}>
-          <AdminStateProvider>
-            <NoticeProvider>
-              <NotesDataProvider value={notesData}>
-                <NotesStoreProvider initial={notesData.initialNotes}>
-                  <UiProvider>{children}</UiProvider>
-                </NotesStoreProvider>
-              </NotesDataProvider>
-            </NoticeProvider>
-          </AdminStateProvider>
-        </ReviewStatusProvider>
-      </RoleProvider>
-    </AuthProvider>
+    <ToastProvider>
+      <AuthProvider>
+        <RoleProvider>
+          <ReviewStatusProvider initial={initialReviewStatus}>
+            <AdminStateProvider>
+              <NoticeProvider>
+                <NotesDataProvider value={notesData}>
+                  <NotesStoreProvider initial={notesData.initialNotes}>
+                    <UiProvider>{children}</UiProvider>
+                  </NotesStoreProvider>
+                </NotesDataProvider>
+              </NoticeProvider>
+            </AdminStateProvider>
+          </ReviewStatusProvider>
+        </RoleProvider>
+      </AuthProvider>
+    </ToastProvider>
   );
 }

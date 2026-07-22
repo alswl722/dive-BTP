@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { AlertTriangle, Building2, Check, IdCard, KeyRound, NotebookPen, ShieldCheck, Trash2, UserRound } from "lucide-react";
+import { AlertTriangle, Building2, Check, IdCard, KeyRound, NotebookPen, ShieldCheck, Trash2, UserRound, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { NoteBody } from "@/components/notes/note-body";
@@ -143,62 +143,143 @@ export function ProfileSettings() {
   );
 }
 
-/** 비밀번호 변경 — 데모용(오버라이드를 이 브라우저에 저장). */
+/** 비밀번호 변경 — 버튼을 누르면 모달에서 진행. 변경 성공 시 카드에 안내. */
 function PasswordCard() {
+  const [open, setOpen] = useState(false);
+  const [done, setDone] = useState(false);
+
+  return (
+    <>
+      <Card className="flex items-center justify-between p-5">
+        <div className="flex items-center gap-1.5">
+          <KeyRound className="h-4 w-4 text-muted-foreground" />
+          <div>
+            <p className="text-[12.5px] font-bold">비밀번호</p>
+            <p className="text-[11px] text-muted-foreground">
+              {done ? "변경되었습니다 · 다음 로그인부터 적용됩니다." : "로그인 비밀번호를 변경합니다."}
+            </p>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={() => { setDone(false); setOpen(true); }}
+          className="rounded-md border px-3.5 py-2 text-[12.5px] font-medium hover:bg-muted"
+        >
+          비밀번호 변경
+        </button>
+      </Card>
+
+      {open && (
+        <PasswordModal
+          onClose={() => setOpen(false)}
+          onDone={() => { setDone(true); setOpen(false); }}
+        />
+      )}
+    </>
+  );
+}
+
+/** 비밀번호 변경 모달 — 현재 비번 오류 등은 필드 밑에 인라인 표시(모달 유지). */
+function PasswordModal({ onClose, onDone }: { onClose: () => void; onDone: () => void }) {
   const { changePassword } = useAuth();
   const [current, setCurrent] = useState("");
   const [next, setNext] = useState("");
   const [confirm, setConfirm] = useState("");
-  const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
 
   function submit() {
-    setMsg(null);
+    setError(null);
     if (next !== confirm) {
-      setMsg({ ok: false, text: "새 비밀번호가 서로 다릅니다." });
+      setError("새 비밀번호가 서로 다릅니다.");
       return;
     }
     const r = changePassword(current, next);
     if (!r.ok) {
-      setMsg({ ok: false, text: r.error ?? "변경에 실패했습니다." });
+      // 현재 비밀번호 불일치 등 — 모달을 닫지 않고 필드 밑에 바로 표시
+      setError(r.error ?? "변경에 실패했습니다.");
       return;
     }
-    setCurrent("");
-    setNext("");
-    setConfirm("");
-    setMsg({ ok: true, text: "비밀번호가 변경되었습니다. 다음 로그인부터 적용됩니다." });
+    onDone();
   }
 
-  const canSubmit = current && next && confirm;
+  const canSubmit = Boolean(current && next && confirm);
 
   return (
-    <Card className="space-y-3 p-5">
-      <div className="flex items-center gap-1.5">
-        <KeyRound className="h-4 w-4 text-muted-foreground" />
-        <p className="text-[12.5px] font-bold">비밀번호 변경</p>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/40 p-6">
+      <div className="absolute inset-0" onClick={onClose} />
+      <div className="relative z-10 w-full max-w-sm rounded-xl bg-card p-5 shadow-modal">
+        <div className="mb-3 flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            <KeyRound className="h-4 w-4 text-primary" />
+            <p className="text-[13px] font-bold">비밀번호 변경</p>
+          </div>
+          <button onClick={onClose} aria-label="닫기" className="rounded-md p-1.5 text-muted-foreground hover:bg-muted">
+            <X className="h-3.5 w-3.5" />
+          </button>
+        </div>
+
+        <div className="space-y-2.5">
+          <input
+            type="password"
+            value={current}
+            autoFocus
+            onChange={(e) => { setCurrent(e.target.value); setError(null); }}
+            placeholder="현재 비밀번호"
+            className={cn(
+              "w-full rounded-md border bg-background px-3 py-2 text-[12.5px] outline-none focus:border-primary",
+              error && "border-bad"
+            )}
+          />
+          {/* 현재 비밀번호 오류는 입력칸 바로 밑에 */}
+          {error && (
+            <p className="flex items-start gap-1.5 text-[11.5px] text-bad">
+              <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+              {error}
+            </p>
+          )}
+          <input
+            type="password"
+            value={next}
+            onChange={(e) => { setNext(e.target.value); setError(null); }}
+            placeholder="새 비밀번호 (4자 이상)"
+            className="w-full rounded-md border bg-background px-3 py-2 text-[12.5px] outline-none focus:border-primary"
+          />
+          <input
+            type="password"
+            value={confirm}
+            onChange={(e) => { setConfirm(e.target.value); setError(null); }}
+            onKeyDown={(e) => e.key === "Enter" && canSubmit && submit()}
+            placeholder="새 비밀번호 확인"
+            className="w-full rounded-md border bg-background px-3 py-2 text-[12.5px] outline-none focus:border-primary"
+          />
+        </div>
+
+        <p className="mt-3 text-[11px] text-muted-foreground">※ 데모 — 변경 비밀번호는 이 브라우저에만 저장됩니다.</p>
+
+        <div className="mt-4 flex items-center justify-end gap-2">
+          <button type="button" onClick={onClose} className="rounded-md px-3.5 py-2 text-[12.5px] text-muted-foreground hover:bg-muted">
+            취소
+          </button>
+          <button
+            type="button"
+            onClick={submit}
+            disabled={!canSubmit}
+            className={cn(
+              "rounded-md px-3.5 py-2 text-[12.5px] font-medium transition-colors",
+              canSubmit ? "bg-primary text-primary-foreground hover:opacity-90" : "bg-muted text-muted-foreground"
+            )}
+          >
+            변경
+          </button>
+        </div>
       </div>
-      <div className="grid gap-3 sm:grid-cols-3">
-        <input type="password" value={current} onChange={(e) => setCurrent(e.target.value)} placeholder="현재 비밀번호"
-          className="rounded-md border bg-background px-3 py-2 text-[12.5px] outline-none focus:border-primary" />
-        <input type="password" value={next} onChange={(e) => setNext(e.target.value)} placeholder="새 비밀번호(4자+)"
-          className="rounded-md border bg-background px-3 py-2 text-[12.5px] outline-none focus:border-primary" />
-        <input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} placeholder="새 비밀번호 확인"
-          className="rounded-md border bg-background px-3 py-2 text-[12.5px] outline-none focus:border-primary" />
-      </div>
-      {msg && (
-        <p className={cn("flex items-start gap-1.5 text-[11.5px]", msg.ok ? "text-good" : "text-bad")}>
-          {!msg.ok && <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />}
-          {msg.text}
-        </p>
-      )}
-      <div className="flex items-center justify-between">
-        <span className="text-[11px] text-muted-foreground">※ 데모 — 변경 비밀번호는 이 브라우저에만 저장됩니다.</span>
-        <button type="button" onClick={submit} disabled={!canSubmit}
-          className={cn("rounded-md px-3.5 py-2 text-[12.5px] font-medium transition-colors",
-            canSubmit ? "bg-primary text-primary-foreground hover:opacity-90" : "bg-muted text-muted-foreground")}>
-          변경
-        </button>
-      </div>
-    </Card>
+    </div>
   );
 }
 

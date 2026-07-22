@@ -13,11 +13,15 @@ import { useAdminState } from "@/lib/admin-state";
 import { businessTypeLabel, resolveProgramStatus, PROGRAM_STATUS_BADGE, type ProgramStatus } from "@/lib/program-status";
 import { ProgramDetailPanel } from "@/components/programs/program-detail-panel";
 import {
-  applyProgramFilters, bizTypeKey, csvFileName, defaultProgramFilters, downloadCsv,
-  overlapCompanyCount, programKeyOf, programsToCsv, sortPrograms, summarizePrograms,
+  applyProgramFilters, bizTypeKey, defaultProgramFilters,
+  overlapCompanyCount, programKeyOf, sortPrograms, summarizePrograms,
   type ProgramFilters, type ProgramSortKey, type SortDir,
 } from "@/lib/program-filters";
 import { formatKRW, cn } from "@/lib/utils";
+import { toCsv, downloadCsv, printTable } from "@/lib/export";
+import { savePdfTable } from "@/lib/pdf";
+import { ExportDialog } from "@/components/ui/export-dialog";
+import { useToast } from "@/lib/toast";
 
 const PAGE_SIZE = 15;
 const STATUSES: ProgramStatus[] = ["진행중", "예정", "완료"];
@@ -73,6 +77,32 @@ export function ProgramsExplorer({
 
   // 관리자가 지정한 진행 상태를 목록·필터·CSV에 반영한다
   const { statuses: adminStatuses } = useAdminState();
+  const { toast } = useToast();
+  const [exportOpen, setExportOpen] = useState(false);
+
+  // 내보내기 — 다이얼로그에서 고른 연도·유형·부처로 프로그램을 추린다(화면 필터와 독립).
+  const EXPORT_HEADERS = ["연도", "사업코드", "사업명", "사업유형", "주관부처", "신청기업수", "선정기업수", "총지원금(천원)", "진행상태"];
+  const exportRows = (sel: Record<string, string>, direct: string[]) => {
+    const directSet = new Set(direct);
+    const picked = programs
+      .filter((p) => (directSet.size ? directSet.has(programKeyOf(p)) : (
+        (!sel.year || String(p.year) === sel.year) &&
+        (!sel.type || bizTypeKey(p) === sel.type) &&
+        (!sel.ministry || (p.ministry ?? "미상") === sel.ministry)
+      )))
+      .sort((a, b) => b.year - a.year || (a.programCode < b.programCode ? -1 : 1));
+    return picked.map((p) => [
+      p.year,
+      p.programCode,
+      p.name ?? p.programCode,
+      businessTypeLabel(p.businessType),
+      p.ministry ?? "미상",
+      p.applicantCount,
+      p.selectedCount,
+      p.totalAmountThousand,
+      resolveProgramStatus(p, referenceDate, adminStatuses),
+    ]);
+  };
 
   const detailOptions = useMemo(() => {
     const pool = filters.businessType
@@ -143,13 +173,56 @@ export function ProgramsExplorer({
           </p>
         </div>
         <button
-          onClick={() => downloadCsv(programsToCsv(sorted, referenceDate, adminStatuses), csvFileName(filters, new Date()))}
+          onClick={() => setExportOpen(true)}
           className="inline-flex shrink-0 items-center gap-1.5 rounded-md border bg-card px-2.5 py-1.5 text-[12px] font-medium hover:bg-muted"
         >
           <Download className="h-3.5 w-3.5" />
-          CSV 내보내기
+          내보내기
         </button>
       </div>
+
+      {exportOpen && (
+        <ExportDialog
+          title="지원사업 정보 내보내기"
+          description="연도·사업유형·부처를 골라 CSV·PDF·인쇄로 저장합니다."
+          filters={[
+            { key: "year", label: "연도", options: [{ value: "", label: "전체" }, ...years.map((y) => ({ value: String(y), label: `${y}년` }))] },
+            { key: "type", label: "사업유형", options: [{ value: "", label: "전체" }, ...businessTypes.map(([t, n]) => ({ value: t, label: `${businessTypeLabel(t === "미분류" ? null : t)} (${n})` }))] },
+            { key: "ministry", label: "주관부처", options: [{ value: "", label: "전체" }, ...ministries.map(([m, n]) => ({ value: m, label: `${m} (${n})` }))] },
+          ]}
+          directSelect={{
+            label: "사업",
+            placeholder: "사업 직접 선택",
+            options: [...programs]
+              .sort((a, b) => b.year - a.year || (a.programCode < b.programCode ? -1 : 1))
+              .map((p) => ({ value: programKeyOf(p), label: `${p.year} · ${p.name ?? p.programCode}` })),
+          }}
+          count={(sel, direct) => exportRows(sel, direct).length}
+          defaultFileName={(sel) => {
+            const parts = [sel.year && `${sel.year}년`, sel.type && businessTypeLabel(sel.type === "미분류" ? null : sel.type), sel.ministry].filter(Boolean);
+            return ["지원사업", ...parts].join("_") || "지원사업";
+          }}
+          onExport={(format, sel, direct, fileName) => {
+            const rows = exportRows(sel, direct);
+            const parts = [sel.year && `${sel.year}년`, sel.type && businessTypeLabel(sel.type === "미분류" ? null : sel.type), sel.ministry].filter(Boolean);
+            const subtitle = parts.join(" · ") || "전체";
+            setExportOpen(false);
+            if (format === "csv") {
+              downloadCsv(fileName, toCsv(EXPORT_HEADERS, rows));
+              toast(`${fileName}.csv 다운로드 완료`);
+            } else if (format === "pdf") {
+              // PDF 생성은 비동기 — 실제 저장이 끝나면 알린다.
+              savePdfTable(fileName, "지원사업 정보", EXPORT_HEADERS, rows, subtitle)
+                .then(() => toast(`${fileName}.pdf 다운로드 완료`))
+                .catch(() => toast("PDF 생성에 실패했습니다.", "error"));
+            } else {
+              printTable("지원사업 정보", EXPORT_HEADERS, rows, subtitle);
+              toast("인쇄 창을 열었습니다.", "info");
+            }
+          }}
+          onClose={() => setExportOpen(false)}
+        />
+      )}
 
       {/* 상세 패널을 겹쳐 띄울 기준면 — 필터·표·페이지네이션을 감싼다 */}
       <div className="relative space-y-4">

@@ -1,16 +1,16 @@
 "use client";
 
-import { LayoutGrid, List, PanelLeft, Settings, Table2 } from "lucide-react";
+import { Moon, RotateCcw, Settings, Sun } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { useUi } from "@/lib/app-state";
+import { useUi, PAGE_SIZE_OPTIONS } from "@/lib/app-state";
 import { cn } from "@/lib/utils";
 
 /**
- * 시스템 설정 — 실제로 동작하는 표시 설정만 둔다(가짜 토글 배제).
- * 기업 목록 기본 뷰·사이드바는 UiProvider 상태와 직접 연결. 데이터·저장 안내는 읽기 전용.
+ * 시스템 설정 — 실제로 동작하는 설정만(가짜 토글 배제). 모두 UiProvider 상태와 연결되고
+ * localStorage에 영속화된다(새로고침·재접속에도 유지).
  */
 export function SystemSettings() {
-  const { viewMode, setViewMode, sidebarCollapsed, toggleSidebar } = useUi();
+  const { theme, setTheme, pageSize, setPageSize, defaultWeights, setDefaultWeights } = useUi();
 
   return (
     <div className="mx-auto max-w-2xl space-y-5">
@@ -19,39 +19,65 @@ export function SystemSettings() {
           <Settings className="h-5 w-5 text-primary" />
           <h1 className="text-[20px] font-extrabold tracking-tight">시스템 설정</h1>
         </div>
-        <p className="mt-1 text-[12.5px] text-muted-foreground">화면 표시 방식과 데이터·저장 정보를 확인합니다.</p>
+        <p className="mt-1 text-[12.5px] text-muted-foreground">
+          화면 표시 방식을 설정합니다. 변경한 설정은 이 브라우저에 저장되어 다시 접속해도 유지됩니다.
+        </p>
       </div>
 
-      {/* 표시 설정 — 실제 UI 상태에 즉시 반영 */}
+      {/* 표시 설정 */}
       <Card className="space-y-4 p-5">
         <p className="text-[12.5px] font-bold">표시</p>
 
-        <Row label="기업 목록 기본 뷰" desc="기업 선정 화면을 표 또는 보드로 표시합니다.">
+        <Row label="테마" desc="밝은 화면과 어두운 화면을 전환합니다.">
           <Segmented
             options={[
-              { value: "table", label: "표", icon: <Table2 className="h-3.5 w-3.5" /> },
-              { value: "board", label: "보드", icon: <LayoutGrid className="h-3.5 w-3.5" /> },
+              { value: "light", label: "라이트", icon: <Sun className="h-3.5 w-3.5" /> },
+              { value: "dark", label: "다크", icon: <Moon className="h-3.5 w-3.5" /> },
             ]}
-            value={viewMode}
-            onChange={(v) => setViewMode(v as "table" | "board")}
+            value={theme}
+            onChange={(v) => setTheme(v as "light" | "dark")}
           />
         </Row>
 
-        <Row label="사이드바" desc="왼쪽 메뉴를 펼치거나 접습니다.">
+        <Row label="목록 페이지당 개수" desc="기업 목록 한 페이지에 표시할 기업 수입니다.">
           <Segmented
-            options={[
-              { value: "expanded", label: "펼침", icon: <PanelLeft className="h-3.5 w-3.5" /> },
-              { value: "collapsed", label: "접기", icon: <List className="h-3.5 w-3.5" /> },
-            ]}
-            value={sidebarCollapsed ? "collapsed" : "expanded"}
-            onChange={(v) => {
-              if ((v === "collapsed") !== sidebarCollapsed) toggleSidebar();
-            }}
+            options={PAGE_SIZE_OPTIONS.map((n) => ({ value: String(n), label: `${n}개`, icon: null }))}
+            value={String(pageSize)}
+            onChange={(v) => setPageSize(Number(v))}
           />
         </Row>
       </Card>
 
-      {/* 데이터 · 저장 — 심사자가 알아야 할 동작 방식(읽기 전용) */}
+      {/* 심사 기준 */}
+      <Card className="space-y-3 p-5">
+        <p className="text-[12.5px] font-bold">심사 기준</p>
+        <Row
+          label="기본 종합점수 가중치"
+          desc={
+            defaultWeights
+              ? "저장된 사용자 가중치로 기업 목록이 시작됩니다."
+              : "시스템 기본값(재무·기술·정합성 균등)으로 시작됩니다."
+          }
+        >
+          {defaultWeights ? (
+            <button
+              type="button"
+              onClick={() => setDefaultWeights(null)}
+              className="inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-[12px] text-muted-foreground hover:bg-muted"
+            >
+              <RotateCcw className="h-3.5 w-3.5" />
+              기본값으로 초기화
+            </button>
+          ) : (
+            <span className="rounded-md bg-muted px-2.5 py-1 text-[11.5px] text-muted-foreground">시스템 기본</span>
+          )}
+        </Row>
+        <p className="text-[11px] text-muted-foreground">
+          기업 선정 화면의 <b>종합 점수 가중치 조정</b>에서 &lsquo;현재 값을 기본 가중치로 저장&rsquo;하면 여기에 반영됩니다.
+        </p>
+      </Card>
+
+      {/* 데이터 · 저장 */}
       <Card className="space-y-2.5 p-5">
         <p className="text-[12.5px] font-bold">데이터 · 저장</p>
         <ul className="space-y-2 text-[12px] text-muted-foreground">
@@ -60,7 +86,7 @@ export function SystemSettings() {
             표본이 작아 전체 대비로 계산됩니다.
           </li>
           <li>
-            <b className="text-foreground">심사 상태·배정·잠금·공지</b> — 아직 백엔드 미연동이라 <b>이 브라우저에만</b> 저장됩니다.
+            <b className="text-foreground">심사 상태·배정·잠금·공지·설정</b> — 아직 백엔드 미연동이라 <b>이 브라우저에만</b> 저장됩니다.
             다른 PC와 공유되지 않으며, 실 운영 시 서버로 영속화됩니다.
           </li>
           <li>

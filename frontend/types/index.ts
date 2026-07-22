@@ -185,6 +185,9 @@ export interface Tech {
     btp중점사업: string[];
     국가전략기술: string[];      // 12대 국가전략기술
     기술수준등급: string | null; // OECD 고위/중고위/중저위/저위
+    지역전략산업: string | null;       // 부산 9대 전략산업(제6차) 매칭명
+    지역전략산업_매칭유형: string | null; // "고유"(강함) | "공통"(약함)
+    지역전략산업_부합: boolean;
   };
   scores: {
     rndPatent: number | null;

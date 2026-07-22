@@ -198,6 +198,19 @@ function DomainSection({ domain }: { domain: Tech["domain"] }) {
           ))}
         </div>
       )}
+
+      {domain.지역전략산업_부합 && (
+        <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+          <span className="text-[11px] text-muted-foreground">부산 지역전략산업</span>
+          <Badge
+            variant={domain.지역전략산업_매칭유형 === "고유" ? "info" : "slate"}
+            className="text-[11px]"
+          >
+            {domain.지역전략산업}
+            {domain.지역전략산업_매칭유형 === "공통" && " (공통코드)"}
+          </Badge>
+        </div>
+      )}
     </div>
   );
 }

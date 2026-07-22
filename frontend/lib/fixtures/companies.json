@@ -5,6 +5,11 @@
     "industry": "탭, 밸브 및 유사장치 제조업",
     "industryCode": "C29133",
     "region": "부산",
+    "foundedDate": "1999-09-10",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": null,
+    "capitalThousand": 950000.0,
     "revenueLatest": 31875004.0,
     "avgSalaryLatest": 45839.804,
     "scores": {
@@ -51,17 +56,25 @@
       "ROE": 0.15474008437055567,
       "영업외손익비중": 0.010063967364521746,
       "판관비율": 0.14984973805807209,
+      "데이터모순_판관비음수": 0.0,
       "총자산회전율": 0.6082593731374146,
+      "흑자관측연수": 5.0,
       "흑자지속성": 5.0,
-      "수익성추세": 0.1896899999999998,
-      "ROA추세": 0.0008035320547915849,
-      "ROE추세": 0.01900936219441281,
+      "재무관측연수": 5.0,
+      "영업외의존_연수": 0.0,
+      "고용관측연수": 0.0,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "수익성추세": 0.18968999999992212,
+      "ROA추세": 0.0008035320547908042,
+      "ROE추세": 0.0190093621944072,
       "부채비율_최근": 2.7237847057156555,
       "자기자본비율": 0.26854398925509715,
       "자본잠식_플래그": 0.0,
       "자본잠식정도": 14.81334947368421,
       "이익잉여금축적": 13122682.0,
-      "부채비율추세": 0.34779817721333073
+      "부채비율추세": 0.3477981772132636
     },
     "trends": {
       "매출액": [
@@ -169,102 +182,6 @@
       "주관": 6,
       "위탁": 1
     },
-    "support": {
-      "건수": 8,
-      "총지원금_천원": 360700.0,
-      "지원연도수": 3
-    },
-    "supportHistory": [
-      {
-        "date": "2024-05-17",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 25000.0,
-        "programCode": "B1_1_3",
-        "year": 2024,
-        "startDate": "2024-06-01",
-        "endDate": "2024-10-31"
-      },
-      {
-        "date": "2024-04-15",
-        "result": "선정",
-        "bizType": "기반구축",
-        "amount": 5900.0,
-        "programCode": "E3_1_1",
-        "year": 2024,
-        "startDate": "2024-04-15",
-        "endDate": "2024-11-30"
-      },
-      {
-        "date": "2023-06-20",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 50000.0,
-        "programCode": "B1_311",
-        "year": 2023,
-        "startDate": "2023-06-23",
-        "endDate": "2023-10-31"
-      },
-      {
-        "date": "2022-11-07",
-        "result": "선정",
-        "bizType": "스마트공장",
-        "amount": 50000.0,
-        "programCode": "L2_321",
-        "year": 2022,
-        "startDate": "2022-11-23",
-        "endDate": "2023-11-22"
-      },
-      {
-        "date": "2022-08-01",
-        "result": "선정",
-        "bizType": "스마트공장",
-        "amount": 10000.0,
-        "programCode": "L2_319",
-        "year": 2022,
-        "startDate": "2022-01-01",
-        "endDate": "2022-12-31"
-      },
-      {
-        "date": "2022-07-22",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 15000.0,
-        "programCode": "B4_304",
-        "year": 2022,
-        "startDate": "2022-06-01",
-        "endDate": "2022-10-31"
-      },
-      {
-        "date": "2022-05-13",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 28800.0,
-        "programCode": "B4_304",
-        "year": 2022,
-        "startDate": "2022-06-01",
-        "endDate": "2022-10-31"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": 0.010063967364521746,
-      "자본잠식_플래그": 0.0,
-      "영업외의존_연수": 0,
-      "재무관측연수": 5,
-      "이직률_최근": 0.2059,
-      "고용회전율_최근": 0.5735,
-      "고용순증_최근": 11,
-      "고용관측연수": 5
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 19,
@@ -275,22 +192,22 @@
         "활동공백년수": 1.3853524982888432,
         "소멸률": 0.0,
         "첫특허업력": 15.077344284736482,
-        "대표개인명의_등록": 2
+        "대표개인명의_등록": null
       },
       "rnd": {
         "집약도": 0.03166904700623724,
-        "집약도추세": 0.004446255644853549
+        "집약도추세": 0.00444625564485355
       },
       "ntis": {
         "주관과제수": 6,
         "정부연구비_원": 1230000000.0,
+        "민간연구비_원": null,
+        "민간부담률": null,
+        "최근수주연도": null,
+        "진행중과제수": null,
         "부처다양성": 2,
         "위탁과제수": 1,
-        "산학협력": false,
-        "민간연구비_원": 1107500000.0,
-        "민간부담률": 0.4737967914438503,
-        "최근수주연도": 2024,
-        "진행중과제수": 3
+        "산학협력": false
       },
       "certification": {
         "보유수": 3,
@@ -306,7 +223,10 @@
           "지역특화산업 혁신선도"
         ],
         "국가전략기술": [],
-        "기술수준등급": "중고위기술"
+        "기술수준등급": "중고위기술",
+        "지역전략산업": "융합부품소재",
+        "지역전략산업_매칭유형": "고유",
+        "지역전략산업_부합": true
       },
       "scores": {
         "rndPatent": 49.4949494949495,
@@ -477,6 +397,255 @@
         }
       ]
     },
+    "support": {
+      "건수": 8,
+      "총지원금_천원": 360700.0,
+      "지원연도수": 3
+    },
+    "supportHistory": [
+      {
+        "date": "2024-05-17",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 25000.0,
+        "programCode": "B1_1_3",
+        "year": 2024,
+        "startDate": "2024-06-01",
+        "endDate": "2024-10-31"
+      },
+      {
+        "date": "2024-04-15",
+        "result": "선정",
+        "bizType": "기반구축",
+        "amount": 5900.0,
+        "programCode": "E3_1_1",
+        "year": 2024,
+        "startDate": "2024-04-15",
+        "endDate": "2024-11-30"
+      },
+      {
+        "date": "2023-06-20",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 50000.0,
+        "programCode": "B1_311",
+        "year": 2023,
+        "startDate": "2023-06-23",
+        "endDate": "2023-10-31"
+      },
+      {
+        "date": "2022-11-07",
+        "result": "선정",
+        "bizType": "스마트공장",
+        "amount": 50000.0,
+        "programCode": "L2_321",
+        "year": 2022,
+        "startDate": "2022-11-23",
+        "endDate": "2023-11-22"
+      },
+      {
+        "date": "2022-08-01",
+        "result": "선정",
+        "bizType": "스마트공장",
+        "amount": 10000.0,
+        "programCode": "L2_319",
+        "year": 2022,
+        "startDate": "2022-01-01",
+        "endDate": "2022-12-31"
+      },
+      {
+        "date": "2022-07-22",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 15000.0,
+        "programCode": "B4_304",
+        "year": 2022,
+        "startDate": "2022-08-01",
+        "endDate": "2022-10-31"
+      },
+      {
+        "date": "2022-05-13",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 28800.0,
+        "programCode": "B4_304",
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-10-31"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": 0.010063967364521746,
+      "자본잠식_플래그": 0.0,
+      "영업외의존_연수": 0.0,
+      "재무관측연수": 5,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "고용관측연수": 0
+    },
+    "employment": {
+      "회전율백분위": null,
+      "series": null
+    },
+    "nonopIncome": {
+      "series": [
+        {
+          "year": 2020,
+          "영업이익": 1241741.0,
+          "당기순이익": 908803.0
+        },
+        {
+          "year": 2021,
+          "영업이익": 753792.0,
+          "당기순이익": 905168.0
+        },
+        {
+          "year": 2022,
+          "영업이익": 1197784.0,
+          "당기순이익": 831520.0
+        },
+        {
+          "year": 2023,
+          "영업이익": 1546587.0,
+          "당기순이익": 2847928.0
+        },
+        {
+          "year": 2024,
+          "영업이익": 1856819.0,
+          "당기순이익": 2177608.0
+        }
+      ]
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "8건 중 직접일치 7건 · 1건 판정 대기",
+      "totalJudged": 7,
+      "totalPending": 1,
+      "breakdown": {
+        "직접일치": 7,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 1
+      },
+      "judgments": [
+        {
+          "programCode": "B4_304",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B4_304",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "L2_319",
+          "year": 2022,
+          "programName": null,
+          "businessType": "스마트공장",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "스마트공장"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "L2_321",
+          "year": 2022,
+          "programName": null,
+          "businessType": "스마트공장",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "스마트공장"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_311",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "C3_1_2",
+          "year": 2024,
+          "programName": null,
+          "businessType": "스마트공장",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "스마트공장"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "E3_1_1",
+          "year": 2024,
+          "programName": null,
+          "businessType": "기반구축",
+          "score": null,
+          "matchType": "판단유보",
+          "matchedKeywords": [],
+          "reasoning": "LLM 시맨틱 판정 대기",
+          "source": "pending"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 64.5,
       "rawWeightedAverage": 72.5,
@@ -493,75 +662,21 @@
         "정합성": 100.0
       }
     },
-    "employment": {
-      "회전율백분위": 54.54545454545454,
-      "series": [
-        {
-          "year": 2020,
-          "가입": 36,
-          "취업": 5,
-          "퇴직": 7
-        },
-        {
-          "year": 2021,
-          "가입": 38.0,
-          "취업": 10.0,
-          "퇴직": 8.0
-        },
-        {
-          "year": 2022,
-          "가입": 37.0,
-          "취업": 8.0,
-          "퇴직": 10.0
-        },
-        {
-          "year": 2023,
-          "가입": 56.0,
-          "취업": 25.0,
-          "퇴직": 5.0
-        },
-        {
-          "year": 2024,
-          "가입": 68.0,
-          "취업": 25.0,
-          "퇴직": 14.0
-        }
-      ]
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "대형다건",
+      "isHighDiversity": true,
+      "supportCount": 8,
+      "totalAmountThousand": 360700.0,
+      "businessTypeDiversity": 4,
+      "maxConsecutiveYears": 3
     },
-    "nonopIncome": {
-      "series": [
-        {
-          "year": 2020,
-          "영업이익": 1241741,
-          "당기순이익": 908803
-        },
-        {
-          "year": 2021,
-          "영업이익": 753792,
-          "당기순이익": 905168
-        },
-        {
-          "year": 2022,
-          "영업이익": 1197784,
-          "당기순이익": 831520
-        },
-        {
-          "year": 2023,
-          "영업이익": 1546587,
-          "당기순이익": 2847928
-        },
-        {
-          "year": 2024,
-          "영업이익": 1856819,
-          "당기순이익": 2177608
-        }
-      ]
-    },
-    "foundedDate": "1999-09-10",
-    "companyStatus": "정상",
-    "isClosed": false,
-    "closureType": "부가가치세 일반과세자",
-    "capitalThousand": 950000.0
+    "_mock": [
+      "businessFit.llm"
+    ]
   },
   {
     "id": 616,
@@ -569,6 +684,11 @@
     "industry": "냉간 압연 및 압출 제품 제조업",
     "industryCode": "C24122",
     "region": "부산",
+    "foundedDate": "2016-12-23",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": null,
+    "capitalThousand": 300000.0,
     "revenueLatest": 1011509.0,
     "avgSalaryLatest": 39270.476,
     "scores": {
@@ -615,17 +735,25 @@
       "ROE": -0.044565381091985455,
       "영업외손익비중": -0.04968616196197957,
       "판관비율": 0.26285678130397255,
+      "데이터모순_판관비음수": 0.0,
       "총자산회전율": 0.21435993202424122,
+      "흑자관측연수": 5.0,
       "흑자지속성": 5.0,
-      "수익성추세": -1.8155300000000005,
-      "ROA추세": -0.03454638236668446,
-      "ROE추세": -0.1593983467601919,
+      "재무관측연수": 5.0,
+      "영업외의존_연수": 0.0,
+      "고용관측연수": 0.0,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "수익성추세": -1.8155300000000303,
+      "ROA추세": -0.034546382366681734,
+      "ROE추세": -0.15939834676017903,
       "부채비율_최근": 4.343340048261423,
       "자기자본비율": 0.18714886025742883,
       "자본잠식_플래그": 0.0,
       "자본잠식정도": 2.94369,
       "이익잉여금축적": 583107.0,
-      "부채비율추세": 0.22126857135544004
+      "부채비율추세": 0.22126857135550715
     },
     "trends": {
       "매출액": [
@@ -733,6 +861,127 @@
       "주관": 7,
       "위탁": 4
     },
+    "tech": {
+      "patents": {
+        "출원": 7,
+        "등록": 5,
+        "등록전환율": 0.7142857142857143,
+        "최근3년출원": 1,
+        "최근출원비중": 0.14285714285714285,
+        "활동공백년수": 1.5249828884325805,
+        "소멸률": 0.0,
+        "첫특허업력": 0.0,
+        "대표개인명의_등록": null
+      },
+      "rnd": {
+        "집약도": 0.49794910376477125,
+        "집약도추세": -0.03129550708516197
+      },
+      "ntis": {
+        "주관과제수": 7,
+        "정부연구비_원": 1364363000.0,
+        "민간연구비_원": null,
+        "민간부담률": null,
+        "최근수주연도": null,
+        "진행중과제수": null,
+        "부처다양성": 2,
+        "위탁과제수": 4,
+        "산학협력": false
+      },
+      "certification": {
+        "보유수": 2,
+        "핵심보유": true,
+        "실체괴리": false
+      },
+      "domain": {
+        "주력기술분야": "기계·소재부품",
+        "출처": "표준분류",
+        "분야수": 3,
+        "집중도": 0.389,
+        "btp중점사업": [
+          "탄소중립 산업체질 강화"
+        ],
+        "국가전략기술": [
+          "수소"
+        ],
+        "기술수준등급": "중저위기술",
+        "지역전략산업": "융합부품소재",
+        "지역전략산업_매칭유형": "고유",
+        "지역전략산업_부합": true
+      },
+      "scores": {
+        "rndPatent": 47.97979797979798,
+        "ntis": 75.0,
+        "백분위기준": "전체fallback"
+      },
+      "percentiles": {
+        "특허출원": 18.181818181818183,
+        "특허등록": 18.181818181818183,
+        "등록전환율": 63.63636363636363,
+        "최근출원비중": 45.45454545454545,
+        "R&D집약도": 81.81818181818183,
+        "NTIS과제수": 72.72727272727273,
+        "NTIS연구비": 72.72727272727273
+      },
+      "patentList": [
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2024-10-07",
+          "registered": null,
+          "valid": false,
+          "relation": null
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-12-01",
+          "registered": "2025-04-28",
+          "valid": true,
+          "relation": "본인"
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2022-09-26",
+          "registered": "2025-04-28",
+          "valid": true,
+          "relation": "본인"
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2019-11-01",
+          "registered": "2021-06-16",
+          "valid": true,
+          "relation": "본인"
+        },
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2019-03-22",
+          "registered": null,
+          "valid": false,
+          "relation": null
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2018-11-30",
+          "registered": "2020-01-10",
+          "valid": true,
+          "relation": "본인"
+        },
+        {
+          "type": "특허권",
+          "status": "등록",
+          "applied": "2016-02-23",
+          "registered": "2017-08-17",
+          "valid": true,
+          "relation": "본인"
+        }
+      ]
+    },
     "support": {
       "건수": 7,
       "총지원금_천원": 79223.0,
@@ -813,137 +1062,161 @@
     "passthrough": {
       "영업외손익비중": -0.04968616196197957,
       "자본잠식_플래그": 0.0,
-      "영업외의존_연수": 0,
+      "영업외의존_연수": 0.0,
       "재무관측연수": 5,
-      "이직률_최근": 0.4286,
-      "고용회전율_최근": 0.8571,
-      "고용순증_최근": 0,
-      "고용관측연수": 5
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "고용관측연수": 0
+    },
+    "employment": {
+      "회전율백분위": null,
+      "series": null
+    },
+    "nonopIncome": {
+      "series": [
+        {
+          "year": 2020,
+          "영업이익": 164655.0,
+          "당기순이익": 202667.0
+        },
+        {
+          "year": 2021,
+          "영업이익": 25946.0,
+          "당기순이익": 77684.0
+        },
+        {
+          "year": 2022,
+          "영업이익": 6256.0,
+          "당기순이익": 28929.0
+        },
+        {
+          "year": 2023,
+          "영업이익": 55639.0,
+          "당기순이익": 7842.0
+        },
+        {
+          "year": 2024,
+          "영업이익": 10902.0,
+          "당기순이익": -39356.0
+        }
+      ]
     },
     "percentileBasis": "전체fallback",
     "dataQuality": {
       "missing": [],
       "ok": true
     },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
-    "tech": {
-      "patents": {
-        "출원": 7,
-        "등록": 5,
-        "등록전환율": 0.7142857142857143,
-        "최근3년출원": 1,
-        "최근출원비중": 0.14285714285714285,
-        "활동공백년수": 1.5249828884325805,
-        "소멸률": 0.0,
-        "첫특허업력": 0.0,
-        "대표개인명의_등록": 0
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "7건 정합성 판정: 직접일치 7건",
+      "totalJudged": 7,
+      "totalPending": 0,
+      "breakdown": {
+        "직접일치": 7,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 0
       },
-      "rnd": {
-        "집약도": 0.49794910376477125,
-        "집약도추세": -0.03129550708516198
-      },
-      "ntis": {
-        "주관과제수": 7,
-        "정부연구비_원": 1364363000.0,
-        "부처다양성": 2,
-        "위탁과제수": 4,
-        "산학협력": false,
-        "민간연구비_원": 317511000.0,
-        "민간부담률": 0.1875435248337418,
-        "최근수주연도": 2024,
-        "진행중과제수": 2
-      },
-      "certification": {
-        "보유수": 2,
-        "핵심보유": true,
-        "실체괴리": false
-      },
-      "domain": {
-        "주력기술분야": "기계·소재부품",
-        "출처": "표준분류",
-        "분야수": 3,
-        "집중도": 0.389,
-        "btp중점사업": [
-          "탄소중립 산업체질 강화"
-        ],
-        "국가전략기술": [
-          "수소"
-        ],
-        "기술수준등급": "중저위기술"
-      },
-      "scores": {
-        "rndPatent": 47.97979797979798,
-        "ntis": 75.0,
-        "백분위기준": "전체fallback"
-      },
-      "percentiles": {
-        "특허출원": 18.181818181818183,
-        "특허등록": 18.181818181818183,
-        "등록전환율": 63.63636363636363,
-        "최근출원비중": 45.45454545454545,
-        "R&D집약도": 81.81818181818183,
-        "NTIS과제수": 72.72727272727273,
-        "NTIS연구비": 72.72727272727273
-      },
-      "patentList": [
+      "judgments": [
         {
-          "type": "특허권",
-          "status": "공개",
-          "applied": "2024-10-07",
-          "registered": null,
-          "valid": false,
-          "relation": null
+          "programCode": "H2_313",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
         },
         {
-          "type": "특허권",
-          "status": "등록",
-          "applied": "2022-12-01",
-          "registered": "2025-04-28",
-          "valid": true,
-          "relation": "본인"
+          "programCode": "B5_301",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
         },
         {
-          "type": "특허권",
-          "status": "등록",
-          "applied": "2022-09-26",
-          "registered": "2025-04-28",
-          "valid": true,
-          "relation": "본인"
+          "programCode": "H2_313",
+          "year": 2023,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
         },
         {
-          "type": "특허권",
-          "status": "등록",
-          "applied": "2019-11-01",
-          "registered": "2021-06-16",
-          "valid": true,
-          "relation": "본인"
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
         },
         {
-          "type": "특허권",
-          "status": "공개",
-          "applied": "2019-03-22",
-          "registered": null,
-          "valid": false,
-          "relation": null
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
         },
         {
-          "type": "특허권",
-          "status": "등록",
-          "applied": "2018-11-30",
-          "registered": "2020-01-10",
-          "valid": true,
-          "relation": "본인"
+          "programCode": "E2_1_8",
+          "year": 2024,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
         },
         {
-          "type": "특허권",
-          "status": "등록",
-          "applied": "2016-02-23",
-          "registered": "2017-08-17",
-          "valid": true,
-          "relation": "본인"
+          "programCode": "E2_1_8",
+          "year": 2024,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
         }
       ]
     },
@@ -963,75 +1236,19 @@
         "정합성": 100.0
       }
     },
-    "employment": {
-      "회전율백분위": 81.81818181818183,
-      "series": [
-        {
-          "year": 2020,
-          "가입": 10,
-          "취업": 2,
-          "퇴직": 0
-        },
-        {
-          "year": 2021,
-          "가입": 8.0,
-          "취업": 1.0,
-          "퇴직": 5.0
-        },
-        {
-          "year": 2022,
-          "가입": 7.0,
-          "취업": 4.0,
-          "퇴직": 3.0
-        },
-        {
-          "year": 2023,
-          "가입": 7.0,
-          "취업": 1.0,
-          "퇴직": 1.0
-        },
-        {
-          "year": 2024,
-          "가입": 7.0,
-          "취업": 3.0,
-          "퇴직": 3.0
-        }
-      ]
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "소액소수",
+      "isHighDiversity": false,
+      "supportCount": 7,
+      "totalAmountThousand": 79223.0,
+      "businessTypeDiversity": 2,
+      "maxConsecutiveYears": 3
     },
-    "nonopIncome": {
-      "series": [
-        {
-          "year": 2020,
-          "영업이익": 164655,
-          "당기순이익": 202667
-        },
-        {
-          "year": 2021,
-          "영업이익": 25946,
-          "당기순이익": 77684
-        },
-        {
-          "year": 2022,
-          "영업이익": 6256,
-          "당기순이익": 28929
-        },
-        {
-          "year": 2023,
-          "영업이익": 55639,
-          "당기순이익": 7842
-        },
-        {
-          "year": 2024,
-          "영업이익": 10902,
-          "당기순이익": -39356
-        }
-      ]
-    },
-    "foundedDate": "2016-12-23",
-    "companyStatus": "정상",
-    "isClosed": false,
-    "closureType": "부가가치세 일반과세자",
-    "capitalThousand": 300000.0
+    "_mock": []
   },
   {
     "id": 117,
@@ -1039,6 +1256,11 @@
     "industry": "그 외 기타 일반목적용 기계 제조업",
     "industryCode": "C29199",
     "region": "부산",
+    "foundedDate": "2010-02-02",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": null,
+    "capitalThousand": 100000.0,
     "revenueLatest": 1477987.0,
     "avgSalaryLatest": 40480.0,
     "scores": {
@@ -1085,17 +1307,25 @@
       "ROE": 0.11275352491344989,
       "영업외손익비중": -0.0168167920286173,
       "판관비율": 0.3751210260983351,
+      "데이터모순_판관비음수": 0.0,
       "총자산회전율": 0.45266209304462346,
+      "흑자관측연수": 5.0,
       "흑자지속성": 3.0,
-      "수익성추세": 3.8783499999999997,
-      "ROA추세": 0.009975633106580629,
-      "ROE추세": 0.05477733087272311,
+      "재무관측연수": 5.0,
+      "영업외의존_연수": 1.0,
+      "고용관측연수": 0.0,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "수익성추세": 3.878349999999401,
+      "ROA추세": 0.00997563310658001,
+      "ROE추세": 0.05477733087271841,
       "부채비율_최근": 3.3243264720139223,
       "자기자본비율": 0.23124988514900002,
       "자본잠식_플래그": 0.0,
       "자본잠식정도": 7.55054,
       "이익잉여금축적": 655054.0,
-      "부채비율추세": 0.0023988685500081555
+      "부채비율추세": 0.002398868550019627
     },
     "trends": {
       "매출액": [
@@ -1203,122 +1433,6 @@
       "주관": 1,
       "위탁": 0
     },
-    "support": {
-      "건수": 9,
-      "총지원금_천원": 103687.0,
-      "지원연도수": 3
-    },
-    "supportHistory": [
-      {
-        "date": "2024-05-24",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 20000.0,
-        "programCode": "B1_1_3",
-        "year": 2024,
-        "startDate": "2024-06-17",
-        "endDate": "2024-10-31"
-      },
-      {
-        "date": "2023-09-19",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 20000.0,
-        "programCode": "B1_311",
-        "year": 2023,
-        "startDate": "2023-08-22",
-        "endDate": "2023-11-03"
-      },
-      {
-        "date": "2023-08-22",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 3850.0,
-        "programCode": "B1_311",
-        "year": 2023,
-        "startDate": "2023-08-22",
-        "endDate": "2023-11-03"
-      },
-      {
-        "date": "2023-06-15",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 4730.0,
-        "programCode": "H2_318",
-        "year": 2023,
-        "startDate": "2023-04-01",
-        "endDate": "2024-03-31"
-      },
-      {
-        "date": "2023-06-15",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 4730.0,
-        "programCode": "E2_1_8",
-        "year": 2024,
-        "startDate": "2023-04-01",
-        "endDate": "2024-03-31"
-      },
-      {
-        "date": "2022-08-26",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 13400.0,
-        "programCode": "H2_313",
-        "year": 2022,
-        "startDate": "2022-09-01",
-        "endDate": "2022-03-31"
-      },
-      {
-        "date": "2022-08-26",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 13400.0,
-        "programCode": "H2_313",
-        "year": 2023,
-        "startDate": "2022-09-01",
-        "endDate": "2023-03-31"
-      },
-      {
-        "date": "2022-05-18",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 13200.0,
-        "programCode": "B2_306",
-        "year": 2022,
-        "startDate": "2022-06-01",
-        "endDate": "2022-11-30"
-      },
-      {
-        "date": "2021-12-23",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 10377.0,
-        "programCode": "B2_321",
-        "year": 2022,
-        "startDate": "2021-12-23",
-        "endDate": "2022-07-31"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": -0.0168167920286173,
-      "자본잠식_플래그": 0.0,
-      "영업외의존_연수": 1,
-      "재무관측연수": 5,
-      "이직률_최근": 0,
-      "고용회전율_최근": 0,
-      "고용순증_최근": 0,
-      "고용관측연수": 5
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 22,
@@ -1329,22 +1443,22 @@
         "활동공백년수": 3.572895277207392,
         "소멸률": 0.0,
         "첫특허업력": 0.0,
-        "대표개인명의_등록": 3
+        "대표개인명의_등록": null
       },
       "rnd": {
         "집약도": 0.1336479955507051,
-        "집약도추세": 0.007171249009147221
+        "집약도추세": 0.007171249009147224
       },
       "ntis": {
         "주관과제수": 1,
         "정부연구비_원": 85500000.0,
+        "민간연구비_원": null,
+        "민간부담률": null,
+        "최근수주연도": null,
+        "진행중과제수": null,
         "부처다양성": 1,
         "위탁과제수": 0,
-        "산학협력": false,
-        "민간연구비_원": 0.0,
-        "민간부담률": 0.0,
-        "최근수주연도": 2022,
-        "진행중과제수": 0
+        "산학협력": false
       },
       "certification": {
         "보유수": 3,
@@ -1360,7 +1474,10 @@
           "탄소중립 산업체질 강화"
         ],
         "국가전략기술": [],
-        "기술수준등급": "중고위기술"
+        "기술수준등급": "중고위기술",
+        "지역전략산업": "융합부품소재",
+        "지역전략산업_매칭유형": "고유",
+        "지역전략산업_부합": true
       },
       "scores": {
         "rndPatent": 56.56565656565656,
@@ -1555,6 +1672,292 @@
         }
       ]
     },
+    "support": {
+      "건수": 9,
+      "총지원금_천원": 103687.0,
+      "지원연도수": 3
+    },
+    "supportHistory": [
+      {
+        "date": "2024-05-24",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 20000.0,
+        "programCode": "B1_1_3",
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
+      },
+      {
+        "date": "2023-09-19",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 20000.0,
+        "programCode": "B1_311",
+        "year": 2023,
+        "startDate": "2023-09-18",
+        "endDate": "2023-11-17"
+      },
+      {
+        "date": "2023-08-22",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 3850.0,
+        "programCode": "B1_311",
+        "year": 2023,
+        "startDate": "2023-08-22",
+        "endDate": "2023-11-03"
+      },
+      {
+        "date": "2023-06-15",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 4730.0,
+        "programCode": "H2_318",
+        "year": 2023,
+        "startDate": "2023-04-01",
+        "endDate": "2024-03-31"
+      },
+      {
+        "date": "2023-06-15",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 4730.0,
+        "programCode": "E2_1_8",
+        "year": 2024,
+        "startDate": "2023-04-01",
+        "endDate": "2024-03-31"
+      },
+      {
+        "date": "2022-08-26",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 13400.0,
+        "programCode": "H2_313",
+        "year": 2022,
+        "startDate": "2022-09-01",
+        "endDate": "2022-03-31"
+      },
+      {
+        "date": "2022-08-26",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 13400.0,
+        "programCode": "H2_313",
+        "year": 2023,
+        "startDate": "2022-09-01",
+        "endDate": "2023-03-31"
+      },
+      {
+        "date": "2022-05-18",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 13200.0,
+        "programCode": "B2_306",
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-11-30"
+      },
+      {
+        "date": "2021-12-23",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 10377.0,
+        "programCode": "B2_321",
+        "year": 2022,
+        "startDate": "2021-12-23",
+        "endDate": "2022-07-31"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": -0.0168167920286173,
+      "자본잠식_플래그": 0.0,
+      "영업외의존_연수": 1.0,
+      "재무관측연수": 5,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "고용관측연수": 0
+    },
+    "employment": {
+      "회전율백분위": null,
+      "series": null
+    },
+    "nonopIncome": {
+      "series": [
+        {
+          "year": 2020,
+          "영업이익": -67845.0,
+          "당기순이익": 53459.0
+        },
+        {
+          "year": 2021,
+          "영업이익": -222098.0,
+          "당기순이익": -214882.0
+        },
+        {
+          "year": 2022,
+          "영업이익": 18098.0,
+          "당기순이익": 171384.0
+        },
+        {
+          "year": 2023,
+          "영업이익": 23409.0,
+          "당기순이익": 18895.0
+        },
+        {
+          "year": 2024,
+          "영업이익": 109990.0,
+          "당기순이익": 85135.0
+        }
+      ]
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "9건 정합성 판정: 직접일치 9건",
+      "totalJudged": 9,
+      "totalPending": 0,
+      "breakdown": {
+        "직접일치": 9,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 0
+      },
+      "judgments": [
+        {
+          "programCode": "B2_306",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B2_321",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "H2_313",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_311",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_311",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "H2_313",
+          "year": 2023,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "H2_318",
+          "year": 2023,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "E2_1_8",
+          "year": 2024,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 44.5,
       "rawWeightedAverage": 65.1,
@@ -1571,75 +1974,19 @@
         "정합성": 100.0
       }
     },
-    "employment": {
-      "회전율백분위": 9.090909090909092,
-      "series": [
-        {
-          "year": 2020,
-          "가입": 7,
-          "취업": 1,
-          "퇴직": 3
-        },
-        {
-          "year": 2021,
-          "가입": 6.0,
-          "취업": 0.0,
-          "퇴직": 0.0
-        },
-        {
-          "year": 2022,
-          "가입": 6.0,
-          "취업": 0.0,
-          "퇴직": 0.0
-        },
-        {
-          "year": 2023,
-          "가입": 5.0,
-          "취업": 0.0,
-          "퇴직": 1.0
-        },
-        {
-          "year": 2024,
-          "가입": 5.0,
-          "취업": 0.0,
-          "퇴직": 0.0
-        }
-      ]
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "소액다건",
+      "isHighDiversity": false,
+      "supportCount": 9,
+      "totalAmountThousand": 103687.0,
+      "businessTypeDiversity": 2,
+      "maxConsecutiveYears": 3
     },
-    "nonopIncome": {
-      "series": [
-        {
-          "year": 2020,
-          "영업이익": -67845,
-          "당기순이익": 53459
-        },
-        {
-          "year": 2021,
-          "영업이익": -222098,
-          "당기순이익": -214882
-        },
-        {
-          "year": 2022,
-          "영업이익": 18098,
-          "당기순이익": 171384
-        },
-        {
-          "year": 2023,
-          "영업이익": 23409,
-          "당기순이익": 18895
-        },
-        {
-          "year": 2024,
-          "영업이익": 109990,
-          "당기순이익": 85135
-        }
-      ]
-    },
-    "foundedDate": "2010-02-02",
-    "companyStatus": "정상",
-    "isClosed": false,
-    "closureType": "부가가치세 일반과세자",
-    "capitalThousand": 100000.0
+    "_mock": []
   },
   {
     "id": 1878,
@@ -1647,6 +1994,11 @@
     "industry": "육상 금속 골조 구조재 제조업",
     "industryCode": "C25113",
     "region": "부산",
+    "foundedDate": "2018-11-01",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": null,
+    "capitalThousand": 560000.0,
     "revenueLatest": 1835991.0,
     "avgSalaryLatest": 37481.333,
     "scores": {
@@ -1693,17 +2045,25 @@
       "ROE": -0.049889136279442185,
       "영업외손익비중": -0.24185358207093607,
       "판관비율": 0.49041743668678117,
+      "데이터모순_판관비음수": 0.0,
       "총자산회전율": 0.12309374720925799,
+      "흑자관측연수": 5.0,
       "흑자지속성": 5.0,
-      "수익성추세": 1.0868350000000007,
-      "ROA추세": -0.0070777078046872265,
-      "ROE추세": -0.020414847404079322,
+      "재무관측연수": 5.0,
+      "영업외의존_연수": 0.0,
+      "고용관측연수": 0.0,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "수익성추세": 1.0868350000000777,
+      "ROA추세": -0.007077707804686195,
+      "ROE추세": -0.020414847404076036,
       "부채비율_최근": 2.445666612301322,
       "자기자본비율": 0.2902196040760053,
       "자본잠식_플래그": 0.0,
       "자본잠식정도": 7.729889285714286,
       "이익잉여금축적": 3768738.0,
-      "부채비율추세": 0.24012010425941094
+      "부채비율추세": 0.24012010425938843
     },
     "trends": {
       "매출액": [
@@ -1811,6 +2171,85 @@
       "주관": 0,
       "위탁": 0
     },
+    "tech": {
+      "patents": {
+        "출원": 2,
+        "등록": 1,
+        "등록전환율": 0.5,
+        "최근3년출원": 1,
+        "최근출원비중": 0.5,
+        "활동공백년수": 1.5249828884325805,
+        "소멸률": 0.0,
+        "첫특허업력": 4.314852840520191,
+        "대표개인명의_등록": null
+      },
+      "rnd": {
+        "집약도": 0.06699542644816886,
+        "집약도추세": -0.02438837146211089
+      },
+      "ntis": {
+        "주관과제수": 0,
+        "정부연구비_원": 0.0,
+        "민간연구비_원": null,
+        "민간부담률": null,
+        "최근수주연도": null,
+        "진행중과제수": null,
+        "부처다양성": 0,
+        "위탁과제수": 0,
+        "산학협력": false
+      },
+      "certification": {
+        "보유수": 2,
+        "핵심보유": true,
+        "실체괴리": false
+      },
+      "domain": {
+        "주력기술분야": "기계·소재부품",
+        "출처": "KSIC추정",
+        "분야수": 0,
+        "집중도": null,
+        "btp중점사업": [
+          "지역특화산업 혁신선도"
+        ],
+        "국가전략기술": [],
+        "기술수준등급": "중저위기술",
+        "지역전략산업": null,
+        "지역전략산업_매칭유형": null,
+        "지역전략산업_부합": false
+      },
+      "scores": {
+        "rndPatent": 39.3939393939394,
+        "ntis": 18.18181818181818,
+        "백분위기준": "전체fallback"
+      },
+      "percentiles": {
+        "특허출원": 9.090909090909092,
+        "특허등록": 9.090909090909092,
+        "등록전환율": 18.181818181818183,
+        "최근출원비중": 100.0,
+        "R&D집약도": 54.54545454545454,
+        "NTIS과제수": 13.636363636363635,
+        "NTIS연구비": 13.636363636363635
+      },
+      "patentList": [
+        {
+          "type": "특허권",
+          "status": "공개",
+          "applied": "2024-10-07",
+          "registered": null,
+          "valid": false,
+          "relation": null
+        },
+        {
+          "type": "실용신안권",
+          "status": "등록",
+          "applied": "2023-02-24",
+          "registered": "2024-06-03",
+          "valid": true,
+          "relation": "본인"
+        }
+      ]
+    },
     "support": {
       "건수": 3,
       "총지원금_천원": 27000.0,
@@ -1851,95 +2290,105 @@
     "passthrough": {
       "영업외손익비중": -0.24185358207093607,
       "자본잠식_플래그": 0.0,
-      "영업외의존_연수": 0,
+      "영업외의존_연수": 0.0,
       "재무관측연수": 5,
-      "이직률_최근": 0.1,
-      "고용회전율_최근": 0.3,
-      "고용순증_최근": 1,
-      "고용관측연수": 5
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "고용관측연수": 0
+    },
+    "employment": {
+      "회전율백분위": null,
+      "series": null
+    },
+    "nonopIncome": {
+      "series": [
+        {
+          "year": 2020,
+          "영업이익": 159739.0,
+          "당기순이익": 164730.0
+        },
+        {
+          "year": 2021,
+          "영업이익": 381885.0,
+          "당기순이익": 129816.0
+        },
+        {
+          "year": 2022,
+          "영업이익": 628004.0,
+          "당기순이익": 68679.0
+        },
+        {
+          "year": 2023,
+          "영업이익": 526263.0,
+          "당기순이익": 2226.0
+        },
+        {
+          "year": 2024,
+          "영업이익": 228084.0,
+          "당기순이익": -215957.0
+        }
+      ]
     },
     "percentileBasis": "전체fallback",
     "dataQuality": {
       "missing": [],
       "ok": true
     },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
-    "tech": {
-      "patents": {
-        "출원": 2,
-        "등록": 1,
-        "등록전환율": 0.5,
-        "최근3년출원": 1,
-        "최근출원비중": 0.5,
-        "활동공백년수": 1.5249828884325805,
-        "소멸률": 0.0,
-        "첫특허업력": 4.314852840520191,
-        "대표개인명의_등록": 0
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "3건 정합성 판정: 직접일치 3건",
+      "totalJudged": 3,
+      "totalPending": 0,
+      "breakdown": {
+        "직접일치": 3,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 0
       },
-      "rnd": {
-        "집약도": 0.06699542644816886,
-        "집약도추세": -0.0243883714621109
-      },
-      "ntis": {
-        "주관과제수": 0,
-        "정부연구비_원": 0.0,
-        "부처다양성": 0,
-        "위탁과제수": 0,
-        "산학협력": false,
-        "민간연구비_원": null,
-        "민간부담률": null,
-        "최근수주연도": null,
-        "진행중과제수": 0
-      },
-      "certification": {
-        "보유수": 2,
-        "핵심보유": true,
-        "실체괴리": false
-      },
-      "domain": {
-        "주력기술분야": "기계·소재부품",
-        "출처": "KSIC추정",
-        "분야수": 0,
-        "집중도": null,
-        "btp중점사업": [
-          "지역특화산업 혁신선도"
-        ],
-        "국가전략기술": [],
-        "기술수준등급": "중저위기술"
-      },
-      "scores": {
-        "rndPatent": 39.3939393939394,
-        "ntis": 18.18181818181818,
-        "백분위기준": "전체fallback"
-      },
-      "percentiles": {
-        "특허출원": 9.090909090909092,
-        "특허등록": 9.090909090909092,
-        "등록전환율": 18.181818181818183,
-        "최근출원비중": 100.0,
-        "R&D집약도": 54.54545454545454,
-        "NTIS과제수": 13.636363636363635,
-        "NTIS연구비": 13.636363636363635
-      },
-      "patentList": [
+      "judgments": [
         {
-          "type": "특허권",
-          "status": "공개",
-          "applied": "2024-10-07",
-          "registered": null,
-          "valid": false,
-          "relation": null
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
         },
         {
-          "type": "실용신안권",
-          "status": "등록",
-          "applied": "2023-02-24",
-          "registered": "2024-06-03",
-          "valid": true,
-          "relation": "본인"
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
         }
       ]
     },
@@ -1959,75 +2408,19 @@
         "정합성": 100.0
       }
     },
-    "employment": {
-      "회전율백분위": 18.181818181818183,
-      "series": [
-        {
-          "year": 2020,
-          "가입": 13,
-          "취업": 12,
-          "퇴직": 14
-        },
-        {
-          "year": 2021,
-          "가입": 11.0,
-          "취업": 15.0,
-          "퇴직": 18.0
-        },
-        {
-          "year": 2022,
-          "가입": 12.0,
-          "취업": 6.0,
-          "퇴직": 5.0
-        },
-        {
-          "year": 2023,
-          "가입": 9.0,
-          "취업": 1.0,
-          "퇴직": 2.0
-        },
-        {
-          "year": 2024,
-          "가입": 10.0,
-          "취업": 2.0,
-          "퇴직": 1.0
-        }
-      ]
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "소액소수",
+      "isHighDiversity": false,
+      "supportCount": 3,
+      "totalAmountThousand": 27000.0,
+      "businessTypeDiversity": 1,
+      "maxConsecutiveYears": 1
     },
-    "nonopIncome": {
-      "series": [
-        {
-          "year": 2020,
-          "영업이익": 159739,
-          "당기순이익": 164730
-        },
-        {
-          "year": 2021,
-          "영업이익": 381885,
-          "당기순이익": 129816
-        },
-        {
-          "year": 2022,
-          "영업이익": 628004,
-          "당기순이익": 68679
-        },
-        {
-          "year": 2023,
-          "영업이익": 526263,
-          "당기순이익": 2226
-        },
-        {
-          "year": 2024,
-          "영업이익": 228084,
-          "당기순이익": -215957
-        }
-      ]
-    },
-    "foundedDate": "2018-11-01",
-    "companyStatus": "정상",
-    "isClosed": false,
-    "closureType": "부가가치세 일반과세자",
-    "capitalThousand": 560000.0
+    "_mock": []
   },
   {
     "id": 1786,
@@ -2035,6 +2428,11 @@
     "industry": "그 외 기타 비거주 복지 서비스업",
     "industryCode": "Q87299",
     "region": "부산",
+    "foundedDate": "2018-07-26",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": null,
+    "capitalThousand": 220000.0,
     "revenueLatest": 299866.0,
     "avgSalaryLatest": 29569.6,
     "scores": {
@@ -2081,17 +2479,25 @@
       "ROE": 0.02440474675563556,
       "영업외손익비중": 0.44751322257274917,
       "판관비율": 1.093941960742465,
+      "데이터모순_판관비음수": 0.0,
       "총자산회전율": 0.23585403549616368,
+      "흑자관측연수": 5.0,
       "흑자지속성": 2.0,
-      "수익성추세": 21.501515000000012,
-      "ROA추세": -0.0002178262930221249,
-      "ROE추세": 1.967721995189574,
+      "재무관측연수": 5.0,
+      "영업외의존_연수": 2.0,
+      "고용관측연수": 0.0,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "수익성추세": 21.50151500000182,
+      "ROA추세": -0.00021782629301502033,
+      "ROE추세": 1.9677219951895308,
       "부채비율_최근": 1.9416303610967791,
       "자기자본비율": 0.33994753835323915,
       "자본잠식_플래그": 0.0,
       "자본잠식정도": 1.9645954545454545,
       "이익잉여금축적": 212211.0,
-      "부채비율추세": -20.34575432104393
+      "부채비율추세": -20.345754321043188
     },
     "trends": {
       "매출액": [
@@ -2199,232 +2605,6 @@
       "주관": 2,
       "위탁": 1
     },
-    "support": {
-      "건수": 21,
-      "총지원금_천원": 166960.0,
-      "지원연도수": 3
-    },
-    "supportHistory": [
-      {
-        "date": "2024-07-12",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 2600.0,
-        "programCode": "F1_1_2",
-        "year": 2024,
-        "startDate": "2024-05-01",
-        "endDate": "2024-11-30"
-      },
-      {
-        "date": "2024-06-21",
-        "result": "선정",
-        "bizType": "기타",
-        "amount": 6000.0,
-        "programCode": "B1_1_1",
-        "year": 2024,
-        "startDate": "2024-06-21",
-        "endDate": "2024-09-13"
-      },
-      {
-        "date": "2024-04-09",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 3000.0,
-        "programCode": "F1_1_2",
-        "year": 2024,
-        "startDate": "2024-05-01",
-        "endDate": "2024-11-30"
-      },
-      {
-        "date": "2024-02-16",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 2000.0,
-        "programCode": "F1_1_5",
-        "year": 2024,
-        "startDate": "2024-02-17",
-        "endDate": "2024-05-18"
-      },
-      {
-        "date": "2023-09-19",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 25000.0,
-        "programCode": "B1_311",
-        "year": 2023,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2023-09-18",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 7500.0,
-        "programCode": "T1_332",
-        "year": 2023,
-        "startDate": "2023-09-18",
-        "endDate": "2023-11-30"
-      },
-      {
-        "date": "2023-07-21",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 0,
-        "programCode": "T1_305",
-        "year": 2023,
-        "startDate": "2023-08-17",
-        "endDate": "2023-08-19"
-      },
-      {
-        "date": "2023-05-30",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 10000.0,
-        "programCode": "C3_303",
-        "year": 2023,
-        "startDate": "2023-06-01",
-        "endDate": "2023-12-31"
-      },
-      {
-        "date": "2023-03-24",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 25000.0,
-        "programCode": "C1_310",
-        "year": 2023,
-        "startDate": "2023-04-01",
-        "endDate": "2023-11-30"
-      },
-      {
-        "date": "2022-11-24",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 5555.0,
-        "programCode": "T2_311",
-        "year": 2022,
-        "startDate": "2022-11-24",
-        "endDate": "2023-03-20"
-      },
-      {
-        "date": "2022-11-24",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 25555.0,
-        "programCode": "T2_311",
-        "year": 2022,
-        "startDate": "2022-11-24",
-        "endDate": "2023-03-20"
-      },
-      {
-        "date": "2022-07-13",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 0,
-        "programCode": "T1_305",
-        "year": 2022,
-        "startDate": "2022-08-24",
-        "endDate": "2022-08-26"
-      },
-      {
-        "date": "2022-05-24",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 4750.0,
-        "programCode": "B2_308",
-        "year": 2022,
-        "startDate": "2022-06-01",
-        "endDate": "2022-11-30"
-      },
-      {
-        "date": "2022-05-19",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 15000.0,
-        "programCode": "B1_303",
-        "year": 2022,
-        "startDate": "2022-05-19",
-        "endDate": "2022-10-31"
-      },
-      {
-        "date": "2022-05-18",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 7000.0,
-        "programCode": "B2_306",
-        "year": 2022,
-        "startDate": "2022-06-01",
-        "endDate": "2022-11-30"
-      },
-      {
-        "date": "2022-04-28",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 10000.0,
-        "programCode": "B2_301",
-        "year": 2022,
-        "startDate": "2022-05-01",
-        "endDate": "2022-11-30"
-      },
-      {
-        "date": "2022-02-14",
-        "result": "선정",
-        "bizType": "기반구축",
-        "amount": 5800.0,
-        "programCode": "T1_201",
-        "year": 2022,
-        "startDate": "2022-05-12",
-        "endDate": "2022-05-12"
-      },
-      {
-        "date": "2021-11-26",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 4000.0,
-        "programCode": "X2_307",
-        "year": 2022,
-        "startDate": "2021-12-01",
-        "endDate": "2022-02-28"
-      },
-      {
-        "date": "2021-10-28",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 5000.0,
-        "programCode": "T2_316",
-        "year": 2022,
-        "startDate": "2021-11-01",
-        "endDate": "2022-02-28"
-      },
-      {
-        "date": "2021-05-01",
-        "result": "선정",
-        "bizType": "일자리창출or인력양성",
-        "amount": 3200.0,
-        "programCode": "B2_314",
-        "year": 2022,
-        "startDate": "2022-01-01",
-        "endDate": "2022-07-31"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": 0.44751322257274917,
-      "자본잠식_플래그": 0.0,
-      "영업외의존_연수": 2,
-      "재무관측연수": 5,
-      "이직률_최근": 0.2,
-      "고용회전율_최근": 0.4,
-      "고용순증_최근": 0,
-      "고용관측연수": 5
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 24,
@@ -2435,22 +2615,22 @@
         "활동공백년수": 1.8124572210814511,
         "소멸률": 0.09090909090909091,
         "첫특허업력": 0.0,
-        "대표개인명의_등록": 1
+        "대표개인명의_등록": null
       },
       "rnd": {
         "집약도": 0.8964804279244729,
-        "집약도추세": -1.8080056275151788
+        "집약도추세": -1.8080056275151792
       },
       "ntis": {
         "주관과제수": 2,
         "정부연구비_원": 430000000.0,
+        "민간연구비_원": null,
+        "민간부담률": null,
+        "최근수주연도": null,
+        "진행중과제수": null,
         "부처다양성": 1,
         "위탁과제수": 1,
-        "산학협력": false,
-        "민간연구비_원": 107502000.0,
-        "민간부담률": 0.20000297673310982,
-        "최근수주연도": 2021,
-        "진행중과제수": 0
+        "산학협력": false
       },
       "certification": {
         "보유수": 1,
@@ -2468,7 +2648,10 @@
         "국가전략기술": [
           "첨단바이오"
         ],
-        "기술수준등급": "기술수준 미분류"
+        "기술수준등급": "기술수준 미분류",
+        "지역전략산업": null,
+        "지역전략산업_매칭유형": null,
+        "지역전략산업_부합": false
       },
       "scores": {
         "rndPatent": 42.92929292929293,
@@ -2679,6 +2862,547 @@
         }
       ]
     },
+    "support": {
+      "건수": 21,
+      "총지원금_천원": 166960.0,
+      "지원연도수": 3
+    },
+    "supportHistory": [
+      {
+        "date": "2024-07-12",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 2600.0,
+        "programCode": "F1_1_2",
+        "year": 2024,
+        "startDate": "2024-07-12",
+        "endDate": "2024-11-30"
+      },
+      {
+        "date": "2024-06-21",
+        "result": "선정",
+        "bizType": "기타",
+        "amount": 6000.0,
+        "programCode": "B1_1_1",
+        "year": 2024,
+        "startDate": "2024-06-21",
+        "endDate": "2024-09-13"
+      },
+      {
+        "date": "2024-04-09",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 3000.0,
+        "programCode": "F1_1_2",
+        "year": 2024,
+        "startDate": "2024-05-01",
+        "endDate": "2024-11-30"
+      },
+      {
+        "date": "2024-02-16",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 2000.0,
+        "programCode": "F1_1_5",
+        "year": 2024,
+        "startDate": "2024-02-17",
+        "endDate": "2024-05-18"
+      },
+      {
+        "date": "2023-09-19",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 25000.0,
+        "programCode": "B1_311",
+        "year": 2023,
+        "startDate": "2023-09-18",
+        "endDate": "2023-11-17"
+      },
+      {
+        "date": "2023-09-18",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 7500.0,
+        "programCode": "T1_332",
+        "year": 2023,
+        "startDate": "2023-09-18",
+        "endDate": "2023-11-30"
+      },
+      {
+        "date": "2023-07-21",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 0,
+        "programCode": "T1_305",
+        "year": 2023,
+        "startDate": "2023-08-17",
+        "endDate": "2023-08-19"
+      },
+      {
+        "date": "2023-05-30",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 10000.0,
+        "programCode": "C3_303",
+        "year": 2023,
+        "startDate": "2023-06-01",
+        "endDate": "2023-12-31"
+      },
+      {
+        "date": "2023-03-24",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 25000.0,
+        "programCode": "C1_310",
+        "year": 2023,
+        "startDate": "2023-04-01",
+        "endDate": "2023-11-30"
+      },
+      {
+        "date": "2022-11-24",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 5555.0,
+        "programCode": "T2_311",
+        "year": 2022,
+        "startDate": "2022-11-24",
+        "endDate": "2023-03-20"
+      },
+      {
+        "date": "2022-11-24",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 25555.0,
+        "programCode": "T2_311",
+        "year": 2022,
+        "startDate": "2022-11-24",
+        "endDate": "2023-03-20"
+      },
+      {
+        "date": "2022-07-13",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 0,
+        "programCode": "T1_305",
+        "year": 2022,
+        "startDate": "2022-08-24",
+        "endDate": "2022-08-26"
+      },
+      {
+        "date": "2022-05-24",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 4750.0,
+        "programCode": "B2_308",
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-11-30"
+      },
+      {
+        "date": "2022-05-19",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 15000.0,
+        "programCode": "B1_303",
+        "year": 2022,
+        "startDate": "2022-05-19",
+        "endDate": "2022-10-31"
+      },
+      {
+        "date": "2022-05-18",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 7000.0,
+        "programCode": "B2_306",
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-11-30"
+      },
+      {
+        "date": "2022-04-28",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 10000.0,
+        "programCode": "B2_301",
+        "year": 2022,
+        "startDate": "2022-05-01",
+        "endDate": "2022-11-30"
+      },
+      {
+        "date": "2022-02-14",
+        "result": "선정",
+        "bizType": "기반구축",
+        "amount": 5800.0,
+        "programCode": "T1_201",
+        "year": 2022,
+        "startDate": "2022-05-12",
+        "endDate": "2022-05-12"
+      },
+      {
+        "date": "2021-11-26",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 4000.0,
+        "programCode": "X2_307",
+        "year": 2022,
+        "startDate": "2021-12-01",
+        "endDate": "2022-02-28"
+      },
+      {
+        "date": "2021-10-28",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 5000.0,
+        "programCode": "T2_316",
+        "year": 2022,
+        "startDate": "2021-11-01",
+        "endDate": "2022-02-28"
+      },
+      {
+        "date": "2021-05-01",
+        "result": "선정",
+        "bizType": "일자리창출or인력양성",
+        "amount": 3200.0,
+        "programCode": "B2_314",
+        "year": 2022,
+        "startDate": "2022-01-01",
+        "endDate": "2022-07-31"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": 0.44751322257274917,
+      "자본잠식_플래그": 0.0,
+      "영업외의존_연수": 2.0,
+      "재무관측연수": 5,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "고용관측연수": 0
+    },
+    "employment": {
+      "회전율백분위": null,
+      "series": null
+    },
+    "nonopIncome": {
+      "series": [
+        {
+          "year": 2020,
+          "영업이익": -66950.0,
+          "당기순이익": -63792.0
+        },
+        {
+          "year": 2021,
+          "영업이익": 86344.0,
+          "당기순이익": 198813.0
+        },
+        {
+          "year": 2022,
+          "영업이익": 29860.0,
+          "당기순이익": 99169.0
+        },
+        {
+          "year": 2023,
+          "영업이익": -157312.0,
+          "당기순이익": 18215.0
+        },
+        {
+          "year": 2024,
+          "영업이익": -123646.0,
+          "당기순이익": 10548.0
+        }
+      ]
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "20건 중 직접일치 17건 · 3건 판정 대기",
+      "totalJudged": 17,
+      "totalPending": 3,
+      "breakdown": {
+        "직접일치": 17,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 3
+      },
+      "judgments": [
+        {
+          "programCode": "B1_303",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B2_301",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B2_306",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B2_308",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B2_314",
+          "year": 2022,
+          "programName": null,
+          "businessType": "일자리창출or인력양성",
+          "score": null,
+          "matchType": "판단유보",
+          "matchedKeywords": [],
+          "reasoning": "LLM 시맨틱 판정 대기",
+          "source": "pending"
+        },
+        {
+          "programCode": "T1_201",
+          "year": 2022,
+          "programName": null,
+          "businessType": "기반구축",
+          "score": null,
+          "matchType": "판단유보",
+          "matchedKeywords": [],
+          "reasoning": "LLM 시맨틱 판정 대기",
+          "source": "pending"
+        },
+        {
+          "programCode": "T1_305",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "T2_311",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "T2_311",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "T2_316",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "X2_307",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_311",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "C1_310",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "C3_303",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "T1_305",
+          "year": 2023,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "T1_332",
+          "year": 2023,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_1",
+          "year": 2024,
+          "programName": null,
+          "businessType": "기타",
+          "score": null,
+          "matchType": "판단유보",
+          "matchedKeywords": [],
+          "reasoning": "LLM 시맨틱 판정 대기",
+          "source": "pending"
+        },
+        {
+          "programCode": "F1_1_2",
+          "year": 2024,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "F1_1_2",
+          "year": 2024,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "F1_1_5",
+          "year": 2024,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "Q",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 42.3,
       "rawWeightedAverage": 65.2,
@@ -2695,75 +3419,21 @@
         "정합성": 100.0
       }
     },
-    "employment": {
-      "회전율백분위": 36.36363636363637,
-      "series": [
-        {
-          "year": 2020,
-          "가입": 3,
-          "취업": 1,
-          "퇴직": 1
-        },
-        {
-          "year": 2021,
-          "가입": 4.0,
-          "취업": 3.0,
-          "퇴직": 2.0
-        },
-        {
-          "year": 2022,
-          "가입": 4.0,
-          "취업": 8.0,
-          "퇴직": 8.0
-        },
-        {
-          "year": 2023,
-          "가입": 5.0,
-          "취업": 4.0,
-          "퇴직": 3.0
-        },
-        {
-          "year": 2024,
-          "가입": 5.0,
-          "취업": 1.0,
-          "퇴직": 1.0
-        }
-      ]
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "대형다건",
+      "isHighDiversity": true,
+      "supportCount": 20,
+      "totalAmountThousand": 166960.0,
+      "businessTypeDiversity": 5,
+      "maxConsecutiveYears": 3
     },
-    "nonopIncome": {
-      "series": [
-        {
-          "year": 2020,
-          "영업이익": -66950,
-          "당기순이익": -63792
-        },
-        {
-          "year": 2021,
-          "영업이익": 86344,
-          "당기순이익": 198813
-        },
-        {
-          "year": 2022,
-          "영업이익": 29860,
-          "당기순이익": 99169
-        },
-        {
-          "year": 2023,
-          "영업이익": -157312,
-          "당기순이익": 18215
-        },
-        {
-          "year": 2024,
-          "영업이익": -123646,
-          "당기순이익": 10548
-        }
-      ]
-    },
-    "foundedDate": "2018-07-26",
-    "companyStatus": "정상",
-    "isClosed": false,
-    "closureType": "부가가치세 일반과세자",
-    "capitalThousand": 220000.0
+    "_mock": [
+      "businessFit.llm"
+    ]
   },
   {
     "id": 2379,
@@ -2771,6 +3441,11 @@
     "industry": "선박 구성 부분품 제조업",
     "industryCode": "C31114",
     "region": "부산",
+    "foundedDate": "2014-02-28",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": null,
+    "capitalThousand": 900000.0,
     "revenueLatest": 1826481.0,
     "avgSalaryLatest": 40628.364,
     "scores": {
@@ -2817,17 +3492,25 @@
       "ROE": -0.5258509630057989,
       "영업외손익비중": 0.12885707543631716,
       "판관비율": 0.7067546829121135,
+      "데이터모순_판관비음수": 0.0,
       "총자산회전율": 0.6750772844941654,
+      "흑자관측연수": 5.0,
       "흑자지속성": 0.0,
-      "수익성추세": -0.3897399999999997,
-      "ROA추세": -0.026593002969908505,
-      "ROE추세": -0.11369953182890155,
+      "재무관측연수": 5.0,
+      "영업외의존_연수": 4.0,
+      "고용관측연수": 0.0,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "수익성추세": -0.38974000000018577,
+      "ROA추세": -0.026593002969903034,
+      "ROE추세": -0.11369953182887936,
       "부채비율_최근": 3.346116653012706,
       "자기자본비율": 0.23009046462358645,
       "자본잠식_플래그": 0.0,
       "자본잠식정도": 0.6917,
       "이익잉여금축적": -277470.0,
-      "부채비율추세": 0.13017870553012997
+      "부채비율추세": 0.13017870553007563
     },
     "trends": {
       "매출액": [
@@ -2935,112 +3618,6 @@
       "주관": 9,
       "위탁": 0
     },
-    "support": {
-      "건수": 8,
-      "총지원금_천원": 135880.0,
-      "지원연도수": 3
-    },
-    "supportHistory": [
-      {
-        "date": "2024-08-12",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 20000.0,
-        "programCode": "B1_1_3",
-        "year": 2024,
-        "startDate": "2024-08-26",
-        "endDate": "2024-11-22"
-      },
-      {
-        "date": "2024-05-28",
-        "result": "선정",
-        "bizType": "기술지원",
-        "amount": 28000.0,
-        "programCode": "E2_1_6",
-        "year": 2024,
-        "startDate": "2024-07-01",
-        "endDate": "2024-11-30"
-      },
-      {
-        "date": "2024-05-28",
-        "result": "선정",
-        "bizType": "기술지원",
-        "amount": 2000.0,
-        "programCode": "E2_1_6",
-        "year": 2024,
-        "startDate": "2024-07-01",
-        "endDate": "2024-11-30"
-      },
-      {
-        "date": "2024-04-04",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 23880.0,
-        "programCode": "B1_1_4",
-        "year": 2024,
-        "startDate": "2024-04-23",
-        "endDate": "2024-10-31"
-      },
-      {
-        "date": "2023-02-21",
-        "result": "선정",
-        "bizType": "기술지원",
-        "amount": 32000.0,
-        "programCode": "H2_315",
-        "year": 2023,
-        "startDate": "2023-05-01",
-        "endDate": "2023-11-30"
-      },
-      {
-        "date": "2022-07-15",
-        "result": "탈락",
-        "bizType": "일자리창출or인력양성",
-        "amount": 0,
-        "programCode": "C1_308",
-        "year": 2022,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2022-06-22",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 15000.0,
-        "programCode": "B1_302",
-        "year": 2022,
-        "startDate": "2022-08-08",
-        "endDate": "2022-10-31"
-      },
-      {
-        "date": "2022-06-22",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 15000.0,
-        "programCode": "B1_302",
-        "year": 2022,
-        "startDate": "2022-08-08",
-        "endDate": "2022-10-31"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": 0.12885707543631716,
-      "자본잠식_플래그": 0.0,
-      "영업외의존_연수": 4,
-      "재무관측연수": 5,
-      "이직률_최근": 0.4545,
-      "고용회전율_최근": 0.5455,
-      "고용순증_최근": -4,
-      "고용관측연수": 5
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 43,
@@ -3051,22 +3628,22 @@
         "활동공백년수": 1.4948665297741273,
         "소멸률": 0.0967741935483871,
         "첫특허업력": 0.0,
-        "대표개인명의_등록": 0
+        "대표개인명의_등록": null
       },
       "rnd": {
         "집약도": 0.14089990533709357,
-        "집약도추세": -0.05468270953659225
+        "집약도추세": -0.05468270953659219
       },
       "ntis": {
         "주관과제수": 9,
         "정부연구비_원": 1787000000.0,
+        "민간연구비_원": null,
+        "민간부담률": null,
+        "최근수주연도": null,
+        "진행중과제수": null,
         "부처다양성": 3,
         "위탁과제수": 0,
-        "산학협력": false,
-        "민간연구비_원": 455150000.0,
-        "민간부담률": 0.2029971232968356,
-        "최근수주연도": 2023,
-        "진행중과제수": 0
+        "산학협력": false
       },
       "certification": {
         "보유수": 2,
@@ -3085,7 +3662,10 @@
         "국가전략기술": [
           "우주항공·해양"
         ],
-        "기술수준등급": "중저위기술"
+        "기술수준등급": "중저위기술",
+        "지역전략산업": "미래모빌리티",
+        "지역전략산업_매칭유형": "고유",
+        "지역전략산업_부합": true
       },
       "scores": {
         "rndPatent": 57.575757575757585,
@@ -3448,6 +4028,254 @@
         }
       ]
     },
+    "support": {
+      "건수": 8,
+      "총지원금_천원": 135880.0,
+      "지원연도수": 3
+    },
+    "supportHistory": [
+      {
+        "date": "2024-08-12",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 20000.0,
+        "programCode": "B1_1_3",
+        "year": 2024,
+        "startDate": "2024-08-26",
+        "endDate": "2024-11-22"
+      },
+      {
+        "date": "2024-05-28",
+        "result": "선정",
+        "bizType": "기술지원",
+        "amount": 28000.0,
+        "programCode": "E2_1_6",
+        "year": 2024,
+        "startDate": "2024-07-01",
+        "endDate": "2024-11-30"
+      },
+      {
+        "date": "2024-05-28",
+        "result": "선정",
+        "bizType": "기술지원",
+        "amount": 2000.0,
+        "programCode": "E2_1_6",
+        "year": 2024,
+        "startDate": "2024-07-01",
+        "endDate": "2024-11-30"
+      },
+      {
+        "date": "2024-04-04",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 23880.0,
+        "programCode": "B1_1_4",
+        "year": 2024,
+        "startDate": "2024-04-23",
+        "endDate": "2024-10-31"
+      },
+      {
+        "date": "2023-02-21",
+        "result": "선정",
+        "bizType": "기술지원",
+        "amount": 32000.0,
+        "programCode": "H2_315",
+        "year": 2023,
+        "startDate": "2023-05-01",
+        "endDate": "2023-11-30"
+      },
+      {
+        "date": "2022-07-15",
+        "result": "탈락",
+        "bizType": "일자리창출or인력양성",
+        "amount": 0,
+        "programCode": "C1_308",
+        "year": 2022,
+        "startDate": null,
+        "endDate": null
+      },
+      {
+        "date": "2022-06-22",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 15000.0,
+        "programCode": "B1_302",
+        "year": 2022,
+        "startDate": "2022-08-08",
+        "endDate": "2022-10-31"
+      },
+      {
+        "date": "2022-06-22",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 15000.0,
+        "programCode": "B1_302",
+        "year": 2022,
+        "startDate": "2022-08-08",
+        "endDate": "2022-10-31"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": 0.12885707543631716,
+      "자본잠식_플래그": 0.0,
+      "영업외의존_연수": 4.0,
+      "재무관측연수": 5,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "고용관측연수": 0
+    },
+    "employment": {
+      "회전율백분위": null,
+      "series": null
+    },
+    "nonopIncome": {
+      "series": [
+        {
+          "year": 2020,
+          "영업이익": -234297.0,
+          "당기순이익": 20335.0
+        },
+        {
+          "year": 2021,
+          "영업이익": -705794.0,
+          "당기순이익": 51212.0
+        },
+        {
+          "year": 2022,
+          "영업이익": -527650.0,
+          "당기순이익": 42768.0
+        },
+        {
+          "year": 2023,
+          "영업이익": -487923.0,
+          "당기순이익": 20010.0
+        },
+        {
+          "year": 2024,
+          "영업이익": -562713.0,
+          "당기순이익": -327358.0
+        }
+      ]
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "7건 정합성 판정: 직접일치 7건",
+      "totalJudged": 7,
+      "totalPending": 0,
+      "breakdown": {
+        "직접일치": 7,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 0
+      },
+      "judgments": [
+        {
+          "programCode": "B1_302",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_302",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "H2_315",
+          "year": 2023,
+          "programName": null,
+          "businessType": "기술지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "기술지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_4",
+          "year": 2024,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "E2_1_6",
+          "year": 2024,
+          "programName": null,
+          "businessType": "기술지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "기술지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "E2_1_6",
+          "year": 2024,
+          "programName": null,
+          "businessType": "기술지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "기술지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 34.1,
       "rawWeightedAverage": 65.5,
@@ -3464,75 +4292,19 @@
         "정합성": 100.0
       }
     },
-    "employment": {
-      "회전율백분위": 45.45454545454545,
-      "series": [
-        {
-          "year": 2020,
-          "가입": 16,
-          "취업": 4,
-          "퇴직": 3
-        },
-        {
-          "year": 2021,
-          "가입": 13.0,
-          "취업": 4.0,
-          "퇴직": 6.0
-        },
-        {
-          "year": 2022,
-          "가입": 13.0,
-          "취업": 3.0,
-          "퇴직": 3.0
-        },
-        {
-          "year": 2023,
-          "가입": 15.0,
-          "취업": 4.0,
-          "퇴직": 2.0
-        },
-        {
-          "year": 2024,
-          "가입": 11.0,
-          "취업": 1.0,
-          "퇴직": 5.0
-        }
-      ]
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "소액소수",
+      "isHighDiversity": false,
+      "supportCount": 7,
+      "totalAmountThousand": 135880.0,
+      "businessTypeDiversity": 3,
+      "maxConsecutiveYears": 3
     },
-    "nonopIncome": {
-      "series": [
-        {
-          "year": 2020,
-          "영업이익": -234297,
-          "당기순이익": 20335
-        },
-        {
-          "year": 2021,
-          "영업이익": -705794,
-          "당기순이익": 51212
-        },
-        {
-          "year": 2022,
-          "영업이익": -527650,
-          "당기순이익": 42768
-        },
-        {
-          "year": 2023,
-          "영업이익": -487923,
-          "당기순이익": 20010
-        },
-        {
-          "year": 2024,
-          "영업이익": -562713,
-          "당기순이익": -327358
-        }
-      ]
-    },
-    "foundedDate": "2014-02-28",
-    "companyStatus": "정상",
-    "isClosed": false,
-    "closureType": "부가가치세 일반과세자",
-    "capitalThousand": 900000.0
+    "_mock": []
   },
   {
     "id": 672,
@@ -3540,6 +4312,11 @@
     "industry": "증류기, 열교환기 및 가스발생기 제조업",
     "industryCode": "C29177",
     "region": "부산",
+    "foundedDate": "2003-08-01",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": null,
+    "capitalThousand": 1400000.0,
     "revenueLatest": 43035757.0,
     "avgSalaryLatest": 46688.858,
     "scores": {
@@ -3586,17 +4363,25 @@
       "ROE": 0.0065555044917618615,
       "영업외손익비중": -0.09449723400938434,
       "판관비율": 0.100900025994663,
+      "데이터모순_판관비음수": 0.0,
       "총자산회전율": 0.5789491236504339,
+      "흑자관측연수": 5.0,
       "흑자지속성": 5.0,
-      "수익성추세": 1.2858899999999993,
-      "ROA추세": -0.00683851959859136,
-      "ROE추세": -0.019433886394407525,
+      "재무관측연수": 5.0,
+      "영업외의존_연수": 0.0,
+      "고용관측연수": 0.0,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "수익성추세": 1.2858899999997533,
+      "ROA추세": -0.006838519598591068,
+      "ROE추세": -0.019433886394406533,
       "부채비율_최근": 2.044208313303922,
       "자기자본비율": 0.32849263160794867,
       "자본잠식_플래그": 0.0,
       "자본잠식정도": 17.441612857142857,
       "이익잉여금축적": 23018258.0,
-      "부채비율추세": 0.026650494655601858
+      "부채비율추세": 0.026650494655623323
     },
     "trends": {
       "매출액": [
@@ -3704,72 +4489,6 @@
       "주관": 14,
       "위탁": 1
     },
-    "support": {
-      "건수": 5,
-      "총지원금_천원": 92259.0,
-      "지원연도수": 2
-    },
-    "supportHistory": [
-      {
-        "date": "2024-02-06",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 9775.0,
-        "programCode": "B4_1_13",
-        "year": 2024,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2023-08-28",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 17143.0,
-        "programCode": "C3_302",
-        "year": 2023,
-        "startDate": "2023-04-04",
-        "endDate": "2023-12-31"
-      },
-      {
-        "date": "2023-06-20",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 50000.0,
-        "programCode": "B1_311",
-        "year": 2023,
-        "startDate": "2023-06-23",
-        "endDate": "2023-10-31"
-      },
-      {
-        "date": "2023-04-04",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 15341.0,
-        "programCode": "C3_302",
-        "year": 2023,
-        "startDate": "2023-04-04",
-        "endDate": "2023-12-31"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": -0.09449723400938434,
-      "자본잠식_플래그": 0.0,
-      "영업외의존_연수": 0,
-      "재무관측연수": 5,
-      "이직률_최근": 0.2069,
-      "고용회전율_최근": 0.3908,
-      "고용순증_최근": -2,
-      "고용관측연수": 5
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 43,
@@ -3780,22 +4499,22 @@
         "활동공백년수": 1.6016427104722792,
         "소멸률": 0.03125,
         "첫특허업력": 0.0,
-        "대표개인명의_등록": 1
+        "대표개인명의_등록": null
       },
       "rnd": {
         "집약도": 0.030486602106243883,
-        "집약도추세": 0.00031972431240380353
+        "집약도추세": 0.0003197243124038077
       },
       "ntis": {
         "주관과제수": 14,
         "정부연구비_원": 3352943000.0,
+        "민간연구비_원": null,
+        "민간부담률": null,
+        "최근수주연도": null,
+        "진행중과제수": null,
         "부처다양성": 4,
         "위탁과제수": 1,
-        "산학협력": false,
-        "민간연구비_원": 2069447920.0,
-        "민간부담률": 0.3816486030852235,
-        "최근수주연도": 2024,
-        "진행중과제수": 0
+        "산학협력": false
       },
       "certification": {
         "보유수": 3,
@@ -3815,7 +4534,10 @@
         "국가전략기술": [
           "우주항공·해양"
         ],
-        "기술수준등급": "중고위기술"
+        "기술수준등급": "중고위기술",
+        "지역전략산업": "융합부품소재",
+        "지역전략산업_매칭유형": "고유",
+        "지역전략산업_부합": true
       },
       "scores": {
         "rndPatent": 54.54545454545455,
@@ -4178,6 +4900,172 @@
         }
       ]
     },
+    "support": {
+      "건수": 5,
+      "총지원금_천원": 92259.0,
+      "지원연도수": 2
+    },
+    "supportHistory": [
+      {
+        "date": "2024-02-06",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 9775.0,
+        "programCode": "B4_1_13",
+        "year": 2024,
+        "startDate": "2024-02-06",
+        "endDate": "2024-12-31"
+      },
+      {
+        "date": "2023-08-28",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 17143.0,
+        "programCode": "C3_302",
+        "year": 2023,
+        "startDate": "2023-08-28",
+        "endDate": "2023-12-31"
+      },
+      {
+        "date": "2023-06-20",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 50000.0,
+        "programCode": "B1_311",
+        "year": 2023,
+        "startDate": "2023-06-23",
+        "endDate": "2023-10-31"
+      },
+      {
+        "date": "2023-04-04",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 15341.0,
+        "programCode": "C3_302",
+        "year": 2023,
+        "startDate": "2023-04-04",
+        "endDate": "2023-12-31"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": -0.09449723400938434,
+      "자본잠식_플래그": 0.0,
+      "영업외의존_연수": 0.0,
+      "재무관측연수": 5,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "고용관측연수": 0
+    },
+    "employment": {
+      "회전율백분위": null,
+      "series": null
+    },
+    "nonopIncome": {
+      "series": [
+        {
+          "year": 2020,
+          "영업이익": 1006857.0,
+          "당기순이익": 1679966.0
+        },
+        {
+          "year": 2021,
+          "영업이익": 767671.0,
+          "당기순이익": 672466.0
+        },
+        {
+          "year": 2022,
+          "영업이익": 1073949.0,
+          "당기순이익": 270159.0
+        },
+        {
+          "year": 2023,
+          "영업이익": 1143982.0,
+          "당기순이익": 900597.0
+        },
+        {
+          "year": 2024,
+          "영업이익": 4226834.0,
+          "당기순이익": 160074.0
+        }
+      ]
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "4건 정합성 판정: 직접일치 4건",
+      "totalJudged": 4,
+      "totalPending": 0,
+      "breakdown": {
+        "직접일치": 4,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 0
+      },
+      "judgments": [
+        {
+          "programCode": "B1_311",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "C3_302",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "C3_302",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B4_1_13",
+          "year": 2024,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 60.5,
       "rawWeightedAverage": 78.9,
@@ -4194,75 +5082,19 @@
         "정합성": 100.0
       }
     },
-    "employment": {
-      "회전율백분위": 27.27272727272727,
-      "series": [
-        {
-          "year": 2020,
-          "가입": 72,
-          "취업": 28,
-          "퇴직": 23
-        },
-        {
-          "year": 2021,
-          "가입": 75.0,
-          "취업": 24.0,
-          "퇴직": 20.0
-        },
-        {
-          "year": 2022,
-          "가입": 85.0,
-          "취업": 25.0,
-          "퇴직": 17.0
-        },
-        {
-          "year": 2023,
-          "가입": 89.0,
-          "취업": 24.0,
-          "퇴직": 17.0
-        },
-        {
-          "year": 2024,
-          "가입": 87.0,
-          "취업": 16.0,
-          "퇴직": 18.0
-        }
-      ]
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "소액소수",
+      "isHighDiversity": false,
+      "supportCount": 4,
+      "totalAmountThousand": 92259.0,
+      "businessTypeDiversity": 2,
+      "maxConsecutiveYears": 2
     },
-    "nonopIncome": {
-      "series": [
-        {
-          "year": 2020,
-          "영업이익": 1006857,
-          "당기순이익": 1679966
-        },
-        {
-          "year": 2021,
-          "영업이익": 767671,
-          "당기순이익": 672466
-        },
-        {
-          "year": 2022,
-          "영업이익": 1073949,
-          "당기순이익": 270159
-        },
-        {
-          "year": 2023,
-          "영업이익": 1143982,
-          "당기순이익": 900597
-        },
-        {
-          "year": 2024,
-          "영업이익": 4226834,
-          "당기순이익": 160074
-        }
-      ]
-    },
-    "foundedDate": "2003-08-01",
-    "companyStatus": "정상",
-    "isClosed": false,
-    "closureType": "부가가치세 일반과세자",
-    "capitalThousand": 1400000.0
+    "_mock": []
   },
   {
     "id": 1730,
@@ -4270,6 +5102,11 @@
     "industry": "선박 구성 부분품 제조업",
     "industryCode": "C31114",
     "region": "부산",
+    "foundedDate": "2011-03-16",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": null,
+    "capitalThousand": 1200000.0,
     "revenueLatest": 20881164.0,
     "avgSalaryLatest": 39722.462,
     "scores": {
@@ -4316,17 +5153,25 @@
       "ROE": 0.38784452527311913,
       "영업외손익비중": -0.00024361668726896601,
       "판관비율": 0.07268938647289969,
+      "데이터모순_판관비음수": 0.0,
       "총자산회전율": 2.207490651195642,
+      "흑자관측연수": 5.0,
       "흑자지속성": 4.0,
-      "수익성추세": 8.881070000000003,
-      "ROA추세": 0.0646092745385159,
-      "ROE추세": -0.40455990669711056,
+      "재무관측연수": 5.0,
+      "영업외의존_연수": 0.0,
+      "고용관측연수": 0.0,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "수익성추세": 8.881069999999728,
+      "ROA추세": 0.06460927453851692,
+      "ROE추세": -0.4045599066970775,
       "부채비율_최근": 2.5873182919184345,
       "자기자본비율": 0.27875976387509727,
       "자본잠식_플래그": 0.0,
       "자본잠식정도": 2.1973775,
       "이익잉여금축적": 1436853.0,
-      "부채비율추세": -1.1662779588867853
+      "부채비율추세": -1.1662779588864587
     },
     "trends": {
       "매출액": [
@@ -4434,112 +5279,6 @@
       "주관": 0,
       "위탁": 0
     },
-    "support": {
-      "건수": 8,
-      "총지원금_천원": 213354.0,
-      "지원연도수": 3
-    },
-    "supportHistory": [
-      {
-        "date": "2024-08-12",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 20000.0,
-        "programCode": "B1_1_3",
-        "year": 2024,
-        "startDate": "2024-08-26",
-        "endDate": "2024-11-22"
-      },
-      {
-        "date": "2024-08-12",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 5000.0,
-        "programCode": "B1_1_3",
-        "year": 2024,
-        "startDate": "2024-08-26",
-        "endDate": "2024-11-22"
-      },
-      {
-        "date": "2024-04-25",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 37000.0,
-        "programCode": "B2_1_7",
-        "year": 2024,
-        "startDate": "2024-05-01",
-        "endDate": "2023-10-31"
-      },
-      {
-        "date": "2024-04-11",
-        "result": "선정",
-        "bizType": "기술지원",
-        "amount": 30000.0,
-        "programCode": "D1_1_11",
-        "year": 2024,
-        "startDate": "2024-04-25",
-        "endDate": "2024-12-31"
-      },
-      {
-        "date": "2023-07-14",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 27000.0,
-        "programCode": "B1_311",
-        "year": 2023,
-        "startDate": "2023-08-01",
-        "endDate": "2023-10-31"
-      },
-      {
-        "date": "2023-05-30",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 20000.0,
-        "programCode": "C3_303",
-        "year": 2023,
-        "startDate": "2023-06-01",
-        "endDate": "2023-12-31"
-      },
-      {
-        "date": "2023-05-23",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 66000.0,
-        "programCode": "B4_302",
-        "year": 2023,
-        "startDate": "2023-06-01",
-        "endDate": "2023-10-31"
-      },
-      {
-        "date": "2020-04-10",
-        "result": "선정",
-        "bizType": "일자리창출or인력양성",
-        "amount": 8354.0,
-        "programCode": "P2_301",
-        "year": 2022,
-        "startDate": "2020-05-25",
-        "endDate": "2022-05-24"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": -0.00024361668726896601,
-      "자본잠식_플래그": 0.0,
-      "영업외의존_연수": 0,
-      "재무관측연수": 5,
-      "이직률_최근": 0.1923,
-      "고용회전율_최근": 0.6923,
-      "고용순증_최근": 8,
-      "고용관측연수": 5
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 58,
@@ -4550,22 +5289,22 @@
         "활동공백년수": 1.0431211498973305,
         "소멸률": 0.029411764705882353,
         "첫특허업력": 2.529774127310062,
-        "대표개인명의_등록": 1
+        "대표개인명의_등록": null
       },
       "rnd": {
         "집약도": 0.02678332491426244,
-        "집약도추세": 0.0069769506590848926
+        "집약도추세": 0.00697695065908489
       },
       "ntis": {
         "주관과제수": 0,
         "정부연구비_원": 0.0,
-        "부처다양성": 0,
-        "위탁과제수": 0,
-        "산학협력": false,
         "민간연구비_원": null,
         "민간부담률": null,
         "최근수주연도": null,
-        "진행중과제수": 0
+        "진행중과제수": null,
+        "부처다양성": 0,
+        "위탁과제수": 0,
+        "산학협력": false
       },
       "certification": {
         "보유수": 2,
@@ -4581,7 +5320,10 @@
           "지역특화산업 혁신선도"
         ],
         "국가전략기술": [],
-        "기술수준등급": "중저위기술"
+        "기술수준등급": "중저위기술",
+        "지역전략산업": "미래모빌리티",
+        "지역전략산업_매칭유형": "고유",
+        "지역전략산업_부합": true
       },
       "scores": {
         "rndPatent": 61.61616161616163,
@@ -5064,6 +5806,268 @@
         }
       ]
     },
+    "support": {
+      "건수": 8,
+      "총지원금_천원": 213354.0,
+      "지원연도수": 3
+    },
+    "supportHistory": [
+      {
+        "date": "2024-08-12",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 20000.0,
+        "programCode": "B1_1_3",
+        "year": 2024,
+        "startDate": "2024-08-26",
+        "endDate": "2024-11-22"
+      },
+      {
+        "date": "2024-08-12",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 5000.0,
+        "programCode": "B1_1_3",
+        "year": 2024,
+        "startDate": "2024-08-26",
+        "endDate": "2024-11-22"
+      },
+      {
+        "date": "2024-04-25",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 37000.0,
+        "programCode": "B2_1_7",
+        "year": 2024,
+        "startDate": "2024-05-01",
+        "endDate": "2023-10-31"
+      },
+      {
+        "date": "2024-04-11",
+        "result": "선정",
+        "bizType": "기술지원",
+        "amount": 30000.0,
+        "programCode": "D1_1_11",
+        "year": 2024,
+        "startDate": "2024-04-25",
+        "endDate": "2024-12-31"
+      },
+      {
+        "date": "2023-07-14",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 27000.0,
+        "programCode": "B1_311",
+        "year": 2023,
+        "startDate": "2023-08-01",
+        "endDate": "2023-10-31"
+      },
+      {
+        "date": "2023-05-30",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 20000.0,
+        "programCode": "C3_303",
+        "year": 2023,
+        "startDate": "2023-06-01",
+        "endDate": "2023-12-31"
+      },
+      {
+        "date": "2023-05-23",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 66000.0,
+        "programCode": "B4_302",
+        "year": 2023,
+        "startDate": "2023-06-01",
+        "endDate": "2023-10-31"
+      },
+      {
+        "date": "2020-04-10",
+        "result": "선정",
+        "bizType": "일자리창출or인력양성",
+        "amount": 8354.0,
+        "programCode": "P2_301",
+        "year": 2022,
+        "startDate": "2020-05-25",
+        "endDate": "2022-05-24"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": -0.00024361668726896601,
+      "자본잠식_플래그": 0.0,
+      "영업외의존_연수": 0.0,
+      "재무관측연수": 5,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "고용관측연수": 0
+    },
+    "employment": {
+      "회전율백분위": null,
+      "series": null
+    },
+    "nonopIncome": {
+      "series": [
+        {
+          "year": 2020,
+          "영업이익": -1295922.0,
+          "당기순이익": -2029116.0
+        },
+        {
+          "year": 2021,
+          "영업이익": 256497.0,
+          "당기순이익": 86183.0
+        },
+        {
+          "year": 2022,
+          "영업이익": 348120.0,
+          "당기순이익": 1634772.0
+        },
+        {
+          "year": 2023,
+          "영업이익": 395708.0,
+          "당기순이익": 248400.0
+        },
+        {
+          "year": 2024,
+          "영업이익": 1027776.0,
+          "당기순이익": 1022689.0
+        }
+      ]
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "8건 정합성 판정: 직접일치 8건",
+      "totalJudged": 8,
+      "totalPending": 0,
+      "breakdown": {
+        "직접일치": 8,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 0
+      },
+      "judgments": [
+        {
+          "programCode": "P2_301",
+          "year": 2022,
+          "programName": null,
+          "businessType": "일자리창출or인력양성",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "일자리창출or인력양성"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_311",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B4_302",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "C3_303",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B2_1_7",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "D1_1_11",
+          "year": 2024,
+          "programName": null,
+          "businessType": "기술지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "기술지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 33.2,
       "rawWeightedAverage": 68.6,
@@ -5080,75 +6084,19 @@
         "정합성": 100.0
       }
     },
-    "employment": {
-      "회전율백분위": 63.63636363636363,
-      "series": [
-        {
-          "year": 2020,
-          "가입": 11,
-          "취업": 2,
-          "퇴직": 4
-        },
-        {
-          "year": 2021,
-          "가입": 11.0,
-          "취업": 5.0,
-          "퇴직": 4.0
-        },
-        {
-          "year": 2022,
-          "가입": 17.0,
-          "취업": 15.0,
-          "퇴직": 11.0
-        },
-        {
-          "year": 2023,
-          "가입": 19.0,
-          "취업": 9.0,
-          "퇴직": 6.0
-        },
-        {
-          "year": 2024,
-          "가입": 26.0,
-          "취업": 13.0,
-          "퇴직": 5.0
-        }
-      ]
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "대형다건",
+      "isHighDiversity": false,
+      "supportCount": 8,
+      "totalAmountThousand": 213354.0,
+      "businessTypeDiversity": 3,
+      "maxConsecutiveYears": 3
     },
-    "nonopIncome": {
-      "series": [
-        {
-          "year": 2020,
-          "영업이익": -1295922,
-          "당기순이익": -2029116
-        },
-        {
-          "year": 2021,
-          "영업이익": 256497,
-          "당기순이익": 86183
-        },
-        {
-          "year": 2022,
-          "영업이익": 348120,
-          "당기순이익": 1634772
-        },
-        {
-          "year": 2023,
-          "영업이익": 395708,
-          "당기순이익": 248400
-        },
-        {
-          "year": 2024,
-          "영업이익": 1027776,
-          "당기순이익": 1022689
-        }
-      ]
-    },
-    "foundedDate": "2011-03-16",
-    "companyStatus": "정상",
-    "isClosed": false,
-    "closureType": "부가가치세 일반과세자",
-    "capitalThousand": 1200000.0
+    "_mock": []
   },
   {
     "id": 2080,
@@ -5156,6 +6104,11 @@
     "industry": "분사기 및 소화기 제조업",
     "industryCode": "C29192",
     "region": "부산",
+    "foundedDate": "1995-10-12",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": null,
+    "capitalThousand": 350000.0,
     "revenueLatest": 10509397.0,
     "avgSalaryLatest": 38772.108,
     "scores": {
@@ -5202,17 +6155,25 @@
       "ROE": 0.09257096671629063,
       "영업외손익비중": -0.015996350694526054,
       "판관비율": 0.17610506102300635,
+      "데이터모순_판관비음수": 0.0,
       "총자산회전율": 1.1354109845593612,
+      "흑자관측연수": 5.0,
       "흑자지속성": 3.0,
-      "수익성추세": -0.9824300000000001,
-      "ROA추세": -0.01682167964851288,
-      "ROE추세": -0.06011866801366619,
+      "재무관측연수": 5.0,
+      "영업외의존_연수": 1.0,
+      "고용관측연수": 0.0,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "수익성추세": -0.9824299999996962,
+      "ROA추세": -0.016821679648508666,
+      "ROE추세": -0.06011866801364922,
       "부채비율_최근": 26.504238836838212,
       "자기자본비율": 0.03635803215396149,
       "자본잠식_플래그": 0.0,
       "자본잠식정도": 0.9615171428571428,
       "이익잉여금축적": -13469.0,
-      "부채비율추세": 5.38988206976137
+      "부채비율추세": 5.389882069760382
     },
     "trends": {
       "매출액": [
@@ -5320,132 +6281,6 @@
       "주관": 5,
       "위탁": 0
     },
-    "support": {
-      "건수": 10,
-      "총지원금_천원": 86000.0,
-      "지원연도수": 3
-    },
-    "supportHistory": [
-      {
-        "date": "2024-05-28",
-        "result": "탈락",
-        "bizType": "기술지원",
-        "amount": 0,
-        "programCode": "E2_1_6",
-        "year": 2024,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2024-05-28",
-        "result": "탈락",
-        "bizType": "기술지원",
-        "amount": 0,
-        "programCode": "E2_1_6",
-        "year": 2024,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2024-05-24",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 20000.0,
-        "programCode": "B1_1_3",
-        "year": 2024,
-        "startDate": "2024-06-17",
-        "endDate": "2024-10-31"
-      },
-      {
-        "date": "2024-05-24",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 8000.0,
-        "programCode": "B1_1_3",
-        "year": 2024,
-        "startDate": "2024-06-17",
-        "endDate": "2024-10-31"
-      },
-      {
-        "date": "2024-01-17",
-        "result": "탈락",
-        "bizType": "기술지원",
-        "amount": 0,
-        "programCode": "E2_1_6",
-        "year": 2024,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2024-01-17",
-        "result": "선정",
-        "bizType": "기술지원",
-        "amount": 0,
-        "programCode": "E2_1_6",
-        "year": 2024,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2023-09-26",
-        "result": "탈락",
-        "bizType": "기타",
-        "amount": 0,
-        "programCode": "B4_303",
-        "year": 2023,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2023-07-14",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 30000.0,
-        "programCode": "B1_311",
-        "year": 2023,
-        "startDate": "2023-08-01",
-        "endDate": "2023-10-31"
-      },
-      {
-        "date": "2023-05-30",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 14000.0,
-        "programCode": "C3_303",
-        "year": 2023,
-        "startDate": "2023-06-01",
-        "endDate": "2023-12-31"
-      },
-      {
-        "date": "2022-01-01",
-        "result": "선정",
-        "bizType": "스마트공장",
-        "amount": 14000.0,
-        "programCode": "L2_319",
-        "year": 2022,
-        "startDate": "2022-01-01",
-        "endDate": "2022-12-31"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": -0.015996350694526054,
-      "자본잠식_플래그": 0.0,
-      "영업외의존_연수": 1,
-      "재무관측연수": 5,
-      "이직률_최근": 0.3784,
-      "고용회전율_최근": 0.8378,
-      "고용순증_최근": 3,
-      "고용관측연수": 5
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 12,
@@ -5456,22 +6291,22 @@
         "활동공백년수": 1.3908281998631074,
         "소멸률": 0.0,
         "첫특허업력": 14.677618069815194,
-        "대표개인명의_등록": 0
+        "대표개인명의_등록": null
       },
       "rnd": {
         "집약도": 0.038436363190009856,
-        "집약도추세": -0.00454159970446167
+        "집약도추세": -0.004541599704461663
       },
       "ntis": {
         "주관과제수": 5,
         "정부연구비_원": 765000000.0,
+        "민간연구비_원": null,
+        "민간부담률": null,
+        "최근수주연도": null,
+        "진행중과제수": null,
         "부처다양성": 2,
         "위탁과제수": 0,
-        "산학협력": false,
-        "민간연구비_원": 176750000.0,
-        "민간부담률": 0.18768250597292274,
-        "최근수주연도": 2021,
-        "진행중과제수": 0
+        "산학협력": false
       },
       "certification": {
         "보유수": 1,
@@ -5489,7 +6324,10 @@
         "국가전략기술": [
           "우주항공·해양"
         ],
-        "기술수준등급": "중고위기술"
+        "기술수준등급": "중고위기술",
+        "지역전략산업": "라이프스타일",
+        "지역전략산업_매칭유형": "고유",
+        "지역전략산업_부합": true
       },
       "scores": {
         "rndPatent": 46.96969696969697,
@@ -5604,6 +6442,260 @@
         }
       ]
     },
+    "support": {
+      "건수": 10,
+      "총지원금_천원": 86000.0,
+      "지원연도수": 3
+    },
+    "supportHistory": [
+      {
+        "date": "2024-05-28",
+        "result": "탈락",
+        "bizType": "기술지원",
+        "amount": 0,
+        "programCode": "E2_1_6",
+        "year": 2024,
+        "startDate": null,
+        "endDate": null
+      },
+      {
+        "date": "2024-05-28",
+        "result": "탈락",
+        "bizType": "기술지원",
+        "amount": 0,
+        "programCode": "E2_1_6",
+        "year": 2024,
+        "startDate": null,
+        "endDate": null
+      },
+      {
+        "date": "2024-05-24",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 20000.0,
+        "programCode": "B1_1_3",
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
+      },
+      {
+        "date": "2024-05-24",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 8000.0,
+        "programCode": "B1_1_3",
+        "year": 2024,
+        "startDate": "2024-06-17",
+        "endDate": "2024-10-31"
+      },
+      {
+        "date": "2024-01-17",
+        "result": "탈락",
+        "bizType": "기술지원",
+        "amount": 0,
+        "programCode": "E2_1_6",
+        "year": 2024,
+        "startDate": null,
+        "endDate": null
+      },
+      {
+        "date": "2024-01-17",
+        "result": "선정",
+        "bizType": "기술지원",
+        "amount": 0,
+        "programCode": "E2_1_6",
+        "year": 2024,
+        "startDate": "2024-12-13",
+        "endDate": "2024-12-31"
+      },
+      {
+        "date": "2023-09-26",
+        "result": "탈락",
+        "bizType": "기타",
+        "amount": 0,
+        "programCode": "B4_303",
+        "year": 2023,
+        "startDate": null,
+        "endDate": null
+      },
+      {
+        "date": "2023-07-14",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 30000.0,
+        "programCode": "B1_311",
+        "year": 2023,
+        "startDate": "2023-08-01",
+        "endDate": "2023-10-31"
+      },
+      {
+        "date": "2023-05-30",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 14000.0,
+        "programCode": "C3_303",
+        "year": 2023,
+        "startDate": "2023-06-01",
+        "endDate": "2023-12-31"
+      },
+      {
+        "date": "2022-01-01",
+        "result": "선정",
+        "bizType": "스마트공장",
+        "amount": 14000.0,
+        "programCode": "L2_319",
+        "year": 2022,
+        "startDate": "2022-01-01",
+        "endDate": "2022-12-31"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": -0.015996350694526054,
+      "자본잠식_플래그": 0.0,
+      "영업외의존_연수": 1.0,
+      "재무관측연수": 5,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "고용관측연수": 0
+    },
+    "employment": {
+      "회전율백분위": null,
+      "series": null
+    },
+    "nonopIncome": {
+      "series": [
+        {
+          "year": 2020,
+          "영업이익": 97559.0,
+          "당기순이익": 115118.0
+        },
+        {
+          "year": 2021,
+          "영업이익": -126829.0,
+          "당기순이익": 43745.0
+        },
+        {
+          "year": 2022,
+          "영업이익": 173015.0,
+          "당기순이익": 76644.0
+        },
+        {
+          "year": 2023,
+          "영업이익": -1182148.0,
+          "당기순이익": -1504327.0
+        },
+        {
+          "year": 2024,
+          "영업이익": 199265.0,
+          "당기순이익": 31153.0
+        }
+      ]
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "6건 정합성 판정: 직접일치 6건",
+      "totalJudged": 6,
+      "totalPending": 0,
+      "breakdown": {
+        "직접일치": 6,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 0
+      },
+      "judgments": [
+        {
+          "programCode": "L2_319",
+          "year": 2022,
+          "programName": null,
+          "businessType": "스마트공장",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "스마트공장"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_311",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "C3_303",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B1_1_3",
+          "year": 2024,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "E2_1_6",
+          "year": 2024,
+          "programName": null,
+          "businessType": "기술지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "기술지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 27.7,
       "rawWeightedAverage": 62.4,
@@ -5620,75 +6712,19 @@
         "정합성": 100.0
       }
     },
-    "employment": {
-      "회전율백분위": 72.72727272727273,
-      "series": [
-        {
-          "year": 2020,
-          "가입": 27,
-          "취업": 9,
-          "퇴직": 8
-        },
-        {
-          "year": 2021,
-          "가입": 28.0,
-          "취업": 10.0,
-          "퇴직": 11.0
-        },
-        {
-          "year": 2022,
-          "가입": 33.0,
-          "취업": 25.0,
-          "퇴직": 20.0
-        },
-        {
-          "year": 2023,
-          "가입": 35.0,
-          "취업": 18.0,
-          "퇴직": 16.0
-        },
-        {
-          "year": 2024,
-          "가입": 37.0,
-          "취업": 17.0,
-          "퇴직": 14.0
-        }
-      ]
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "소액소수",
+      "isHighDiversity": false,
+      "supportCount": 6,
+      "totalAmountThousand": 86000.0,
+      "businessTypeDiversity": 3,
+      "maxConsecutiveYears": 3
     },
-    "nonopIncome": {
-      "series": [
-        {
-          "year": 2020,
-          "영업이익": 97559,
-          "당기순이익": 115118
-        },
-        {
-          "year": 2021,
-          "영업이익": -126829,
-          "당기순이익": 43745
-        },
-        {
-          "year": 2022,
-          "영업이익": 173015,
-          "당기순이익": 76644
-        },
-        {
-          "year": 2023,
-          "영업이익": -1182148,
-          "당기순이익": -1504327
-        },
-        {
-          "year": 2024,
-          "영업이익": 199265,
-          "당기순이익": 31153
-        }
-      ]
-    },
-    "foundedDate": "1995-10-12",
-    "companyStatus": "정상",
-    "isClosed": false,
-    "closureType": "부가가치세 일반과세자",
-    "capitalThousand": 350000.0
+    "_mock": []
   },
   {
     "id": 695,
@@ -5696,6 +6732,11 @@
     "industry": "그 외 기타 의료용품 및 의약 관련제품 제조업",
     "industryCode": "C21309",
     "region": "부산",
+    "foundedDate": "2017-08-01",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": null,
+    "capitalThousand": 7690477.0,
     "revenueLatest": 12615422.0,
     "avgSalaryLatest": 46106.177,
     "scores": {
@@ -5742,17 +6783,25 @@
       "ROE": 0.051483251385639923,
       "영업외손익비중": 0.00310350299815575,
       "판관비율": 0.5741435363795202,
+      "데이터모순_판관비음수": 0.0,
       "총자산회전율": 1.0377503936368575,
+      "흑자관측연수": 5.0,
       "흑자지속성": 1.0,
-      "수익성추세": 24.69769,
-      "ROA추세": 0.12255774849837403,
-      "ROE추세": 0.373110024552237,
+      "재무관측연수": 5.0,
+      "영업외의존_연수": 1.0,
+      "고용관측연수": 0.0,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "수익성추세": 24.697689999998218,
+      "ROA추세": 0.12255774849836193,
+      "ROE추세": 0.3731100245522049,
       "부채비율_최근": 0.9433583362121734,
       "자기자본비율": 0.5145731393774314,
       "자본잠식_플래그": 0.0,
       "자본잠식정도": 0.8133972704163864,
       "이익잉여금축적": -1435064.0,
-      "부채비율추세": -0.37022335020212865
+      "부채비율추세": -0.3702233502020858
     },
     "trends": {
       "매출액": [
@@ -5860,132 +6909,6 @@
       "주관": 4,
       "위탁": 0
     },
-    "support": {
-      "건수": 10,
-      "총지원금_천원": 94280.0,
-      "지원연도수": 3
-    },
-    "supportHistory": [
-      {
-        "date": "2024-10-11",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 12000.0,
-        "programCode": "F1_1_19",
-        "year": 2024,
-        "startDate": "2024-10-11",
-        "endDate": null
-      },
-      {
-        "date": "2023-01-27",
-        "result": "탈락",
-        "bizType": "일자리창출or인력양성",
-        "amount": 0,
-        "programCode": "C1_308",
-        "year": 2023,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2022-07-15",
-        "result": "탈락",
-        "bizType": "일자리창출or인력양성",
-        "amount": 0,
-        "programCode": "C1_308",
-        "year": 2022,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2022-07-05",
-        "result": "포기",
-        "bizType": "사업화지원",
-        "amount": 7000.0,
-        "programCode": "T2_319",
-        "year": 2023,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2022-05-18",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 20000.0,
-        "programCode": "B2_306",
-        "year": 2022,
-        "startDate": "2022-06-01",
-        "endDate": "2022-11-30"
-      },
-      {
-        "date": "2022-02-28",
-        "result": "탈락",
-        "bizType": "일자리창출or인력양성",
-        "amount": 0,
-        "programCode": "C1_308",
-        "year": 2022,
-        "startDate": null,
-        "endDate": null
-      },
-      {
-        "date": "2022-02-16",
-        "result": "선정",
-        "bizType": "일자리창출or인력양성",
-        "amount": 18000.0,
-        "programCode": "T2_318",
-        "year": 2022,
-        "startDate": "2022-03-01",
-        "endDate": "2022-12-31"
-      },
-      {
-        "date": "2022-02-16",
-        "result": "선정",
-        "bizType": "일자리창출or인력양성",
-        "amount": 18000.0,
-        "programCode": "T2_318",
-        "year": 2023,
-        "startDate": "2023-01-01",
-        "endDate": "2023-12-31"
-      },
-      {
-        "date": "2022-02-16",
-        "result": "선정",
-        "bizType": "일자리창출or인력양성",
-        "amount": 18000.0,
-        "programCode": "F1_1_22",
-        "year": 2024,
-        "startDate": "2023-01-01",
-        "endDate": "2023-12-31"
-      },
-      {
-        "date": "2022-01-25",
-        "result": "선정",
-        "bizType": "일자리창출or인력양성",
-        "amount": 1280.0,
-        "programCode": "B2_318",
-        "year": 2022,
-        "startDate": "2022-06-07",
-        "endDate": "2022-12-31"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": 0.00310350299815575,
-      "자본잠식_플래그": 0.0,
-      "영업외의존_연수": 1,
-      "재무관측연수": 5,
-      "이직률_최근": 0.9286,
-      "고용회전율_최근": 2.2857,
-      "고용순증_최근": 42,
-      "고용관측연수": 5
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 27,
@@ -5996,22 +6919,22 @@
         "활동공백년수": 0.0,
         "소멸률": 0.13333333333333333,
         "첫특허업력": 0.0,
-        "대표개인명의_등록": 1
+        "대표개인명의_등록": null
       },
       "rnd": {
         "집약도": 0.0326161899300713,
-        "집약도추세": -0.03954790395107775
+        "집약도추세": -0.03954790395107774
       },
       "ntis": {
         "주관과제수": 4,
         "정부연구비_원": 1034000000.0,
+        "민간연구비_원": null,
+        "민간부담률": null,
+        "최근수주연도": null,
+        "진행중과제수": null,
         "부처다양성": 3,
         "위탁과제수": 0,
-        "산학협력": false,
-        "민간연구비_원": 391559000.0,
-        "민간부담률": 0.2711047289742015,
-        "최근수주연도": 2025,
-        "진행중과제수": 1
+        "산학협력": false
       },
       "certification": {
         "보유수": 3,
@@ -6029,7 +6952,10 @@
         "국가전략기술": [
           "첨단바이오"
         ],
-        "기술수준등급": "고위기술"
+        "기술수준등급": "고위기술",
+        "지역전략산업": "바이오헬스",
+        "지역전략산업_매칭유형": "고유",
+        "지역전략산업_부합": true
       },
       "scores": {
         "rndPatent": 46.96969696969697,
@@ -6264,6 +7190,260 @@
         }
       ]
     },
+    "support": {
+      "건수": 10,
+      "총지원금_천원": 94280.0,
+      "지원연도수": 3
+    },
+    "supportHistory": [
+      {
+        "date": "2024-10-11",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 12000.0,
+        "programCode": "F1_1_19",
+        "year": 2024,
+        "startDate": "2024-10-11",
+        "endDate": null
+      },
+      {
+        "date": "2023-01-27",
+        "result": "탈락",
+        "bizType": "일자리창출or인력양성",
+        "amount": 0,
+        "programCode": "C1_308",
+        "year": 2023,
+        "startDate": null,
+        "endDate": null
+      },
+      {
+        "date": "2022-07-15",
+        "result": "탈락",
+        "bizType": "일자리창출or인력양성",
+        "amount": 0,
+        "programCode": "C1_308",
+        "year": 2022,
+        "startDate": null,
+        "endDate": null
+      },
+      {
+        "date": "2022-07-05",
+        "result": "포기",
+        "bizType": "사업화지원",
+        "amount": 7000.0,
+        "programCode": "T2_319",
+        "year": 2023,
+        "startDate": null,
+        "endDate": null
+      },
+      {
+        "date": "2022-05-18",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 20000.0,
+        "programCode": "B2_306",
+        "year": 2022,
+        "startDate": "2022-06-01",
+        "endDate": "2022-11-30"
+      },
+      {
+        "date": "2022-02-28",
+        "result": "탈락",
+        "bizType": "일자리창출or인력양성",
+        "amount": 0,
+        "programCode": "C1_308",
+        "year": 2022,
+        "startDate": null,
+        "endDate": null
+      },
+      {
+        "date": "2022-02-16",
+        "result": "선정",
+        "bizType": "일자리창출or인력양성",
+        "amount": 18000.0,
+        "programCode": "T2_318",
+        "year": 2022,
+        "startDate": "2022-03-01",
+        "endDate": "2022-12-31"
+      },
+      {
+        "date": "2022-02-16",
+        "result": "선정",
+        "bizType": "일자리창출or인력양성",
+        "amount": 18000.0,
+        "programCode": "T2_318",
+        "year": 2023,
+        "startDate": "2023-01-01",
+        "endDate": "2023-12-31"
+      },
+      {
+        "date": "2022-02-16",
+        "result": "선정",
+        "bizType": "일자리창출or인력양성",
+        "amount": 18000.0,
+        "programCode": "F1_1_22",
+        "year": 2024,
+        "startDate": "2023-01-01",
+        "endDate": "2023-12-31"
+      },
+      {
+        "date": "2022-01-25",
+        "result": "선정",
+        "bizType": "일자리창출or인력양성",
+        "amount": 1280.0,
+        "programCode": "B2_318",
+        "year": 2022,
+        "startDate": "2022-06-07",
+        "endDate": "2022-12-31"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": 0.00310350299815575,
+      "자본잠식_플래그": 0.0,
+      "영업외의존_연수": 1.0,
+      "재무관측연수": 5,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "고용관측연수": 0
+    },
+    "employment": {
+      "회전율백분위": null,
+      "series": null
+    },
+    "nonopIncome": {
+      "series": [
+        {
+          "year": 2020,
+          "영업이익": -4098870.0,
+          "당기순이익": -5378980.0
+        },
+        {
+          "year": 2021,
+          "영업이익": -3387251.0,
+          "당기순이익": -2820077.0
+        },
+        {
+          "year": 2022,
+          "영업이익": -168465.0,
+          "당기순이익": -391586.0
+        },
+        {
+          "year": 2023,
+          "영업이익": -466719.0,
+          "당기순이익": 831106.0
+        },
+        {
+          "year": 2024,
+          "영업이익": 282897.0,
+          "당기순이익": 322049.0
+        }
+      ]
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": 100.0,
+      "matchType": "직접일치",
+      "summary": "6건 정합성 판정: 직접일치 6건",
+      "totalJudged": 6,
+      "totalPending": 0,
+      "breakdown": {
+        "직접일치": 6,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 0
+      },
+      "judgments": [
+        {
+          "programCode": "B2_306",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "패키지지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "B2_318",
+          "year": 2022,
+          "programName": null,
+          "businessType": "일자리창출or인력양성",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "일자리창출or인력양성"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "T2_318",
+          "year": 2022,
+          "programName": null,
+          "businessType": "일자리창출or인력양성",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "일자리창출or인력양성"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "T2_318",
+          "year": 2023,
+          "programName": null,
+          "businessType": "일자리창출or인력양성",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "일자리창출or인력양성"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "F1_1_19",
+          "year": 2024,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "사업화지원"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 high)",
+          "source": "whitelist"
+        },
+        {
+          "programCode": "F1_1_22",
+          "year": 2024,
+          "programName": null,
+          "businessType": "일자리창출or인력양성",
+          "score": 100.0,
+          "matchType": "직접일치",
+          "matchedKeywords": [
+            "C",
+            "일자리창출or인력양성"
+          ],
+          "reasoning": "관측 기반 정합 (신뢰도 medium)",
+          "source": "whitelist"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 62.0,
       "rawWeightedAverage": 70.5,
@@ -6280,75 +7460,19 @@
         "정합성": 100.0
       }
     },
-    "employment": {
-      "회전율백분위": 100.0,
-      "series": [
-        {
-          "year": 2020,
-          "가입": 47,
-          "취업": 58,
-          "퇴직": 77
-        },
-        {
-          "year": 2021,
-          "가입": 57.0,
-          "취업": 59.0,
-          "퇴직": 49.0
-        },
-        {
-          "year": 2022,
-          "가입": 59.0,
-          "취업": 48.0,
-          "퇴직": 47.0
-        },
-        {
-          "year": 2023,
-          "가입": 63.0,
-          "취업": 43.0,
-          "퇴직": 50.0
-        },
-        {
-          "year": 2024,
-          "가입": 98.0,
-          "취업": 133.0,
-          "퇴직": 91.0
-        }
-      ]
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "소액소수",
+      "isHighDiversity": false,
+      "supportCount": 6,
+      "totalAmountThousand": 87280.0,
+      "businessTypeDiversity": 3,
+      "maxConsecutiveYears": 3
     },
-    "nonopIncome": {
-      "series": [
-        {
-          "year": 2020,
-          "영업이익": -4098870,
-          "당기순이익": -5378980
-        },
-        {
-          "year": 2021,
-          "영업이익": -3387251,
-          "당기순이익": -2820077
-        },
-        {
-          "year": 2022,
-          "영업이익": -168465,
-          "당기순이익": -391586
-        },
-        {
-          "year": 2023,
-          "영업이익": -466719,
-          "당기순이익": 831106
-        },
-        {
-          "year": 2024,
-          "영업이익": 282897,
-          "당기순이익": 322049
-        }
-      ]
-    },
-    "foundedDate": "2017-08-01",
-    "companyStatus": "정상",
-    "isClosed": false,
-    "closureType": "부가가치세 일반과세자",
-    "capitalThousand": 7690477.0
+    "_mock": []
   },
   {
     "id": 1049,
@@ -6356,6 +7480,11 @@
     "industry": "시스템 소프트웨어 개발 및 공급업",
     "industryCode": "J58221",
     "region": "부산",
+    "foundedDate": "2011-05-04",
+    "companyStatus": "정상",
+    "isClosed": false,
+    "closureType": null,
+    "capitalThousand": 225000.0,
     "revenueLatest": 7027580.0,
     "avgSalaryLatest": 42365.596,
     "scores": {
@@ -6402,17 +7531,25 @@
       "ROE": 0.2104743970248765,
       "영업외손익비중": -0.019312195663372028,
       "판관비율": 0.46054630470233,
+      "데이터모순_판관비음수": 0.0,
       "총자산회전율": 1.0407834362775283,
+      "흑자관측연수": 5.0,
       "흑자지속성": 4.0,
-      "수익성추세": 1.6567799999999995,
-      "ROA추세": -0.001294785381270081,
-      "ROE추세": -0.024652378300774047,
+      "재무관측연수": 5.0,
+      "영업외의존_연수": 1.0,
+      "고용관측연수": 0.0,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "수익성추세": 1.6567799999991863,
+      "ROA추세": -0.0012947853812677718,
+      "ROE추세": -0.024652378300767344,
       "부채비율_최근": 1.7557938505842827,
       "자기자본비율": 0.3628718453624462,
       "자본잠식_플래그": 0.0,
       "자본잠식정도": 10.889706666666667,
       "이익잉여금축적": 2225184.0,
-      "부채비율추세": -0.5902176551875745
+      "부채비율추세": -0.5902176551875646
     },
     "trends": {
       "매출액": [
@@ -6520,62 +7657,6 @@
       "주관": 11,
       "위탁": 1
     },
-    "support": {
-      "건수": 3,
-      "총지원금_천원": 32000.0,
-      "지원연도수": 2
-    },
-    "supportHistory": [
-      {
-        "date": "2022-08-31",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 6000.0,
-        "programCode": "X1_312",
-        "year": 2022,
-        "startDate": "2022-09-01",
-        "endDate": "2023-03-31"
-      },
-      {
-        "date": "2022-08-31",
-        "result": "선정",
-        "bizType": "패키지지원",
-        "amount": 6000.0,
-        "programCode": "X1_312",
-        "year": 2023,
-        "startDate": "2022-09-01",
-        "endDate": "2023-03-31"
-      },
-      {
-        "date": "2022-06-28",
-        "result": "선정",
-        "bizType": "사업화지원",
-        "amount": 20000.0,
-        "programCode": "B2_304",
-        "year": 2022,
-        "startDate": "2022-07-25",
-        "endDate": "2022-11-30"
-      }
-    ],
-    "passthrough": {
-      "영업외손익비중": -0.019312195663372028,
-      "자본잠식_플래그": 0.0,
-      "영업외의존_연수": 1,
-      "재무관측연수": 5,
-      "이직률_최근": 0.5634,
-      "고용회전율_최근": 1.0845,
-      "고용순증_최근": -3,
-      "고용관측연수": 5
-    },
-    "percentileBasis": "전체fallback",
-    "dataQuality": {
-      "missing": [],
-      "ok": true
-    },
-    "_mock": [
-      "businessFit"
-    ],
-    "reviewStatus": "후보",
     "tech": {
       "patents": {
         "출원": 26,
@@ -6586,22 +7667,22 @@
         "활동공백년수": 1.3278576317590691,
         "소멸률": 0.0,
         "첫특허업력": 2.951403148528405,
-        "대표개인명의_등록": 0
+        "대표개인명의_등록": null
       },
       "rnd": {
         "집약도": 0.5698448114429149,
-        "집약도추세": 0.07301860636688098
+        "집약도추세": 0.07301860636688096
       },
       "ntis": {
         "주관과제수": 11,
         "정부연구비_원": 6066400000.0,
+        "민간연구비_원": null,
+        "민간부담률": null,
+        "최근수주연도": null,
+        "진행중과제수": null,
         "부처다양성": 4,
         "위탁과제수": 1,
-        "산학협력": false,
-        "민간연구비_원": 884818000.0,
-        "민간부담률": 0.12728963470862228,
-        "최근수주연도": 2025,
-        "진행중과제수": 2
+        "산학협력": false
       },
       "certification": {
         "보유수": 3,
@@ -6620,7 +7701,10 @@
         "국가전략기술": [
           "우주항공·해양"
         ],
-        "기술수준등급": "지식기반서비스"
+        "기술수준등급": "지식기반서비스",
+        "지역전략산업": "디지털테크",
+        "지역전략산업_매칭유형": "고유",
+        "지역전략산업_부합": true
       },
       "scores": {
         "rndPatent": 62.62626262626262,
@@ -6847,6 +7931,139 @@
         }
       ]
     },
+    "support": {
+      "건수": 3,
+      "총지원금_천원": 32000.0,
+      "지원연도수": 2
+    },
+    "supportHistory": [
+      {
+        "date": "2022-08-31",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 6000.0,
+        "programCode": "X1_312",
+        "year": 2022,
+        "startDate": "2022-09-01",
+        "endDate": "2023-03-31"
+      },
+      {
+        "date": "2022-08-31",
+        "result": "선정",
+        "bizType": "패키지지원",
+        "amount": 6000.0,
+        "programCode": "X1_312",
+        "year": 2023,
+        "startDate": "2022-09-01",
+        "endDate": "2023-03-31"
+      },
+      {
+        "date": "2022-06-28",
+        "result": "선정",
+        "bizType": "사업화지원",
+        "amount": 20000.0,
+        "programCode": "B2_304",
+        "year": 2022,
+        "startDate": "2022-07-25",
+        "endDate": "2022-11-30"
+      }
+    ],
+    "passthrough": {
+      "영업외손익비중": -0.019312195663372028,
+      "자본잠식_플래그": 0.0,
+      "영업외의존_연수": 1.0,
+      "재무관측연수": 5,
+      "이직률_최근": null,
+      "고용회전율_최근": null,
+      "고용순증_최근": null,
+      "고용관측연수": 0
+    },
+    "employment": {
+      "회전율백분위": null,
+      "series": null
+    },
+    "nonopIncome": {
+      "series": [
+        {
+          "year": 2020,
+          "영업이익": 15374.0,
+          "당기순이익": 118879.0
+        },
+        {
+          "year": 2021,
+          "영업이익": 101058.0,
+          "당기순이익": 446097.0
+        },
+        {
+          "year": 2022,
+          "영업이익": -540086.0,
+          "당기순이익": 395988.0
+        },
+        {
+          "year": 2023,
+          "영업이익": 154372.0,
+          "당기순이익": 31044.0
+        },
+        {
+          "year": 2024,
+          "영업이익": 651419.0,
+          "당기순이익": 515701.0
+        }
+      ]
+    },
+    "percentileBasis": "전체fallback",
+    "dataQuality": {
+      "missing": [],
+      "ok": true
+    },
+    "businessFit": {
+      "score": null,
+      "matchType": "판단유보",
+      "summary": "지원 3건 전체 LLM 판정 대기",
+      "totalJudged": 0,
+      "totalPending": 3,
+      "breakdown": {
+        "직접일치": 0,
+        "간접관련": 0,
+        "무관": 0,
+        "판단유보": 3
+      },
+      "judgments": [
+        {
+          "programCode": "B2_304",
+          "year": 2022,
+          "programName": null,
+          "businessType": "사업화지원",
+          "score": null,
+          "matchType": "판단유보",
+          "matchedKeywords": [],
+          "reasoning": "LLM 시맨틱 판정 대기",
+          "source": "pending"
+        },
+        {
+          "programCode": "X1_312",
+          "year": 2022,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": null,
+          "matchType": "판단유보",
+          "matchedKeywords": [],
+          "reasoning": "LLM 시맨틱 판정 대기",
+          "source": "pending"
+        },
+        {
+          "programCode": "X1_312",
+          "year": 2023,
+          "programName": null,
+          "businessType": "패키지지원",
+          "score": null,
+          "matchType": "판단유보",
+          "matchedKeywords": [],
+          "reasoning": "LLM 시맨틱 판정 대기",
+          "source": "pending"
+        }
+      ]
+    },
     "compositeScore": {
       "score": 75.7,
       "rawWeightedAverage": 75.7,
@@ -6863,74 +8080,20 @@
         "정합성": null
       }
     },
-    "employment": {
-      "회전율백분위": 90.9090909090909,
-      "series": [
-        {
-          "year": 2020,
-          "가입": 51,
-          "취업": 27,
-          "퇴직": 16
-        },
-        {
-          "year": 2021,
-          "가입": 52.0,
-          "취업": 35.0,
-          "퇴직": 30.0
-        },
-        {
-          "year": 2022,
-          "가입": 64.0,
-          "취업": 37.0,
-          "퇴직": 26.0
-        },
-        {
-          "year": 2023,
-          "가입": 76.0,
-          "취업": 21.0,
-          "퇴직": 11.0
-        },
-        {
-          "year": 2024,
-          "가입": 71.0,
-          "취업": 37.0,
-          "퇴직": 40.0
-        }
-      ]
+    "duplicateFlag": {
+      "status": "cleared",
+      "label": "지원 효과 확인",
+      "isRepeat": true,
+      "growthState": "growing",
+      "segment": "소액소수",
+      "isHighDiversity": false,
+      "supportCount": 3,
+      "totalAmountThousand": 32000.0,
+      "businessTypeDiversity": 2,
+      "maxConsecutiveYears": 2
     },
-    "nonopIncome": {
-      "series": [
-        {
-          "year": 2020,
-          "영업이익": 15374,
-          "당기순이익": 118879
-        },
-        {
-          "year": 2021,
-          "영업이익": 101058,
-          "당기순이익": 446097
-        },
-        {
-          "year": 2022,
-          "영업이익": -540086,
-          "당기순이익": 395988
-        },
-        {
-          "year": 2023,
-          "영업이익": 154372,
-          "당기순이익": 31044
-        },
-        {
-          "year": 2024,
-          "영업이익": 651419,
-          "당기순이익": 515701
-        }
-      ]
-    },
-    "foundedDate": "2011-05-04",
-    "companyStatus": "정상",
-    "isClosed": false,
-    "closureType": "부가가치세 일반과세자",
-    "capitalThousand": 225000.0
+    "_mock": [
+      "businessFit.llm"
+    ]
   }
 ]

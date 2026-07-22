@@ -123,8 +123,8 @@ export function ProgramsExplorer({
     filters.detailItem !== null || filters.ministry !== null || filters.status !== null;
 
   return (
-    <div className="flex items-start gap-4">
-      <div className="min-w-0 flex-1 space-y-4">
+    <div className="space-y-4">
+      {/* 제목 줄은 항상 전체 폭. 상세 패널은 아래 relative 영역에 겹쳐 떠서 필터/표 오른쪽을 덮되 폭은 줄이지 않는다 */}
       {/* 제목 줄 오른쪽에 요약·CSV를 얹어 별도 행을 쓰지 않는다 */}
       <div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
         <div>
@@ -151,6 +151,8 @@ export function ProgramsExplorer({
         </button>
       </div>
 
+      {/* 상세 패널을 겹쳐 띄울 기준면 — 필터·표·페이지네이션을 감싼다 */}
+      <div className="relative space-y-4">
       {/* 필터 바 — flex-nowrap 고정: 폭이 모자라면 줄바꿈 대신 사업유형 그룹만 가로 스크롤 */}
       <Card className="space-y-2.5 p-2.5">
         <div className="flex flex-nowrap items-center gap-2">
@@ -242,7 +244,7 @@ export function ProgramsExplorer({
       </Card>
 
       <Card>
-            <Table>
+        <Table>
               <THead>
                 <TR>
                   <SortableTH label="사업명" k="name" cur={sortKey} dir={sortDir} onSort={onSort} />
@@ -302,25 +304,28 @@ export function ProgramsExplorer({
             {pageItems.length === 0 && (
               <p className="p-8 text-center text-sm text-muted-foreground">조건에 맞는 사업이 없습니다.</p>
             )}
-          </Card>
+      </Card>
 
-          <div className="mt-4">
-            <Pagination page={page} totalPages={totalPages} onChange={setPage} />
-          </div>
+      <div className="mt-4">
+        <Pagination page={page} totalPages={totalPages} onChange={setPage} />
       </div>
 
+      {/* 상세 패널: relative 영역 위에 겹쳐 뜬다(absolute). 필터 박스는 밀리지 않고 오른쪽만 덮인다 */}
       {openProgram && (
-        <div className="sticky top-6 max-h-[calc(100vh-100px)] w-[380px] shrink-0 overflow-y-auto rounded-xl bg-card p-5 shadow-modal">
-          <ProgramDetailPanel
-            program={openProgram}
-            programs={programs}
-            companies={companies}
-            notes={notes}
-            referenceDate={referenceDate}
-            onClose={() => setOpenKey(null)}
-          />
+        <div className="absolute inset-y-0 right-0 z-10 w-[380px]">
+          <div className="sticky top-6 max-h-[calc(100vh-100px)] overflow-y-auto rounded-xl bg-card p-5 shadow-modal">
+            <ProgramDetailPanel
+              program={openProgram}
+              programs={programs}
+              companies={companies}
+              notes={notes}
+              referenceDate={referenceDate}
+              onClose={() => setOpenKey(null)}
+            />
+          </div>
         </div>
       )}
+      </div>
     </div>
   );
 }

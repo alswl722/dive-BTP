@@ -240,6 +240,7 @@ class Company(BaseModel):
     region: str | None = None
     revenueLatest: float | None = None
     avgSalaryLatest: float | None = None
+    listingType: str | None = None               # 상장구분(코스피/코스닥) 또는 외감구분(외감/일반법인) — 값 그대로
     scores: dict[Axis, float | None]
     percentiles: dict[str, float | None]
     rawMetrics: dict[str, float | None]

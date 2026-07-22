@@ -10,6 +10,7 @@
     "isClosed": false,
     "closureType": null,
     "capitalThousand": 950000.0,
+    "listingType": "외감",
     "revenueLatest": 31875004.0,
     "avgSalaryLatest": 45839.804,
     "scores": {
@@ -689,6 +690,7 @@
     "isClosed": false,
     "closureType": null,
     "capitalThousand": 300000.0,
+    "listingType": "일반법인",
     "revenueLatest": 1011509.0,
     "avgSalaryLatest": 39270.476,
     "scores": {
@@ -1261,6 +1263,7 @@
     "isClosed": false,
     "closureType": null,
     "capitalThousand": 100000.0,
+    "listingType": "일반법인",
     "revenueLatest": 1477987.0,
     "avgSalaryLatest": 40480.0,
     "scores": {
@@ -1999,6 +2002,7 @@
     "isClosed": false,
     "closureType": null,
     "capitalThousand": 560000.0,
+    "listingType": "외감",
     "revenueLatest": 1835991.0,
     "avgSalaryLatest": 37481.333,
     "scores": {
@@ -2433,6 +2437,7 @@
     "isClosed": false,
     "closureType": null,
     "capitalThousand": 220000.0,
+    "listingType": "일반법인",
     "revenueLatest": 299866.0,
     "avgSalaryLatest": 29569.6,
     "scores": {
@@ -3446,6 +3451,7 @@
     "isClosed": false,
     "closureType": null,
     "capitalThousand": 900000.0,
+    "listingType": "일반법인",
     "revenueLatest": 1826481.0,
     "avgSalaryLatest": 40628.364,
     "scores": {
@@ -4317,6 +4323,7 @@
     "isClosed": false,
     "closureType": null,
     "capitalThousand": 1400000.0,
+    "listingType": "외감",
     "revenueLatest": 43035757.0,
     "avgSalaryLatest": 46688.858,
     "scores": {
@@ -5107,6 +5114,7 @@
     "isClosed": false,
     "closureType": null,
     "capitalThousand": 1200000.0,
+    "listingType": "일반법인",
     "revenueLatest": 20881164.0,
     "avgSalaryLatest": 39722.462,
     "scores": {
@@ -6109,6 +6117,7 @@
     "isClosed": false,
     "closureType": null,
     "capitalThousand": 350000.0,
+    "listingType": "외감",
     "revenueLatest": 10509397.0,
     "avgSalaryLatest": 38772.108,
     "scores": {
@@ -6737,6 +6746,7 @@
     "isClosed": false,
     "closureType": null,
     "capitalThousand": 7690477.0,
+    "listingType": "외감",
     "revenueLatest": 12615422.0,
     "avgSalaryLatest": 46106.177,
     "scores": {
@@ -7485,6 +7495,7 @@
     "isClosed": false,
     "closureType": null,
     "capitalThousand": 225000.0,
+    "listingType": "일반법인",
     "revenueLatest": 7027580.0,
     "avgSalaryLatest": 42365.596,
     "scores": {

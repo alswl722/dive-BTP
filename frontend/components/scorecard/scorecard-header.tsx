@@ -14,6 +14,20 @@ import { DuplicateFlagBadge } from "@/components/axis9/DuplicateFlagBadge";
 import { DecisionReasonModal } from "@/components/scorecard/decision-reason-modal";
 import { type Axis, type Company, type CompositeGroup } from "@/types";
 
+/** 상장/외감 구분 배지 — 값을 그대로 사실로만 노출(판단·경고 없음), 뜻은 툴팁으로.
+ *  소스 컬럼은 값이 섞여 온다: 본선은 코스피/코스닥(상장), 샘플은 외감/일반법인 → 값 보고 분기. */
+function listingInfo(v: string | null): { label: string; title: string } | null {
+  const s = v?.trim();
+  if (!s) return null;
+  if (s.includes("코스피") || s.includes("코스닥") || s.includes("상장"))
+    return { label: s, title: "상장사 — 한국채택국제회계기준(K-IFRS) 적용" };
+  if (s.includes("외감"))
+    return { label: "외감", title: "외부감사 대상 — 재무제표를 외부 회계법인이 감사" };
+  if (s.includes("일반"))
+    return { label: "일반법인", title: "외부감사 비대상 법인" };
+  return { label: s, title: "" }; // 알 수 없는 값도 사실 그대로 노출
+}
+
 export function ScorecardHeader({
   company,
   latestYear,
@@ -117,6 +131,10 @@ export function ScorecardHeader({
             </p>
           )}
           <div className="mt-1.5 flex flex-wrap gap-1.5">
+            {(() => {
+              const l = listingInfo(company.listingType);
+              return l ? <Badge variant="secondary" title={l.title || undefined}>{l.label}</Badge> : null;
+            })()}
             {company.isClosed && (
               <Badge variant="bad">
                 <AlertTriangle className="mr-1 h-3 w-3" />

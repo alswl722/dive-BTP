@@ -510,6 +510,9 @@ def build_companies(
         status_col = next((c for c in master.columns if str(c) == "기업상태"), None)  # '_휴폐업여부' 등과 구분
         closed_col = next((c for c in master.columns if "휴폐업여부" in str(c)), None)
         closure_col = next((c for c in master.columns if "휴폐업구분" in str(c)), None)
+        # 상장/외감 구분 — 원본 헤더는 "기업공개(코스피,코스닥)"이나 값은 상장구분(코스피/코스닥)
+        # 또는 외부감사구분(외감/일반법인)이 섞여 온다(소스 헤더≠내용). 값 그대로 전달하고 해석은 프론트에서.
+        listing_col = next((c for c in master.columns if "기업공개" in str(c)), None)
         cap = col_year_map(master, "납입자본금")
         cap_latest = pd.to_numeric(m[cap[max(cap)]], errors="coerce") if cap else None
         founded = m[founded_col] if founded_col else None
@@ -550,6 +553,7 @@ def build_companies(
             "isClosed": bool(m[closed_col]) if closed_col and pd.notna(m[closed_col]) else False,
             "closureType": clean(m[closure_col]) if closure_col else None,
             "capitalThousand": clean(cap_latest),
+            "listingType": clean(m[listing_col]) if listing_col else None,  # 상장구분/외감구분(값 그대로)
             "revenueLatest": clean(rev_latest),
             # CLAUDE.md 알려진 이슈: 1인평균연간급여 원본 단위는 "원"(다른 재무지표는 "천원") → /1000으로
             # 스케일 통일해서 revenueLatest 등과 같은 "_천원" 관례로 맞춘다.

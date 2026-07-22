@@ -155,10 +155,16 @@ def _quiet():
 # 로드
 # ============================================================
 def load_finance(source: str):
-    """(feat, master, ksic) — scoring_finance의 로더를 그대로 쓴다."""
+    """(feat, master, ksic, size) — scoring_finance의 로더를 그대로 쓴다.
+
+    size(기업규모)는 프로덕션 러너(scoring_finance.main)와 동일하게 _align_size로
+    뽑아 compute_scores에 넘긴다. 컬럼이 없으면 None → 2단(업종내/전체fallback)으로
+    자동 fallback, 있으면 3단(업종x규모/업종내/전체fallback)이 켜진다.
+    """
     feat, master = sf.load_inputs(source)
     ksic = sf._align_ksic(feat, master)
-    return feat, master, ksic
+    size = sf._align_size(feat, master)
+    return feat, master, ksic, size
 
 
 def load_tech_tables(source: str, mode: str):
@@ -270,11 +276,15 @@ def gate_ksic_format(ksic: pd.Series, f: Findings) -> None:
 # ============================================================
 # variant 실행
 # ============================================================
-def run_variant(prefix: int, feat, ksic, tech_tables, axis8, cfg, quiet: bool = False):
-    """주어진 KSIC_PREFIX로 재무·기술·종합점수를 산출 → (fin, tech, comp)."""
+def run_variant(prefix: int, feat, ksic, size, tech_tables, axis8, cfg, quiet: bool = False):
+    """주어진 KSIC_PREFIX로 재무·기술·종합점수를 산출 → (fin, tech, comp).
+
+    size는 재무축에만 전달한다 — 기술축(company_view→scoring_tech)은 프로덕션에서도
+    size 없이 2단으로 채점하므로 여기서도 넘기지 않는다.
+    """
     ctx = _quiet() if quiet else contextlib.nullcontext()
     with _patched(sf, KSIC_PREFIX=prefix), _patched(st, KSIC_PREFIX=prefix), ctx:
-        fin = sf.compute_scores(feat, ksic)
+        fin = sf.compute_scores(feat, ksic, size)
         tech = load_tech_scores(tech_tables)
     comp = build_composite(fin, tech, axis8, cfg)
     return fin, tech, comp
@@ -485,7 +495,7 @@ def diag_composite(comp: pd.DataFrame, f: Findings) -> None:
 
 
 def diag_basis_bias(comp: pd.DataFrame, f: Findings) -> None:
-    _head("[B4] 백분위기준별 점수 편향 — 두 집단이 같은 화면에 섞여 있다")
+    _head("[B4] 백분위기준별 점수 편향 — 서로 다른 기준집단이 같은 화면에 섞여 있다")
     d = comp.dropna(subset=["score"])
     g = d.groupby("백분위기준")["score"].agg(["count", "mean"])
     if len(g) < 2:
@@ -493,20 +503,23 @@ def diag_basis_bias(comp: pd.DataFrame, f: Findings) -> None:
         return
     print(g.round(1).to_string().replace("\n", "\n    "))
 
-    try:
-        m_in = float(g.loc["업종내", "mean"])
-        m_fb = float(g.loc["전체fallback", "mean"])
-        n_fb = int(g.loc["전체fallback", "count"])
-    except KeyError:
+    # 라벨 수에 무관하게 동작한다: size tier가 켜지면 업종x규모/업종내/전체fallback 3집단,
+    # 꺼지면 업종내/전체fallback 2집단. 모두 백분위 기반이라 기대 평균차는 0.
+    # 표본이 얇은(n<30) 집단은 평균차 판단에서 제외한다.
+    solid = g[g["count"] >= 30]
+    for label in g.index[g["count"] < 30]:
+        f.warn(f"'{label}' 집단 n={int(g.loc[label, 'count'])} — 표본 부족, 평균차 판단에서 제외")
+    if len(solid) < 2:
+        print("  n≥30 기준집단이 2개 미만 — 편향 비교 불가")
         return
-    gap = abs(m_in - m_fb)
-    print(f"\n  |업종내 − 전체fallback| = {gap:.1f}점")
-    if n_fb < 30:
-        f.warn(f"fallback 집단 n={n_fb} — 표본 부족, 차이 수치를 신뢰하지 말 것")
-    elif gap >= 10:
-        f.err(f"집단 간 {gap:.1f}점 차 — 어느 업종에 속했느냐가 점수를 정한다. 심사 근거로 사용 불가")
+    hi = str(solid["mean"].idxmax())
+    lo = str(solid["mean"].idxmin())
+    gap = float(solid.loc[hi, "mean"] - solid.loc[lo, "mean"])
+    print(f"\n  최대 평균차 |{hi} − {lo}| = {gap:.1f}점")
+    if gap >= 10:
+        f.err(f"집단 간 {gap:.1f}점 차 — 어느 기준집단에 속했느냐가 점수를 정한다. 심사 근거로 사용 불가")
     elif gap >= 5:
-        f.warn(f"집단 간 {gap:.1f}점 차 — 공정성 결함(두 집단 다 백분위 기반이라 기대차는 0)")
+        f.warn(f"집단 간 {gap:.1f}점 차 — 공정성 결함(모두 백분위 기반이라 기대차는 0)")
     else:
         f.ok(f"집단 간 {gap:.1f}점 차")
 
@@ -524,7 +537,8 @@ def compare_variants(v: dict, top_n: int, f: Findings) -> None:
         fb = _pct(int((fin["백분위기준"] == "전체fallback").sum()), len(fin))
         d = comp.dropna(subset=["score"])
         by = d.groupby("백분위기준")["score"].mean()
-        gap = abs(by.get("업종내", np.nan) - by.get("전체fallback", np.nan))
+        # 기준집단 평균의 최대−최소 스프레드 (라벨 2개든 3개든 동일하게 잰다)
+        gap = float(by.max() - by.min()) if len(by) >= 2 else np.nan
         capped = comp.dropna(subset=["score", "raw"])
         cap = _pct(int((capped["score"] < capped["raw"]).sum()), len(capped)) if len(capped) else np.nan
         rows.append({
@@ -623,7 +637,12 @@ def main() -> None:
           f"MIN_VALID={sf.MIN_VALID}  MIN_AXIS_RATIO={sf.MIN_AXIS_RATIO}")
     print(f"  cap_margin={cfg.get('cap_margin')}  min_valid_axis_ratio={cfg.get('min_valid_axis_ratio')}")
 
-    feat, master, ksic = load_finance(args.source)
+    feat, master, ksic, size = load_finance(args.source)
+    size_active = size is not None and bool(size.notna().any())
+    print(f"  기업규모 tier: " + (
+        "활성 → 업종x규모/업종내/전체fallback 3단 (프로덕션 경로)"
+        if size_active else
+        "비활성 → 업종내/전체fallback 2단 (size 컬럼 없음, 프로덕션도 동일 fallback)"))
     tech_tables = load_tech_tables(args.source, args.tech)
     axis8 = load_axis8(args.axis8, args.source)
 
@@ -645,7 +664,7 @@ def main() -> None:
     gate_ksic_format(ksic, f)
 
     # [B] 프로덕션 설정으로 진단
-    fin, tech, comp = run_variant(PROD_PREFIX, feat, ksic, tech_tables, axis8, cfg)
+    fin, tech, comp = run_variant(PROD_PREFIX, feat, ksic, size, tech_tables, axis8, cfg)
     diag_groups(fin, f)
     diag_axis_nan(fin, f)
     diag_tech(tech, f)
@@ -658,7 +677,7 @@ def main() -> None:
         variants = {3: (fin, tech, comp) if PROD_PREFIX == 3 else None}
         for p in (3, 4):
             if variants.get(p) is None:
-                variants[p] = run_variant(p, feat, ksic, tech_tables, axis8, cfg, quiet=True)
+                variants[p] = run_variant(p, feat, ksic, size, tech_tables, axis8, cfg, quiet=True)
         compare_variants(variants, args.top_n, f)
 
     # 원복 검증

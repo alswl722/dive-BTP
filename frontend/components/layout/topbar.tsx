@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Search, Table2, LayoutGrid } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUi } from "@/lib/app-state";
@@ -9,6 +9,7 @@ import { useUi } from "@/lib/app-state";
 export function TopBar() {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { viewMode, setViewMode } = useUi();
   const [q, setQ] = useState("");
   const onSelectionScreen = pathname.startsWith("/companies");
@@ -16,7 +17,12 @@ export function TopBar() {
   function onSearch(e: FormEvent) {
     e.preventDefault();
     if (!q.trim()) return;
-    router.push(`/companies?q=${encodeURIComponent(q.trim())}`);
+    // 기존 쿼리(특히 program=)를 날리면 CompaniesEntry의 "사업 미선택 시 자동이동"
+    // 이펙트가 즉시 되돌려버린다(program 파라미터 유실 → 첫 배정사업으로 replace).
+    // q만 덮어쓰고 나머지 파라미터는 보존해야 검색이 실제로 반영된다.
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("q", q.trim());
+    router.push(`/companies?${params.toString()}`);
   }
 
   return (

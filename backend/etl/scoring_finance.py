@@ -6,6 +6,11 @@ features_finance(파생컬럼 24개)를 입력받아 각 지표를 **업종내 �
 설계 결정 (docs/재무축_설계노트.md 참고):
 - 정규화 = 업종(KSIC 중분류) 내 백분위 + fallback(그룹 < MIN_GROUP이면 전체 대비).
   등수 기반이라 극단값에 강건하고, "동종업계 상위 X%"로 담당자에게 직관적.
+- (선택) 기업규모(대/중/소) 3단 계층 fallback: KSIC×규모 → KSIC단독 → 전체.
+  대기업·소기업을 같은 업종그룹에서 그냥 비교하면 규모 자체가 만드는 절대 격차가
+  성장/수익 백분위를 왜곡할 수 있어, 규모까지 같은 동종군이 충분히 크면(MIN_GROUP
+  이상) 그걸 우선 쓰고, 표본이 작으면 자동으로 상위 tier(KSIC단독→전체)로 강등한다.
+  size 인자를 안 넘기면 기존 2단 동작과 완전히 동일(하위호환).
 - 방향 자동 보정: '낮을수록 좋음'(부채비율·성장안정성 등)은 100-백분위로 뒤집어
   항상 '높은 점수 = 좋음'.
 - 점수 = 축별 4개만(종합점수 없음). 3축 겹쳐읽기(축 어긋남 판별)를 보존.
@@ -37,6 +42,7 @@ KSIC_HINT = "KSIC"      # 업종 그룹 컬럼 부분일치
 KSIC_PREFIX = 3         # 그룹 단위: 앞 3자(알파벳+2자리 = 중분류, 예 'C29')
 MIN_GROUP = 5           # 업종내 백분위 최소 그룹 크기. 미만이면 전체 fallback.
 KSIC_PATTERN = r"^[A-Z]\d{2}"  # 정상 그룹키 포맷(11차 중분류). 아니면 fallback.
+SIZE_HINT = "기업규모"   # 기업규모(대/중/소) 컬럼 부분일치. size 인자 미제공 시 미사용.
 # 통계 신뢰 가드 (데이터 판단 임계값이 아니라 등수 산출의 최소 표본 조건)
 MIN_VALID = 3           # 컬럼 유효값이 이보다 적으면 백분위 산출 안 함(단독 100점 방지)
 MIN_AXIS_RATIO = 0.5    # 축 점수에 필요한 최소 유효 컬럼 비율(결측이 점수를 왜곡하는 것 방지)
@@ -82,10 +88,11 @@ CONTEXT_PCT_COLS = {"고용회전율_최근": "고용회전율_백분위"}
 
 
 # --- 순수 계산 --------------------------------------------------------------
-def compute_scores(feat: pd.DataFrame, ksic: pd.Series) -> pd.DataFrame:
-    """파생값 DataFrame + 업종 Series → 컬럼별 백분위 + 축별 점수 DataFrame.
+def compute_scores(feat: pd.DataFrame, ksic: pd.Series, size: pd.Series | None = None) -> pd.DataFrame:
+    """파생값 DataFrame + 업종 Series (+ 선택: 기업규모 Series) → 컬럼별 백분위 + 축별 점수 DataFrame.
 
-    feat와 ksic는 같은 순서(행)로 정렬되어 있어야 한다.
+    feat·ksic·size는 같은 순서(행)로 정렬되어 있어야 한다.
+    size를 넘기지 않으면(기본값 None) 기존 2단(업종내/전체fallback) 동작과 완전히 동일.
     """
     feat = norm_cols(feat).reset_index(drop=True)
     ksic = pd.Series(np.asarray(ksic), index=feat.index)
@@ -103,6 +110,20 @@ def compute_scores(feat: pd.DataFrame, ksic: pd.Series) -> pd.DataFrame:
         group = group.where(~bad_fmt, "__NA__")
     gsize = group.map(group.value_counts())
     big = (gsize >= MIN_GROUP) & (group != "__NA__")  # __NA__는 크기 무관 전체 fallback
+
+    # 기업규모 3단 tier: KSIC×규모 그룹이 MIN_GROUP 이상이면 그걸 최우선 사용.
+    # 대/중/소기업을 같은 업종그룹에서 뭉쳐 비교하면 규모 자체의 절대격차가 백분위를
+    # 왜곡할 수 있어, 표본이 충분할 때만 더 세분화된 동종군으로 비교한다.
+    size_group = None
+    size_big = None
+    if size is not None:
+        size = pd.Series(np.asarray(size), index=feat.index)
+        size_norm = size.astype(str).str.strip()
+        size_norm = size_norm.where(size.notna() & (size_norm != "") & (size_norm.str.lower() != "nan"), "__NA__")
+        size_group = group + "|" + size_norm
+        size_group = size_group.where((group != "__NA__") & (size_norm != "__NA__"), "__NA__")
+        sgsize = size_group.map(size_group.value_counts())
+        size_big = (sgsize >= MIN_GROUP) & (size_group != "__NA__")
 
     out = pd.DataFrame({KEY: feat[KEY].values})
     axis_members: dict[str, list] = {a: [] for a in AXES}
@@ -123,6 +144,10 @@ def compute_scores(feat: pd.DataFrame, ksic: pd.Series) -> pd.DataFrame:
         within = v.groupby(group).rank(pct=True) * 100
         whole = v.rank(pct=True) * 100
         pct = within.where(big, whole)
+        if size_group is not None:
+            # 3단 tier 최우선: KSIC×규모 그룹이 충분히 크면 그 등수로 덮어씀
+            within_size = v.groupby(size_group).rank(pct=True) * 100
+            pct = within_size.where(size_big, pct)
         if direction == "down":
             pct = 100 - pct
         out[f"pct_{col}"] = pct.values
@@ -165,7 +190,10 @@ def compute_scores(feat: pd.DataFrame, ksic: pd.Series) -> pd.DataFrame:
 
     # 업종/기준 메타
     out["업종그룹"] = group.values
-    out["백분위기준"] = np.where(big, "업종내", "전체fallback")
+    basis = np.where(big, "업종내", "전체fallback")
+    if size_big is not None:
+        basis = np.where(np.asarray(size_big), "업종x규모", basis)
+    out["백분위기준"] = basis
 
     # 컬럼 순서: KEY → 축점수 → 유효컬럼수 → pct_* → passthrough → 맥락백분위 → 메타
     score_cols = [f"{a}점수" for a in AXES]
@@ -210,6 +238,18 @@ def _align_ksic(feat: pd.DataFrame, master: pd.DataFrame) -> pd.Series:
     merged = norm_cols(feat)[[KEY]].merge(
         m[[KEY, ksic_col]].drop_duplicates(KEY), on=KEY, how="left")
     return merged[ksic_col]
+
+
+def _align_size(feat: pd.DataFrame, master: pd.DataFrame) -> pd.Series | None:
+    """feat 행 순서에 맞춘 기업규모(대/중/소) Series 반환. 컬럼 없으면 None(기존 2단 동작)."""
+    m = norm_cols(master)
+    size_col = next((c for c in m.columns if SIZE_HINT in str(c)), None)
+    if size_col is None:
+        print("  ℹ️ 기업규모 컬럼 없음 — KSIC×규모 tier 생략(기존 2단 동작)")
+        return None
+    merged = norm_cols(feat)[[KEY]].merge(
+        m[[KEY, size_col]].drop_duplicates(KEY), on=KEY, how="left")
+    return merged[size_col]
 
 
 # --- 확인 -------------------------------------------------------------------
@@ -260,7 +300,8 @@ def main() -> None:
     print(f"  features shape={feat.shape}, master shape={master.shape}\n")
 
     ksic = _align_ksic(feat, master)
-    scores = compute_scores(feat, ksic)
+    size = _align_size(feat, master)
+    scores = compute_scores(feat, ksic, size)
     dst = save_scores(scores, args.source)
     print(f"✅ 저장 완료 → {dst}")
 

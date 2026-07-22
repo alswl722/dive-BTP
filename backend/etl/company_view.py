@@ -433,6 +433,10 @@ def _tech_block(t: dict) -> dict:
             "btp중점사업": _split_list(t.get("BTP중점사업")),
             "국가전략기술": _split_list(t.get("국가전략기술")),
             "기술수준등급": clean(t.get("기술수준등급")),
+            # 부산 9대 지역전략산업 매칭 (docs/지역적합_설계노트.md)
+            "지역전략산업": clean(t.get("지역전략산업")),
+            "지역전략산업_매칭유형": clean(t.get("지역전략산업_매칭유형")),  # 고유(강함) | 공통(약함) | None
+            "지역전략산업_부합": bool(t.get("지역전략산업_부합")),
         },
         "scores": {
             "rndPatent": clean(t.get("R&D특허점수")),

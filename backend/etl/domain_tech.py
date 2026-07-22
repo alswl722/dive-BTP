@@ -12,6 +12,11 @@
   BTP중점사업 (부산TP 4대 중점사업 정렬)
   주력부처 / 부처다양성
   도메인_출처 (표준분류 | KSIC추정 | 미상)
+  지역전략산업 / 지역전략산업_매칭유형(고유|공통) / 지역전략산업_부합
+    (부산시 제6차 전략산업 KSIC코드, config/external/busan_strategic_industry.yaml —
+     NTIS 유무와 무관하게 KSIC만 있으면 전 기업 대상. 고유코드 매칭이 공통코드보다
+     우선하는 강/약 신호 분리는 regional_fit() 참고. 미매칭은 "전략산업 아님"이라는
+     사실이지 결측이 아니므로 지역전략산업_부합=False로 명시, NaN 아님)
 
 ⚠️ 3단 폴백: NTIS 과제가 없는 기업은 표준분류가 없다(샘플 11곳 중 2곳).
    NTIS 표준분류 → KSIC 업종 추정 → "기술분야 미상". **임의 추정 금지**,
@@ -48,6 +53,27 @@ def load_external(name: str) -> dict:
         return {}
     with open(path, encoding="utf-8") as f:
         return yaml.safe_load(f)
+
+
+def regional_fit(ksic: str, table: dict) -> tuple[str | None, str | None]:
+    """KSIC 코드(세세분류, 5자리+대분류) → 부산 지역전략산업 매칭.
+
+    (config/external/busan_strategic_industry.yaml 참고)
+    unique(고유) 코드 매칭을 common(공통) 코드보다 우선한다 — 공통 코드는 여러
+    산업에 걸쳐있어 단독으로 특정 산업 소속을 단정할 근거가 약하다(강/약 신호 분리).
+    반환: (지역전략산업명 또는 None, 매칭유형 "고유"|"공통" 또는 None)
+    """
+    if not table or not ksic:
+        return None, None
+    code = str(ksic).strip().upper()
+    industries = table.get("strategic_industries") or {}
+    for ind, groups in industries.items():
+        if code in (groups.get("unique") or {}):
+            return ind, "고유"
+    for ind, groups in industries.items():
+        if code in (groups.get("common") or {}):
+            return ind, "공통"
+    return None, None
 
 
 def tech_intensity(ksic: str, table: dict) -> str | None:
@@ -100,6 +126,7 @@ def build(tables: dict[str, pd.DataFrame]) -> pd.DataFrame:
     # --- 외부 참조표 ---
     strat_map = (load_external("national_strategic_tech") or {}).get("strategic_tech", {})
     intensity_tbl = load_external("tech_intensity_ksic")
+    regional_tbl = load_external("busan_strategic_industry")
 
     comp = tables["companies"].set_index(KEY)
     lead = _dedup_lead(tables["ntis_lead_projects"])  # 스냅샷 중복 제거 후 과제 단위
@@ -144,6 +171,10 @@ def build(tables: dict[str, pd.DataFrame]) -> pd.DataFrame:
         # 표준분류가 없는 기업도 업종만 있으면 나오므로 폴백 역할을 한다.
         등급 = tech_intensity(str(comp.at[cid, "ksic_code"] or ""), intensity_tbl)
 
+        # --- 외부 데이터 ③ 부산 지역전략산업 매칭 (KSIC → 9대 전략산업) ---
+        # 마찬가지로 KSIC만 있으면 되므로 NTIS 유무와 무관하게 전 기업에 적용된다.
+        지역산업, 지역매칭유형 = regional_fit(str(comp.at[cid, "ksic_code"] or ""), regional_tbl)
+
         ministries = g["ministry"].dropna()
         rows.append({
             KEY: cid,
@@ -156,6 +187,9 @@ def build(tables: dict[str, pd.DataFrame]) -> pd.DataFrame:
             "국가전략기술": "; ".join(strat) if strat else None,
             "국가전략기술_부합": bool(strat),
             "기술수준등급": 등급,
+            "지역전략산업": 지역산업,
+            "지역전략산업_매칭유형": 지역매칭유형,
+            "지역전략산업_부합": 지역산업 is not None,
             "주력부처": ministries.value_counts().index[0] if len(ministries) else None,
             "부처다양성": ministries.nunique(),
         })
@@ -191,6 +225,10 @@ def main() -> None:
             focus_counts[f] = focus_counts.get(f, 0) + 1
     for k, v in sorted(focus_counts.items(), key=lambda x: -x[1]):
         print(f"  {k}: {v}곳")
+    print("\n[부산 9대 지역전략산업 부합] (외부: 부산시 제6차 전략산업 KSIC코드)")
+    print(f"  부합 {int(df['지역전략산업_부합'].sum())}곳 / 전체 {len(df)}곳")
+    print(df.loc[df["지역전략산업_부합"], "지역전략산업"].value_counts().to_string())
+    print(df["지역전략산업_매칭유형"].value_counts(dropna=False).to_string())
 
 
 if __name__ == "__main__":

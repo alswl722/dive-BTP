@@ -162,6 +162,30 @@ def main():
     check("유효컬럼수로 사유 확인 가능",
           int(pr.loc[pr["기업일련번호"] == 1, "유효컬럼수_수익성"].iloc[0]) < 5)
 
+    # ---------- 기업규모(대/중/소) 3단 계층 그룹핑 (docs/재무축_설계노트.md §9) ----------
+    print("[5] 기업규모 3단 tier 방어")
+    size_feat = pd.DataFrame({
+        "기업일련번호": range(1, 21),
+        "매출_CAGR": np.random.RandomState(0).uniform(-0.1, 0.3, 20),
+    })
+    size_ksic = pd.Series(["C29"] * 10 + ["C99"] * 10)
+    # C29: 대기업 8(충분) / 소기업 2(부족) — 같은 KSIC 안에서도 규모별 표본크기가 다름
+    # C99: 중기업 10(충분)
+    size_size = pd.Series((["대기업"] * 8 + ["소기업"] * 2) + ["중기업"] * 10)
+    size_scores = compute_scores(size_feat, size_ksic, size_size)
+    basis = size_scores["백분위기준"]
+    check("size 미제공 시 하위호환(기존 2단과 동일 시그니처로 호출 가능)",
+          "백분위기준" in compute_scores(size_feat, size_ksic).columns)
+    check("KSIC×규모 표본 충분(대기업 8명) → 업종x규모 tier 채택",
+          (basis.iloc[0:8] == "업종x규모").all())
+    check("같은 KSIC라도 규모별 표본 부족(소기업 2명 < MIN_GROUP) → KSIC단독으로 자동 강등",
+          (basis.iloc[8:10] == "업종내").all())
+    check("다른 KSIC×규모 조합(중기업 10명)도 독립적으로 업종x규모 채택",
+          (basis.iloc[10:20] == "업종x규모").all())
+    no_size_scores = compute_scores(size_feat, size_ksic)
+    check("size 인자 없으면 전원 기존 업종내 tier(회귀 없음)",
+          (no_size_scores["백분위기준"] == "업종내").all())
+
     print(f"\n✅ 엣지케이스 테스트 {ok}개 전부 통과")
 
 

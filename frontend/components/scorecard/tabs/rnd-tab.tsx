@@ -5,6 +5,7 @@ import { AlertTriangle, Check, ChevronDown, Info, UserRound, X } from "lucide-re
 import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/ui/stat-card";
 import { AxisSignals } from "@/components/scorecard/axis-signals";
+import { ExternalTechSignals } from "@/components/scorecard/external-tech-signals";
 import type { Company, Tech } from "@/types";
 import { cn, formatKRW } from "@/lib/utils";
 // 임계값 단일 출처 — 심사 요약과 같은 기준으로 판정해야 화면끼리 어긋나지 않는다.
@@ -45,6 +46,9 @@ export function RndTab({ company, latestYear }: { company: Company; latestYear: 
 
       {/* 기술 분야 — "얼마나"가 아니라 "어느 분야에서" */}
       {tech && <DomainSection domain={tech.domain} />}
+
+      {/* 외부 공공데이터 보강(목업) — 벤처확인 유형·특허 기술분류·정부지원 대비 성과 */}
+      {tech && <ExternalTechSignals company={company} />}
 
       {/* 특허 실적 — 규모(등록·출원)와 질·활동(전환율·최근출원)을 한 묶음으로 */}
       <section className="space-y-2">

@@ -487,7 +487,38 @@
     },
     "employment": {
       "회전율백분위": null,
-      "series": null
+      "series": [
+        {
+          "year": 2020,
+          "가입": 36,
+          "취업": 5,
+          "퇴직": 7
+        },
+        {
+          "year": 2021,
+          "가입": 38,
+          "취업": 10,
+          "퇴직": 8
+        },
+        {
+          "year": 2022,
+          "가입": 37,
+          "취업": 8,
+          "퇴직": 10
+        },
+        {
+          "year": 2023,
+          "가입": 56,
+          "취업": 25,
+          "퇴직": 5
+        },
+        {
+          "year": 2024,
+          "가입": 68,
+          "취업": 25,
+          "퇴직": 14
+        }
+      ]
     },
     "nonopIncome": {
       "series": [
@@ -673,7 +704,10 @@
       "supportCount": 8,
       "totalAmountThousand": 360700.0,
       "businessTypeDiversity": 4,
-      "maxConsecutiveYears": 3
+      "maxConsecutiveYears": 3,
+      "growthScore": 59.09090909090909,
+      "revenueCagr": 0.10622155920064502,
+      "revenueDelta": null
     },
     "_mock": [
       "businessFit.llm"
@@ -1073,7 +1107,38 @@
     },
     "employment": {
       "회전율백분위": null,
-      "series": null
+      "series": [
+        {
+          "year": 2020,
+          "가입": 10,
+          "취업": 2,
+          "퇴직": 0
+        },
+        {
+          "year": 2021,
+          "가입": 8,
+          "취업": 1,
+          "퇴직": 5
+        },
+        {
+          "year": 2022,
+          "가입": 7,
+          "취업": 4,
+          "퇴직": 3
+        },
+        {
+          "year": 2023,
+          "가입": 7,
+          "취업": 1,
+          "퇴직": 1
+        },
+        {
+          "year": 2024,
+          "가입": 7,
+          "취업": 3,
+          "퇴직": 3
+        }
+      ]
     },
     "nonopIncome": {
       "series": [
@@ -1248,7 +1313,10 @@
       "supportCount": 7,
       "totalAmountThousand": 79223.0,
       "businessTypeDiversity": 2,
-      "maxConsecutiveYears": 3
+      "maxConsecutiveYears": 3,
+      "growthScore": 31.818181818181817,
+      "revenueCagr": 0.026002200168220524,
+      "revenueDelta": null
     },
     "_mock": []
   },
@@ -1784,7 +1852,38 @@
     },
     "employment": {
       "회전율백분위": null,
-      "series": null
+      "series": [
+        {
+          "year": 2020,
+          "가입": 7,
+          "취업": 1,
+          "퇴직": 3
+        },
+        {
+          "year": 2021,
+          "가입": 6,
+          "취업": 0,
+          "퇴직": 0
+        },
+        {
+          "year": 2022,
+          "가입": 6,
+          "취업": 0,
+          "퇴직": 0
+        },
+        {
+          "year": 2023,
+          "가입": 5,
+          "취업": 0,
+          "퇴직": 1
+        },
+        {
+          "year": 2024,
+          "가입": 5,
+          "취업": 0,
+          "퇴직": 0
+        }
+      ]
     },
     "nonopIncome": {
       "series": [
@@ -1987,7 +2086,10 @@
       "supportCount": 9,
       "totalAmountThousand": 103687.0,
       "businessTypeDiversity": 2,
-      "maxConsecutiveYears": 3
+      "maxConsecutiveYears": 3,
+      "growthScore": 48.48484848484849,
+      "revenueCagr": -0.01384998887626987,
+      "revenueDelta": null
     },
     "_mock": []
   },
@@ -2303,7 +2405,38 @@
     },
     "employment": {
       "회전율백분위": null,
-      "series": null
+      "series": [
+        {
+          "year": 2020,
+          "가입": 13,
+          "취업": 12,
+          "퇴직": 14
+        },
+        {
+          "year": 2021,
+          "가입": 11,
+          "취업": 15,
+          "퇴직": 18
+        },
+        {
+          "year": 2022,
+          "가입": 12,
+          "취업": 6,
+          "퇴직": 5
+        },
+        {
+          "year": 2023,
+          "가입": 9,
+          "취업": 1,
+          "퇴직": 2
+        },
+        {
+          "year": 2024,
+          "가입": 10,
+          "취업": 2,
+          "퇴직": 1
+        }
+      ]
     },
     "nonopIncome": {
       "series": [
@@ -2422,7 +2555,10 @@
       "supportCount": 3,
       "totalAmountThousand": 27000.0,
       "businessTypeDiversity": 1,
-      "maxConsecutiveYears": 1
+      "maxConsecutiveYears": 1,
+      "growthScore": 30.303030303030308,
+      "revenueCagr": -0.13847762383059958,
+      "revenueDelta": null
     },
     "_mock": []
   },
@@ -3086,7 +3222,38 @@
     },
     "employment": {
       "회전율백분위": null,
-      "series": null
+      "series": [
+        {
+          "year": 2020,
+          "가입": 3,
+          "취업": 1,
+          "퇴직": 1
+        },
+        {
+          "year": 2021,
+          "가입": 4,
+          "취업": 3,
+          "퇴직": 2
+        },
+        {
+          "year": 2022,
+          "가입": 4,
+          "취업": 8,
+          "퇴직": 8
+        },
+        {
+          "year": 2023,
+          "가입": 5,
+          "취업": 4,
+          "퇴직": 3
+        },
+        {
+          "year": 2024,
+          "가입": 5,
+          "취업": 1,
+          "퇴직": 1
+        }
+      ]
     },
     "nonopIncome": {
       "series": [
@@ -3434,7 +3601,10 @@
       "supportCount": 20,
       "totalAmountThousand": 166960.0,
       "businessTypeDiversity": 5,
-      "maxConsecutiveYears": 3
+      "maxConsecutiveYears": 3,
+      "growthScore": 45.45454545454546,
+      "revenueCagr": 0.8250987326386889,
+      "revenueDelta": null
     },
     "_mock": [
       "businessFit.llm"
@@ -4133,7 +4303,38 @@
     },
     "employment": {
       "회전율백분위": null,
-      "series": null
+      "series": [
+        {
+          "year": 2020,
+          "가입": 16,
+          "취업": 4,
+          "퇴직": 3
+        },
+        {
+          "year": 2021,
+          "가입": 13,
+          "취업": 4,
+          "퇴직": 6
+        },
+        {
+          "year": 2022,
+          "가입": 13,
+          "취업": 3,
+          "퇴직": 3
+        },
+        {
+          "year": 2023,
+          "가입": 15,
+          "취업": 4,
+          "퇴직": 2
+        },
+        {
+          "year": 2024,
+          "가입": 11,
+          "취업": 1,
+          "퇴직": 5
+        }
+      ]
     },
     "nonopIncome": {
       "series": [
@@ -4308,7 +4509,10 @@
       "supportCount": 7,
       "totalAmountThousand": 135880.0,
       "businessTypeDiversity": 3,
-      "maxConsecutiveYears": 3
+      "maxConsecutiveYears": 3,
+      "growthScore": 46.96969696969697,
+      "revenueCagr": 0.06872308137229166,
+      "revenueDelta": null
     },
     "_mock": []
   },
@@ -4966,7 +5170,38 @@
     },
     "employment": {
       "회전율백분위": null,
-      "series": null
+      "series": [
+        {
+          "year": 2020,
+          "가입": 72,
+          "취업": 28,
+          "퇴직": 23
+        },
+        {
+          "year": 2021,
+          "가입": 75,
+          "취업": 24,
+          "퇴직": 20
+        },
+        {
+          "year": 2022,
+          "가입": 85,
+          "취업": 25,
+          "퇴직": 17
+        },
+        {
+          "year": 2023,
+          "가입": 89,
+          "취업": 24,
+          "퇴직": 17
+        },
+        {
+          "year": 2024,
+          "가입": 87,
+          "취업": 16,
+          "퇴직": 18
+        }
+      ]
     },
     "nonopIncome": {
       "series": [
@@ -5099,7 +5334,10 @@
       "supportCount": 4,
       "totalAmountThousand": 92259.0,
       "businessTypeDiversity": 2,
-      "maxConsecutiveYears": 2
+      "maxConsecutiveYears": 2,
+      "growthScore": 66.66666666666667,
+      "revenueCagr": 0.11325542450753412,
+      "revenueDelta": null
     },
     "_mock": []
   },
@@ -5913,7 +6151,38 @@
     },
     "employment": {
       "회전율백분위": null,
-      "series": null
+      "series": [
+        {
+          "year": 2020,
+          "가입": 11,
+          "취업": 2,
+          "퇴직": 4
+        },
+        {
+          "year": 2021,
+          "가입": 11,
+          "취업": 5,
+          "퇴직": 4
+        },
+        {
+          "year": 2022,
+          "가입": 17,
+          "취업": 15,
+          "퇴직": 11
+        },
+        {
+          "year": 2023,
+          "가입": 19,
+          "취업": 9,
+          "퇴직": 6
+        },
+        {
+          "year": 2024,
+          "가입": 26,
+          "취업": 13,
+          "퇴직": 5
+        }
+      ]
     },
     "nonopIncome": {
       "series": [
@@ -6102,7 +6371,10 @@
       "supportCount": 8,
       "totalAmountThousand": 213354.0,
       "businessTypeDiversity": 3,
-      "maxConsecutiveYears": 3
+      "maxConsecutiveYears": 3,
+      "growthScore": 57.57575757575757,
+      "revenueCagr": 0.6009913947178513,
+      "revenueDelta": null
     },
     "_mock": []
   },
@@ -6570,7 +6842,38 @@
     },
     "employment": {
       "회전율백분위": null,
-      "series": null
+      "series": [
+        {
+          "year": 2020,
+          "가입": 27,
+          "취업": 9,
+          "퇴직": 8
+        },
+        {
+          "year": 2021,
+          "가입": 28,
+          "취업": 10,
+          "퇴직": 11
+        },
+        {
+          "year": 2022,
+          "가입": 33,
+          "취업": 25,
+          "퇴직": 20
+        },
+        {
+          "year": 2023,
+          "가입": 35,
+          "취업": 18,
+          "퇴직": 16
+        },
+        {
+          "year": 2024,
+          "가입": 37,
+          "취업": 17,
+          "퇴직": 14
+        }
+      ]
     },
     "nonopIncome": {
       "series": [
@@ -6731,7 +7034,10 @@
       "supportCount": 6,
       "totalAmountThousand": 86000.0,
       "businessTypeDiversity": 3,
-      "maxConsecutiveYears": 3
+      "maxConsecutiveYears": 3,
+      "growthScore": 48.48484848484848,
+      "revenueCagr": 0.07826808633732552,
+      "revenueDelta": null
     },
     "_mock": []
   },
@@ -7319,7 +7625,38 @@
     },
     "employment": {
       "회전율백분위": null,
-      "series": null
+      "series": [
+        {
+          "year": 2020,
+          "가입": 47,
+          "취업": 58,
+          "퇴직": 77
+        },
+        {
+          "year": 2021,
+          "가입": 57,
+          "취업": 59,
+          "퇴직": 49
+        },
+        {
+          "year": 2022,
+          "가입": 59,
+          "취업": 48,
+          "퇴직": 47
+        },
+        {
+          "year": 2023,
+          "가입": 63,
+          "취업": 43,
+          "퇴직": 50
+        },
+        {
+          "year": 2024,
+          "가입": 98,
+          "취업": 133,
+          "퇴직": 91
+        }
+      ]
     },
     "nonopIncome": {
       "series": [
@@ -7480,7 +7817,10 @@
       "supportCount": 6,
       "totalAmountThousand": 87280.0,
       "businessTypeDiversity": 3,
-      "maxConsecutiveYears": 3
+      "maxConsecutiveYears": 3,
+      "growthScore": 60.6060606060606,
+      "revenueCagr": 0.32088698826267503,
+      "revenueDelta": null
     },
     "_mock": []
   },
@@ -7991,7 +8331,38 @@
     },
     "employment": {
       "회전율백분위": null,
-      "series": null
+      "series": [
+        {
+          "year": 2020,
+          "가입": 51,
+          "취업": 27,
+          "퇴직": 16
+        },
+        {
+          "year": 2021,
+          "가입": 52,
+          "취업": 35,
+          "퇴직": 30
+        },
+        {
+          "year": 2022,
+          "가입": 64,
+          "취업": 37,
+          "퇴직": 26
+        },
+        {
+          "year": 2023,
+          "가입": 76,
+          "취업": 21,
+          "퇴직": 11
+        },
+        {
+          "year": 2024,
+          "가입": 71,
+          "취업": 37,
+          "퇴직": 40
+        }
+      ]
     },
     "nonopIncome": {
       "series": [
@@ -8101,7 +8472,10 @@
       "supportCount": 3,
       "totalAmountThousand": 32000.0,
       "businessTypeDiversity": 2,
-      "maxConsecutiveYears": 2
+      "maxConsecutiveYears": 2,
+      "growthScore": 71.2121212121212,
+      "revenueCagr": 0.28179139123187036,
+      "revenueDelta": null
     },
     "_mock": [
       "businessFit.llm"

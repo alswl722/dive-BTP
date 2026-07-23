@@ -11,6 +11,6 @@ columns:
   사업유형: {db: business_type, dtype: str}
   시작일: {db: start_date, dtype: date}
   종료일: {db: end_date, dtype: date}
-  부처명: {db: ministry, dtype: str}
+  부처명: {db: ministry, dtype: ministry}
   지자체: {db: local_gov, dtype: str}
   주요내용: {db: description, dtype: str}

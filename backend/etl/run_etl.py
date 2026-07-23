@@ -111,6 +111,7 @@ def load_ref_tables(engine, xlsx_path: Path):
     print(f"  ref_business_types: {n}행")
     n = L.write_table(engine, sup_types, "ref_support_types")
     print(f"  ref_support_types: {n}행")
+    return biz_types, sup_types
 
 
 def _year_from_sheet_name(sheet_name: str) -> int:
@@ -163,6 +164,59 @@ def build_industry_code_map(engine, support_records_out: pd.DataFrame):
           f"invalid={sum(out.mapping_status=='invalid')})")
 
 
+def build_support_type_check(engine, support_records_out: pd.DataFrame, biz_types: pd.DataFrame, sup_types: pd.DataFrame):
+    """support_records.support_detail_main/other → ref_support_types 대조 리포트.
+
+    "지원구분(주요지원)"은 자유서술이 아니라 참고 시트의 지원구분참조(사업유형별 유효값)를
+    따르는 통제 어휘다. 그런데 로딩 단계에서는 검증 없이 문자열 그대로 적재되어, 표기 차이
+    (예 "기타" vs "기타(시비지원 포함)")나 오탈자가 조용히 섞여도 알 방법이 없었다. 값 자체를
+    임의로 고치지 않고(도메인_출처=미상과 같은 원칙 — 참조표에 없다고 추정으로 정정하지 않음),
+    대조 결과만 리포트 테이블로 남긴다.
+
+    "지원구분(주요지원 외 작성 *패키지지원만)"(other)은 표 구조 자체가 다르다 — 콤마로 구분된
+    자유서술 다중값("디자인, 마케팅" 등)이라 참조표의 단일값과 1:1 대조가 성립하지 않는다.
+    콤마로 쪼갠 토큰 단위로 대조하되, field='other'로 구분해 main과 다른 성격임을 남긴다
+    (other는 unmatched 비율이 높은 게 정상 — 통제 어휘 위반이 아니라 애초에 자유기술란).
+    """
+    valid_business_types = set(biz_types["business_type"])
+    valid_combos = set(zip(sup_types["business_type"], sup_types["support_type"]))
+
+    rows = []
+    for field, col in [("main", "support_detail_main"), ("other", "support_detail_other")]:
+        if col not in support_records_out.columns:
+            continue
+        sub = support_records_out[["business_type", col]].dropna(subset=[col])
+        if field == "other":
+            # 콤마 분리 다중값 → 토큰 단위로 펼친 뒤 집계 ("-" 같은 비값 표기는 제외)
+            exploded = sub.assign(**{col: sub[col].str.split(",")}).explode(col)
+            exploded[col] = exploded[col].str.strip()
+            sub = exploded[exploded[col].ne("-") & exploded[col].ne("")]
+        counts = sub.groupby(["business_type", col]).size().reset_index(name="record_count")
+        for _, r in counts.iterrows():
+            bt, detail, n = r["business_type"], r[col], int(r["record_count"])
+            if bt not in valid_business_types:
+                status = "unmatched_business_type"
+            elif (bt, detail) in valid_combos:
+                status = "matched"
+            else:
+                status = "unmatched_combo"
+            rows.append({
+                "business_type": bt, "support_detail": detail, "field": field,
+                "match_status": status, "record_count": n,
+            })
+
+    out = pd.DataFrame(rows)
+    n = L.write_table(engine, out, "support_type_check")
+    unmatched_main = out[(out["field"] == "main") & (out["match_status"] != "matched")]
+    unmatched_other = out[(out["field"] == "other") & (out["match_status"] != "matched")]
+    print(f"  support_type_check: {n}행 (main 불일치 {len(unmatched_main)}건 / other 참고 {len(unmatched_other)}건)")
+    if len(unmatched_main):
+        print("  ⚠️  참조표와 불일치하는 지원구분(주요지원) 표기 — 오탈자/신규 값 확인 필요:")
+        for _, r in unmatched_main.iterrows():
+            print(f"     [{r['match_status']}] 사업유형={r['business_type']!r} 지원구분={r['support_detail']!r} "
+                  f"({r['record_count']}건)")
+
+
 def main():
     parser = argparse.ArgumentParser(description="KODATA/부산TP 엑셀 → PostgreSQL ETL")
     parser.add_argument("--kodata", default=str(KODATA_FILE))
@@ -184,13 +238,16 @@ def main():
     load_business_purposes(engine, Path(args.kodata))
 
     print("5) ref_business_types / ref_support_types")
-    load_ref_tables(engine, Path(args.btp))
+    biz_types, sup_types = load_ref_tables(engine, Path(args.btp))
 
     print("6) support_programs / support_records")
     rec_out = load_support_programs_and_records(engine, Path(args.btp))
 
     print("7) industry_code_map")
     build_industry_code_map(engine, rec_out)
+
+    print("8) support_type_check")
+    build_support_type_check(engine, rec_out, biz_types, sup_types)
 
     print("\n✅ ETL 완료")
 

@@ -13,8 +13,9 @@ import { recentSelectionCount, DUPLICATE_RISK_THRESHOLD, DUPLICATE_RISK_WINDOW_Y
 import { summarizeConcurrent } from "@/lib/concurrent-support";
 
 export type Severity = "위험" | "주의" | "정보";
-/** 요약 줄이 가리키는 탭 — 클릭 시 해당 탭으로 이동 */
-export type AxisKey = "재무" | "R&D" | "지원이력" | "중복수혜" | "사업정체성";
+/** 요약 줄이 가리키는 탭 — 클릭 시 해당 탭으로 이동.
+ *  "지원이력" 축은 중복수혜로 통합됐다(2026-07, 동시수혜·전체이력 모두 중복수혜 탭에 흡수). */
+export type AxisKey = "재무" | "R&D" | "중복수혜" | "사업정체성";
 
 export interface ReviewSignal {
   sev: Severity;
@@ -206,12 +207,12 @@ export function deriveReviewSignals(company: Company, latestYear: number): Revie
   const conc = summarizeConcurrent(company);
   if (conc.crossDeptSameType > 0) {
     out.push({
-      sev: "주의", axis: "지원이력", title: "같은 성격 지원 동시 수령",
+      sev: "주의", axis: "중복수혜", title: "같은 성격 지원 동시 수령",
       detail: `수행 기간이 겹치는 ${conc.crossDeptSameType}쌍이 서로 다른 사업군에서 같은 성격의 지원입니다. 중복 수혜 여부를 확인하세요.`,
     });
   } else if (conc.crossDept > 0) {
     out.push({
-      sev: "주의", axis: "지원이력", title: "다른 사업군 동시 수행",
+      sev: "주의", axis: "중복수혜", title: "다른 사업군 동시 수행",
       detail: `수행 기간이 겹치는 지원 ${conc.crossDept}쌍이 서로 다른 사업군입니다.`,
     });
   }
@@ -305,34 +306,23 @@ export function deriveAxisVerdicts(company: Company, latestYear: number): AxisVe
     out.push({ axis: "R&D", tone: "muted", headline: "기술 데이터 없음", detail: null });
   }
 
-  // 지원이력
+  // 중복수혜 (구 "지원이력" 통합 — 누적·최근 3년·flag 라벨을 한 줄에)
   //
-  // ⚠️ 선정률을 그대로 쓰면 오독한다. 보유 데이터는 선정 건 위주라(표본 89건 중
-  //    탈락 8·포기 1) 11곳 중 8곳이 100%로 나오는데, 이건 "항상 선정되는 기업"이
-  //    아니라 "탈락 이력이 데이터에 없다"는 뜻이다. 탈락/포기 기록이 있을 때만
-  //    비율을 보여주고, 없으면 선정 건수만 말한다.
+  // ⚠️ 선정률(신청 대비 선정)은 오독 위험이 있어 여기 요약에 넣지 않는다. 보유 데이터가
+  //    선정 건 위주라(표본 89건 중 탈락 8·포기 1) 대다수 기업이 100%로 나오는데, 이건
+  //    "항상 뽑히는 기업"이 아니라 "탈락 기록이 데이터에 없다"는 뜻이다. 상세는 탭 내에서.
   const total = company.support.건수 ?? 0;
-  const selected = company.supportHistory.filter((h) => h.result === "선정").length;
-  const applied = company.supportHistory.length;
-  const rejected = applied - selected;
-  out.push({
-    axis: "지원이력",
-    tone: total === 0 ? "muted" : "good",
-    headline: total === 0 ? "지원 이력 없음" : `${total}건 수혜 · ${company.support.지원연도수 ?? 0}개년`,
-    detail:
-      applied === 0
-        ? null
-        : rejected > 0
-          ? `신청 ${applied}건 중 선정 ${selected}건 (${Math.round((selected / applied) * 100)}%)`
-          : `선정 ${selected}건 · 탈락 기록 없음(데이터 한계)`,
-  });
-
-  // 중복수혜
+  const yearsPresent = company.support.지원연도수 ?? 0;
   const recent = recentSelectionCount(company, latestYear);
   out.push({
     axis: "중복수혜",
-    tone: company.duplicateFlag?.status === "flag" ? "bad" : recent >= DUPLICATE_RISK_THRESHOLD ? "warn" : "good",
-    headline: `최근 ${DUPLICATE_RISK_WINDOW_YEARS}년 ${recent}회 선정`,
+    tone:
+      company.duplicateFlag?.status === "flag" ? "bad"
+      : recent >= DUPLICATE_RISK_THRESHOLD ? "warn"
+      : total === 0 ? "muted" : "good",
+    headline: total === 0
+      ? "지원 이력 없음"
+      : `누적 ${total}건 · ${yearsPresent}개년 · 최근 ${DUPLICATE_RISK_WINDOW_YEARS}년 ${recent}회`,
     detail: company.duplicateFlag?.label ?? null,
   });
 

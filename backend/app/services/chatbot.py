@@ -212,7 +212,9 @@ def ask(question: str) -> dict[str, Any]:
     - clarify:  clarification 문구 그대로 안내 (1콜)
     """
     if not chatbot_llm.is_available():
-        raise ChatbotError("DEEPSEEK_API_KEY 미설정 — 챗봇 비활성화 상태입니다.")
+        raise ChatbotError(
+            "OPENAI_API_KEY / DEEPSEEK_API_KEY 둘 다 미설정 — 챗봇 비활성화 상태입니다."
+        )
 
     # Step 1: 의도 분류 (kind + path/sql/clarification)
     intent, _ = chatbot_llm.classify_intent(question)

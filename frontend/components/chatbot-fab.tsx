@@ -6,7 +6,7 @@
 //   clarify:  둘 다 아닌 요청. 안내 문구만.
 import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { Sparkles, X, Send, ChevronDown, ChevronUp, ArrowRight } from "lucide-react";
+import { X, Send, ChevronDown, ChevronUp, ArrowRight } from "lucide-react";
 import { askChatbot, chatbotAvailable } from "@/lib/api";
 import { useFabState } from "@/lib/fab-state";
 import type { ChatbotAnswer } from "@/types";
@@ -153,7 +153,7 @@ export function ChatbotFab() {
         onClick={() => setOpen((v) => !v)}
         className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white shadow-modal transition-transform hover:scale-105"
       >
-        {open ? <X className="h-5 w-5" /> : <Sparkles className="h-5 w-5" />}
+        {open ? <X className="h-5 w-5" /> : <span className="text-2xl leading-none" role="img" aria-label="챗봇">🤖</span>}
       </button>
     </div>
   );

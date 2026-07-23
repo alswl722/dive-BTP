@@ -119,7 +119,9 @@ if [[ $FROM_STAGE -le 1 ]]; then
     run_schema_drift_step
 fi
 
-# ── 2단계: EDA 3종 (읽기 전용, 적재 전에도 동작) ────────────────────────
+# ── 2단계: EDA 3종 (읽기 전용, 적재 전에도 동작) + INDEX 생성 ────────────
+# 각 EDA는 표준출력 진단 + eda_reports/<카테고리>/에 PNG·meta.json 저장.
+# 마지막에 eda_index.py가 모든 meta.json을 읽어 eda_reports/INDEX.md 생성.
 if [[ $FROM_STAGE -le 2 ]]; then
     step "2/6  EDA — 기업규모 결측·정합성"
     run_eda_company_size_step
@@ -129,6 +131,9 @@ if [[ $FROM_STAGE -le 2 ]]; then
 
     step "2/6  EDA — 선정결과 결측 추론"
     run_eda_selection_result_step
+
+    step "2/6  EDA — 리포트 인덱스 (eda_reports/INDEX.md)"
+    python3 scripts/eda_index.py
 fi
 
 # ── 3단계: 마이그레이션 (재실행 안전) ───────────────────────────────────

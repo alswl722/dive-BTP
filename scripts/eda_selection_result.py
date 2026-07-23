@@ -34,6 +34,8 @@ import pandas as pd  # noqa: E402
 
 from parsers import parse_simple_sheet  # noqa: E402
 import selection_inference as si  # noqa: E402
+from eda_viz import PALETTE, save_fig, setup as viz_setup, write_meta  # noqa: E402
+import matplotlib.pyplot as plt  # noqa: E402
 
 DEFAULT_BTP = ROOT / "backend" / "etl" / "data" / "배포_샘플_부산TP__사업기업목록_26-07-06.xlsx"
 SHEETS = ["2022_기업지원목록", "2023_기업지원목록", "2024_기업지원목록"]
@@ -116,6 +118,87 @@ def main() -> None:
               "축9 중복탐지·반복선정 랭킹·축8 대상이 그만큼 바뀜.")
     else:
         print("  선정결과 결측 없음 → 추론 발동 없음 (모집단 변동 0)")
+
+    # ── 시각화 저장 ─────────────────────────────────────────────
+    _render_visualizations(d, frames, wrong, fire, correct, abstain, audit, n, miss)
+
+
+def _render_visualizations(d: pd.DataFrame, frames: list,
+                            wrong: list, fire: int, correct: int, abstain: int,
+                            audit: dict, n: int, miss: int) -> None:
+    viz_setup()
+    CAT = "03_selection_result"
+
+    # (1) 시트별 결측률 bar
+    fig, ax = plt.subplots(figsize=(11, 5))
+    labels, rates, totals = [], [], []
+    for sh, df in zip(SHEETS, frames):
+        m = int(df[si.COL_RESULT].apply(si._missing).sum())
+        labels.append(sh.replace("_기업지원목록", "").replace("_", ""))
+        rates.append(100 * m / len(df) if len(df) else 0)
+        totals.append(len(df))
+    colors = [PALETTE["bad"] if r > 20 else PALETTE["warn"] if r > 5 else PALETTE["good"] for r in rates]
+    bars = ax.bar(labels, rates, color=colors)
+    for b, r, t in zip(bars, rates, totals):
+        ax.text(b.get_x() + b.get_width()/2, r + max(rates, default=1)*0.03,
+                f"{r:.1f}%\n(n={t})", ha="center", fontsize=10)
+    ax.set_ylabel("결측률 (%)")
+    ax.set_title(f"연도별 선정결과 결측률 (총 {n}건 · 결측 {miss}건)")
+    save_fig(fig, CAT, "missing_by_year", "연도별 선정결과 결측률")
+
+    # (2) 규칙 검증 결과 — 정답/오분류/기권 stacked bar
+    fig, ax = plt.subplots(figsize=(10, 4))
+    parts = {"정답": correct, "오분류": len(wrong), "기권(미상 유지)": abstain}
+    colors_ = [PALETTE["good"], PALETTE["bad"], PALETTE["muted"]]
+    labeled_n = correct + len(wrong) + abstain
+    ax.barh(["규칙 검증"], [correct], color=colors_[0], label=f"정답 {correct}")
+    ax.barh(["규칙 검증"], [len(wrong)], left=[correct], color=colors_[1], label=f"오분류 {len(wrong)}")
+    ax.barh(["규칙 검증"], [abstain], left=[correct + len(wrong)], color=colors_[2], label=f"기권 {abstain}")
+    ax.set_xlabel(f"라벨 있는 지원레코드 수 (총 {labeled_n})")
+    ax.legend(loc="lower right")
+    ax.set_title(f"라벨 대조 검증 — 정확도 {100 * correct / fire:.1f}% (발동 {fire}건 중 정답 {correct})"
+                 if fire else "라벨 대조 검증")
+    save_fig(fig, CAT, "inference_accuracy", "라벨 대조 검증")
+
+    # (3) 모집단 변동 (있을 때만)
+    if audit:
+        fig, ax = plt.subplots(figsize=(10, 4.5))
+        keys = list(audit.keys())
+        vals = list(audit.values())
+        colors_ = [PALETTE["good"] if "지원대상" in k else PALETTE["muted"] if "탈락" in k else PALETTE["info"]
+                    for k in keys]
+        bars = ax.bar(keys, vals, color=colors_)
+        for b, c in zip(bars, vals):
+            ax.text(b.get_x() + b.get_width()/2, c + max(vals, default=1)*0.02, str(c),
+                    ha="center", fontsize=11, fontweight="bold")
+        ax.set_ylabel("추론 건수")
+        ax.set_title("추론이 모집단에 미치는 영향 — 축9·랭킹 직결")
+        plt.xticks(rotation=10, ha="right")
+        save_fig(fig, CAT, "population_shift", "모집단 변동")
+
+    # meta.json
+    images = [
+        {"file": "missing_by_year.png", "caption": f"연도별 결측률 (총 {n}건 · 결측 {miss}건)"},
+        {"file": "inference_accuracy.png",
+         "caption": f"라벨 대조 검증 · 정확도 {100 * correct / fire:.1f}%" if fire else "라벨 대조 검증"},
+    ]
+    if audit:
+        added = audit.get("지원대상_추론", 0)
+        images.append({"file": "population_shift.png",
+                       "caption": f"지원대상 {'+' if added else ''}{added}건 변동"})
+
+    highlights = []
+    if miss > 0:
+        highlights.append(f"선정결과 결측 {miss}건 ({100 * miss / n:.1f}%) — 규칙 발동 대상")
+    if wrong:
+        highlights.append(f"⚠️ 오분류 {len(wrong)}건 — 규칙 재검토 필요")
+    if audit and audit.get("지원대상_추론", 0):
+        highlights.append(f"지원대상 모집단 +{audit['지원대상_추론']}건 — 축9·랭킹에 반영됨")
+
+    status = "bad" if wrong else ("warn" if miss > n * 0.1 else "good")
+    write_meta(CAT, title="선정결과 결측 추론",
+               description="시작일·종료일 신호로 선정결과 결측을 추론하고 정확도 검증. 축9 모집단 직결.",
+               images=images, highlights=highlights, status=status)
 
 
 if __name__ == "__main__":

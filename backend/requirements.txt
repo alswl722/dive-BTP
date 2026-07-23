@@ -10,3 +10,5 @@ pyyaml
 anthropic
 openai
 sqlglot
+matplotlib>=3.7
+seaborn>=0.13

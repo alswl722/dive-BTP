@@ -92,14 +92,16 @@ def check_company_size(size, ksic, emp_latest, rev_3y_mean, asset_latest) -> lis
                 "detail": f"소상공인 신고이나 종업원 {int(emp_latest)}명 ≥ 법정 {th}명 (KSIC {ksic})",
             })
 
-    # (b) 중소기업 졸업선 초과
+    # (b) 중소기업 졸업선 초과 — 매출·자산 상한은 법적으로 독립 근거(중기법 시행령 별표).
+    # 두 검사를 elif로 묶으면 매출·자산 둘 다 초과인 기업에서 자산 위반이 조용히 묻힘 →
+    # 심사자가 자산 기준 위반 사실 자체를 못 본다. 각각 독립 if로 분리해 둘 다 보고.
     if size in SME_LABELS:
         if _isnum(rev_3y_mean) and rev_3y_mean > SME_REVENUE_CEILING:
             issues.append({
                 "rule": "중소_졸업선_매출초과",
                 "detail": f"{size} 신고이나 3년평균 매출 {eok(rev_3y_mean)} > 1,500억 (업종 무관 중소 상한)",
             })
-        elif _isnum(asset_latest) and asset_latest >= LARGE_ASSET_CEILING:
+        if _isnum(asset_latest) and asset_latest >= LARGE_ASSET_CEILING:
             issues.append({
                 "rule": "중소_졸업선_자산초과",
                 "detail": f"{size} 신고이나 자산 {eok(asset_latest)} ≥ 5,000억 (대기업 편입선)",

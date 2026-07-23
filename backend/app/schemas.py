@@ -151,11 +151,47 @@ class EmploymentYear(BaseModel):
     퇴직: float | None = None
 
 
-class Employment(BaseModel):
-    """고용 배지 상세 — 포지션 바(회전율 업종내 백분위) + 연도별 시계열."""
+class EmploymentScaleYear(BaseModel):
+    """연도별 종업원수·1인평균급여 — 고용 탭 트렌드 원천.
 
+    급여 단위=원(원본 그대로). 프론트가 화면 표기 시 만원/억원으로 환산.
+    종업원수는 명 단위 정수 기대이나 결측 방어 위해 float.
+    """
+
+    year: int
+    종업원수: float | None = None
+    급여_원: float | None = None
+
+
+class Employment(BaseModel):
+    """고용 탭·배지 상세 — 규모·처우·생산성·안정성 4개 축의 원천.
+
+    스코어링 미포함(passthrough). 종합점수·재무 4축 왜곡 없음.
+    docs/고용회전율_영업외손익_설계노트.md의 결정 유지.
+    """
+
+    # 기존 (배지 · 국민연금 펼침표)
     회전율백분위: float | None = None
     series: list[EmploymentYear] | None = None
+
+    # 규모 · 변화 (신규)
+    종업원수_최근: float | None = None
+    종업원수_CAGR: float | None = None            # decimal (0.15 = 15%)
+    종업원수_증감_5년: float | None = None         # 최근−최초 유효연도 (명)
+    종업원수증가_백분위: float | None = None       # 업종 내 상위 N%
+
+    # 처우 (신규)
+    급여_최근_원: float | None = None              # 단위=원 (원본 그대로)
+    급여_CAGR: float | None = None                # decimal
+    급여_백분위: float | None = None               # 업종 내 상위 N%
+
+    # 인력 생산성 (신규)
+    인당매출_최근_천원: float | None = None
+    인당매출_백분위: float | None = None
+    인당영업이익_최근_천원: float | None = None
+
+    # 규모·처우 트렌드 (신규) — 종업원수·급여 5년 시계열
+    scaleSeries: list[EmploymentScaleYear] | None = None
 
 
 class NonopYear(BaseModel):

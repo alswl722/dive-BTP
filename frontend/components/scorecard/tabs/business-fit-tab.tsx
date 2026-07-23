@@ -3,7 +3,6 @@
 import { Check, Clock, Sparkles, AlertTriangle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { StatCard } from "@/components/ui/stat-card";
 import { AxisSignals } from "@/components/scorecard/axis-signals";
 import type { Company, MatchType, AlignmentJudgment } from "@/types";
 
@@ -91,16 +90,8 @@ export function BusinessFitTab({ company, latestYear }: { company: Company; late
         })}
       </div>
 
-      {/* 판정 완료 · 대기 상태 */}
-      <div className="grid grid-cols-2 gap-3">
-        <StatCard label="판정 완료" value={`${fit.totalJudged}건`} sub={`전체 ${total}건 중`} />
-        <StatCard
-          label="LLM 판정 대기"
-          value={fit.totalPending > 0 ? `${fit.totalPending}건` : "없음"}
-          sub={fit.totalPending > 0 ? "배치 실행 필요" : "모두 판정 완료"}
-        />
-      </div>
-
+      {/* 판정 완료·대기 요약 카드는 상단 헤더의 "20건 정합성 판정: …" 문구와 4개 매치타입
+          카운트 카드가 이미 같은 정보를 담아 중복. 판정 대기가 있을 때만 아래 배너로 알린다. */}
       {fit.totalPending > 0 && (
         <div className="flex items-start gap-2 rounded-lg bg-warn-bg px-3.5 py-3 text-[12.5px] text-[hsl(30_75%_38%)]">
           <Clock className="mt-0.5 h-4 w-4 shrink-0" />

@@ -25,6 +25,7 @@ from sqlalchemy import create_engine
 
 import finance_recovery as FR
 import loaders as L
+import selection_inference as SI
 import transforms as T
 from parsers import (
     drop_key_only_rows,
@@ -146,6 +147,13 @@ def load_support_programs_and_records(engine, xlsx_path: Path):
         df["year"] = _year_from_sheet_name(sheet)
         rec_frames.append(df)
     rec_all = pd.concat(rec_frames, ignore_index=True)
+
+    # 선정결과 결측 추론 — apply_config '전'에 해야 한다(dtype=date 변환이 시작일 '-'를
+    # null로 만들어 신호가 사라지므로). 이 추론이 축9·랭킹·축8의 모집단을 정한다.
+    rec_all, sel_audit = SI.infer_selection_results(rec_all)
+    if sel_audit:
+        print("  선정결과 추론: " + ", ".join(f"{k} {v}" for k, v in sel_audit.items()))
+
     rec_out = L.apply_config(rec_all, rec_cfg)
     n = L.write_table(engine, rec_out, "support_records")
     print(f"  support_records: {n}행")

@@ -8,7 +8,7 @@ columns:
   기준연도: {db: base_year, dtype: int}
   기준일자: {db: base_date, dtype: date}
   국가과학기술지식정보서비스사업명: {db: project_name, dtype: str}
-  주관부처명: {db: ministry, dtype: str}
+  주관부처명: {db: ministry, dtype: ministry}
   지역구분명: {db: region, dtype: str}
   총연구기간시작일자: {db: period_start_date, dtype: date}
   총연구기간종료일자: {db: period_end_date, dtype: date}

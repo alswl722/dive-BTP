@@ -501,7 +501,14 @@ def build_companies(
         return next((c for c in master.columns if hint in str(c)), None)
 
     ind_col, region_col, ksic_col = mcol("업종명"), mcol("지역"), mcol("KSIC")
+    size_col = mcol("기업규모")
     pct_cols = [c for c in score.columns if c.startswith("pct_")]
+
+    # 기업규모 정합성 판정 SSOT — EDA(scripts/eda_company_size.py)와 같은 원본 공유.
+    import company_size_checks as size_chk
+    _emp_cols = col_year_map(master, "종업원수")
+    _rev_cols = col_year_map(master, "매출액")
+    _asset_cols = col_year_map(master, "자산총계")
 
     # 축8·축9 사전 준비 (배치)
     whitelist = axis8_svc.load_whitelist()
@@ -551,6 +558,15 @@ def build_companies(
             for y, c in ym.items():
                 if pd.isna(pd.to_numeric(m[c], errors="coerce")):
                     missing.append(f"{hint}_{y}")
+
+        # 데이터 품질: 신고 기업규모 vs 실측 정합성(법정 기준 위반만). 값은 안 고침 — 사실만 밝힘.
+        inconsistencies = size_chk.check_company_size(
+            clean(m[size_col]) if size_col else None,
+            clean(m[ksic_col]) if ksic_col else None,
+            size_chk.latest_valid({y: pd.to_numeric(m[c], errors="coerce") for y, c in _emp_cols.items()}),
+            size_chk.recent3_mean({y: pd.to_numeric(m[c], errors="coerce") for y, c in _rev_cols.items()}),
+            size_chk.latest_valid({y: pd.to_numeric(m[c], errors="coerce") for y, c in _asset_cols.items()}),
+        )
 
         business_fit = build_business_fit(
             cid, clean(m[ksic_col]) if ksic_col else None,
@@ -637,7 +653,10 @@ def build_companies(
                 "series": nonop_series(m, master),
             },
             "percentileBasis": clean(s.get("백분위기준")),
-            "dataQuality": {"missing": missing, "ok": len(missing) == 0},
+            # ok = '재무 결측 없음'(기존 의미 유지). 프론트 5곳이 !ok를 '재무 결측'으로
+            # 등치하므로 불일치를 여기 얹지 않는다 — 불일치는 inconsistencies로 별도 노출.
+            "dataQuality": {"missing": missing, "inconsistencies": inconsistencies,
+                            "ok": len(missing) == 0},
             "businessFit": business_fit,
             # 심사 스크리닝/정렬용 보조 지표. 축별 breakdown(scores/tech.scores/businessFit.score)이
             # 진짜 판단 근거 — 종합점수만 보고 판단하지 않도록 화면에 항상 함께 노출할 것.

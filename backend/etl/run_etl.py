@@ -23,7 +23,9 @@ from pathlib import Path
 import pandas as pd
 from sqlalchemy import create_engine
 
+import finance_recovery as FR
 import loaders as L
+import selection_inference as SI
 import transforms as T
 from parsers import (
     drop_key_only_rows,
@@ -51,6 +53,12 @@ def get_engine():
 
 def load_companies_and_metrics(engine, xlsx_path: Path) -> pd.DataFrame:
     static_df, yearly_df = parse_company_info(str(xlsx_path))
+
+    # 재무 파생 결측 복원(회계 항등식, exact 계산 — 추정 아님). company_yearly_metrics
+    # 적재 전에 채우면 master_table 뷰가 이를 pivot하므로 스코어카드까지 자동 전파된다.
+    yearly_df, fin_audit = FR.recover_financial_identities(yearly_df)
+    if fin_audit:
+        print("  재무 항등식 복원: " + ", ".join(f"{k} {v}건" for k, v in fin_audit.items()))
 
     companies_cfg = L.load_config("companies")
     companies_out = L.apply_config(static_df, companies_cfg)
@@ -140,6 +148,13 @@ def load_support_programs_and_records(engine, xlsx_path: Path):
         df["year"] = _year_from_sheet_name(sheet)
         rec_frames.append(df)
     rec_all = pd.concat(rec_frames, ignore_index=True)
+
+    # 선정결과 결측 추론 — apply_config '전'에 해야 한다(dtype=date 변환이 시작일 '-'를
+    # null로 만들어 신호가 사라지므로). 이 추론이 축9·랭킹·축8의 모집단을 정한다.
+    rec_all, sel_audit = SI.infer_selection_results(rec_all)
+    if sel_audit:
+        print("  선정결과 추론: " + ", ".join(f"{k} {v}" for k, v in sel_audit.items()))
+
     rec_out = L.apply_config(rec_all, rec_cfg)
     n = L.write_table(engine, rec_out, "support_records")
     print(f"  support_records: {n}행")

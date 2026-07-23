@@ -141,7 +141,7 @@ export interface Company {
     series: { year: number; 영업이익: number | null; 당기순이익: number | null }[] | null;
   } | null;
   percentileBasis: string | null; // "업종내" | "전체fallback"
-  dataQuality: { missing: string[]; ok: boolean };
+  dataQuality: { missing: string[]; inconsistencies?: { rule: string; detail: string }[]; ok: boolean };
   _mock: string[]; // 목업으로 채운 필드(투명성)
   reviewStatus: ReviewStatus; // 찜 상태. company_review_status 테이블에 영속화(PATCH /companies/{id}/review-status)
   businessFit: BusinessFit | null;     // 축8 (LLM 정합성 판정)

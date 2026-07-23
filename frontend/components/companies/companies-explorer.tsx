@@ -256,6 +256,16 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
           <label className="flex shrink-0 cursor-pointer items-center gap-1.5 text-[12px] text-muted-foreground">
             <input
               type="checkbox"
+              checked={filters.sizeMismatchOnly}
+              onChange={(e) => setFilters({ ...filters, sizeMismatchOnly: e.target.checked })}
+              className="h-3.5 w-3.5 accent-primary"
+            />
+            신고규모 불일치만
+          </label>
+
+          <label className="flex shrink-0 cursor-pointer items-center gap-1.5 text-[12px] text-muted-foreground">
+            <input
+              type="checkbox"
               checked={filters.employmentRiskOnly}
               onChange={(e) => setFilters({ ...filters, employmentRiskOnly: e.target.checked })}
               className="h-3.5 w-3.5 accent-primary"

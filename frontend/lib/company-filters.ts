@@ -15,6 +15,7 @@ export interface CompanyFilters {
   minSupportYears: number;
   excludeQualityIssues: boolean;
   qualityIssueOnly: boolean;
+  sizeMismatchOnly: boolean; // 신고 기업규모 vs 실측 법정 불일치가 있는 기업만
   dupRiskOnly: boolean;
   employmentRiskOnly: boolean;
   programKey: string | null; // "year:code"
@@ -30,6 +31,7 @@ export function defaultFilters(): CompanyFilters {
     minSupportYears: 0,
     excludeQualityIssues: false,
     qualityIssueOnly: false,
+    sizeMismatchOnly: false,
     dupRiskOnly: false,
     employmentRiskOnly: false,
     programKey: null,
@@ -59,6 +61,7 @@ export function applyFilters(
     if (filters.minSupportYears > 0 && (c.support.지원연도수 ?? 0) < filters.minSupportYears) return false;
     if (filters.excludeQualityIssues && !c.dataQuality.ok) return false;
     if (filters.qualityIssueOnly && c.dataQuality.ok) return false;
+    if (filters.sizeMismatchOnly && !c.dataQuality.inconsistencies?.length) return false;
     if (filters.dupRiskOnly && !isDuplicateRisk(c, latestYear)) return false;
     if (filters.employmentRiskOnly && !isEmploymentUnstable(c)) return false;
     if (filters.programKey && !programApplicantKeySet(c).has(filters.programKey)) return false;

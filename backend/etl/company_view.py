@@ -55,8 +55,10 @@ def col_year_map(df, hint):
     return dict(sorted(out.items()))
 
 
-def trend(df_row, df, hint):
-    ymap = col_year_map(df, hint)
+def trend(df_row, df, hint, ymap=None):
+    """ymap을 넘기면 col_year_map(df, hint) 재계산을 건너뛴다(호출부가 기업마다 반복될 때 유용)."""
+    if ymap is None:
+        ymap = col_year_map(df, hint)
     return [{"year": y, "value": clean(pd.to_numeric(df_row[c], errors="coerce"))}
             for y, c in ymap.items()]
 
@@ -106,8 +108,11 @@ def support_history(cid: int, sr: pd.DataFrame):
 
     선정일(selected_date)이 없으면 시작일(start_date)로 대체. 둘 다 없는 행은
     타임라인에 날짜를 못 매길 근거가 없어 제외(원본 결측 그대로 반영, 임의값 대체 안 함).
+
+    ⚠️ sr은 호출부(build_companies)에서 이미 해당 기업으로 필터된 서브프레임을 받는다
+    (기업 수가 커지면 매 호출마다 전체 스캔하는 비용이 커지므로 groupby로 사전 분할).
     """
-    rows = sr[sr["company_id"] == cid]  # support_records는 DB 원본 컬럼명(영문)이라 KEY와 다름
+    rows = sr
     records = []
     for _, r in rows.iterrows():
         date = r["selected_date"] if pd.notna(r["selected_date"]) else r["start_date"]
@@ -181,30 +186,12 @@ def _summarize_business_fit(judgments: list[dict], company_id: int) -> dict:
     }
 
 
-def build_business_fit(
-    cid: int,
-    ksic_code: str | None,
-    sr: pd.DataFrame,
-    sp: pd.DataFrame | None,
-    whitelist: dict,
-    accept: set[str],
-    purposes: list[str] | None = None,
-    llm_cache: dict | None = None,
-) -> dict | None:
-    """축8: 지원사업별 정합성 판정 종합.
+def _build_prog_lookup(sp: pd.DataFrame | None) -> dict:
+    """support_programs → (year, program_code) 키의 name/description lookup.
 
-    - whitelist 통과 → source="whitelist" · score=100
-    - 미통과 & LLM 캐시에 있음 → source="llm" · 캐시된 판정 반환
-    - 미통과 & 캐시 없음 → source="pending" (배치 미실행 상태)
-    - 결측 → source="pending"
+    sp는 기업 수와 무관한 전역 테이블이라 기업별로 매번 재조립할 필요가 없다
+    (build_companies에서 한 번만 만들어 재사용).
     """
-    records = sr[(sr["company_id"] == cid) & (sr["selection_result"] == "지원대상")]
-    if records.empty:
-        return None
-
-    purposes_hash = axis8_llm_svc.hash_purposes(purposes or []) if purposes else ""
-
-    # 프로그램 메타(name/description) 조인용
     prog_lookup = {}
     if sp is not None:
         for _, r in sp.iterrows():
@@ -214,6 +201,37 @@ def build_business_fit(
                 "name": clean(r.get("program_name")),
                 "description": clean(r.get("description")),
             }
+    return prog_lookup
+
+
+def build_business_fit(
+    cid: int,
+    ksic_code: str | None,
+    sr: pd.DataFrame,
+    sp: pd.DataFrame | None,
+    whitelist: dict,
+    accept: set[str],
+    purposes: list[str] | None = None,
+    llm_cache: dict | None = None,
+    prog_lookup: dict | None = None,
+) -> dict | None:
+    """축8: 지원사업별 정합성 판정 종합.
+
+    - whitelist 통과 → source="whitelist" · score=100
+    - 미통과 & LLM 캐시에 있음 → source="llm" · 캐시된 판정 반환
+    - 미통과 & 캐시 없음 → source="pending" (배치 미실행 상태)
+    - 결측 → source="pending"
+
+    ⚠️ sr은 호출부에서 이미 해당 기업으로 필터된 서브프레임(support_history와 동일 근거).
+    """
+    records = sr[sr["selection_result"] == "지원대상"]
+    if records.empty:
+        return None
+
+    purposes_hash = axis8_llm_svc.hash_purposes(purposes or []) if purposes else ""
+
+    if prog_lookup is None:  # 단독 호출(export_fixtures 등) 호환용 폴백
+        prog_lookup = _build_prog_lookup(sp)
 
     judgments: list[dict] = []
     for _, r in records.iterrows():
@@ -525,18 +543,44 @@ def build_companies(
         for cid_g, sub in bp.groupby("company_id"):
             purposes_by_id[int(cid_g)] = sub["purpose_text"].dropna().tolist()
 
+    # 기업 수가 커지면(1,200+) 매 행마다 master/feat 전체를 스캔하는 == 필터가 O(n²)로
+    # 느려진다 — KEY로 인덱싱해 기업당 O(1) 조회로 바꾼다(원본 df는 건드리지 않도록 복사 없이 뷰만 생성).
+    master_by_id = master.set_index(KEY, drop=False)
+    feat_by_id = feat.set_index(KEY, drop=False)
+
+    # support_records도 같은 이유로 기업당 == 필터가 반복되면 O(n²) — company_id로
+    # 한 번에 groupby해서 기업별 서브프레임을 미리 준비해둔다.
+    sr_by_id: dict[int, pd.DataFrame] = {
+        int(cid_g): sub for cid_g, sub in sr.groupby("company_id")
+    }
+    _empty_sr = sr.iloc[0:0]  # 지원이력 없는 기업용 빈 서브프레임(컬럼 스키마 유지)
+
+    # col_year_map은 master 컬럼명만 훑는 순수 함수라 기업 수와 무관하게 결과가 같다.
+    # 루프 안에서 기업마다 재계산하면 낭비이므로 한 번만 계산해 재사용한다.
+    rev_ymap = col_year_map(master, "매출액")
+    salary_ymap = col_year_map(master, "1인평균연간급여")
+    missing_ymaps = {hint: col_year_map(master, hint) for hint in ["매출액", "영업이익손실", "자본총계"]}
+    patent_reg_ymap = col_year_map(master, "특허등록건수")
+    patent_app_ymap = col_year_map(master, "특허출원건수")
+    trend_ymaps = {hint: col_year_map(master, hint) for hint in ["매출액", "영업이익률", "부채총계", "자본총계"]}
+    cert_cols = {c: mcol(c) for c in CERTS}  # mcol도 master 컬럼명만 훑는 순수 함수 — 기업마다 재탐색 불필요
+    prog_lookup = _build_prog_lookup(sp)  # 축8 프로그램명 조인용 — 전역 lookup, 기업마다 재조립 불필요
+
     companies = []
     for _, s in score.iterrows():
         cid = int(s[KEY])
-        m = master[master[KEY] == cid].iloc[0]
-        f = feat[feat[KEY] == cid].iloc[0]
+        m = master_by_id.loc[cid]
+        if isinstance(m, pd.DataFrame):  # KEY 중복 행 존재 시 첫 행 사용(기존 .iloc[0]와 동일 동작)
+            m = m.iloc[0]
+        f = feat_by_id.loc[cid]
+        if isinstance(f, pd.DataFrame):
+            f = f.iloc[0]
         _t = tech_by_id.get(cid)  # 기술축 산출(없으면 None → master 폴백)
+        sr_c = sr_by_id.get(cid, _empty_sr)  # 이 기업의 지원이력 서브프레임(전체 스캔 회피)
 
-        rev = col_year_map(master, "매출액")
-        rev_latest = pd.to_numeric(m[rev[max(rev)]], errors="coerce") if rev else None
+        rev_latest = pd.to_numeric(m[rev_ymap[max(rev_ymap)]], errors="coerce") if rev_ymap else None
 
-        salary = col_year_map(master, "1인평균연간급여")
-        salary_latest = pd.to_numeric(m[salary[max(salary)]], errors="coerce") if salary else None
+        salary_latest = pd.to_numeric(m[salary_ymap[max(salary_ymap)]], errors="coerce") if salary_ymap else None
 
         # 기업 기본 상태 — master_table이 기업정보 시트의 원본 한글 컬럼을 그대로 담는다.
         # 컬럼명이 뷰마다 다를 수 있어 방어적으로 조회(없으면 None). 자본금은 연도별 중 최신.
@@ -553,8 +597,7 @@ def build_companies(
 
         # 데이터 품질: 재무 핵심 연도 결측 체크
         missing = []
-        for hint in ["매출액", "영업이익손실", "자본총계"]:
-            ym = col_year_map(master, hint)
+        for hint, ym in missing_ymaps.items():
             for y, c in ym.items():
                 if pd.isna(pd.to_numeric(m[c], errors="coerce")):
                     missing.append(f"{hint}_{y}")
@@ -570,9 +613,10 @@ def build_companies(
 
         business_fit = build_business_fit(
             cid, clean(m[ksic_col]) if ksic_col else None,
-            sr, sp, whitelist, accept_conf,
+            sr_c, sp, whitelist, accept_conf,
             purposes=purposes_by_id.get(cid, []),
             llm_cache=llm_cache,
+            prog_lookup=prog_lookup,
         )
 
         # 종합점수 — 재무4축 + 기술2축(R&D특허/NTIS) + 축8 정합성.
@@ -605,19 +649,19 @@ def build_companies(
             "percentiles": {c.replace("pct_", ""): clean(s[c]) for c in pct_cols},
             "rawMetrics": {c: clean(f[c]) for c in feat.columns if c != KEY},
             "trends": {
-                "매출액": trend(m, master, "매출액"),
-                "영업이익률": trend(m, master, "영업이익률"),
-                "부채총계": trend(m, master, "부채총계"),
-                "자본총계": trend(m, master, "자본총계"),
+                "매출액": trend(m, master, "매출액", ymap=trend_ymaps["매출액"]),
+                "영업이익률": trend(m, master, "영업이익률", ymap=trend_ymaps["영업이익률"]),
+                "부채총계": trend(m, master, "부채총계", ymap=trend_ymaps["부채총계"]),
+                "자본총계": trend(m, master, "자본총계", ymap=trend_ymaps["자본총계"]),
             },
-            "certifications": {c: yn(m[mcol(c)]) if mcol(c) else False for c in CERTS},
+            "certifications": {c: yn(m[cert_cols[c]]) if cert_cols[c] else False for c in CERTS},
             # 특허·NTIS는 원장 집계(tech)를 우선 사용. master 집계컬럼은 신뢰 불가
             # (특허=비단조 flow+상표·디자인 혼입 / NTIS=스냅샷 중복). tech 없을 때만 폴백.
             "patents": {
                 "등록": clean(_t.get("특허등록_건수")) if _t else
-                        (clean(pd.to_numeric(m.get(col_year_map(master, "특허등록건수").get(2024, "")), errors="coerce")) if col_year_map(master, "특허등록건수") else None),
+                        (clean(pd.to_numeric(m.get(patent_reg_ymap.get(2024, "")), errors="coerce")) if patent_reg_ymap else None),
                 "출원": clean(_t.get("특허출원_건수")) if _t else
-                        (clean(pd.to_numeric(m.get(col_year_map(master, "특허출원건수").get(2024, "")), errors="coerce")) if col_year_map(master, "특허출원건수") else None),
+                        (clean(pd.to_numeric(m.get(patent_app_ymap.get(2024, "")), errors="coerce")) if patent_app_ymap else None),
             },
             "ntis": {
                 "주관": clean(_t.get("NTIS주관_과제수")) if _t else clean(m.get("NTIS주관_행수")),
@@ -629,7 +673,7 @@ def build_companies(
                 "총지원금_천원": clean(m.get("총지원금_천원")),
                 "지원연도수": clean(m.get("지원연도수")),
             },
-            "supportHistory": support_history(cid, sr),
+            "supportHistory": support_history(cid, sr_c),
             "passthrough": {
                 "영업외손익비중": clean(s.get("영업외손익비중")),
                 "자본잠식_플래그": clean(s.get("자본잠식_플래그")),

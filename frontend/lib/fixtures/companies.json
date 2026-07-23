@@ -552,6 +552,7 @@
     "percentileBasis": "전체fallback",
     "dataQuality": {
       "missing": [],
+      "inconsistencies": [],
       "ok": true
     },
     "businessFit": {
@@ -1172,6 +1173,7 @@
     "percentileBasis": "전체fallback",
     "dataQuality": {
       "missing": [],
+      "inconsistencies": [],
       "ok": true
     },
     "businessFit": {
@@ -1917,6 +1919,7 @@
     "percentileBasis": "전체fallback",
     "dataQuality": {
       "missing": [],
+      "inconsistencies": [],
       "ok": true
     },
     "businessFit": {
@@ -2470,6 +2473,7 @@
     "percentileBasis": "전체fallback",
     "dataQuality": {
       "missing": [],
+      "inconsistencies": [],
       "ok": true
     },
     "businessFit": {
@@ -3287,6 +3291,7 @@
     "percentileBasis": "전체fallback",
     "dataQuality": {
       "missing": [],
+      "inconsistencies": [],
       "ok": true
     },
     "businessFit": {
@@ -4368,6 +4373,7 @@
     "percentileBasis": "전체fallback",
     "dataQuality": {
       "missing": [],
+      "inconsistencies": [],
       "ok": true
     },
     "businessFit": {
@@ -5235,6 +5241,7 @@
     "percentileBasis": "전체fallback",
     "dataQuality": {
       "missing": [],
+      "inconsistencies": [],
       "ok": true
     },
     "businessFit": {
@@ -6216,6 +6223,7 @@
     "percentileBasis": "전체fallback",
     "dataQuality": {
       "missing": [],
+      "inconsistencies": [],
       "ok": true
     },
     "businessFit": {
@@ -6907,6 +6915,7 @@
     "percentileBasis": "전체fallback",
     "dataQuality": {
       "missing": [],
+      "inconsistencies": [],
       "ok": true
     },
     "businessFit": {
@@ -7690,6 +7699,7 @@
     "percentileBasis": "전체fallback",
     "dataQuality": {
       "missing": [],
+      "inconsistencies": [],
       "ok": true
     },
     "businessFit": {
@@ -8396,6 +8406,7 @@
     "percentileBasis": "전체fallback",
     "dataQuality": {
       "missing": [],
+      "inconsistencies": [],
       "ok": true
     },
     "businessFit": {

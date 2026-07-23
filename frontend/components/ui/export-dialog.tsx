@@ -19,8 +19,10 @@ const EXT: Record<ExportFormat, string> = { csv: ".csv", pdf: ".pdf", print: "" 
 export interface ExportFilter {
   key: string;
   label: string;
-  /** 첫 옵션이 기본 선택. value "" 는 보통 '전체'. */
+  /** 첫 옵션이 기본 선택. value "" 는 보통 '전체'. multiple이면 무시(빈 배열이 기본). */
   options: { value: string; label: string }[];
+  /** true면 체크박스 다중선택(MultiCombobox)로 렌더링. selected[key]는 string[]이 된다. */
+  multiple?: boolean;
 }
 
 /** 특정 항목을 드롭다운으로 직접 골라 내보내기. 아무것도 안 고르면 필터 결과 전체. */
@@ -53,16 +55,16 @@ export function ExportDialog({
   filters?: ExportFilter[];
   directSelect?: ExportDirectSelect;
   /** 현재 선택으로 내보낼 건수(있으면 표시). */
-  count?: (selected: Record<string, string>, direct: string[]) => number;
+  count?: (selected: Record<string, string | string[]>, direct: string[]) => number;
   /** 파일 이름 입력칸의 기본값(확장자 없이). 없으면 '내보내기'. */
-  defaultFileName?: (selected: Record<string, string>, direct: string[]) => string;
+  defaultFileName?: (selected: Record<string, string | string[]>, direct: string[]) => string;
   /** fileName은 확장자 없는 기본 이름(인쇄는 ""). */
-  onExport: (format: ExportFormat, selected: Record<string, string>, direct: string[], fileName: string) => void;
+  onExport: (format: ExportFormat, selected: Record<string, string | string[]>, direct: string[], fileName: string) => void;
   onClose: () => void;
 }) {
   const [format, setFormat] = useState<ExportFormat>(formats[0]);
-  const [selected, setSelected] = useState<Record<string, string>>(
-    () => Object.fromEntries(filters.map((f) => [f.key, f.options[0]?.value ?? ""]))
+  const [selected, setSelected] = useState<Record<string, string | string[]>>(
+    () => Object.fromEntries(filters.map((f) => [f.key, f.multiple ? [] : (f.options[0]?.value ?? "")]))
   );
   const [direct, setDirect] = useState<string[]>([]);
   const [phase, setPhase] = useState<"options" | "name">("options");
@@ -140,21 +142,32 @@ export function ExportDialog({
                 </Field>
               )}
 
-              {filters.map((f) => (
-                <Field key={f.key} label={f.label}>
-                  <select
-                    value={selected[f.key]}
-                    onChange={(e) => setSelected((s) => ({ ...s, [f.key]: e.target.value }))}
-                    className="w-full rounded-md border bg-background px-2.5 py-2 text-[12.5px] outline-none focus:border-primary"
-                  >
-                    {f.options.map((o) => (
-                      <option key={o.value} value={o.value}>
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
-                </Field>
-              ))}
+              {filters.map((f) =>
+                f.multiple ? (
+                  <Field key={f.key} label={f.label}>
+                    <MultiCombobox
+                      options={f.options}
+                      values={(selected[f.key] as string[]) ?? []}
+                      onChange={(v) => setSelected((s) => ({ ...s, [f.key]: v }))}
+                      placeholder={`${f.label} 전체`}
+                    />
+                  </Field>
+                ) : (
+                  <Field key={f.key} label={f.label}>
+                    <select
+                      value={selected[f.key] as string}
+                      onChange={(e) => setSelected((s) => ({ ...s, [f.key]: e.target.value }))}
+                      className="w-full rounded-md border bg-background px-2.5 py-2 text-[12.5px] outline-none focus:border-primary"
+                    >
+                      {f.options.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  </Field>
+                )
+              )}
 
               {directSelect && (
                 <Field label={`${directSelect.label} 직접 선택`}>

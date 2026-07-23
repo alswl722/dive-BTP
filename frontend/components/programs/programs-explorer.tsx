@@ -8,7 +8,8 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, THead, TBody, TR, TH, TD } from "@/components/ui/table";
 import { Pagination } from "@/components/ui/pagination";
-import { Combobox, MultiCombobox, type ComboboxOption } from "@/components/ui/combobox";
+import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
+import { MultiCombobox, type MultiComboboxOption } from "@/components/ui/multi-combobox";
 import { useAdminState } from "@/lib/admin-state";
 import { businessTypeLabel, resolveProgramStatus, PROGRAM_STATUS_BADGE, type ProgramStatus } from "@/lib/program-status";
 import { ProgramDetailPanel } from "@/components/programs/program-detail-panel";
@@ -115,7 +116,7 @@ export function ProgramsExplorer({
     () => ministries.map(([m, n]) => ({ value: m, label: `${m} (${n})` })),
     [ministries]
   );
-  const detailComboOptions: ComboboxOption[] = useMemo(
+  const detailComboOptions: MultiComboboxOption[] = useMemo(
     () => detailOptions.map((d) => ({ value: d, label: d })),
     [detailOptions]
   );
@@ -279,7 +280,7 @@ export function ProgramsExplorer({
 
           <MultiCombobox
             options={detailComboOptions}
-            value={filters.detailItems}
+            values={filters.detailItems}
             onChange={(v) => update({ detailItems: v })}
             placeholder="지원구분 전체"
             className="w-[160px] shrink-0"
@@ -355,7 +356,7 @@ export function ProgramsExplorer({
                       <TD>
                         <Badge variant="info">{businessTypeLabel(p.businessType)}</Badge>
                       </TD>
-                      <TD className="text-muted-foreground">{p.ministry ?? "미상"}</TD>
+                      <TD className="whitespace-nowrap text-muted-foreground">{p.ministry ?? "미상"}</TD>
                       <TD className="text-muted-foreground">{p.detailItems.slice(0, 2).join(", ") || "—"}</TD>
                       <TD className="text-center">
                         <Badge variant={PROGRAM_STATUS_BADGE[status]}>{status}</Badge>

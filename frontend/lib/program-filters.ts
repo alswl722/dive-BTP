@@ -286,6 +286,7 @@ export function csvFileName(f: ProgramFilters, today: Date): string {
   const parts = ["부산TP_지원사업"];
   if (f.year !== "전체") parts.push(f.year);
   if (f.businessType) parts.push(f.businessType);
+  if (f.detailItems.length > 0) parts.push(f.detailItems.join("+"));
   if (f.ministry) parts.push(f.ministry);
   if (f.status) parts.push(f.status);
   const stamp = `${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, "0")}${String(today.getDate()).padStart(2, "0")}`;

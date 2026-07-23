@@ -46,6 +46,46 @@ Phase 2 규칙기반 1단 필터에서 **판단유보(`undetermined`/`unknown_ks
 | OpenAI | `openai` | `beta.chat.completions.parse()` — SDK 자동 매핑 | 자동 (1024+ 토큰) | 불필요 |
 | Claude | `anthropic` | `messages.parse()` — SDK 자동 매핑 | 명시적 `cache_control` | 불필요 |
 
+### 2.4 챗봇은 축8 과 별개 — OpenAI `gpt-5-mini` 채택
+
+**참고 파일**: `backend/app/services/chatbot_llm.py` (2026-07-22 이후)
+
+**축8 과 챗봇은 프로바이더가 다르다** — 판정 성격이 다르기 때문:
+
+| 축 | 프로바이더 | 근거 |
+|---|---|---|
+| **축8 (사업정체성 정합성)** | **DeepSeek V3** (`deepseek-chat`) | 정확도·비용 최우선 (파일럿 4/4 · 5000기업 $0.17) |
+| **챗봇 (형우 담당)** | **OpenAI `gpt-5-mini`** | UX 응답성·SQL 첫 시도 성공률·요약 자연스러움 |
+
+**챗봇을 gpt-5-mini 로 스위치한 근거** (`docs/챗봇_LLM_스위치_실측.md` 별도 문서 후보 · 현재는 이 섹션에 요약):
+- SQL 첫 시도 성공률 ↑ → 자가 수정 재시도 감소로 실비용 상쇄
+- 결과 요약이 담당자에게 훨씬 자연스럽게 읽힘
+- 월 비용 ≈ 4,000원 (DeepSeek 대비 약 2.2x, $25 크레딧 5개월치)
+
+**축8 확장 여부 재검토 결과 (2026-07 실측)**:
+- 파일럿에서 gpt-5-mini 는 오탐(false positive) 위주 — 정합성 판정 UX 에 부적합
+- 결론: **챗봇만 스위치, 축8 은 DeepSeek 유지**
+- 상세: `scripts/experiment_axis8_gpt5_vs_deepseek.py` (실험 후 삭제)
+
+**gpt-5 API 규격 대응** (`chatbot_llm.py:_call_params`):
+- `max_tokens` → `max_completion_tokens` 로 변경 (reasoning 토큰 차감 대비 4배 여유)
+- `reasoning_effort="minimal"` (챗 응답성 우선)
+- `temperature` 파라미터 제거 (gpt-5-mini 는 1 고정)
+- 캐시 히트 토큰 추출도 두 프로바이더 호환: OpenAI `prompt_tokens_details.cached_tokens`,
+  DeepSeek `prompt_cache_hit_tokens` — `_cache_hit_tokens(usage)` 헬퍼로 통합
+
+**롤백 옵션** (문제 시 코드 변경 없이):
+```
+CHATBOT_LLM_PROVIDER=deepseek
+```
+`.env` 에 이 한 줄만 넣으면 챗봇도 즉시 DeepSeek 폴백. 배포 안전장치.
+
+**프로바이더 감지 로직** (`chatbot_llm.py:_resolve_provider`):
+1. `CHATBOT_LLM_PROVIDER` env 명시 → 그거 사용
+2. 없으면 `OPENAI_API_KEY` 유효 → OpenAI (기본)
+3. 그것도 없으면 `DEEPSEEK_API_KEY` 유효 → DeepSeek 폴백
+4. 둘 다 없으면 라우터가 503 반환
+
 ---
 
 ## 3. 프롬프트 설계

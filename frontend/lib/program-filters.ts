@@ -6,7 +6,7 @@ export interface ProgramFilters {
   q: string;
   year: string; // "전체" | "2024" …
   businessType: string | null; // null = 전체
-  detailItem: string | null;
+  detailItems: string[]; // 빈 배열 = 전체(다중 선택, OR 매칭)
   ministry: string | null;
   status: ProgramStatus | null;
 }
@@ -15,7 +15,7 @@ export const defaultProgramFilters = (): ProgramFilters => ({
   q: "",
   year: "전체",
   businessType: null,
-  detailItem: null,
+  detailItems: [],
   ministry: null,
   status: null,
 });
@@ -52,7 +52,7 @@ export function applyProgramFilters(
     }
     if (f.year !== "전체" && String(p.year) !== f.year) return false;
     if (f.businessType && bizTypeKey(p) !== f.businessType) return false;
-    if (f.detailItem && !p.detailItems.includes(f.detailItem)) return false;
+    if (f.detailItems.length > 0 && !f.detailItems.some((d) => p.detailItems.includes(d))) return false;
     if (f.ministry && (p.ministry ?? "미상") !== f.ministry) return false;
     if (f.status && resolveProgramStatus(p, referenceDate, statusOverrides) !== f.status) return false;
     return true;

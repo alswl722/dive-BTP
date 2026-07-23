@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, THead, TBody, TR, TH, TD } from "@/components/ui/table";
 import { Pagination } from "@/components/ui/pagination";
-import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
+import { Combobox, MultiCombobox, type ComboboxOption } from "@/components/ui/combobox";
 import { useAdminState } from "@/lib/admin-state";
 import { businessTypeLabel, resolveProgramStatus, PROGRAM_STATUS_BADGE, type ProgramStatus } from "@/lib/program-status";
 import { ProgramDetailPanel } from "@/components/programs/program-detail-panel";
@@ -150,7 +150,7 @@ export function ProgramsExplorer({
 
   const hasFilter =
     filters.q !== "" || filters.year !== "전체" || filters.businessType !== null ||
-    filters.detailItem !== null || filters.ministry !== null || filters.status !== null;
+    filters.detailItems.length > 0 || filters.ministry !== null || filters.status !== null;
 
   return (
     <div className="space-y-4">
@@ -277,13 +277,12 @@ export function ProgramsExplorer({
             clearable
           />
 
-          <Combobox
+          <MultiCombobox
             options={detailComboOptions}
-            value={filters.detailItem}
-            onChange={(v) => update({ detailItem: v })}
+            value={filters.detailItems}
+            onChange={(v) => update({ detailItems: v })}
             placeholder="지원구분 전체"
             className="w-[160px] shrink-0"
-            clearable
           />
         </div>
 
@@ -291,7 +290,7 @@ export function ProgramsExplorer({
           <div className="flex min-w-0 flex-1 items-center gap-0.5 overflow-x-auto rounded-lg bg-muted p-1">
             <SegmentButton
               active={filters.businessType === null}
-              onClick={() => update({ businessType: null, detailItem: null })}
+              onClick={() => update({ businessType: null, detailItems: [] })}
             >
               전체
             </SegmentButton>
@@ -299,7 +298,7 @@ export function ProgramsExplorer({
               <SegmentButton
                 key={bt}
                 active={filters.businessType === bt}
-                onClick={() => update({ businessType: bt, detailItem: null })}
+                onClick={() => update({ businessType: bt, detailItems: [] })}
               >
                 {businessTypeLabel(bt === "미분류" ? null : bt)}
               </SegmentButton>
@@ -322,6 +321,7 @@ export function ProgramsExplorer({
                 <TR>
                   <SortableTH label="사업명" k="name" cur={sortKey} dir={sortDir} onSort={onSort} />
                   <TH>사업유형</TH>
+                  <TH>부처</TH>
                   <TH>세부 품목</TH>
                   <TH className="text-center">상태</TH>
                   <SortableTH label="선정 기업 수" k="selected" cur={sortKey} dir={sortDir} onSort={onSort} align="center" />
@@ -355,6 +355,7 @@ export function ProgramsExplorer({
                       <TD>
                         <Badge variant="info">{businessTypeLabel(p.businessType)}</Badge>
                       </TD>
+                      <TD className="text-muted-foreground">{p.ministry ?? "미상"}</TD>
                       <TD className="text-muted-foreground">{p.detailItems.slice(0, 2).join(", ") || "—"}</TD>
                       <TD className="text-center">
                         <Badge variant={PROGRAM_STATUS_BADGE[status]}>{status}</Badge>

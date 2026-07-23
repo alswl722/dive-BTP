@@ -83,13 +83,15 @@ export function ProgramsExplorer({
 
   // 내보내기 — 다이얼로그에서 고른 연도·유형·부처로 프로그램을 추린다(화면 필터와 독립).
   const EXPORT_HEADERS = ["연도", "사업코드", "사업명", "사업유형", "주관부처", "신청기업수", "선정기업수", "총지원금(천원)", "진행상태"];
-  const exportRows = (sel: Record<string, string>, direct: string[]) => {
+  const exportRows = (sel: Record<string, string | string[]>, direct: string[]) => {
     const directSet = new Set(direct);
+    const detail = (sel.detail as string[] | undefined) ?? [];
     const picked = programs
       .filter((p) => (directSet.size ? directSet.has(programKeyOf(p)) : (
         (!sel.year || String(p.year) === sel.year) &&
         (!sel.type || bizTypeKey(p) === sel.type) &&
-        (!sel.ministry || (p.ministry ?? "미상") === sel.ministry)
+        (!sel.ministry || (p.ministry ?? "미상") === sel.ministry) &&
+        (detail.length === 0 || detail.some((d) => p.detailItems.includes(d)))
       )))
       .sort((a, b) => b.year - a.year || (a.programCode < b.programCode ? -1 : 1));
     return picked.map((p) => [
@@ -112,6 +114,12 @@ export function ProgramsExplorer({
     return Array.from(new Set(pool.flatMap((p) => p.detailItems))).sort();
   }, [programs, filters.businessType]);
 
+  // 내보내기 다이얼로그는 화면 필터와 독립이라 사업유형에 종속되지 않는 전체 세부품목 목록을 쓴다.
+  const allDetailOptions = useMemo(
+    () => Array.from(new Set(programs.flatMap((p) => p.detailItems))).sort(),
+    [programs]
+  );
+
   const ministryOptions: ComboboxOption[] = useMemo(
     () => ministries.map(([m, n]) => ({ value: m, label: `${m} (${n})` })),
     [ministries]
@@ -120,6 +128,20 @@ export function ProgramsExplorer({
     () => detailOptions.map((d) => ({ value: d, label: d })),
     [detailOptions]
   );
+
+  // 내보내기 다이얼로그 선택값 → 파일명/부제목 조각. 세부품목은 다중선택이라 "+"로 묶는다.
+  function exportSelectionParts(sel: Record<string, string | string[]>): string[] {
+    const year = sel.year as string | undefined;
+    const type = sel.type as string | undefined;
+    const ministry = sel.ministry as string | undefined;
+    const detail = (sel.detail as string[] | undefined) ?? [];
+    return [
+      year && `${year}년`,
+      type && businessTypeLabel(type === "미분류" ? null : type),
+      detail.length > 0 && detail.join("+"),
+      ministry,
+    ].filter((v): v is string => Boolean(v));
+  }
 
   const filtered = useMemo(
     () => applyProgramFilters(programs, filters, referenceDate, adminStatuses),
@@ -185,11 +207,12 @@ export function ProgramsExplorer({
       {exportOpen && (
         <ExportDialog
           title="지원사업 정보 내보내기"
-          description="연도·사업유형·부처를 골라 CSV·PDF·인쇄로 저장합니다."
+          description="연도·사업유형·부처·세부품목을 골라 CSV·PDF·인쇄로 저장합니다."
           filters={[
             { key: "year", label: "연도", options: [{ value: "", label: "전체" }, ...years.map((y) => ({ value: String(y), label: `${y}년` }))] },
             { key: "type", label: "사업유형", options: [{ value: "", label: "전체" }, ...businessTypes.map(([t, n]) => ({ value: t, label: `${businessTypeLabel(t === "미분류" ? null : t)} (${n})` }))] },
             { key: "ministry", label: "주관부처", options: [{ value: "", label: "전체" }, ...ministries.map(([m, n]) => ({ value: m, label: `${m} (${n})` }))] },
+            { key: "detail", label: "세부품목", options: allDetailOptions.map((d) => ({ value: d, label: d })), multiple: true },
           ]}
           directSelect={{
             label: "사업",
@@ -200,12 +223,12 @@ export function ProgramsExplorer({
           }}
           count={(sel, direct) => exportRows(sel, direct).length}
           defaultFileName={(sel) => {
-            const parts = [sel.year && `${sel.year}년`, sel.type && businessTypeLabel(sel.type === "미분류" ? null : sel.type), sel.ministry].filter(Boolean);
+            const parts = exportSelectionParts(sel);
             return ["지원사업", ...parts].join("_") || "지원사업";
           }}
           onExport={(format, sel, direct, fileName) => {
             const rows = exportRows(sel, direct);
-            const parts = [sel.year && `${sel.year}년`, sel.type && businessTypeLabel(sel.type === "미분류" ? null : sel.type), sel.ministry].filter(Boolean);
+            const parts = exportSelectionParts(sel);
             const subtitle = parts.join(" · ") || "전체";
             setExportOpen(false);
             if (format === "csv") {

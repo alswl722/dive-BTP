@@ -69,9 +69,13 @@ def recover_financial_identities(df: pd.DataFrame) -> tuple[pd.DataFrame, dict[s
     fill(EQUITY, e.isna() & a.notna() & d.notna(), a - d,          f"{EQUITY}_복원")
 
     # (B) 영업이익률 = 영업이익 ÷ 매출 × 100  (나눗셈 복원은 분모≠0)
+    # ⚠️ OPPROFIT은 곱셈이라 수학적으로는 rev=0 가드가 불필요하지만, 매출=0인데 영업이익률만
+    #    값이 있는 원본 모순(0/0 불정형·신고 오류)에서 mgn/100*0=0으로 조용히 정규화되면
+    #    이상 신호가 사라져 identity_violations도 못 잡는다. rev != 0로 스킵해 NaN 유지 →
+    #    아래 identity_violations의 "매출0_영업이익률존재" rule이 원본 모순으로 잡음.
     fill(OPMARGIN, mgn.isna() & op.notna() & rev.notna() & (rev != 0),
          op / rev * 100, f"{OPMARGIN}_복원")
-    fill(OPPROFIT, op.isna() & mgn.notna() & rev.notna(),
+    fill(OPPROFIT, op.isna() & mgn.notna() & rev.notna() & (rev != 0),
          mgn / 100 * rev, f"{OPPROFIT}_복원")
     fill(REVENUE, rev.isna() & op.notna() & mgn.notna() & (mgn != 0),
          op / (mgn / 100), f"{REVENUE}_복원")
@@ -96,4 +100,10 @@ def identity_violations(df: pd.DataFrame, atol_asset: float = 1.0,
     m2 = op.notna() & rev.notna() & mgn.notna() & (rev != 0)
     if m2.any():
         out["영업이익률≠영업이익/매출"] = int((m2 & ((mgn - op / rev * 100).abs() > rtol_margin)).sum())
+
+    # 매출=0인데 영업이익률 값 존재 — 원본 데이터 모순 (0/0 불정형 or 신고 오류).
+    # OPPROFIT 복원에서 rev != 0 가드로 스킵된 케이스가 여기로 잡힘 → UI/EDA 이상 신호.
+    m3 = rev.notna() & mgn.notna() & (rev == 0)
+    if m3.any():
+        out["매출0_영업이익률존재"] = int(m3.sum())
     return out

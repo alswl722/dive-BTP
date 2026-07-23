@@ -23,6 +23,7 @@ from pathlib import Path
 import pandas as pd
 from sqlalchemy import create_engine
 
+import finance_recovery as FR
 import loaders as L
 import transforms as T
 from parsers import (
@@ -51,6 +52,12 @@ def get_engine():
 
 def load_companies_and_metrics(engine, xlsx_path: Path) -> pd.DataFrame:
     static_df, yearly_df = parse_company_info(str(xlsx_path))
+
+    # 재무 파생 결측 복원(회계 항등식, exact 계산 — 추정 아님). company_yearly_metrics
+    # 적재 전에 채우면 master_table 뷰가 이를 pivot하므로 스코어카드까지 자동 전파된다.
+    yearly_df, fin_audit = FR.recover_financial_identities(yearly_df)
+    if fin_audit:
+        print("  재무 항등식 복원: " + ", ".join(f"{k} {v}건" for k, v in fin_audit.items()))
 
     companies_cfg = L.load_config("companies")
     companies_out = L.apply_config(static_df, companies_cfg)

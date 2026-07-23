@@ -173,6 +173,17 @@ def compute_features(df: pd.DataFrame, verbose: bool = True) -> pd.DataFrame:
     out["매출_CAGR"], out["매출_성장안정성"], out["매출_성장가속도"] = growth_block("매출액")
     out["자산_CAGR"], out["자산_성장안정성"], out["자산_성장가속도"] = growth_block("자산총계")
 
+    # 매출_증가액: 마지막 유효연도 − 첫 유효연도 (단위 = 매출액과 동일: 천원).
+    # CAGR은 비율이라 "얼마나 성장했나"를 감으로만 알려주고, 심사관은 절대금액도 봐야
+    # 규모 판단이 서므로 병기(축9 flag 성장 판정 근거 카드에 노출). 유효연도 2개 미만 → NaN.
+    def _delta_row(row):
+        valid = row.dropna()
+        if len(valid) < 2:
+            return np.nan
+        return float(valid.iloc[-1] - valid.iloc[0])
+    rev_years = years_of("매출액")
+    out["매출_증가액"] = wide("매출액").apply(_delta_row, axis=1) if len(rev_years) >= 2 else np.nan
+
     # =========================== 축2 수익성 ===========================
     L = years_of("매출액")[-1] if years_of("매출액") else None  # 최근 연도
     if L is not None:

@@ -91,6 +91,12 @@ export interface DuplicateFlag {
   totalAmountThousand: number;
   businessTypeDiversity: number;
   maxConsecutiveYears: number;
+  // 성장 판정 근거 — 축1(민지) 산출 소비. null/undefined는 축1 미연결·자본잠식 등.
+  // 근거 카드에서 임계값(하위 30%) 대비 노출용. 옵셔널로 둔 이유: 배포된 fixture
+  // 스냅샷들이 이 필드 없이 저장돼 있어 신규 필드 확장 시 하위 호환을 위해.
+  growthScore?: number | null;   // 0~100 백분위. 30 미만 = 정체
+  revenueCagr?: number | null;   // decimal (0.15 = 15%)
+  revenueDelta?: number | null;  // 천원 단위 매출 증가액
 }
 
 export interface Company {

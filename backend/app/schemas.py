@@ -216,6 +216,11 @@ class DuplicateFlag(BaseModel):
     totalAmountThousand: float
     businessTypeDiversity: int
     maxConsecutiveYears: int
+    # 성장 판정 근거 — 축1(민지) 산출 소비. None은 축1 데이터 없음(자본잠식·재무결측 등).
+    # 프론트 근거 카드에서 임계값(하위 30%) 대비 노출용. docs/성장률_인터페이스.md.
+    growthScore: float | None = None            # 0~100 백분위. 30 미만 = 정체
+    revenueCagr: float | None = None            # decimal (0.15 = 15%)
+    revenueDelta: float | None = None           # 천원 단위 매출 증가액
 
 
 class CompositeScore(BaseModel):

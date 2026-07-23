@@ -172,8 +172,16 @@ class NonopIncome(BaseModel):
     series: list[NonopYear] | None = None
 
 
+class SizeInconsistency(BaseModel):
+    """신고 기업규모 vs 실측의 법정 기준 위반 (값은 안 고침, 사실만 노출)."""
+
+    rule: str      # 소상공인_종업원초과 | 중소_졸업선_매출초과 | 중소_졸업선_자산초과
+    detail: str    # 사람이 읽는 근거 문장
+
+
 class DataQuality(BaseModel):
     missing: list[str]
+    inconsistencies: list[SizeInconsistency] = []
     ok: bool
 
 

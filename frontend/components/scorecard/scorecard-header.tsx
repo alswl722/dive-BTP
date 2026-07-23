@@ -111,6 +111,15 @@ export function ScorecardHeader({
             </div>
           )}
           <DuplicateFlagBadge flag={company.duplicateFlag} />
+          {company.dataQuality.inconsistencies && company.dataQuality.inconsistencies.length > 0 && (
+            <span
+              title={`신고 기업규모와 실측이 법정 기준상 맞지 않음:\n${company.dataQuality.inconsistencies.map((i) => `· ${i.detail}`).join("\n")}`}
+              className="inline-flex items-center gap-1 rounded-full bg-warn-bg px-2.5 py-1 text-[11px] font-bold text-[hsl(30_75%_38%)]"
+            >
+              <AlertTriangle className="h-3.5 w-3.5" />
+              신고규모 불일치
+            </span>
+          )}
         </div>
         {(onExpand || onClose) && (
           <div className="flex shrink-0 items-center gap-1">

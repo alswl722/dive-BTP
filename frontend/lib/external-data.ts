@@ -123,11 +123,19 @@ function deriveGovRnd(company: Company): GovRndEfficiencySignal | null {
   };
 }
 
+/**
+ * 실 API 어댑터 구현 완료 여부. false인 동안은 EXTERNAL_MODE를 "live"로 바꿔도
+ * 데이터는 여전히 목업 파생이므로 source를 "live"로 올리면 안 된다 — 그러면 목업 배지가
+ * 사라져 추정값이 실측처럼 노출된다(투명성 붕괴). 어댑터를 실제로 연결할 때 true로.
+ */
+const LIVE_ADAPTERS_READY = false;
+
 /** R&D 축 외부 신호를 한 번에 해석. mode에 따라 mock/live 어댑터를 탄다. */
 export function resolveTechExternalSignals(company: Company): TechExternalSignals {
-  // live 모드는 사업자번호 기반 API 어댑터 연결 지점(미구현) — 현재는 mock으로 폴백.
+  // 어댑터가 실제로 준비됐을 때만 live. 그 전엔 mode와 무관하게 mock(목업 배지 유지).
+  const isLive = EXTERNAL_MODE === "live" && LIVE_ADAPTERS_READY;
   return {
-    source: EXTERNAL_MODE === "live" ? "live" : "mock",
+    source: isLive ? "live" : "mock",
     venture: deriveVenture(company),
     patentClass: derivePatentClass(company),
     govRnd: deriveGovRnd(company),

@@ -105,10 +105,14 @@ def aggregate_ntis_lead(lead: pd.DataFrame) -> pd.DataFrame:
     """
     dd = _dedup_lead(lead)
     g = dd.groupby(KEY)
+    # 부처다양성: 결측 부처명은 normalize_ministry가 "미상"(ministry_map.yaml missing_label)으로
+    # 통일한다. 이는 실재하는 부처가 아니므로 distinct 집계에 넣으면 다양성이 +1 부풀려진다
+    # (nunique는 NaN만 자동 제외하지 실문자열 "미상"은 센다). where로 "미상"→NaN 처리해 제외.
+    ministry_real = dd["ministry"].where(dd["ministry"] != "미상")
     out = pd.DataFrame({
         "NTIS주관_과제수": g.size(),
         "NTIS주관_정부연구비": g["gov_funding_krw"].sum(),  # 단위 원(재무는 천원 — 혼용 주의)
-        "NTIS주관_부처다양성": g["ministry"].nunique(),
+        "NTIS주관_부처다양성": ministry_real.groupby(dd[KEY]).nunique(),
         "NTIS주관_첫수주연도": g["base_year"].min(),
     })
     if "private_funding_krw" in dd.columns:

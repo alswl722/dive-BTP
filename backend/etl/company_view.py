@@ -587,6 +587,12 @@ def build_companies(
     companies = []
     for _, s in score.iterrows():
         cid = int(s[KEY])
+        # score에는 있지만 master/feat ETL 단계에서 빠진 기업일 수 있다(본선 데이터가
+        # 샘플과 커버리지가 다를 때 특히). .loc[]는 없으면 KeyError로 배치 전체를
+        # 죽이므로, 해당 기업만 건너뛰고 계속 진행한다.
+        if cid not in master_by_id.index or cid not in feat_by_id.index:
+            print(f"  ⚠️ 기업 {cid}: master/feat 커버리지 없음 — 건너뜀")
+            continue
         m = master_by_id.loc[cid]
         if isinstance(m, pd.DataFrame):  # KEY 중복 행 존재 시 첫 행 사용(기존 .iloc[0]와 동일 동작)
             m = m.iloc[0]

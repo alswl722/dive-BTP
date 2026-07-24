@@ -145,6 +145,12 @@ def _percentile_threshold(series: pd.Series, percentile: float) -> float:
 
 def classify_segments(metrics_df: pd.DataFrame, config: dict) -> pd.DataFrame:
     """batch 세그먼트 분류. metrics_df는 compute_support_metrics 결과."""
+    if metrics_df.empty:
+        # quantile()이 빈 Series에서 NaN을 반환하면 >= 비교가 전부 False가 되어
+        # 전 기업이 조용히 "소액소수"(정상)로 오분류된다 — 에러 없이 틀리는 게 더
+        # 위험하므로 빈 입력은 빈 결과로 명시 처리한다.
+        return pd.DataFrame(columns=["company_id", "segment", "is_high_diversity"])
+
     cfg = config["segment_thresholds"]
     diversity_cfg = config["diversity"]
 
@@ -224,6 +230,8 @@ def growth_signals_from_axis1(axis1_df: pd.DataFrame) -> dict[int, GrowthSignal]
 
     out: dict[int, GrowthSignal] = {}
     for _, row in axis1_df.iterrows():
+        if pd.isna(row[KEY_COL]):  # 조인 키 결측 행은 어느 기업인지 알 수 없어 int() 변환 불가
+            continue
         cid = int(row[KEY_COL])
         score = None if pd.isna(row[SCORE_COL]) else float(row[SCORE_COL])
         cagr = float(row[CAGR_COL]) if has_cagr and pd.notna(row[CAGR_COL]) else None

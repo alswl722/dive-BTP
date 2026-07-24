@@ -40,7 +40,9 @@ export function ExternalTechSignals({ company }: { company: Company }) {
         <div className="rounded-lg border p-3">
           <p className="text-[11px] text-muted-foreground">벤처확인 유형</p>
           <div className="mt-1 flex items-center gap-1.5">
-            <Badge variant={VENTURE_TONE[venture.type] ?? "secondary"} className="text-[11px]">{venture.type}</Badge>
+            <Badge variant={VENTURE_TONE[venture.type] ?? "secondary"} className="text-[11px]">
+              {venture.type}{sig.source === "mock" && venture.isVenture ? " (추정)" : ""}
+            </Badge>
           </div>
           <p className="mt-1.5 text-[10.5px] text-muted-foreground">{venture.reason}</p>
         </div>

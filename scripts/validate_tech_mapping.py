@@ -149,6 +149,13 @@ def main() -> int:
 
     # --- 요약 / 종료코드 ---
     print("\n" + "-" * 60)
+    # NTIS 분류명이 아예 없으면(조인 실패/컬럼 전멸) 매칭할 대상이 없어 problems=0이 되지만,
+    # 이건 '이상 없음'이 아니라 '검증 불가'다. exit 0으로 통과시키면 NTIS 커버리지 0%인
+    # 데이터셋이 CI 게이트를 조용히 통과한다(거짓 안심) → 명시적으로 실패 처리.
+    if uniq_total == 0:
+        print("❌ NTIS 표준분류명이 하나도 없음 — 조인/컬럼(tech_classification) 확인 필요. "
+              "검증 대상 자체가 없어 실패 처리(exit 1).")
+        return 1
     problems = len(unmatched) + src_counts["표준분류(전부 미매칭)"]
     if problems == 0:
         print("✓ 매칭 이상 없음")

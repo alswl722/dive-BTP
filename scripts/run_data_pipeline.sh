@@ -106,6 +106,25 @@ run_eda_selection_result_step() {
     fi
 }
 
+# Phase 2 EDA — KODATA만 필요한 것들
+_run_kodata_eda() {
+    local script="$1"
+    if [[ -n "$KODATA" ]]; then
+        python3 "$script" --kodata "$KODATA"
+    else
+        python3 "$script"
+    fi
+}
+
+# KSIC 정합성·종합 커버리지는 KODATA + BTP 둘 다 필요
+_run_dual_eda() {
+    local script="$1"
+    local args=()
+    [[ -n "$KODATA" ]] && args+=(--kodata "$KODATA")
+    [[ -n "$BTP" ]] && args+=(--btp "$BTP")
+    python3 "$script" "${args[@]}"
+}
+
 # ── 0단계: 합성데이터 자체 테스트 (데이터 무관, 로직 검증) ──────────────
 if [[ $SKIP_TESTS -eq 0 && $FROM_STAGE -le 1 ]]; then
     step "0/6  자체 테스트 (재무·기술 엣지케이스)"
@@ -119,8 +138,13 @@ if [[ $FROM_STAGE -le 1 ]]; then
     run_schema_drift_step
 fi
 
-# ── 2단계: EDA 3종 (읽기 전용, 적재 전에도 동작) ────────────────────────
+# ── 2단계: EDA (읽기 전용, 적재 전에도 동작) + INDEX 생성 ────────────────
+# Phase 1 — 원본 데이터 진단(기존 3개)
+# Phase 2 — 규모·상관·특허·NTIS·KSIC·종합 커버리지(신규 6개)
+# 각 EDA는 표준출력 진단 + eda_reports/<카테고리>/에 PNG·meta.json 저장.
+# 마지막에 eda_index.py가 모든 meta.json을 읽어 eda_reports/INDEX.md 생성.
 if [[ $FROM_STAGE -le 2 ]]; then
+    # Phase 1
     step "2/6  EDA — 기업규모 결측·정합성"
     run_eda_company_size_step
 
@@ -129,6 +153,28 @@ if [[ $FROM_STAGE -le 2 ]]; then
 
     step "2/6  EDA — 선정결과 결측 추론"
     run_eda_selection_result_step
+
+    # Phase 2 — 크로스 검증·대체 정책 근거
+    step "2/6  EDA — 규모 경계값 실측"
+    _run_kodata_eda scripts/eda_size_thresholds.py
+
+    step "2/6  EDA — 종업원수 ↔ 국민연금 상관"
+    _run_kodata_eda scripts/eda_employment_impute.py
+
+    step "2/6  EDA — 특허 유효여부 케이스"
+    _run_kodata_eda scripts/eda_patent_validity.py
+
+    step "2/6  EDA — NTIS 지역구분 분포"
+    _run_kodata_eda scripts/eda_ntis_region.py
+
+    step "2/6  EDA — KSIC 코드 정합성"
+    _run_dual_eda scripts/eda_ksic_consistency.py
+
+    step "2/6  EDA — 결측 커버리지 종합 (GO/NO-GO)"
+    _run_dual_eda scripts/eda_missing_coverage.py
+
+    step "2/6  EDA — 리포트 인덱스 (eda_reports/INDEX.md)"
+    python3 scripts/eda_index.py
 fi
 
 # ── 3단계: 마이그레이션 (재실행 안전) ───────────────────────────────────

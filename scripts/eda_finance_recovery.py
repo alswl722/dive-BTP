@@ -34,6 +34,8 @@ import pandas as pd  # noqa: E402
 
 from parsers import parse_company_info  # noqa: E402
 import finance_recovery as fr  # noqa: E402
+from eda_viz import PALETTE, save_fig, setup as viz_setup, write_meta  # noqa: E402
+import matplotlib.pyplot as plt  # noqa: E402
 
 DEFAULT_KODATA = ROOT / "backend" / "etl" / "data" / "배포_샘플_KODATA_기업데이터_26-07-06.xlsx"
 
@@ -95,6 +97,87 @@ def main() -> None:
             print(f"  ⚠️ {k}: {v}건 (원본 데이터 자체가 항등식을 안 지킴 — 복원 대상 아님)")
     else:
         print("  ✓ 값이 다 있는 행에서 항등식 위반 없음 (복원 산수 신뢰 가능)")
+
+    # ── 시각화 저장 ─────────────────────────────────────────────
+    _render_visualizations(before, after, audit, viol, n)
+
+
+def _render_visualizations(before: pd.Series, after: pd.Series,
+                            audit: dict, viol: dict, n: int) -> None:
+    viz_setup()
+    CAT = "02_finance_recovery"
+
+    # (1) 복원 전/후 결측률 grouped bar
+    fig, ax = plt.subplots(figsize=(12, 5))
+    x = list(fr.COLS)
+    pos = range(len(x))
+    b_pct = [100 * before[c] / n for c in x]
+    a_pct = [100 * after[c] / n for c in x]
+    w = 0.35
+    ax.bar([p - w/2 for p in pos], b_pct, w, label="복원 전", color=PALETTE["muted"])
+    ax.bar([p + w/2 for p in pos], a_pct, w, label="복원 후", color=PALETTE["good"])
+    for i, (b, a) in enumerate(zip(b_pct, a_pct)):
+        if b != a:
+            ax.annotate(f"↓{b-a:.0f}%p", xy=(i + w/2, a), xytext=(0, 3),
+                        textcoords="offset points", ha="center", fontsize=9,
+                        color=PALETTE["good"], fontweight="bold")
+    ax.set_xticks(list(pos))
+    ax.set_xticklabels(x, rotation=15, ha="right")
+    ax.set_ylabel("결측률 (%)")
+    ax.legend()
+    ax.set_title(f"재무 6개 컬럼 결측률 · 항등식 복원 전/후 (총 {n}행)")
+    save_fig(fig, CAT, "missing_before_after", "재무 결측률 복원 효과")
+
+    # (2) rule별 복원 건수 bar
+    if audit:
+        fig, ax = plt.subplots(figsize=(10, 4.5))
+        rules = list(audit.keys())
+        counts = list(audit.values())
+        bars = ax.bar(rules, counts, color=PALETTE["primary"])
+        for b, c in zip(bars, counts):
+            ax.text(b.get_x() + b.get_width()/2, c + max(counts)*0.02, str(c),
+                    ha="center", fontsize=11, fontweight="bold")
+        ax.set_ylabel("복원 건수")
+        ax.set_title(f"항등식 규칙별 복원 건수 (총 {sum(counts)}건)")
+        plt.xticks(rotation=15, ha="right")
+        save_fig(fig, CAT, "recovery_by_rule", "규칙별 복원 건수")
+
+    # (3) 항등식 위반 (있을 때만)
+    if any(viol.values()):
+        fig, ax = plt.subplots(figsize=(10, 4))
+        keys = list(viol.keys())
+        vals = list(viol.values())
+        colors = [PALETTE["bad"] if v > 0 else PALETTE["muted"] for v in vals]
+        bars = ax.bar(keys, vals, color=colors)
+        for b, c in zip(bars, vals):
+            ax.text(b.get_x() + b.get_width()/2, c + max(vals, default=1)*0.02, str(c),
+                    ha="center", fontsize=11, fontweight="bold")
+        ax.set_ylabel("위반 건수")
+        ax.set_title("항등식 위반 — 원본 데이터 품질 신호")
+        plt.xticks(rotation=10, ha="right")
+        save_fig(fig, CAT, "identity_violations", "항등식 위반")
+
+    # meta.json
+    images = [{"file": "missing_before_after.png",
+               "caption": f"재무 6개 컬럼 결측률 · 복원 전후 (총 {n}행)"}]
+    if audit:
+        images.append({"file": "recovery_by_rule.png",
+                       "caption": f"규칙별 복원 건수 (총 {sum(audit.values())}건)"})
+    if any(viol.values()):
+        images.append({"file": "identity_violations.png",
+                       "caption": f"항등식 위반 {sum(viol.values())}건"})
+
+    highlights = []
+    total_recovered = sum(audit.values()) if audit else 0
+    if total_recovered:
+        highlights.append(f"항등식 복원 총 {total_recovered}건 — 결측 감소")
+    if any(viol.values()):
+        highlights.append(f"항등식 위반 {sum(viol.values())}건 — 원본 데이터 품질 검토 필요")
+
+    status = "warn" if any(viol.values()) else ("good" if total_recovered else "info")
+    write_meta(CAT, title="재무 항등식 복원",
+               description="자산=부채+자본, 영업이익률=영업이익÷매출 항등식으로 결측 복원 + 원본 위반 탐지.",
+               images=images, highlights=highlights, status=status)
 
 
 if __name__ == "__main__":

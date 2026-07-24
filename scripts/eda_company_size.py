@@ -50,6 +50,9 @@ from company_size_checks import (  # noqa: E402
     SIZE_ORDER, SANGONGIN_EMP_10, SANGONGIN_EMP_ETC,
     SME_REVENUE_CEILING, LARGE_ASSET_CEILING, eok as _eok,
 )
+# 시각화 헬퍼 — 한글 폰트·저장·팔레트 통일
+from eda_viz import PALETTE, save_fig, setup as viz_setup, write_meta  # noqa: E402
+import matplotlib.pyplot as plt  # noqa: E402
 
 DEFAULT_KODATA = ROOT / "backend" / "etl" / "data" / "배포_샘플_KODATA_기업데이터_26-07-06.xlsx"
 
@@ -138,6 +141,84 @@ def main() -> None:
     print(f"  소상공인 종업원 상한 : 제조·광업·건설·운수 {SANGONGIN_EMP_10} / 기타 {SANGONGIN_EMP_ETC} (미만)")
     print(f"  중소기업 매출 졸업선 : 3년평균 {_eok(SME_REVENUE_CEILING)} 초과")
     print(f"  대기업 자산 편입선   : {_eok(LARGE_ASSET_CEILING)} 이상")
+
+    # ── 시각화 저장 (eda_reports/01_company_size/) ─────────────
+    _render_visualizations(df, present, issues, n, miss)
+
+
+def _render_visualizations(df: pd.DataFrame, present: pd.DataFrame,
+                            issues: list[dict], n: int, miss: int) -> None:
+    """PNG 3장 + meta.json 저장. eda_index.py가 INDEX.md 생성 시 이 폴더를 훑는다."""
+    viz_setup()
+    CAT = "01_company_size"
+
+    # (1) 결측률 — 규모/KSIC/종업원수/매출3년/자산 5개 컬럼 결측률 bar
+    fig, ax = plt.subplots(figsize=(11, 5))
+    cols = {"size": "기업규모", "ksic": "KSIC코드", "emp": "종업원수(최신)",
+            "rev3y": "매출3년평균", "asset": "자산(최신)"}
+    rates = [100 * df[c].isna().sum() / n for c in cols]
+    colors = [PALETTE["bad"] if r > 20 else PALETTE["warn"] if r > 5 else PALETTE["good"] for r in rates]
+    bars = ax.bar(list(cols.values()), rates, color=colors)
+    for b, r in zip(bars, rates):
+        ax.text(b.get_x() + b.get_width() / 2, r + 1, f"{r:.1f}%", ha="center", fontsize=10)
+    ax.set_ylabel("결측률 (%)")
+    ax.set_ylim(0, max(rates) * 1.2 + 5)
+    ax.set_title(f"컬럼별 결측률 (기업 {n}개)")
+    save_fig(fig, CAT, "missing_rate", "기업규모·재무 컬럼 결측률")
+
+    # (2) 규모별 종업원수 boxplot + 법정 임계선
+    fig, ax = plt.subplots(figsize=(11, 5))
+    data, labels = [], []
+    for label in SIZE_ORDER:
+        g = present[present["size"] == label]["emp"].dropna()
+        if len(g) > 0:
+            data.append(g.values)
+            labels.append(f"{label}\n(n={len(g)})")
+    if data:
+        bp = ax.boxplot(data, labels=labels, patch_artist=True)
+        for patch in bp["boxes"]:
+            patch.set_facecolor(PALETTE["primary"])
+            patch.set_alpha(0.4)
+        # 법정 임계선 (제조·광업·건설·운수 = 10명, 기타 = 5명)
+        ax.axhline(SANGONGIN_EMP_10, color=PALETTE["bad"], linestyle="--", alpha=0.7,
+                   label=f"소상공인 상한(제조군) = {SANGONGIN_EMP_10}명")
+        ax.axhline(SANGONGIN_EMP_ETC, color=PALETTE["warn"], linestyle="--", alpha=0.7,
+                   label=f"소상공인 상한(기타) = {SANGONGIN_EMP_ETC}명")
+        ax.set_ylabel("종업원수 (명, 최신 유효연도)")
+        ax.set_yscale("symlog")
+        ax.legend(loc="upper left", fontsize=9)
+    ax.set_title("규모별 종업원수 분포 vs 법정 임계선")
+    save_fig(fig, CAT, "size_employee_boxplot", "규모별 종업원수 분포")
+
+    # (3) 정합성 위반 rule별 bar (있을 때만)
+    if issues:
+        fig, ax = plt.subplots(figsize=(10, 4.5))
+        rule_counts = pd.Series([it["rule"] for it in issues]).value_counts()
+        colors = [PALETTE["bad"] if "졸업" in r else PALETTE["warn"] for r in rule_counts.index]
+        bars = ax.bar(rule_counts.index, rule_counts.values, color=colors)
+        for b, c in zip(bars, rule_counts.values):
+            ax.text(b.get_x() + b.get_width() / 2, c + 0.1, str(c), ha="center", fontsize=11, fontweight="bold")
+        ax.set_ylabel("위반 기업 수")
+        ax.set_title(f"정합성 위반 rule별 분포 (총 {len(issues)}건)")
+        plt.xticks(rotation=15, ha="right")
+        save_fig(fig, CAT, "inconsistencies", f"정합성 위반 rule별 ({len(issues)}건)")
+
+    # meta.json — INDEX.md 자동 생성용
+    images = [
+        {"file": "missing_rate.png", "caption": f"5개 핵심 컬럼 결측률 (기업 {n}개)"},
+        {"file": "size_employee_boxplot.png", "caption": "규모별 종업원수 vs 법정 임계선"},
+    ]
+    if issues:
+        images.append({"file": "inconsistencies.png", "caption": f"정합성 위반 {len(issues)}건"})
+    highlights = []
+    if miss > 0:
+        highlights.append(f"기업규모 결측 {miss}건 ({100 * miss / n:.1f}%) — 미상 유지 정책")
+    if issues:
+        highlights.append(f"법정 기준 위반 {len(issues)}건 — 값은 안 고침 · 배지로 노출")
+    status = "bad" if issues else ("warn" if miss > n * 0.1 else "good")
+    write_meta(CAT, title="기업규모 결측 · 정합성",
+               description="신고 규모의 결측률·분포·법정 기준 위반을 진단.",
+               images=images, highlights=highlights, status=status)
 
 
 if __name__ == "__main__":

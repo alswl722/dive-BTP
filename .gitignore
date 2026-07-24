@@ -41,3 +41,5 @@ npm-debug.log*
 .idea/
 
 .claude/
+# EDA 리포트 (스크립트 실행마다 재생성)
+eda_reports/

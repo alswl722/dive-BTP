@@ -249,6 +249,91 @@ def compute_features(df: pd.DataFrame, verbose: bool = True) -> pd.DataFrame:
         out["재무관측연수"] = 0
         out["영업외의존_연수"] = np.nan
 
+    # =========================== 고용축 (점수 미반영 · 맥락) ===========================
+    # ⚠️ 재무 4축과 분리 유지 — 성장기업의 정상 대규모 채용을 안정성 감점으로 왜곡하지 않기 위함.
+    #    docs/고용회전율_영업외손익_설계노트.md의 결정 그대로. 여기 값들은 전부 passthrough +
+    #    맥락 배지(포지션 바)용이지 SCORE_COLS에는 들어가지 않는다.
+
+    # 종업원수·1인평균급여: 프론트 고용 탭의 규모·처우·생산성 카드 원천.
+    # find_year_cols 직접 호출(METRIC_HINTS 우회) — validate_scores 전멸 검사의 fatal 대상 아님.
+    emp_cnt_map = find_year_cols(df, "종업원수")
+    salary_map = find_year_cols(df, "1인평균연간급여")
+    emp_years = sorted(emp_cnt_map.keys())
+    sal_years = sorted(salary_map.keys())
+
+    def _last_valid_row(ymap: dict, years: list[int]) -> pd.Series:
+        """기업별 마지막 유효(비결측) 연도의 값을 뽑는다. 연도 스킵도 허용."""
+        if not years:
+            return pd.Series(np.nan, index=df.index)
+        wide_ = pd.DataFrame({y: _year_series(df, ymap, y) for y in years}, index=df.index)
+        # 각 행의 last_valid_index — 유효값 없는 행은 NaN
+        return wide_.apply(lambda r: r.dropna().iloc[-1] if r.notna().any() else np.nan, axis=1)
+
+    def _row_cagr(ymap: dict, years: list[int]) -> pd.Series:
+        """기업별 CAGR — 유효값 2개 이상, 첫/끝 유효연도 사용(가장자리 결측 방어)."""
+        if len(years) < 2:
+            return pd.Series(np.nan, index=df.index)
+        wide_ = pd.DataFrame({y: _year_series(df, ymap, y) for y in years}, index=df.index)
+        def _c(row):
+            valid = row.dropna()
+            if len(valid) < 2:
+                return np.nan
+            y0, y1 = valid.index[0], valid.index[-1]
+            return safe_cagr(valid.iloc[0], valid.iloc[-1], y1 - y0)
+        return wide_.apply(_c, axis=1)
+
+    # 규모 · 변화
+    out["종업원수_최근"] = _last_valid_row(emp_cnt_map, emp_years)
+    out["종업원수_CAGR"] = _row_cagr(emp_cnt_map, emp_years)
+    if len(emp_years) >= 2:
+        emp_wide = pd.DataFrame({y: _year_series(df, emp_cnt_map, y) for y in emp_years}, index=df.index)
+        def _delta_emp(row):
+            valid = row.dropna()
+            return float(valid.iloc[-1] - valid.iloc[0]) if len(valid) >= 2 else np.nan
+        out["종업원수_증감_5년"] = emp_wide.apply(_delta_emp, axis=1)
+    else:
+        out["종업원수_증감_5년"] = np.nan
+
+    # 처우
+    out["1인평균급여_최근"] = _last_valid_row(salary_map, sal_years)  # 단위=원 (다른 재무는 천원)
+    out["1인평균급여_CAGR"] = _row_cagr(salary_map, sal_years)
+
+    # 인력 생산성 — 인당 매출·영업이익. 기업마다 최신 유효연도가 달라 컬럼 기반 공통연도로 잡으면
+    # (예: 컬럼상 매출·종업원 둘 다 2024년 있지만 특정 기업의 종업원_2024가 NaN인 케이스)
+    # 인당 지표만 NaN이 되어 프론트에서 "—"로 뜨는 버그. 기업별로 두 지표 모두 유효한 최신 연도를
+    # 골라 계산한다.
+    def _last_common_valid_ratio(num_hint: str, den_ymap: dict) -> pd.Series:
+        """기업별 (num, den) 모두 유효한 최신 연도 값으로 num/den 계산.
+
+        공통연도 컬럼 스캔이 아니라 기업 행 단위로 최신 유효연도를 뽑아 NaN 방어.
+        """
+        num_ymap = ymap[num_hint]
+        years_ = sorted(set(num_ymap) & set(den_ymap))
+        if not years_:
+            return pd.Series(np.nan, index=df.index)
+        num_wide = pd.DataFrame({y: sat(num_hint, y) for y in years_}, index=df.index)
+        den_wide = pd.DataFrame({y: _year_series(df, den_ymap, y) for y in years_}, index=df.index)
+        # 두 값 모두 유효한 연도 마스크
+        both = num_wide.notna() & den_wide.notna() & (den_wide != 0)
+        # 각 행의 마지막 유효 연도
+        last_year = both.where(both).apply(lambda r: r.last_valid_index(), axis=1)
+        def _pick(mat: pd.DataFrame) -> pd.Series:
+            return pd.Series(
+                [mat.at[i, y] if pd.notna(y) else np.nan for i, y in last_year.items()],
+                index=df.index,
+            )
+        return safe_ratio(_pick(num_wide), _pick(den_wide))
+
+    if emp_cnt_map and years_of("매출액"):
+        out["인당매출_최근"] = _last_common_valid_ratio("매출액", emp_cnt_map)         # 천원/명
+    else:
+        out["인당매출_최근"] = np.nan
+
+    if emp_cnt_map and years_of("영업이익손실"):
+        out["인당영업이익_최근"] = _last_common_valid_ratio("영업이익손실", emp_cnt_map)  # 천원/명
+    else:
+        out["인당영업이익_최근"] = np.nan
+
     # 고용 회전율: 국민연금 취업(신규취득)·퇴직(자격상실)·가입(재직규모)으로 인력 이동 측정.
     # 가입자수만 보면 성장처럼 보이나 대량 입·퇴사일 수 있음(695: 순증 +42인데 회전율 2.29).
     # ⚠️ METRIC_HINTS를 거치지 않고 find_year_cols 직접 호출 — 국민연금은 재무 점수축이 아니라

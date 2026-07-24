@@ -134,8 +134,24 @@ export interface Company {
     고용관측연수: number | null;
   };
   employment?: {
+    // 안정성 (배지 · 국민연금 펼침표)
     회전율백분위: number | null;
     series: { year: number; 가입: number | null; 취업: number | null; 퇴직: number | null }[] | null;
+    // 규모 · 변화
+    종업원수_최근?: number | null;
+    종업원수_CAGR?: number | null;        // decimal
+    종업원수_증감_5년?: number | null;    // 명
+    종업원수증가_백분위?: number | null;
+    // 처우 (급여 단위=원, 원본 그대로 — 프론트가 화면 표기 시 환산)
+    급여_최근_원?: number | null;
+    급여_CAGR?: number | null;            // decimal
+    급여_백분위?: number | null;
+    // 인력 생산성
+    인당매출_최근_천원?: number | null;
+    인당매출_백분위?: number | null;
+    인당영업이익_최근_천원?: number | null;
+    // 규모·처우 트렌드 (스파크라인)
+    scaleSeries?: { year: number; 종업원수: number | null; 급여_원: number | null }[] | null;
   } | null;
   nonopIncome?: {
     series: { year: number; 영업이익: number | null; 당기순이익: number | null }[] | null;

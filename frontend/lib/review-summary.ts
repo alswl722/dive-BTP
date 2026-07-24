@@ -14,8 +14,9 @@ import { summarizeConcurrent } from "@/lib/concurrent-support";
 
 export type Severity = "위험" | "주의" | "정보";
 /** 요약 줄이 가리키는 탭 — 클릭 시 해당 탭으로 이동.
- *  "지원이력" 축은 중복수혜로 통합됐다(2026-07, 동시수혜·전체이력 모두 중복수혜 탭에 흡수). */
-export type AxisKey = "재무" | "R&D" | "중복수혜" | "사업정체성";
+ *  "지원이력" 축은 중복수혜로 통합됐다(2026-07, 동시수혜·전체이력 모두 중복수혜 탭에 흡수).
+ *  "고용" 축은 재무 4축과 별도(스코어링 미포함) — 규모·처우·생산성·안정성 실측 시각화. */
+export type AxisKey = "재무" | "R&D" | "고용" | "중복수혜" | "사업정체성";
 
 export interface ReviewSignal {
   sev: Severity;
@@ -150,7 +151,7 @@ export function deriveReviewSignals(company: Company, latestYear: number): Revie
     } else {
       detail = `최근 1년 채용과 퇴사가 맞먹고 ${rate}. 인력 이동이 큽니다.`;
     }
-    out.push({ sev: "주의", axis: "재무", title: "고용 회전율 높음", kind: "employment", detail });
+    out.push({ sev: "주의", axis: "고용", title: "고용 회전율 높음", kind: "employment", detail });
   }
   if (axisSpread(company.scores) >= AXIS_MISALIGNMENT_THRESHOLD) {
     const hi = AXES.reduce((a, b) => ((company.scores[b] ?? -1) > (company.scores[a] ?? -1) ? b : a));
@@ -304,6 +305,33 @@ export function deriveAxisVerdicts(company: Company, latestYear: number): AxisVe
     });
   } else {
     out.push({ axis: "R&D", tone: "muted", headline: "기술 데이터 없음", detail: null });
+  }
+
+  // 고용 — 종업원수·5년 CAGR·급여 3요소를 한 줄에.
+  // ⚠️ tone은 회전율/이직률 배지와 별개 근거(규모·처우)로 판정 — "인력 감소 + 급여 삭감"은
+  //    양쪽 다 나쁘고, "성장 + 처우 개선"은 좋음. 회전율 배지는 kind='employment' 신호로 별도 노출.
+  const e = company.employment;
+  const empCnt = e?.종업원수_최근 ?? null;
+  const empCagr = e?.종업원수_CAGR ?? null;
+  const salCagr = e?.급여_CAGR ?? null;
+  if (empCnt == null && e?.급여_최근_원 == null) {
+    out.push({ axis: "고용", tone: "muted", headline: "고용 데이터 없음", detail: null });
+  } else {
+    const badGrowth = empCagr != null && empCagr < -0.05;   // 5% 이상 감원 추세
+    const badSalary = salCagr != null && salCagr < 0;       // 급여 삭감
+    const goodBoth = empCagr != null && empCagr > 0.05 && salCagr != null && salCagr > 0.03;
+    const headParts: string[] = [];
+    if (empCnt != null) headParts.push(`${Math.round(empCnt)}명`);
+    if (empCagr != null) headParts.push(`${(empCagr * 100).toFixed(0)}%/년`);
+    const detailParts: string[] = [];
+    if (e?.급여_최근_원 != null) detailParts.push(`1인 평균급여 ${(e.급여_최근_원 / 1e4).toFixed(0)}만`);
+    if (salCagr != null) detailParts.push(`급여 ${(salCagr * 100).toFixed(1)}%/년`);
+    out.push({
+      axis: "고용",
+      tone: badGrowth || badSalary ? "warn" : goodBoth ? "good" : "muted",
+      headline: headParts.length ? headParts.join(" · ") : "고용 정보",
+      detail: detailParts.length ? detailParts.join(" · ") : null,
+    });
   }
 
   // 중복수혜 (구 "지원이력" 통합 — 누적·최근 3년·flag 라벨을 한 줄에)

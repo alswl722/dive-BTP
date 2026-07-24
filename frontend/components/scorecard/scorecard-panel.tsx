@@ -6,6 +6,7 @@ import { ScorecardHeader } from "@/components/scorecard/scorecard-header";
 import { OverviewTab } from "@/components/scorecard/tabs/overview-tab";
 import { FinanceTab } from "@/components/scorecard/tabs/finance-tab";
 import { RndTab } from "@/components/scorecard/tabs/rnd-tab";
+import { EmploymentTab } from "@/components/scorecard/tabs/employment-tab";
 import { DuplicateRiskTab } from "@/components/scorecard/tabs/duplicate-risk-tab";
 import { BusinessFitTab } from "@/components/scorecard/tabs/business-fit-tab";
 import { ReviewSummary } from "@/components/scorecard/review-summary";
@@ -13,7 +14,8 @@ import { NoteComposer } from "@/components/scorecard/note-composer";
 import type { Axis, Company, CompositeGroup } from "@/types";
 
 // 지원이력 탭은 중복수혜로 통합됐다(전체 이력 접힘·동시수혜 패널 모두 그쪽으로 이동).
-const TAB_LIST = ["개요", "재무", "R&D", "중복수혜", "사업정체성"] as const;
+// 고용 탭은 재무 4축과 별도 축(스코어링 미포함) — 지원사업 KPI(고용창출·처우) 실측 시각화용.
+const TAB_LIST = ["개요", "재무", "R&D", "고용", "중복수혜", "사업정체성"] as const;
 type Tab = (typeof TAB_LIST)[number];
 
 import { DEFAULT_TECH_WEIGHTS, type TechAxis } from "@/lib/scoring";
@@ -58,6 +60,7 @@ export function ScorecardPanel({
           {tab === "개요" && <OverviewTab company={company} />}
           {tab === "재무" && <FinanceTab company={company} latestYear={latestYear} />}
           {tab === "R&D" && <RndTab company={company} latestYear={latestYear} />}
+          {tab === "고용" && <EmploymentTab company={company} latestYear={latestYear} />}
           {tab === "중복수혜" && <DuplicateRiskTab company={company} latestYear={latestYear} />}
           {tab === "사업정체성" && <BusinessFitTab company={company} latestYear={latestYear} />}
         </div>

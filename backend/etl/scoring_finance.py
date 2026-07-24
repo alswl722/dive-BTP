@@ -81,10 +81,20 @@ SCORE_COLS = {
 # 점수 제외, 원값 유지 (맥락·리스크·데이터품질)
 PASSTHROUGH = ["영업외손익비중", "자본잠식_플래그", "흑자관측연수", "데이터모순_판관비음수",
                "영업외의존_연수", "재무관측연수",
-               "이직률_최근", "고용회전율_최근", "고용순증_최근", "고용관측연수"]
+               # 고용축 (점수축과 별도) — 규모·처우·생산성·회전율 모두 passthrough
+               "이직률_최근", "고용회전율_최근", "고용순증_최근", "고용관측연수",
+               "종업원수_최근", "종업원수_CAGR", "종업원수_증감_5년",
+               "1인평균급여_최근", "1인평균급여_CAGR",
+               "인당매출_최근", "인당영업이익_최근"]
 
 # 맥락 지표 → 업종내 백분위(점수 미반영, 배지 포지션 바용). {파생컬럼: 출력백분위컬럼}
-CONTEXT_PCT_COLS = {"고용회전율_최근": "고용회전율_백분위"}
+# 고용축 백분위는 프론트 "업종 대비" 표시용. 실측 스코어링과 분리.
+CONTEXT_PCT_COLS = {
+    "고용회전율_최근": "고용회전율_백분위",
+    "1인평균급여_최근": "급여_백분위",
+    "종업원수_CAGR": "종업원수증가_백분위",
+    "인당매출_최근": "인당매출_백분위",
+}
 
 
 # --- 순수 계산 --------------------------------------------------------------
@@ -176,13 +186,23 @@ def compute_scores(feat: pd.DataFrame, ksic: pd.Series, size: pd.Series | None =
     # 맥락 지표 백분위 (점수 미반영·축 미소속, 배지 포지션 바용).
     # 방향 무보정(높을수록 불안정 그대로) — 프론트가 위치만 그리고 색은 임계로 판단.
     # 'pct_' 접두를 피해 percentiles dict(company_view) 자동수집에 안 끼게 한다.
+    #
+    # ⚠️ SCORE_COLS와 동일한 3단 tier 적용: KSIC×규모 → 업종내 → 전체 fallback.
+    # 종업원수·급여·인당지표는 대/중/소기업 편차가 크므로 같은 KSIC 안에서도 규모별로 비교해야
+    # 소상공인 vs 중견기업 뒤섞임으로 인한 왜곡을 피한다. 표본이 작아 tier가 fallback되는 상황도
+    # 있으나, 본선 대량 데이터에서 유의미해지도록 상위 tier 우선 로직을 미리 심는다.
     for src, dst in CONTEXT_PCT_COLS.items():
         if src in feat.columns:
             cv = pd.to_numeric(feat[src], errors="coerce")
             if int(cv.notna().sum()) >= MIN_VALID:
                 within = cv.groupby(group).rank(pct=True) * 100
                 whole = cv.rank(pct=True) * 100
-                out[dst] = within.where(big, whole).values
+                pct_ctx = within.where(big, whole)
+                if size_group is not None:
+                    # 3단 tier 최우선: KSIC×규모 그룹이 충분히 크면 그 등수로 덮어씀
+                    within_size = cv.groupby(size_group).rank(pct=True) * 100
+                    pct_ctx = within_size.where(size_big, pct_ctx)
+                out[dst] = pct_ctx.values
             else:
                 out[dst] = np.nan
         else:

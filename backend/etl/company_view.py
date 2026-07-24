@@ -81,6 +81,24 @@ def employment_series(m, master):
             for y in sorted(sub)]
 
 
+def employment_scale_series(m, master):
+    """연도별 종업원수·1인평균급여(원) → [{year, 종업원수, 급여_원}]. 고용 탭 트렌드.
+
+    종업원수·급여 둘 중 하나라도 있으면 반환. 둘 다 없으면 None.
+    급여는 원본 "원" 단위 그대로(다른 금액과 달라 프론트가 화면 표기 시 만원/억원 환산).
+    """
+    emp = col_year_map(master, "종업원수")
+    sal = col_year_map(master, "1인평균연간급여")
+    if not emp and not sal:
+        return None
+    years = sorted(set(emp) | set(sal))
+
+    def at(ymap, y):
+        return clean(pd.to_numeric(m[ymap[y]], errors="coerce")) if y in ymap else None
+
+    return [{"year": y, "종업원수": at(emp, y), "급여_원": at(sal, y)} for y in years]
+
+
 def nonop_series(m, master):
     """연도별 영업이익·당기순이익(천원) → [{year, 영업이익, 당기순이익}]. 영업외 연명 배지 펼침표.
 
@@ -687,10 +705,28 @@ def build_companies(
                 "고용순증_최근": clean(s.get("고용순증_최근")),
                 "고용관측연수": clean(s.get("고용관측연수")),
             },
-            # 고용 배지 상세 — 포지션 바(회전율 업종내 백분위) + 펼침표(연도별 시계열).
+            # 고용축 상세 — 스코어 미반영(SCORE_COLS 불변), passthrough + 업종내 백분위로만.
+            # 프론트 고용 탭 4개 섹션(규모·처우·생산성·안정성) + 배지 포지션 바 원천.
+            # docs/고용회전율_영업외손익_설계노트.md 결정 그대로: 재무 4축 왜곡 없음.
             "employment": {
+                # 안정성 (배지 · 국민연금 펼침표)
                 "회전율백분위": clean(s.get("고용회전율_백분위")),
                 "series": employment_series(m, master),
+                # 규모 · 변화
+                "종업원수_최근": clean(s.get("종업원수_최근")),
+                "종업원수_CAGR": clean(s.get("종업원수_CAGR")),
+                "종업원수_증감_5년": clean(s.get("종업원수_증감_5년")),
+                "종업원수증가_백분위": clean(s.get("종업원수증가_백분위")),
+                # 처우 (급여 단위=원, 원본 그대로 — 프론트가 화면 표기 시 환산)
+                "급여_최근_원": clean(s.get("1인평균급여_최근")),
+                "급여_CAGR": clean(s.get("1인평균급여_CAGR")),
+                "급여_백분위": clean(s.get("급여_백분위")),
+                # 인력 생산성 (매출·영업이익은 천원, 종업원수 명 → 결과 단위 = 천원/명)
+                "인당매출_최근_천원": clean(s.get("인당매출_최근")),
+                "인당매출_백분위": clean(s.get("인당매출_백분위")),
+                "인당영업이익_최근_천원": clean(s.get("인당영업이익_최근")),
+                # 규모·처우 트렌드 (프론트 스파크라인)
+                "scaleSeries": employment_scale_series(m, master),
             },
             # 영업외 연명 배지 상세 — 연도별 영업이익 vs 당기순이익(펼침표).
             "nonopIncome": {

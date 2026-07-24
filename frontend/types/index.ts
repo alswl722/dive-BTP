@@ -50,9 +50,14 @@ export interface SupportRecord {
   bizType: string;
   amount: number; // 천원 (탈락/포기는 0)
   programCode: string | null; // support_programs.program_code 조인키(연도+코드가 PK)
+  programName: string | null; // support_programs.program_name 조인 — 결측이면 화면에서 programCode로 폴백
   year: number | null;
   startDate: string | null; // 수행 시작일 — 동시 수혜(기간 겹침) 판정용
   endDate: string | null;   // 수행 종료일
+  // 지원구분 — 한 사업(선정) 안에서도 여러 지원항목을 동시에 받을 수 있다.
+  supportDetailMain: string | null;
+  supportDetailOther: string | null; // 패키지지원 유형에서만 채워짐(그 외는 결측)
+  supportItem: string | null;
 }
 
 // 축8 개별 지원사업 정합성 판정
@@ -121,7 +126,9 @@ export interface Company {
   certifications: Record<string, boolean>;
   patents: { 등록: number | null; 출원: number | null };
   ntis: { 주관: number | null; 위탁: number | null };
-  support: { 건수: number | null; 총지원금_천원: number | null; 지원연도수: number | null };
+  // 건수 = 지원 항목수(행 수, 패키지 세부품목 포함) / 선정건수 = 실제 선정된 사업 수.
+  // 반복·중복 판정은 선정건수 기준(lib/duplicate-risk.ts도 supportHistory에서 동일 기준으로 계산).
+  support: { 건수: number | null; 선정건수: number | null; 총지원금_천원: number | null; 지원연도수: number | null };
   supportHistory: SupportRecord[];
   passthrough: {
     영업외손익비중: number | null;
@@ -261,7 +268,8 @@ export interface RankingRow {
   id: number;
   name: string;
   industry: string | null;
-  건수: number | null;
+  건수: number | null;    // 선정된 사업 수(반복선정 랭킹 정렬 기준)
+  항목수: number | null;  // 지원 항목수(행 수 — 패키지 세부품목 포함). 근거 표시용
   총지원금_천원: number | null;
 }
 

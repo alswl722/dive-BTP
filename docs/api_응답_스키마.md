@@ -26,6 +26,46 @@ backend/app/schemas.py   (Pydantic 검증 — 프론트 타입 그대로 옮김)
 backend/etl/company_view.py:build_companies()  (실제 dict 조립)
 ```
 
+> ### ⚠️ 이 3자 정합이 깨져도 **에러가 안 난다** (2026-07-24 실장애)
+>
+> 문서 서두에 "필드가 어긋나면 FastAPI가 검증 단계에서 바로 에러를 낸다"고 적혀 있지만,
+> **반대 방향은 조용히 통과한다**. Pydantic 응답 모델은 dict에 있고 스키마에 없는 키를
+> **에러 없이 그냥 버린다**(extra ignore가 기본). 즉:
+>
+> - 스키마에 **없는** 필드를 company_view가 채움 → API 응답에서 **소리 없이 사라짐** ❌ 안 잡힘
+> - 스키마에 **있는** 필드를 company_view가 안 채움 → 기본값(None)으로 통과 ❌ 안 잡힘
+>
+> 실제로 `SupportRecord.programName`이 스키마에 빠져 있어서 **화면이 사업명 대신
+> 사업코드(`E2_1_6`)로 표시**됐고, `supportDetailMain/Other/Item`도 함께 잘려 세부품목이
+> 전부 "품목 미상"이 됐다. 같은 원인으로 11개 필드가 더 누락돼 있었다(`foundedDate`,
+> `capitalThousand`, `isClosed`, `tech.ntis.민간부담률·진행중과제수·최근수주연도·민간연구비_원`,
+> `tech.patents.대표개인명의_등록`, `patentList[].relation` 등).
+>
+> **왜 늦게 발견됐나**: fixture(parquet) 경로는 Pydantic을 거치지 않아 값이 정상이었다.
+> 그래서 로컬 fixture 화면에선 멀쩡하고 **DB API 화면에서만** 깨져 보였다.
+>
+> **점검법** — 필드 존재 여부는 눈으로 못 잡으니 두 경로를 기계적으로 대조한다:
+> ```bash
+> # fixture에는 있는데 API 응답에 없는 키 = Pydantic이 버린 것
+> python3 - <<'PY'
+> import json, urllib.request
+> api = json.load(urllib.request.urlopen('http://localhost:8000/companies/2080'))
+> fx  = next(c for c in json.load(open('frontend/lib/fixtures/companies.json')) if c['id'] == 2080)
+> def walk(a, b, p=''):
+>     out = []
+>     if isinstance(b, dict):
+>         if not isinstance(a, dict): return out
+>         for k, v in b.items():
+>             out += [f'{p}.{k}'] if k not in a else walk(a[k], v, f'{p}.{k}')
+>     elif isinstance(b, list) and b and isinstance(b[0], dict):
+>         if isinstance(a, list) and a: out += walk(a[0], b[0], p + '[]')
+>     return out
+> print(walk(api, fx) or '누락 없음')
+> PY
+> ```
+> 새 필드를 추가할 때는 **3곳(프론트 타입 → schemas.py → company_view)을 모두** 고치고,
+> 위 스크립트로 누락 0을 확인할 것.
+
 ### 2.2 현재 필드 (재무축 완료분)
 
 | 영역 | 필드 | 상태 |

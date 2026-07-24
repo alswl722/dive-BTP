@@ -40,8 +40,12 @@ def main():
     feat = pd.read_parquet(DATA_DIR / "features_finance.parquet")
     master = pd.read_parquet(DATA_DIR / "master_table.parquet")
     sr = pd.read_parquet(DATA_DIR / "support_records.parquet")
+    sp_path = DATA_DIR / "support_programs.parquet"
+    sp = pd.read_parquet(sp_path) if sp_path.exists() else None
+    if sp is None:
+        print("  ⚠️ support_programs.parquet 없음 — programName 없이 생성(build_master_table.py 재실행 필요)")
 
-    companies = build_companies(score, feat, master, sr,
+    companies = build_companies(score, feat, master, sr, sp=sp,
                                 tech_tables=_load_tech_tables())
     rankings = build_rankings(companies)
     dashboard = build_dashboard(companies)

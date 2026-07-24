@@ -36,9 +36,18 @@ class SupportRecord(BaseModel):
     bizType: str
     amount: float
     programCode: str | None = None
+    # ⚠️ Pydantic은 응답 모델에 없는 키를 **조용히 버린다**(에러가 아니라 누락).
+    # 아래 4개가 빠져 있어서 company_view는 값을 채웠는데 API 응답에서만 사라졌고,
+    # 화면이 사업명 대신 사업코드(E2_1_6)로, 세부품목은 "품목 미상"으로 폴백됐다.
+    # fixture(parquet) 경로는 Pydantic을 안 거쳐서 정상 → 두 경로가 달라 보였던 원인.
+    # frontend/types/index.ts의 SupportRecord와 항상 1:1로 맞출 것.
+    programName: str | None = None      # 화면 표시용 사업명(코드보다 우선)
     year: int | None = None
     startDate: str | None = None   # 수행 시작일 — 동시 수혜(기간 겹침) 판정용
     endDate: str | None = None     # 수행 종료일
+    supportDetailMain: str | None = None   # 지원구분(주요지원) — 세부품목 라벨
+    supportDetailOther: str | None = None  # 지원구분(주요지원 외) — 패키지지원만 채워짐
+    supportItem: str | None = None         # 지원품목(자유기술)
 
 
 class Patents(BaseModel):
@@ -61,6 +70,7 @@ class TechPatents(BaseModel):
     활동공백년수: float | None = None    # 마지막 출원 이후 경과(클수록 R&D 정체)
     소멸률: float | None = None          # 등록특허 권리 소멸 비율(자금압박 신호)
     첫특허업력: float | None = None
+    대표개인명의_등록: int | None = None  # 법인 아닌 대표·임원 개인 명의 등록특허(이탈 시 회사에 안 남음)
 
 
 class TechRnd(BaseModel):
@@ -71,6 +81,10 @@ class TechRnd(BaseModel):
 class TechNtis(BaseModel):
     주관과제수: int | None = None        # 스냅샷 중복 제거 후
     정부연구비_원: float | None = None   # ⚠️ 단위 원(재무는 천원)
+    민간연구비_원: float | None = None   # 자체 R&D 매칭액
+    민간부담률: float | None = None      # 민간/(정부+민간) — 지원금만 vs 자기투자 구분
+    최근수주연도: int | None = None      # '과거의 영광'인지 판별
+    진행중과제수: int | None = None      # 현재도 수행 중인 과제
     부처다양성: int | None = None
     위탁과제수: int | None = None
     산학협력: bool = False
@@ -109,6 +123,7 @@ class PatentRecord(BaseModel):
     applied: str | None = None
     registered: str | None = None
     valid: bool | None = None      # 등록유효여부 — False면 권리 소멸
+    relation: str | None = None    # 회사와의관계코드(본인/대표이사/임원) — 개인 명의 IP 식별
 
 
 class Tech(BaseModel):
@@ -124,7 +139,8 @@ class Tech(BaseModel):
 
 
 class Support(BaseModel):
-    건수: int | None = None
+    건수: int | None = None        # 지원 항목수(행 수 — 패키지 세부품목 포함). 표시용
+    선정건수: int | None = None    # 선정된 사업 수(DISTINCT 연도+사업코드). 반복·중복 판정 기준
     총지원금_천원: float | None = None
     지원연도수: int | None = None
 
@@ -290,6 +306,11 @@ class Company(BaseModel):
     revenueLatest: float | None = None
     avgSalaryLatest: float | None = None
     listingType: str | None = None               # 상장구분(코스피/코스닥) 또는 외감구분(외감/일반법인) — 값 그대로
+    foundedDate: str | None = None               # 설립일(YYYY-MM-DD). 업력 계산 원천
+    companyStatus: str | None = None             # 기업상태 텍스트("정상" 등)
+    isClosed: bool = False                       # 휴·폐업 여부 — 지원 대상에서 즉시 걸러야 하는 신호
+    closureType: str | None = None               # 휴폐업 구분(휴업/폐업). isClosed일 때만 의미
+    capitalThousand: float | None = None         # 납입자본금(천원)
     scores: dict[Axis, float | None]
     percentiles: dict[str, float | None]
     rawMetrics: dict[str, float | None]
@@ -341,7 +362,8 @@ class RankingRow(BaseModel):
     id: int
     name: str
     industry: str | None = None
-    건수: int | None = None
+    건수: int | None = None        # 선정된 사업 수(반복선정 랭킹 정렬 기준)
+    항목수: int | None = None      # 지원 항목수(행 수 — 패키지 세부품목 포함). 근거 표시용
     총지원금_천원: float | None = None
 
 

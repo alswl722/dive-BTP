@@ -20,6 +20,7 @@ DATA_DIR = Path(__file__).resolve().parent / "data"
 TABLES = {
     "master_table": DATA_DIR / "master_table.parquet",
     "support_records": DATA_DIR / "support_records.parquet",
+    "support_programs": DATA_DIR / "support_programs.parquet",
 }
 
 

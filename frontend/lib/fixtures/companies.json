@@ -400,6 +400,7 @@
     },
     "support": {
       "건수": 8,
+      "선정건수": 7,
       "총지원금_천원": 360700.0,
       "지원연도수": 3
     },
@@ -410,9 +411,13 @@
         "bizType": "패키지지원",
         "amount": 25000.0,
         "programCode": "B1_1_3",
+        "programName": "지역기업성장사다리지원사업",
         "year": 2024,
         "startDate": "2024-06-01",
-        "endDate": "2024-10-31"
+        "endDate": "2024-10-31",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": null,
+        "supportItem": "메탄올 연료장치 시스템용 메탄올 밸브 제작"
       },
       {
         "date": "2024-04-15",
@@ -420,9 +425,13 @@
         "bizType": "기반구축",
         "amount": 5900.0,
         "programCode": "E3_1_1",
+        "programName": "초고압가스핵심기자재산업기반구축사업",
         "year": 2024,
         "startDate": "2024-04-15",
-        "endDate": "2024-11-30"
+        "endDate": "2024-11-30",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": "성능평가",
+        "supportItem": "수소가스 생산설비용 자동제어 버터플라이 밸브"
       },
       {
         "date": "2023-06-20",
@@ -430,9 +439,13 @@
         "bizType": "패키지지원",
         "amount": 50000.0,
         "programCode": "B1_311",
+        "programName": "지역기업 성장사다리 지원사업",
         "year": 2023,
         "startDate": "2023-06-23",
-        "endDate": "2023-10-31"
+        "endDate": "2023-10-31",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": null,
+        "supportItem": "시제품제작, 협업컨설팅지원, R&D기획지원"
       },
       {
         "date": "2022-11-07",
@@ -440,9 +453,13 @@
         "bizType": "스마트공장",
         "amount": 50000.0,
         "programCode": "L2_321",
+        "programName": "2022년 스마트공장 보급확산사업",
         "year": 2022,
         "startDate": "2022-11-23",
-        "endDate": "2023-11-22"
+        "endDate": "2023-11-22",
+        "supportDetailMain": "기초",
+        "supportDetailOther": null,
+        "supportItem": "스마트공장 구축 및 고도화 지원"
       },
       {
         "date": "2022-08-01",
@@ -450,9 +467,13 @@
         "bizType": "스마트공장",
         "amount": 10000.0,
         "programCode": "L2_319",
+        "programName": "스마트공장 지방비 추가지원 사업",
         "year": 2022,
         "startDate": "2022-01-01",
-        "endDate": "2022-12-31"
+        "endDate": "2022-12-31",
+        "supportDetailMain": "기타(시비지원 포함)",
+        "supportDetailOther": null,
+        "supportItem": "스마트공장 구축비 시비 추가 지원"
       },
       {
         "date": "2022-07-22",
@@ -460,9 +481,13 @@
         "bizType": "사업화지원",
         "amount": 15000.0,
         "programCode": "B4_304",
+        "programName": "Pre-챔프기업육성사업",
         "year": 2022,
         "startDate": "2022-08-01",
-        "endDate": "2022-10-31"
+        "endDate": "2022-10-31",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": null,
+        "supportItem": "초저온(LNG)용 고차압 제어밸브 시제춤 제작65"
       },
       {
         "date": "2022-05-13",
@@ -470,9 +495,13 @@
         "bizType": "사업화지원",
         "amount": 28800.0,
         "programCode": "B4_304",
+        "programName": "Pre-챔프기업육성사업",
         "year": 2022,
         "startDate": "2022-06-01",
-        "endDate": "2022-10-31"
+        "endDate": "2022-10-31",
+        "supportDetailMain": "컨설팅",
+        "supportDetailOther": null,
+        "supportItem": "성장전략보고서, R&D기획과제보고서"
       }
     ],
     "passthrough": {
@@ -517,6 +546,43 @@
           "가입": 68,
           "취업": 25,
           "퇴직": 14
+        }
+      ],
+      "종업원수_최근": null,
+      "종업원수_CAGR": null,
+      "종업원수_증감_5년": null,
+      "종업원수증가_백분위": null,
+      "급여_최근_원": null,
+      "급여_CAGR": null,
+      "급여_백분위": null,
+      "인당매출_최근_천원": null,
+      "인당매출_백분위": null,
+      "인당영업이익_최근_천원": null,
+      "scaleSeries": [
+        {
+          "year": 2020,
+          "종업원수": 48.0,
+          "급여_원": 46919037.0
+        },
+        {
+          "year": 2021,
+          "종업원수": 41.0,
+          "급여_원": 46311930.0
+        },
+        {
+          "year": 2022,
+          "종업원수": 41.0,
+          "급여_원": 45612396.0
+        },
+        {
+          "year": 2023,
+          "종업원수": 61.0,
+          "급여_원": 43816095.0
+        },
+        {
+          "year": 2024,
+          "종업원수": 80.0,
+          "급여_원": 45839804.0
         }
       ]
     },
@@ -571,7 +637,7 @@
         {
           "programCode": "B4_304",
           "year": 2022,
-          "programName": null,
+          "programName": "Pre-챔프기업육성사업",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -585,7 +651,7 @@
         {
           "programCode": "B4_304",
           "year": 2022,
-          "programName": null,
+          "programName": "Pre-챔프기업육성사업",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -599,7 +665,7 @@
         {
           "programCode": "L2_319",
           "year": 2022,
-          "programName": null,
+          "programName": "스마트공장 지방비 추가지원 사업",
           "businessType": "스마트공장",
           "score": 100.0,
           "matchType": "직접일치",
@@ -613,7 +679,7 @@
         {
           "programCode": "L2_321",
           "year": 2022,
-          "programName": null,
+          "programName": "2022년 스마트공장 보급확산사업",
           "businessType": "스마트공장",
           "score": 100.0,
           "matchType": "직접일치",
@@ -627,7 +693,7 @@
         {
           "programCode": "B1_311",
           "year": 2023,
-          "programName": null,
+          "programName": "지역기업 성장사다리 지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -641,7 +707,7 @@
         {
           "programCode": "B1_1_3",
           "year": 2024,
-          "programName": null,
+          "programName": "지역기업성장사다리지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -655,7 +721,7 @@
         {
           "programCode": "C3_1_2",
           "year": 2024,
-          "programName": null,
+          "programName": "스마트공장 보급확산사업",
           "businessType": "스마트공장",
           "score": 100.0,
           "matchType": "직접일치",
@@ -669,7 +735,7 @@
         {
           "programCode": "E3_1_1",
           "year": 2024,
-          "programName": null,
+          "programName": "초고압가스핵심기자재산업기반구축사업",
           "businessType": "기반구축",
           "score": null,
           "matchType": "판단유보",
@@ -702,7 +768,7 @@
       "growthState": "growing",
       "segment": "대형다건",
       "isHighDiversity": true,
-      "supportCount": 8,
+      "supportCount": 7,
       "totalAmountThousand": 360700.0,
       "businessTypeDiversity": 4,
       "maxConsecutiveYears": 3,
@@ -1021,6 +1087,7 @@
     },
     "support": {
       "건수": 7,
+      "선정건수": 5,
       "총지원금_천원": 79223.0,
       "지원연도수": 3
     },
@@ -1031,9 +1098,13 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_1_3",
+        "programName": "지역기업성장사다리지원사업",
         "year": 2024,
         "startDate": "2024-06-17",
-        "endDate": "2024-10-31"
+        "endDate": "2024-10-31",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": null,
+        "supportItem": "스테인리스강 이형형상 소재 제조를 위한 최적화 냉간가공 인발 금형 설계 및\n시제품 제작"
       },
       {
         "date": "2024-05-24",
@@ -1041,9 +1112,13 @@
         "bizType": "패키지지원",
         "amount": 10000.0,
         "programCode": "B1_1_3",
+        "programName": "지역기업성장사다리지원사업",
         "year": 2024,
         "startDate": "2024-06-17",
-        "endDate": "2024-10-31"
+        "endDate": "2024-10-31",
+        "supportDetailMain": "컨설팅",
+        "supportDetailOther": null,
+        "supportItem": "스테인리스강 이형형상 소재 제조를 위한 최적화 냉간가공 인발 금형 설계 및\n시제품 제작"
       },
       {
         "date": "2023-05-16",
@@ -1051,9 +1126,13 @@
         "bizType": "패키지지원",
         "amount": 6000.0,
         "programCode": "B5_301",
+        "programName": "위기대응 시스템 구축",
         "year": 2023,
         "startDate": "2023-05-01",
-        "endDate": "2023-07-31"
+        "endDate": "2023-07-31",
+        "supportDetailMain": "마케팅",
+        "supportDetailOther": null,
+        "supportItem": "자사(리녹스) 및 제품 홍보용 브로슈어 제작"
       },
       {
         "date": "2023-01-24",
@@ -1061,9 +1140,13 @@
         "bizType": "사업화지원",
         "amount": 9026.0,
         "programCode": "E2_1_8",
+        "programName": "저온고압에너지저장공급시스템 사업화지원",
         "year": 2024,
         "startDate": "2023-01-01",
-        "endDate": "2024-03-31"
+        "endDate": "2024-03-31",
+        "supportDetailMain": "전시회",
+        "supportDetailOther": null,
+        "supportItem": "전시회 참가(일본 스마트에너지위크)"
       },
       {
         "date": "2023-01-24",
@@ -1071,9 +1154,13 @@
         "bizType": "사업화지원",
         "amount": 7397.0,
         "programCode": "E2_1_8",
+        "programName": "저온고압에너지저장공급시스템 사업화지원",
         "year": 2024,
         "startDate": "2023-01-01",
-        "endDate": "2024-03-31"
+        "endDate": "2024-03-31",
+        "supportDetailMain": "전시회",
+        "supportDetailOther": null,
+        "supportItem": "전시회 참가(서울국제가스&수소산업전)"
       },
       {
         "date": "2022-08-26",
@@ -1081,9 +1168,13 @@
         "bizType": "패키지지원",
         "amount": 13400.0,
         "programCode": "H2_313",
+        "programName": "탄소중립 친환경미래에너지산업 지원사업",
         "year": 2022,
         "startDate": "2022-09-01",
-        "endDate": "2022-03-31"
+        "endDate": "2022-03-31",
+        "supportDetailMain": "전시회",
+        "supportDetailOther": "마케팅",
+        "supportItem": "베트남Entech, 마케팅조사분석"
       },
       {
         "date": "2022-08-26",
@@ -1091,9 +1182,13 @@
         "bizType": "사업화지원",
         "amount": 13400.0,
         "programCode": "H2_313",
+        "programName": "탄소중립 친환경미래에너지산업 지원사업",
         "year": 2023,
         "startDate": "2022-09-01",
-        "endDate": "2023-03-31"
+        "endDate": "2023-03-31",
+        "supportDetailMain": "전시회",
+        "supportDetailOther": null,
+        "supportItem": "베트남Entech, 마케팅조사분석"
       }
     ],
     "passthrough": {
@@ -1138,6 +1233,43 @@
           "가입": 7,
           "취업": 3,
           "퇴직": 3
+        }
+      ],
+      "종업원수_최근": null,
+      "종업원수_CAGR": null,
+      "종업원수_증감_5년": null,
+      "종업원수증가_백분위": null,
+      "급여_최근_원": null,
+      "급여_CAGR": null,
+      "급여_백분위": null,
+      "인당매출_최근_천원": null,
+      "인당매출_백분위": null,
+      "인당영업이익_최근_천원": null,
+      "scaleSeries": [
+        {
+          "year": 2020,
+          "종업원수": 2.0,
+          "급여_원": 33448533.0
+        },
+        {
+          "year": 2021,
+          "종업원수": 2.0,
+          "급여_원": 31684333.0
+        },
+        {
+          "year": 2022,
+          "종업원수": 5.0,
+          "급여_원": 36737143.0
+        },
+        {
+          "year": 2023,
+          "종업원수": null,
+          "급여_원": 39340952.0
+        },
+        {
+          "year": 2024,
+          "종업원수": 7.0,
+          "급여_원": 39270476.0
         }
       ]
     },
@@ -1192,7 +1324,7 @@
         {
           "programCode": "H2_313",
           "year": 2022,
-          "programName": null,
+          "programName": "탄소중립 친환경미래에너지산업 지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -1206,7 +1338,7 @@
         {
           "programCode": "B5_301",
           "year": 2023,
-          "programName": null,
+          "programName": "위기대응 시스템 구축",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -1220,7 +1352,7 @@
         {
           "programCode": "H2_313",
           "year": 2023,
-          "programName": null,
+          "programName": "탄소중립 친환경미래에너지산업 지원사업",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -1234,7 +1366,7 @@
         {
           "programCode": "B1_1_3",
           "year": 2024,
-          "programName": null,
+          "programName": "지역기업성장사다리지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -1248,7 +1380,7 @@
         {
           "programCode": "B1_1_3",
           "year": 2024,
-          "programName": null,
+          "programName": "지역기업성장사다리지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -1262,7 +1394,7 @@
         {
           "programCode": "E2_1_8",
           "year": 2024,
-          "programName": null,
+          "programName": "저온고압에너지저장공급시스템 사업화지원",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -1276,7 +1408,7 @@
         {
           "programCode": "E2_1_8",
           "year": 2024,
-          "programName": null,
+          "programName": "저온고압에너지저장공급시스템 사업화지원",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -1312,7 +1444,7 @@
       "growthState": "growing",
       "segment": "소액소수",
       "isHighDiversity": false,
-      "supportCount": 7,
+      "supportCount": 5,
       "totalAmountThousand": 79223.0,
       "businessTypeDiversity": 2,
       "maxConsecutiveYears": 3,
@@ -1747,6 +1879,7 @@
     },
     "support": {
       "건수": 9,
+      "선정건수": 8,
       "총지원금_천원": 103687.0,
       "지원연도수": 3
     },
@@ -1757,9 +1890,13 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_1_3",
+        "programName": "지역기업성장사다리지원사업",
         "year": 2024,
         "startDate": "2024-06-17",
-        "endDate": "2024-10-31"
+        "endDate": "2024-10-31",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": null,
+        "supportItem": "고액분리기 고정밀 고강성 여과망 개발을 위한 트라이바 시제품 제작"
       },
       {
         "date": "2023-09-19",
@@ -1767,9 +1904,13 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_311",
+        "programName": "지역기업 성장사다리 지원사업",
         "year": 2023,
         "startDate": "2023-09-18",
-        "endDate": "2023-11-17"
+        "endDate": "2023-11-17",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": null,
+        "supportItem": "고액분리기 동력전달장치 개선을 위한 시제품제작"
       },
       {
         "date": "2023-08-22",
@@ -1777,9 +1918,13 @@
         "bizType": "패키지지원",
         "amount": 3850.0,
         "programCode": "B1_311",
+        "programName": "지역기업 성장사다리 지원사업",
         "year": 2023,
         "startDate": "2023-08-22",
-        "endDate": "2023-11-03"
+        "endDate": "2023-11-03",
+        "supportDetailMain": "수출지원",
+        "supportDetailOther": null,
+        "supportItem": "찾아가는 수출상담회(베트남)"
       },
       {
         "date": "2023-06-15",
@@ -1787,9 +1932,13 @@
         "bizType": "사업화지원",
         "amount": 4730.0,
         "programCode": "H2_318",
+        "programName": "저온고압에너지저장공급 사업화지원",
         "year": 2023,
         "startDate": "2023-04-01",
-        "endDate": "2024-03-31"
+        "endDate": "2024-03-31",
+        "supportDetailMain": "전시회",
+        "supportDetailOther": null,
+        "supportItem": "전시회 참가(베트남 환경에너지산업전)"
       },
       {
         "date": "2023-06-15",
@@ -1797,9 +1946,13 @@
         "bizType": "사업화지원",
         "amount": 4730.0,
         "programCode": "E2_1_8",
+        "programName": "저온고압에너지저장공급시스템 사업화지원",
         "year": 2024,
         "startDate": "2023-04-01",
-        "endDate": "2024-03-31"
+        "endDate": "2024-03-31",
+        "supportDetailMain": "전시회",
+        "supportDetailOther": null,
+        "supportItem": "전시회 참가(베트남 환경에너지산업전)"
       },
       {
         "date": "2022-08-26",
@@ -1807,9 +1960,13 @@
         "bizType": "패키지지원",
         "amount": 13400.0,
         "programCode": "H2_313",
+        "programName": "탄소중립 친환경미래에너지산업 지원사업",
         "year": 2022,
         "startDate": "2022-09-01",
-        "endDate": "2022-03-31"
+        "endDate": "2022-03-31",
+        "supportDetailMain": "전시회",
+        "supportDetailOther": "마케팅",
+        "supportItem": "베트남Entech, 마케팅조사분석"
       },
       {
         "date": "2022-08-26",
@@ -1817,9 +1974,13 @@
         "bizType": "사업화지원",
         "amount": 13400.0,
         "programCode": "H2_313",
+        "programName": "탄소중립 친환경미래에너지산업 지원사업",
         "year": 2023,
         "startDate": "2022-09-01",
-        "endDate": "2023-03-31"
+        "endDate": "2023-03-31",
+        "supportDetailMain": "전시회",
+        "supportDetailOther": null,
+        "supportItem": "베트남Entech, 마케팅조사분석"
       },
       {
         "date": "2022-05-18",
@@ -1827,9 +1988,13 @@
         "bizType": "패키지지원",
         "amount": 13200.0,
         "programCode": "B2_306",
+        "programName": "부산글로벌스타기업육성사업",
         "year": 2022,
         "startDate": "2022-06-01",
-        "endDate": "2022-11-30"
+        "endDate": "2022-11-30",
+        "supportDetailMain": "수출지원",
+        "supportDetailOther": "홍보물 제작, 지적재산권, 해외전시회, 물류지원",
+        "supportItem": null
       },
       {
         "date": "2021-12-23",
@@ -1837,9 +2002,13 @@
         "bizType": "사업화지원",
         "amount": 10377.0,
         "programCode": "B2_321",
+        "programName": "친환경미래에너지마케팅사업",
         "year": 2022,
         "startDate": "2021-12-23",
-        "endDate": "2022-07-31"
+        "endDate": "2022-07-31",
+        "supportDetailMain": "전시회",
+        "supportDetailOther": null,
+        "supportItem": null
       }
     ],
     "passthrough": {
@@ -1884,6 +2053,43 @@
           "가입": 5,
           "취업": 0,
           "퇴직": 0
+        }
+      ],
+      "종업원수_최근": null,
+      "종업원수_CAGR": null,
+      "종업원수_증감_5년": null,
+      "종업원수증가_백분위": null,
+      "급여_최근_원": null,
+      "급여_CAGR": null,
+      "급여_백분위": null,
+      "인당매출_최근_천원": null,
+      "인당매출_백분위": null,
+      "인당영업이익_최근_천원": null,
+      "scaleSeries": [
+        {
+          "year": 2020,
+          "종업원수": 8.0,
+          "급여_원": 36398476.0
+        },
+        {
+          "year": 2021,
+          "종업원수": 9.0,
+          "급여_원": 36111111.0
+        },
+        {
+          "year": 2022,
+          "종업원수": 9.0,
+          "급여_원": 36477333.0
+        },
+        {
+          "year": 2023,
+          "종업원수": 9.0,
+          "급여_원": 38680000.0
+        },
+        {
+          "year": 2024,
+          "종업원수": 9.0,
+          "급여_원": 40480000.0
         }
       ]
     },
@@ -1938,7 +2144,7 @@
         {
           "programCode": "B2_306",
           "year": 2022,
-          "programName": null,
+          "programName": "부산글로벌스타기업육성사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -1952,7 +2158,7 @@
         {
           "programCode": "B2_321",
           "year": 2022,
-          "programName": null,
+          "programName": "친환경미래에너지마케팅사업",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -1966,7 +2172,7 @@
         {
           "programCode": "H2_313",
           "year": 2022,
-          "programName": null,
+          "programName": "탄소중립 친환경미래에너지산업 지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -1980,7 +2186,7 @@
         {
           "programCode": "B1_311",
           "year": 2023,
-          "programName": null,
+          "programName": "지역기업 성장사다리 지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -1994,7 +2200,7 @@
         {
           "programCode": "B1_311",
           "year": 2023,
-          "programName": null,
+          "programName": "지역기업 성장사다리 지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -2008,7 +2214,7 @@
         {
           "programCode": "H2_313",
           "year": 2023,
-          "programName": null,
+          "programName": "탄소중립 친환경미래에너지산업 지원사업",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -2022,7 +2228,7 @@
         {
           "programCode": "H2_318",
           "year": 2023,
-          "programName": null,
+          "programName": "저온고압에너지저장공급 사업화지원",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -2036,7 +2242,7 @@
         {
           "programCode": "B1_1_3",
           "year": 2024,
-          "programName": null,
+          "programName": "지역기업성장사다리지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -2050,7 +2256,7 @@
         {
           "programCode": "E2_1_8",
           "year": 2024,
-          "programName": null,
+          "programName": "저온고압에너지저장공급시스템 사업화지원",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -2086,7 +2292,7 @@
       "growthState": "growing",
       "segment": "소액다건",
       "isHighDiversity": false,
-      "supportCount": 9,
+      "supportCount": 8,
       "totalAmountThousand": 103687.0,
       "businessTypeDiversity": 2,
       "maxConsecutiveYears": 3,
@@ -2361,6 +2567,7 @@
     },
     "support": {
       "건수": 3,
+      "선정건수": 1,
       "총지원금_천원": 27000.0,
       "지원연도수": 1
     },
@@ -2371,9 +2578,13 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_1_3",
+        "programName": "지역기업성장사다리지원사업",
         "year": 2024,
         "startDate": "2024-06-17",
-        "endDate": "2024-10-31"
+        "endDate": "2024-10-31",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": null,
+        "supportItem": "근로자 안전을 위한 시스템 서포트 붕괴 위험 진단 센싱 환경 설계 및 실증"
       },
       {
         "date": "2024-05-24",
@@ -2381,9 +2592,13 @@
         "bizType": "패키지지원",
         "amount": 5000.0,
         "programCode": "B1_1_3",
+        "programName": "지역기업성장사다리지원사업",
         "year": 2024,
         "startDate": "2024-06-17",
-        "endDate": "2024-10-31"
+        "endDate": "2024-10-31",
+        "supportDetailMain": "컨설팅",
+        "supportDetailOther": null,
+        "supportItem": "근로자 안전을 위한 시스템 서포트 붕괴 위험 진단 센싱 환경 설계 및 실증"
       },
       {
         "date": "2024-05-24",
@@ -2391,9 +2606,13 @@
         "bizType": "패키지지원",
         "amount": 2000.0,
         "programCode": "B1_1_3",
+        "programName": "지역기업성장사다리지원사업",
         "year": 2024,
         "startDate": "2024-06-17",
-        "endDate": "2024-10-31"
+        "endDate": "2024-10-31",
+        "supportDetailMain": "특허지원",
+        "supportDetailOther": null,
+        "supportItem": "근로자 안전을 위한 시스템 서포트 붕괴 위험 진단 센싱 환경 설계 및 실증"
       }
     ],
     "passthrough": {
@@ -2438,6 +2657,43 @@
           "가입": 10,
           "취업": 2,
           "퇴직": 1
+        }
+      ],
+      "종업원수_최근": null,
+      "종업원수_CAGR": null,
+      "종업원수_증감_5년": null,
+      "종업원수증가_백분위": null,
+      "급여_최근_원": null,
+      "급여_CAGR": null,
+      "급여_백분위": null,
+      "인당매출_최근_천원": null,
+      "인당매출_백분위": null,
+      "인당영업이익_최근_천원": null,
+      "scaleSeries": [
+        {
+          "year": 2020,
+          "종업원수": null,
+          "급여_원": 39899487.0
+        },
+        {
+          "year": 2021,
+          "종업원수": null,
+          "급여_원": 43139636.0
+        },
+        {
+          "year": 2022,
+          "종업원수": null,
+          "급여_원": 36791778.0
+        },
+        {
+          "year": 2023,
+          "종업원수": 9.0,
+          "급여_원": 36165037.0
+        },
+        {
+          "year": 2024,
+          "종업원수": 10.0,
+          "급여_원": 37481333.0
         }
       ]
     },
@@ -2492,7 +2748,7 @@
         {
           "programCode": "B1_1_3",
           "year": 2024,
-          "programName": null,
+          "programName": "지역기업성장사다리지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -2506,7 +2762,7 @@
         {
           "programCode": "B1_1_3",
           "year": 2024,
-          "programName": null,
+          "programName": "지역기업성장사다리지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -2520,7 +2776,7 @@
         {
           "programCode": "B1_1_3",
           "year": 2024,
-          "programName": null,
+          "programName": "지역기업성장사다리지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -2550,13 +2806,13 @@
       }
     },
     "duplicateFlag": {
-      "status": "cleared",
-      "label": "지원 효과 확인",
-      "isRepeat": true,
+      "status": "normal",
+      "label": "정상",
+      "isRepeat": false,
       "growthState": "growing",
       "segment": "소액소수",
       "isHighDiversity": false,
-      "supportCount": 3,
+      "supportCount": 1,
       "totalAmountThousand": 27000.0,
       "businessTypeDiversity": 1,
       "maxConsecutiveYears": 1,
@@ -3009,6 +3265,7 @@
     },
     "support": {
       "건수": 21,
+      "선정건수": 18,
       "총지원금_천원": 166960.0,
       "지원연도수": 3
     },
@@ -3019,9 +3276,13 @@
         "bizType": "사업화지원",
         "amount": 2600.0,
         "programCode": "F1_1_2",
+        "programName": "고령친화산업화육성지원사업",
         "year": 2024,
         "startDate": "2024-07-12",
-        "endDate": "2024-11-30"
+        "endDate": "2024-11-30",
+        "supportDetailMain": "전시회",
+        "supportDetailOther": null,
+        "supportItem": "헬스케어"
       },
       {
         "date": "2024-06-21",
@@ -3029,9 +3290,13 @@
         "bizType": "기타",
         "amount": 6000.0,
         "programCode": "B1_1_1",
+        "programName": "산업기술단지 거점기능지원사업(기업)",
         "year": 2024,
         "startDate": "2024-06-21",
-        "endDate": "2024-09-13"
+        "endDate": "2024-09-13",
+        "supportDetailMain": "기타",
+        "supportDetailOther": null,
+        "supportItem": "2024년 한-베 Mega-Us EXPO 참가지원"
       },
       {
         "date": "2024-04-09",
@@ -3039,9 +3304,13 @@
         "bizType": "사업화지원",
         "amount": 3000.0,
         "programCode": "F1_1_2",
+        "programName": "고령친화산업화육성지원사업",
         "year": 2024,
         "startDate": "2024-05-01",
-        "endDate": "2024-11-30"
+        "endDate": "2024-11-30",
+        "supportDetailMain": "디자인",
+        "supportDetailOther": null,
+        "supportItem": "헬스케어"
       },
       {
         "date": "2024-02-16",
@@ -3049,9 +3318,13 @@
         "bizType": "사업화지원",
         "amount": 2000.0,
         "programCode": "F1_1_5",
+        "programName": "부산국제항노화엑스포개최지원사업",
         "year": 2024,
         "startDate": "2024-02-17",
-        "endDate": "2024-05-18"
+        "endDate": "2024-05-18",
+        "supportDetailMain": "전시회",
+        "supportDetailOther": null,
+        "supportItem": "헬스케어"
       },
       {
         "date": "2023-09-19",
@@ -3059,9 +3332,13 @@
         "bizType": "패키지지원",
         "amount": 25000.0,
         "programCode": "B1_311",
+        "programName": "지역기업 성장사다리 지원사업",
         "year": 2023,
         "startDate": "2023-09-18",
-        "endDate": "2023-11-17"
+        "endDate": "2023-11-17",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": "시제품제작, 지적재산권",
+        "supportItem": "압전 에너지 하베스팅을 적용한 에코 할룩스 매직 기능성 인솔 시제품 제작"
       },
       {
         "date": "2023-09-18",
@@ -3069,9 +3346,13 @@
         "bizType": "사업화지원",
         "amount": 7500.0,
         "programCode": "T1_332",
+        "programName": "의료기기 사용적합성평가 지원사업",
         "year": 2023,
         "startDate": "2023-09-18",
-        "endDate": "2023-11-30"
+        "endDate": "2023-11-30",
+        "supportDetailMain": "성능평가",
+        "supportDetailOther": null,
+        "supportItem": "형성평가 지원"
       },
       {
         "date": "2023-07-21",
@@ -3079,9 +3360,13 @@
         "bizType": "사업화지원",
         "amount": 0,
         "programCode": "T1_305",
+        "programName": "부산국제항노화엑스포개최지원사업",
         "year": 2023,
         "startDate": "2023-08-17",
-        "endDate": "2023-08-19"
+        "endDate": "2023-08-19",
+        "supportDetailMain": "전시회",
+        "supportDetailOther": null,
+        "supportItem": "부스지원"
       },
       {
         "date": "2023-05-30",
@@ -3089,9 +3374,13 @@
         "bizType": "패키지지원",
         "amount": 10000.0,
         "programCode": "C3_303",
+        "programName": "부산글로벌스타기업육성사업",
         "year": 2023,
         "startDate": "2023-06-01",
-        "endDate": "2023-12-31"
+        "endDate": "2023-12-31",
+        "supportDetailMain": "수출지원",
+        "supportDetailOther": "제품홍보, 산업재산권, 온라인 마케팅",
+        "supportItem": null
       },
       {
         "date": "2023-03-24",
@@ -3099,9 +3388,13 @@
         "bizType": "패키지지원",
         "amount": 25000.0,
         "programCode": "C1_310",
+        "programName": "지산학연결중개 촉진사업",
         "year": 2023,
         "startDate": "2023-04-01",
-        "endDate": "2023-11-30"
+        "endDate": "2023-11-30",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": "컨설팅, 상용화",
+        "supportItem": "Dynamic Balance 데이터 및 할룩스 매직 인솔을 활용한 운동 APP 시제품 개발"
       },
       {
         "date": "2022-11-24",
@@ -3109,9 +3402,13 @@
         "bizType": "사업화지원",
         "amount": 5555.0,
         "programCode": "T2_311",
+        "programName": "ICT＆헬스케어기반 스포츠산업활성화사업",
         "year": 2022,
         "startDate": "2022-11-24",
-        "endDate": "2023-03-20"
+        "endDate": "2023-03-20",
+        "supportDetailMain": "수출지원",
+        "supportDetailOther": "해외비즈니스 지원",
+        "supportItem": "다이나믹 밸런스"
       },
       {
         "date": "2022-11-24",
@@ -3119,9 +3416,13 @@
         "bizType": "사업화지원",
         "amount": 25555.0,
         "programCode": "T2_311",
+        "programName": "ICT＆헬스케어기반 스포츠산업활성화사업",
         "year": 2022,
         "startDate": "2022-11-24",
-        "endDate": "2023-03-20"
+        "endDate": "2023-03-20",
+        "supportDetailMain": "전시회",
+        "supportDetailOther": "해외전시회참가지원(공동관)",
+        "supportItem": "다이나믹 밸런스"
       },
       {
         "date": "2022-07-13",
@@ -3129,9 +3430,13 @@
         "bizType": "사업화지원",
         "amount": 0,
         "programCode": "T1_305",
+        "programName": "부산국제항노화엑스포개최지원사업",
         "year": 2022,
         "startDate": "2022-08-24",
-        "endDate": "2022-08-26"
+        "endDate": "2022-08-26",
+        "supportDetailMain": "전시회",
+        "supportDetailOther": null,
+        "supportItem": "기능성 인솔"
       },
       {
         "date": "2022-05-24",
@@ -3139,9 +3444,13 @@
         "bizType": "패키지지원",
         "amount": 4750.0,
         "programCode": "B2_308",
+        "programName": "수출초보기업 마케팅 코디네이터 지원사업",
         "year": 2022,
         "startDate": "2022-06-01",
-        "endDate": "2022-11-30"
+        "endDate": "2022-11-30",
+        "supportDetailMain": "컨설팅",
+        "supportDetailOther": "홍보지원",
+        "supportItem": "수출컨설팅"
       },
       {
         "date": "2022-05-19",
@@ -3149,9 +3458,13 @@
         "bizType": "사업화지원",
         "amount": 15000.0,
         "programCode": "B1_303",
+        "programName": "수출새싹기업지원사업",
         "year": 2022,
         "startDate": "2022-05-19",
-        "endDate": "2022-10-31"
+        "endDate": "2022-10-31",
+        "supportDetailMain": "수출지원",
+        "supportDetailOther": null,
+        "supportItem": "비대상"
       },
       {
         "date": "2022-05-18",
@@ -3159,9 +3472,13 @@
         "bizType": "패키지지원",
         "amount": 7000.0,
         "programCode": "B2_306",
+        "programName": "부산글로벌스타기업육성사업",
         "year": 2022,
         "startDate": "2022-06-01",
-        "endDate": "2022-11-30"
+        "endDate": "2022-11-30",
+        "supportDetailMain": "수출지원",
+        "supportDetailOther": "통번역, 홍보물 제작, 지적재산권",
+        "supportItem": null
       },
       {
         "date": "2022-04-28",
@@ -3169,9 +3486,13 @@
         "bizType": "패키지지원",
         "amount": 10000.0,
         "programCode": "B2_301",
+        "programName": "기술거래촉진네트워크",
         "year": 2022,
         "startDate": "2022-05-01",
-        "endDate": "2022-11-30"
+        "endDate": "2022-11-30",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": "컨설팅",
+        "supportItem": "보행 시 발 아치 능동적 교정 및 신체 압력 중심 이동 궤적 개선을 통한\n고령자 맞춤형 발바닥 근육 강화 인솔 개발"
       },
       {
         "date": "2022-02-14",
@@ -3179,9 +3500,13 @@
         "bizType": "기반구축",
         "amount": 5800.0,
         "programCode": "T1_201",
+        "programName": "차세대 재활복지 의료기기 기반구축사업",
         "year": 2022,
         "startDate": "2022-05-12",
-        "endDate": "2022-05-12"
+        "endDate": "2022-05-12",
+        "supportDetailMain": "마케팅",
+        "supportDetailOther": null,
+        "supportItem": "해외온라인 수출상담회"
       },
       {
         "date": "2021-11-26",
@@ -3189,9 +3514,13 @@
         "bizType": "사업화지원",
         "amount": 4000.0,
         "programCode": "X2_307",
+        "programName": "부산 지역투자생태계조성지원사업",
         "year": 2022,
         "startDate": "2021-12-01",
-        "endDate": "2022-02-28"
+        "endDate": "2022-02-28",
+        "supportDetailMain": "마케팅",
+        "supportDetailOther": null,
+        "supportItem": "IR 스토리 및 피칭"
       },
       {
         "date": "2021-10-28",
@@ -3199,9 +3528,13 @@
         "bizType": "사업화지원",
         "amount": 5000.0,
         "programCode": "T2_316",
+        "programName": "라이프케어산업 마케팅혁신중소기업육성사업",
         "year": 2022,
         "startDate": "2021-11-01",
-        "endDate": "2022-02-28"
+        "endDate": "2022-02-28",
+        "supportDetailMain": "마케팅",
+        "supportDetailOther": null,
+        "supportItem": "라이프케어"
       },
       {
         "date": "2021-05-01",
@@ -3209,9 +3542,13 @@
         "bizType": "일자리창출or인력양성",
         "amount": 3200.0,
         "programCode": "B2_314",
+        "programName": "비대면디지털 해외마케팅 청년인턴 지원사업",
         "year": 2022,
         "startDate": "2022-01-01",
-        "endDate": "2022-07-31"
+        "endDate": "2022-07-31",
+        "supportDetailMain": "일자리창출(인건비지원)",
+        "supportDetailOther": null,
+        "supportItem": null
       }
     ],
     "passthrough": {
@@ -3256,6 +3593,43 @@
           "가입": 5,
           "취업": 1,
           "퇴직": 1
+        }
+      ],
+      "종업원수_최근": null,
+      "종업원수_CAGR": null,
+      "종업원수_증감_5년": null,
+      "종업원수증가_백분위": null,
+      "급여_최근_원": null,
+      "급여_CAGR": null,
+      "급여_백분위": null,
+      "인당매출_최근_천원": null,
+      "인당매출_백분위": null,
+      "인당영업이익_최근_천원": null,
+      "scaleSeries": [
+        {
+          "year": 2020,
+          "종업원수": null,
+          "급여_원": 30683556.0
+        },
+        {
+          "year": 2021,
+          "종업원수": null,
+          "급여_원": 26372667.0
+        },
+        {
+          "year": 2022,
+          "종업원수": null,
+          "급여_원": 24240000.0
+        },
+        {
+          "year": 2023,
+          "종업원수": 5.0,
+          "급여_원": 24390933.0
+        },
+        {
+          "year": 2024,
+          "종업원수": 5.0,
+          "급여_원": 29569600.0
         }
       ]
     },
@@ -3310,7 +3684,7 @@
         {
           "programCode": "B1_303",
           "year": 2022,
-          "programName": null,
+          "programName": "수출새싹기업지원사업",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -3324,7 +3698,7 @@
         {
           "programCode": "B2_301",
           "year": 2022,
-          "programName": null,
+          "programName": "기술거래촉진네트워크",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -3338,7 +3712,7 @@
         {
           "programCode": "B2_306",
           "year": 2022,
-          "programName": null,
+          "programName": "부산글로벌스타기업육성사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -3352,7 +3726,7 @@
         {
           "programCode": "B2_308",
           "year": 2022,
-          "programName": null,
+          "programName": "수출초보기업 마케팅 코디네이터 지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -3366,7 +3740,7 @@
         {
           "programCode": "B2_314",
           "year": 2022,
-          "programName": null,
+          "programName": "비대면디지털 해외마케팅 청년인턴 지원사업",
           "businessType": "일자리창출or인력양성",
           "score": null,
           "matchType": "판단유보",
@@ -3377,7 +3751,7 @@
         {
           "programCode": "T1_201",
           "year": 2022,
-          "programName": null,
+          "programName": "차세대 재활복지 의료기기 기반구축사업",
           "businessType": "기반구축",
           "score": null,
           "matchType": "판단유보",
@@ -3388,7 +3762,7 @@
         {
           "programCode": "T1_305",
           "year": 2022,
-          "programName": null,
+          "programName": "부산국제항노화엑스포개최지원사업",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -3402,7 +3776,7 @@
         {
           "programCode": "T2_311",
           "year": 2022,
-          "programName": null,
+          "programName": "ICT＆헬스케어기반 스포츠산업활성화사업",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -3416,7 +3790,7 @@
         {
           "programCode": "T2_311",
           "year": 2022,
-          "programName": null,
+          "programName": "ICT＆헬스케어기반 스포츠산업활성화사업",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -3430,7 +3804,7 @@
         {
           "programCode": "T2_316",
           "year": 2022,
-          "programName": null,
+          "programName": "라이프케어산업 마케팅혁신중소기업육성사업",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -3444,7 +3818,7 @@
         {
           "programCode": "X2_307",
           "year": 2022,
-          "programName": null,
+          "programName": "부산 지역투자생태계조성지원사업",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -3458,7 +3832,7 @@
         {
           "programCode": "B1_311",
           "year": 2023,
-          "programName": null,
+          "programName": "지역기업 성장사다리 지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -3472,7 +3846,7 @@
         {
           "programCode": "C1_310",
           "year": 2023,
-          "programName": null,
+          "programName": "지산학연결중개 촉진사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -3486,7 +3860,7 @@
         {
           "programCode": "C3_303",
           "year": 2023,
-          "programName": null,
+          "programName": "부산글로벌스타기업육성사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -3500,7 +3874,7 @@
         {
           "programCode": "T1_305",
           "year": 2023,
-          "programName": null,
+          "programName": "부산국제항노화엑스포개최지원사업",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -3514,7 +3888,7 @@
         {
           "programCode": "T1_332",
           "year": 2023,
-          "programName": null,
+          "programName": "의료기기 사용적합성평가 지원사업",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -3528,7 +3902,7 @@
         {
           "programCode": "B1_1_1",
           "year": 2024,
-          "programName": null,
+          "programName": "산업기술단지 거점기능지원사업(기업)",
           "businessType": "기타",
           "score": null,
           "matchType": "판단유보",
@@ -3539,7 +3913,7 @@
         {
           "programCode": "F1_1_2",
           "year": 2024,
-          "programName": null,
+          "programName": "고령친화산업화육성지원사업",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -3553,7 +3927,7 @@
         {
           "programCode": "F1_1_2",
           "year": 2024,
-          "programName": null,
+          "programName": "고령친화산업화육성지원사업",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -3567,7 +3941,7 @@
         {
           "programCode": "F1_1_5",
           "year": 2024,
-          "programName": null,
+          "programName": "부산국제항노화엑스포개최지원사업",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -3603,7 +3977,7 @@
       "growthState": "growing",
       "segment": "대형다건",
       "isHighDiversity": true,
-      "supportCount": 20,
+      "supportCount": 18,
       "totalAmountThousand": 166960.0,
       "businessTypeDiversity": 5,
       "maxConsecutiveYears": 3,
@@ -4211,6 +4585,7 @@
     },
     "support": {
       "건수": 8,
+      "선정건수": 5,
       "총지원금_천원": 135880.0,
       "지원연도수": 3
     },
@@ -4221,9 +4596,13 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_1_3",
+        "programName": "지역기업성장사다리지원사업",
         "year": 2024,
         "startDate": "2024-08-26",
-        "endDate": "2024-11-22"
+        "endDate": "2024-11-22",
+        "supportDetailMain": "제품고급화",
+        "supportDetailOther": null,
+        "supportItem": "파공 방수패드 장비의 성능 개선 및 제작"
       },
       {
         "date": "2024-05-28",
@@ -4231,9 +4610,13 @@
         "bizType": "기술지원",
         "amount": 28000.0,
         "programCode": "E2_1_6",
+        "programName": "실물-가상연계 조선해양 기술지원 사업",
         "year": 2024,
         "startDate": "2024-07-01",
-        "endDate": "2024-11-30"
+        "endDate": "2024-11-30",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": null,
+        "supportItem": "식생 걸림 최소화 구조의 고출력 무인선박 개발을 위한 최적화 구조 및 적층 방안 전문가 자문"
       },
       {
         "date": "2024-05-28",
@@ -4241,9 +4624,13 @@
         "bizType": "기술지원",
         "amount": 2000.0,
         "programCode": "E2_1_6",
+        "programName": "실물-가상연계 조선해양 기술지원 사업",
         "year": 2024,
         "startDate": "2024-07-01",
-        "endDate": "2024-11-30"
+        "endDate": "2024-11-30",
+        "supportDetailMain": "인증지원",
+        "supportDetailOther": null,
+        "supportItem": "소형 RIM Driven Thruster 시제품 제작"
       },
       {
         "date": "2024-04-04",
@@ -4251,9 +4638,13 @@
         "bizType": "사업화지원",
         "amount": 23880.0,
         "programCode": "B1_1_4",
+        "programName": "혁신조달패키지지원사업",
         "year": 2024,
         "startDate": "2024-04-23",
-        "endDate": "2024-10-31"
+        "endDate": "2024-10-31",
+        "supportDetailMain": "컨설팅",
+        "supportDetailOther": "해외조달교육, 규격인증",
+        "supportItem": "원격 조종이 가능한 선박 승하선 사다리"
       },
       {
         "date": "2023-02-21",
@@ -4261,9 +4652,13 @@
         "bizType": "기술지원",
         "amount": 32000.0,
         "programCode": "H2_315",
+        "programName": "실물-가상연계 조선해양 기술지원 사업",
         "year": 2023,
         "startDate": "2023-05-01",
-        "endDate": "2023-11-30"
+        "endDate": "2023-11-30",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": null,
+        "supportItem": "스마트 밴드를 활용한 ICT 융복합 선박 승선원 안전관리시스템 기술"
       },
       {
         "date": "2022-07-15",
@@ -4271,9 +4666,13 @@
         "bizType": "일자리창출or인력양성",
         "amount": 0,
         "programCode": "C1_308",
+        "programName": "산학연계 현장실습 브릿지 사업",
         "year": 2022,
         "startDate": null,
-        "endDate": null
+        "endDate": null,
+        "supportDetailMain": "인력양성(역량개발지원)",
+        "supportDetailOther": null,
+        "supportItem": "비대상"
       },
       {
         "date": "2022-06-22",
@@ -4281,9 +4680,13 @@
         "bizType": "패키지지원",
         "amount": 15000.0,
         "programCode": "B1_302",
+        "programName": "부산지역혁신성장바우처지원사업",
         "year": 2022,
         "startDate": "2022-08-08",
-        "endDate": "2022-10-31"
+        "endDate": "2022-10-31",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": null,
+        "supportItem": "WPP(파공방수패드) 품질 개선"
       },
       {
         "date": "2022-06-22",
@@ -4291,9 +4694,13 @@
         "bizType": "패키지지원",
         "amount": 15000.0,
         "programCode": "B1_302",
+        "programName": "부산지역혁신성장바우처지원사업",
         "year": 2022,
         "startDate": "2022-08-08",
-        "endDate": "2022-10-31"
+        "endDate": "2022-10-31",
+        "supportDetailMain": "디자인",
+        "supportDetailOther": null,
+        "supportItem": "WPP(파공방수패드) 품질 개선"
       }
     ],
     "passthrough": {
@@ -4338,6 +4745,43 @@
           "가입": 11,
           "취업": 1,
           "퇴직": 5
+        }
+      ],
+      "종업원수_최근": null,
+      "종업원수_CAGR": null,
+      "종업원수_증감_5년": null,
+      "종업원수증가_백분위": null,
+      "급여_최근_원": null,
+      "급여_CAGR": null,
+      "급여_백분위": null,
+      "인당매출_최근_천원": null,
+      "인당매출_백분위": null,
+      "인당영업이익_최근_천원": null,
+      "scaleSeries": [
+        {
+          "year": 2020,
+          "종업원수": null,
+          "급여_원": 44288667.0
+        },
+        {
+          "year": 2021,
+          "종업원수": null,
+          "급여_원": 42519385.0
+        },
+        {
+          "year": 2022,
+          "종업원수": 9.0,
+          "급여_원": 44563692.0
+        },
+        {
+          "year": 2023,
+          "종업원수": 15.0,
+          "급여_원": 43599467.0
+        },
+        {
+          "year": 2024,
+          "종업원수": 11.0,
+          "급여_원": 40628364.0
         }
       ]
     },
@@ -4392,7 +4836,7 @@
         {
           "programCode": "B1_302",
           "year": 2022,
-          "programName": null,
+          "programName": "부산지역혁신성장바우처지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -4406,7 +4850,7 @@
         {
           "programCode": "B1_302",
           "year": 2022,
-          "programName": null,
+          "programName": "부산지역혁신성장바우처지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -4420,7 +4864,7 @@
         {
           "programCode": "H2_315",
           "year": 2023,
-          "programName": null,
+          "programName": "실물-가상연계 조선해양 기술지원 사업",
           "businessType": "기술지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -4434,7 +4878,7 @@
         {
           "programCode": "B1_1_3",
           "year": 2024,
-          "programName": null,
+          "programName": "지역기업성장사다리지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -4448,7 +4892,7 @@
         {
           "programCode": "B1_1_4",
           "year": 2024,
-          "programName": null,
+          "programName": "혁신조달패키지지원사업",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -4462,7 +4906,7 @@
         {
           "programCode": "E2_1_6",
           "year": 2024,
-          "programName": null,
+          "programName": "실물-가상연계 조선해양 기술지원 사업",
           "businessType": "기술지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -4476,7 +4920,7 @@
         {
           "programCode": "E2_1_6",
           "year": 2024,
-          "programName": null,
+          "programName": "실물-가상연계 조선해양 기술지원 사업",
           "businessType": "기술지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -4512,7 +4956,7 @@
       "growthState": "growing",
       "segment": "소액소수",
       "isHighDiversity": false,
-      "supportCount": 7,
+      "supportCount": 5,
       "totalAmountThousand": 135880.0,
       "businessTypeDiversity": 3,
       "maxConsecutiveYears": 3,
@@ -5119,6 +5563,7 @@
     },
     "support": {
       "건수": 5,
+      "선정건수": 3,
       "총지원금_천원": 92259.0,
       "지원연도수": 2
     },
@@ -5129,9 +5574,13 @@
         "bizType": "사업화지원",
         "amount": 9775.0,
         "programCode": "B4_1_13",
+        "programName": "지역혁신클러스터육성(지산학)",
         "year": 2024,
         "startDate": "2024-02-06",
-        "endDate": "2024-12-31"
+        "endDate": "2024-12-31",
+        "supportDetailMain": "전시회",
+        "supportDetailOther": null,
+        "supportItem": "일본조선해양전시회(SEA JAPAN 2024)"
       },
       {
         "date": "2023-08-28",
@@ -5139,9 +5588,13 @@
         "bizType": "패키지지원",
         "amount": 17143.0,
         "programCode": "C3_302",
+        "programName": "지역혁신클러스터육성(지산학)",
         "year": 2023,
         "startDate": "2023-08-28",
-        "endDate": "2023-12-31"
+        "endDate": "2023-12-31",
+        "supportDetailMain": "전시회",
+        "supportDetailOther": null,
+        "supportItem": "Marintec China 2023"
       },
       {
         "date": "2023-06-20",
@@ -5149,9 +5602,13 @@
         "bizType": "패키지지원",
         "amount": 50000.0,
         "programCode": "B1_311",
+        "programName": "지역기업 성장사다리 지원사업",
         "year": 2023,
         "startDate": "2023-06-23",
-        "endDate": "2023-10-31"
+        "endDate": "2023-10-31",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": null,
+        "supportItem": "시제품제작, 협업컨설팅지원, R&D기획지원"
       },
       {
         "date": "2023-04-04",
@@ -5159,9 +5616,13 @@
         "bizType": "패키지지원",
         "amount": 15341.0,
         "programCode": "C3_302",
+        "programName": "지역혁신클러스터육성(지산학)",
         "year": 2023,
         "startDate": "2023-04-04",
-        "endDate": "2023-12-31"
+        "endDate": "2023-12-31",
+        "supportDetailMain": "전시회",
+        "supportDetailOther": null,
+        "supportItem": "Nor-Shipping 2023"
       }
     ],
     "passthrough": {
@@ -5206,6 +5667,43 @@
           "가입": 87,
           "취업": 16,
           "퇴직": 18
+        }
+      ],
+      "종업원수_최근": null,
+      "종업원수_CAGR": null,
+      "종업원수_증감_5년": null,
+      "종업원수증가_백분위": null,
+      "급여_최근_원": null,
+      "급여_CAGR": null,
+      "급여_백분위": null,
+      "인당매출_최근_천원": null,
+      "인당매출_백분위": null,
+      "인당영업이익_최근_천원": null,
+      "scaleSeries": [
+        {
+          "year": 2020,
+          "종업원수": 73.0,
+          "급여_원": 41123704.0
+        },
+        {
+          "year": 2021,
+          "종업원수": 72.0,
+          "급여_원": 41774187.0
+        },
+        {
+          "year": 2022,
+          "종업원수": 88.0,
+          "급여_원": 42231435.0
+        },
+        {
+          "year": 2023,
+          "종업원수": 88.0,
+          "급여_원": 46947356.0
+        },
+        {
+          "year": 2024,
+          "종업원수": 88.0,
+          "급여_원": 46688858.0
         }
       ]
     },
@@ -5260,7 +5758,7 @@
         {
           "programCode": "B1_311",
           "year": 2023,
-          "programName": null,
+          "programName": "지역기업 성장사다리 지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -5274,7 +5772,7 @@
         {
           "programCode": "C3_302",
           "year": 2023,
-          "programName": null,
+          "programName": "지역혁신클러스터육성(지산학)",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -5288,7 +5786,7 @@
         {
           "programCode": "C3_302",
           "year": 2023,
-          "programName": null,
+          "programName": "지역혁신클러스터육성(지산학)",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -5302,7 +5800,7 @@
         {
           "programCode": "B4_1_13",
           "year": 2024,
-          "programName": null,
+          "programName": "지역혁신클러스터육성(지산학)",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -5338,7 +5836,7 @@
       "growthState": "growing",
       "segment": "소액소수",
       "isHighDiversity": false,
-      "supportCount": 4,
+      "supportCount": 3,
       "totalAmountThousand": 92259.0,
       "businessTypeDiversity": 2,
       "maxConsecutiveYears": 2,
@@ -6061,6 +6559,7 @@
     },
     "support": {
       "건수": 8,
+      "선정건수": 7,
       "총지원금_천원": 213354.0,
       "지원연도수": 3
     },
@@ -6071,9 +6570,13 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_1_3",
+        "programName": "지역기업성장사다리지원사업",
         "year": 2024,
         "startDate": "2024-08-26",
-        "endDate": "2024-11-22"
+        "endDate": "2024-11-22",
+        "supportDetailMain": "제품고급화",
+        "supportDetailOther": null,
+        "supportItem": "폐동작이 개선된 선박용 환기장치의 제품 고급화 및 사업화 컨설팅"
       },
       {
         "date": "2024-08-12",
@@ -6081,9 +6584,13 @@
         "bizType": "패키지지원",
         "amount": 5000.0,
         "programCode": "B1_1_3",
+        "programName": "지역기업성장사다리지원사업",
         "year": 2024,
         "startDate": "2024-08-26",
-        "endDate": "2024-11-22"
+        "endDate": "2024-11-22",
+        "supportDetailMain": "컨설팅",
+        "supportDetailOther": null,
+        "supportItem": "폐동작이 개선된 선박용 환기장치의 제품 고급화 및 사업화 컨설팅"
       },
       {
         "date": "2024-04-25",
@@ -6091,9 +6598,13 @@
         "bizType": "패키지지원",
         "amount": 37000.0,
         "programCode": "B2_1_7",
+        "programName": "부산형히든챔피언육성사업",
         "year": 2024,
         "startDate": "2024-05-01",
-        "endDate": "2023-10-31"
+        "endDate": "2023-10-31",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": null,
+        "supportItem": "온실용 냉난방용 국부 공조제어시스템 R&D지원"
       },
       {
         "date": "2024-04-11",
@@ -6101,9 +6612,13 @@
         "bizType": "기술지원",
         "amount": 30000.0,
         "programCode": "D1_1_11",
+        "programName": "지역특화 프로젝트 지원(친환경에너지)",
         "year": 2024,
         "startDate": "2024-04-25",
-        "endDate": "2024-12-31"
+        "endDate": "2024-12-31",
+        "supportDetailMain": "제품고급화",
+        "supportDetailOther": null,
+        "supportItem": null
       },
       {
         "date": "2023-07-14",
@@ -6111,9 +6626,13 @@
         "bizType": "패키지지원",
         "amount": 27000.0,
         "programCode": "B1_311",
+        "programName": "지역기업 성장사다리 지원사업",
         "year": 2023,
         "startDate": "2023-08-01",
-        "endDate": "2023-10-31"
+        "endDate": "2023-10-31",
+        "supportDetailMain": "지적재산권",
+        "supportDetailOther": "디자인, 마케팅",
+        "supportItem": "영하 52℃ ARC7 ICE등급 및 IMO Polar Code를 만족하는 Mushroom Ventilator 사업화 지원"
       },
       {
         "date": "2023-05-30",
@@ -6121,9 +6640,13 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "C3_303",
+        "programName": "부산글로벌스타기업육성사업",
         "year": 2023,
         "startDate": "2023-06-01",
-        "endDate": "2023-12-31"
+        "endDate": "2023-12-31",
+        "supportDetailMain": "수출지원",
+        "supportDetailOther": "시장조사, 제품홍보, 산업재산권, 현지자문",
+        "supportItem": null
       },
       {
         "date": "2023-05-23",
@@ -6131,9 +6654,13 @@
         "bizType": "패키지지원",
         "amount": 66000.0,
         "programCode": "B4_302",
+        "programName": "부산형히든챔피언육성사업",
         "year": 2023,
         "startDate": "2023-06-01",
-        "endDate": "2023-10-31"
+        "endDate": "2023-10-31",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": null,
+        "supportItem": "수밀성(Water-tight)이 향상된 경량 해치 커버 시제품 개발 및 사업화"
       },
       {
         "date": "2020-04-10",
@@ -6141,9 +6668,13 @@
         "bizType": "일자리창출or인력양성",
         "amount": 8354.0,
         "programCode": "P2_301",
+        "programName": "부산해양항만산업 청년일자리 지원사업",
         "year": 2022,
         "startDate": "2020-05-25",
-        "endDate": "2022-05-24"
+        "endDate": "2022-05-24",
+        "supportDetailMain": "일자리창출(인건비지원)",
+        "supportDetailOther": null,
+        "supportItem": "채용인력 인건비 지원"
       }
     ],
     "passthrough": {
@@ -6188,6 +6719,43 @@
           "가입": 26,
           "취업": 13,
           "퇴직": 5
+        }
+      ],
+      "종업원수_최근": null,
+      "종업원수_CAGR": null,
+      "종업원수_증감_5년": null,
+      "종업원수증가_백분위": null,
+      "급여_최근_원": null,
+      "급여_CAGR": null,
+      "급여_백분위": null,
+      "인당매출_최근_천원": null,
+      "인당매출_백분위": null,
+      "인당영업이익_최근_천원": null,
+      "scaleSeries": [
+        {
+          "year": 2020,
+          "종업원수": 10.0,
+          "급여_원": 32903515.0
+        },
+        {
+          "year": 2021,
+          "종업원수": 7.0,
+          "급여_원": 36120242.0
+        },
+        {
+          "year": 2022,
+          "종업원수": 13.0,
+          "급여_원": 34351843.0
+        },
+        {
+          "year": 2023,
+          "종업원수": 14.0,
+          "급여_원": 36442386.0
+        },
+        {
+          "year": 2024,
+          "종업원수": 22.0,
+          "급여_원": 39722462.0
         }
       ]
     },
@@ -6242,7 +6810,7 @@
         {
           "programCode": "P2_301",
           "year": 2022,
-          "programName": null,
+          "programName": "부산해양항만산업 청년일자리 지원사업",
           "businessType": "일자리창출or인력양성",
           "score": 100.0,
           "matchType": "직접일치",
@@ -6256,7 +6824,7 @@
         {
           "programCode": "B1_311",
           "year": 2023,
-          "programName": null,
+          "programName": "지역기업 성장사다리 지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -6270,7 +6838,7 @@
         {
           "programCode": "B4_302",
           "year": 2023,
-          "programName": null,
+          "programName": "부산형히든챔피언육성사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -6284,7 +6852,7 @@
         {
           "programCode": "C3_303",
           "year": 2023,
-          "programName": null,
+          "programName": "부산글로벌스타기업육성사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -6298,7 +6866,7 @@
         {
           "programCode": "B1_1_3",
           "year": 2024,
-          "programName": null,
+          "programName": "지역기업성장사다리지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -6312,7 +6880,7 @@
         {
           "programCode": "B1_1_3",
           "year": 2024,
-          "programName": null,
+          "programName": "지역기업성장사다리지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -6326,7 +6894,7 @@
         {
           "programCode": "B2_1_7",
           "year": 2024,
-          "programName": null,
+          "programName": "부산형히든챔피언육성사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -6340,7 +6908,7 @@
         {
           "programCode": "D1_1_11",
           "year": 2024,
-          "programName": null,
+          "programName": "지역특화 프로젝트 지원(친환경에너지)",
           "businessType": "기술지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -6376,7 +6944,7 @@
       "growthState": "growing",
       "segment": "대형다건",
       "isHighDiversity": false,
-      "supportCount": 8,
+      "supportCount": 7,
       "totalAmountThousand": 213354.0,
       "businessTypeDiversity": 3,
       "maxConsecutiveYears": 3,
@@ -6733,6 +7301,7 @@
     },
     "support": {
       "건수": 10,
+      "선정건수": 5,
       "총지원금_천원": 86000.0,
       "지원연도수": 3
     },
@@ -6743,9 +7312,13 @@
         "bizType": "기술지원",
         "amount": 0,
         "programCode": "E2_1_6",
+        "programName": "실물-가상연계 조선해양 기술지원 사업",
         "year": 2024,
         "startDate": null,
-        "endDate": null
+        "endDate": null,
+        "supportDetailMain": "기술지도",
+        "supportDetailOther": null,
+        "supportItem": "선박 HVAC에 적용되는 UV-C 살균장치"
       },
       {
         "date": "2024-05-28",
@@ -6753,9 +7326,13 @@
         "bizType": "기술지원",
         "amount": 0,
         "programCode": "E2_1_6",
+        "programName": "실물-가상연계 조선해양 기술지원 사업",
         "year": 2024,
         "startDate": null,
-        "endDate": null
+        "endDate": null,
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": null,
+        "supportItem": "선박엔진용 배기볼트 시제품 제작"
       },
       {
         "date": "2024-05-24",
@@ -6763,9 +7340,13 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B1_1_3",
+        "programName": "지역기업성장사다리지원사업",
         "year": 2024,
         "startDate": "2024-06-17",
-        "endDate": "2024-10-31"
+        "endDate": "2024-10-31",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": null,
+        "supportItem": "3축 동요 안정기가 적용된 해상 충돌 방지 시스템용 주야간 감시 카메라 시제품 및\n특허 지원"
       },
       {
         "date": "2024-05-24",
@@ -6773,9 +7354,13 @@
         "bizType": "패키지지원",
         "amount": 8000.0,
         "programCode": "B1_1_3",
+        "programName": "지역기업성장사다리지원사업",
         "year": 2024,
         "startDate": "2024-06-17",
-        "endDate": "2024-10-31"
+        "endDate": "2024-10-31",
+        "supportDetailMain": "컨설팅",
+        "supportDetailOther": null,
+        "supportItem": "3축 동요 안정기가 적용된 해상 충돌 방지 시스템용 주야간 감시 카메라 시제품 및\n특허 지원"
       },
       {
         "date": "2024-01-17",
@@ -6783,9 +7368,13 @@
         "bizType": "기술지원",
         "amount": 0,
         "programCode": "E2_1_6",
+        "programName": "실물-가상연계 조선해양 기술지원 사업",
         "year": 2024,
         "startDate": null,
-        "endDate": null
+        "endDate": null,
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": null,
+        "supportItem": "선박 HVAC에 적용되는 UV-C 살균장치"
       },
       {
         "date": "2024-01-17",
@@ -6793,9 +7382,13 @@
         "bizType": "기술지원",
         "amount": 0,
         "programCode": "E2_1_6",
+        "programName": "실물-가상연계 조선해양 기술지원 사업",
         "year": 2024,
         "startDate": "2024-12-13",
-        "endDate": "2024-12-31"
+        "endDate": "2024-12-31",
+        "supportDetailMain": "기술지도",
+        "supportDetailOther": null,
+        "supportItem": "선박해상 충돌방지 시스템"
       },
       {
         "date": "2023-09-26",
@@ -6803,9 +7396,13 @@
         "bizType": "기타",
         "amount": 0,
         "programCode": "B4_303",
+        "programName": "전략산업선도기업육성지원사업",
         "year": 2023,
         "startDate": null,
-        "endDate": null
+        "endDate": null,
+        "supportDetailMain": null,
+        "supportDetailOther": null,
+        "supportItem": null
       },
       {
         "date": "2023-07-14",
@@ -6813,9 +7410,13 @@
         "bizType": "패키지지원",
         "amount": 30000.0,
         "programCode": "B1_311",
+        "programName": "지역기업 성장사다리 지원사업",
         "year": 2023,
         "startDate": "2023-08-01",
-        "endDate": "2023-10-31"
+        "endDate": "2023-10-31",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": "지적재산권, 마케팅",
+        "supportItem": "선박 전방위 감시 시스템 시제품"
       },
       {
         "date": "2023-05-30",
@@ -6823,9 +7424,13 @@
         "bizType": "패키지지원",
         "amount": 14000.0,
         "programCode": "C3_303",
+        "programName": "부산글로벌스타기업육성사업",
         "year": 2023,
         "startDate": "2023-06-01",
-        "endDate": "2023-12-31"
+        "endDate": "2023-12-31",
+        "supportDetailMain": "수출지원",
+        "supportDetailOther": "국제전시회, 물류지원, 수출조건부 제품개선",
+        "supportItem": null
       },
       {
         "date": "2022-01-01",
@@ -6833,9 +7438,13 @@
         "bizType": "스마트공장",
         "amount": 14000.0,
         "programCode": "L2_319",
+        "programName": "스마트공장 지방비 추가지원 사업",
         "year": 2022,
         "startDate": "2022-01-01",
-        "endDate": "2022-12-31"
+        "endDate": "2022-12-31",
+        "supportDetailMain": "기타(시비지원 포함)",
+        "supportDetailOther": null,
+        "supportItem": "스마트공장 구축비 시비 추가 지원"
       }
     ],
     "passthrough": {
@@ -6880,6 +7489,43 @@
           "가입": 37,
           "취업": 17,
           "퇴직": 14
+        }
+      ],
+      "종업원수_최근": null,
+      "종업원수_CAGR": null,
+      "종업원수_증감_5년": null,
+      "종업원수증가_백분위": null,
+      "급여_최근_원": null,
+      "급여_CAGR": null,
+      "급여_백분위": null,
+      "인당매출_최근_천원": null,
+      "인당매출_백분위": null,
+      "인당영업이익_최근_천원": null,
+      "scaleSeries": [
+        {
+          "year": 2020,
+          "종업원수": 25.0,
+          "급여_원": 38779161.0
+        },
+        {
+          "year": 2021,
+          "종업원수": 24.0,
+          "급여_원": 39856667.0
+        },
+        {
+          "year": 2022,
+          "종업원수": 30.0,
+          "급여_원": 39244121.0
+        },
+        {
+          "year": 2023,
+          "종업원수": 32.0,
+          "급여_원": 38301714.0
+        },
+        {
+          "year": 2024,
+          "종업원수": 32.0,
+          "급여_원": 38772108.0
         }
       ]
     },
@@ -6934,7 +7580,7 @@
         {
           "programCode": "L2_319",
           "year": 2022,
-          "programName": null,
+          "programName": "스마트공장 지방비 추가지원 사업",
           "businessType": "스마트공장",
           "score": 100.0,
           "matchType": "직접일치",
@@ -6948,7 +7594,7 @@
         {
           "programCode": "B1_311",
           "year": 2023,
-          "programName": null,
+          "programName": "지역기업 성장사다리 지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -6962,7 +7608,7 @@
         {
           "programCode": "C3_303",
           "year": 2023,
-          "programName": null,
+          "programName": "부산글로벌스타기업육성사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -6976,7 +7622,7 @@
         {
           "programCode": "B1_1_3",
           "year": 2024,
-          "programName": null,
+          "programName": "지역기업성장사다리지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -6990,7 +7636,7 @@
         {
           "programCode": "B1_1_3",
           "year": 2024,
-          "programName": null,
+          "programName": "지역기업성장사다리지원사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -7004,7 +7650,7 @@
         {
           "programCode": "E2_1_6",
           "year": 2024,
-          "programName": null,
+          "programName": "실물-가상연계 조선해양 기술지원 사업",
           "businessType": "기술지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -7040,7 +7686,7 @@
       "growthState": "growing",
       "segment": "소액소수",
       "isHighDiversity": false,
-      "supportCount": 6,
+      "supportCount": 5,
       "totalAmountThousand": 86000.0,
       "businessTypeDiversity": 3,
       "maxConsecutiveYears": 3,
@@ -7517,6 +8163,7 @@
     },
     "support": {
       "건수": 10,
+      "선정건수": 6,
       "총지원금_천원": 94280.0,
       "지원연도수": 3
     },
@@ -7527,9 +8174,13 @@
         "bizType": "사업화지원",
         "amount": 12000.0,
         "programCode": "F1_1_19",
+        "programName": "치의학 디지털 상용화 기술개발사업",
         "year": 2024,
         "startDate": "2024-10-11",
-        "endDate": null
+        "endDate": null,
+        "supportDetailMain": "기타",
+        "supportDetailOther": "-",
+        "supportItem": "생체소재"
       },
       {
         "date": "2023-01-27",
@@ -7537,9 +8188,13 @@
         "bizType": "일자리창출or인력양성",
         "amount": 0,
         "programCode": "C1_308",
+        "programName": "산학연계 현장실습 브릿지 사업",
         "year": 2023,
         "startDate": null,
-        "endDate": null
+        "endDate": null,
+        "supportDetailMain": "인력양성(역량개발지원)",
+        "supportDetailOther": null,
+        "supportItem": "비대상"
       },
       {
         "date": "2022-07-15",
@@ -7547,9 +8202,13 @@
         "bizType": "일자리창출or인력양성",
         "amount": 0,
         "programCode": "C1_308",
+        "programName": "산학연계 현장실습 브릿지 사업",
         "year": 2022,
         "startDate": null,
-        "endDate": null
+        "endDate": null,
+        "supportDetailMain": "인력양성(역량개발지원)",
+        "supportDetailOther": null,
+        "supportItem": "비대상"
       },
       {
         "date": "2022-07-05",
@@ -7557,9 +8216,13 @@
         "bizType": "사업화지원",
         "amount": 7000.0,
         "programCode": "T2_319",
+        "programName": "라이프케어마케팅사업",
         "year": 2023,
         "startDate": null,
-        "endDate": null
+        "endDate": null,
+        "supportDetailMain": "마케팅",
+        "supportDetailOther": null,
+        "supportItem": "S1-XB"
       },
       {
         "date": "2022-05-18",
@@ -7567,9 +8230,13 @@
         "bizType": "패키지지원",
         "amount": 20000.0,
         "programCode": "B2_306",
+        "programName": "부산글로벌스타기업육성사업",
         "year": 2022,
         "startDate": "2022-06-01",
-        "endDate": "2022-11-30"
+        "endDate": "2022-11-30",
+        "supportDetailMain": "수출지원",
+        "supportDetailOther": "홍보물 제작, 온라인 마케팅, 해외전시회, 해외에이전트 활용 지원",
+        "supportItem": null
       },
       {
         "date": "2022-02-28",
@@ -7577,9 +8244,13 @@
         "bizType": "일자리창출or인력양성",
         "amount": 0,
         "programCode": "C1_308",
+        "programName": "산학연계 현장실습 브릿지 사업",
         "year": 2022,
         "startDate": null,
-        "endDate": null
+        "endDate": null,
+        "supportDetailMain": "인력양성(역량개발지원)",
+        "supportDetailOther": null,
+        "supportItem": "비대상"
       },
       {
         "date": "2022-02-16",
@@ -7587,9 +8258,13 @@
         "bizType": "일자리창출or인력양성",
         "amount": 18000.0,
         "programCode": "T2_318",
+        "programName": "디지털치의학산업 청년일자리 지원사업",
         "year": 2022,
         "startDate": "2022-03-01",
-        "endDate": "2022-12-31"
+        "endDate": "2022-12-31",
+        "supportDetailMain": "일자리창출(인건비지원)",
+        "supportDetailOther": null,
+        "supportItem": "인건비 지원"
       },
       {
         "date": "2022-02-16",
@@ -7597,9 +8272,13 @@
         "bizType": "일자리창출or인력양성",
         "amount": 18000.0,
         "programCode": "T2_318",
+        "programName": "디지털치의학산업 청년일자리 지원사업",
         "year": 2023,
         "startDate": "2023-01-01",
-        "endDate": "2023-12-31"
+        "endDate": "2023-12-31",
+        "supportDetailMain": "일자리창출(인건비지원)",
+        "supportDetailOther": null,
+        "supportItem": "인건비 지원"
       },
       {
         "date": "2022-02-16",
@@ -7607,9 +8286,13 @@
         "bizType": "일자리창출or인력양성",
         "amount": 18000.0,
         "programCode": "F1_1_22",
+        "programName": "디지털치의학산업 청년일자리 지원사업",
         "year": 2024,
         "startDate": "2023-01-01",
-        "endDate": "2023-12-31"
+        "endDate": "2023-12-31",
+        "supportDetailMain": "일자리창출(인건비지원)",
+        "supportDetailOther": "-",
+        "supportItem": "인건비 및 인센티브 지원"
       },
       {
         "date": "2022-01-25",
@@ -7617,9 +8300,13 @@
         "bizType": "일자리창출or인력양성",
         "amount": 1280.0,
         "programCode": "B2_318",
+        "programName": "미래융합기술 해외마케팅 청년일자리 지원사업",
         "year": 2022,
         "startDate": "2022-06-07",
-        "endDate": "2022-12-31"
+        "endDate": "2022-12-31",
+        "supportDetailMain": "일자리창출(인건비지원)",
+        "supportDetailOther": null,
+        "supportItem": null
       }
     ],
     "passthrough": {
@@ -7664,6 +8351,43 @@
           "가입": 98,
           "취업": 133,
           "퇴직": 91
+        }
+      ],
+      "종업원수_최근": null,
+      "종업원수_CAGR": null,
+      "종업원수_증감_5년": null,
+      "종업원수증가_백분위": null,
+      "급여_최근_원": null,
+      "급여_CAGR": null,
+      "급여_백분위": null,
+      "인당매출_최근_천원": null,
+      "인당매출_백분위": null,
+      "인당영업이익_최근_천원": null,
+      "scaleSeries": [
+        {
+          "year": 2020,
+          "종업원수": 74.0,
+          "급여_원": 36809475.0
+        },
+        {
+          "year": 2021,
+          "종업원수": 50.0,
+          "급여_원": 39721684.0
+        },
+        {
+          "year": 2022,
+          "종업원수": null,
+          "급여_원": 36736136.0
+        },
+        {
+          "year": 2023,
+          "종업원수": 63.0,
+          "급여_원": 41654984.0
+        },
+        {
+          "year": 2024,
+          "종업원수": null,
+          "급여_원": 46106177.0
         }
       ]
     },
@@ -7718,7 +8442,7 @@
         {
           "programCode": "B2_306",
           "year": 2022,
-          "programName": null,
+          "programName": "부산글로벌스타기업육성사업",
           "businessType": "패키지지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -7732,7 +8456,7 @@
         {
           "programCode": "B2_318",
           "year": 2022,
-          "programName": null,
+          "programName": "미래융합기술 해외마케팅 청년일자리 지원사업",
           "businessType": "일자리창출or인력양성",
           "score": 100.0,
           "matchType": "직접일치",
@@ -7746,7 +8470,7 @@
         {
           "programCode": "T2_318",
           "year": 2022,
-          "programName": null,
+          "programName": "디지털치의학산업 청년일자리 지원사업",
           "businessType": "일자리창출or인력양성",
           "score": 100.0,
           "matchType": "직접일치",
@@ -7760,7 +8484,7 @@
         {
           "programCode": "T2_318",
           "year": 2023,
-          "programName": null,
+          "programName": "디지털치의학산업 청년일자리 지원사업",
           "businessType": "일자리창출or인력양성",
           "score": 100.0,
           "matchType": "직접일치",
@@ -7774,7 +8498,7 @@
         {
           "programCode": "F1_1_19",
           "year": 2024,
-          "programName": null,
+          "programName": "치의학 디지털 상용화 기술개발사업",
           "businessType": "사업화지원",
           "score": 100.0,
           "matchType": "직접일치",
@@ -7788,7 +8512,7 @@
         {
           "programCode": "F1_1_22",
           "year": 2024,
-          "programName": null,
+          "programName": "디지털치의학산업 청년일자리 지원사업",
           "businessType": "일자리창출or인력양성",
           "score": 100.0,
           "matchType": "직접일치",
@@ -8294,6 +9018,7 @@
     },
     "support": {
       "건수": 3,
+      "선정건수": 3,
       "총지원금_천원": 32000.0,
       "지원연도수": 2
     },
@@ -8304,9 +9029,13 @@
         "bizType": "패키지지원",
         "amount": 6000.0,
         "programCode": "X1_312",
+        "programName": "메타버스콘텐츠다양화를위한기업지원사업",
         "year": 2022,
         "startDate": "2022-09-01",
-        "endDate": "2023-03-31"
+        "endDate": "2023-03-31",
+        "supportDetailMain": "제품고급화",
+        "supportDetailOther": null,
+        "supportItem": "제품고급화"
       },
       {
         "date": "2022-08-31",
@@ -8314,9 +9043,13 @@
         "bizType": "패키지지원",
         "amount": 6000.0,
         "programCode": "X1_312",
+        "programName": "메타버스콘텐츠다양화를위한기업지원사업",
         "year": 2023,
         "startDate": "2022-09-01",
-        "endDate": "2023-03-31"
+        "endDate": "2023-03-31",
+        "supportDetailMain": "제품고급화",
+        "supportDetailOther": null,
+        "supportItem": "제품고급화"
       },
       {
         "date": "2022-06-28",
@@ -8324,9 +9057,13 @@
         "bizType": "사업화지원",
         "amount": 20000.0,
         "programCode": "B2_304",
+        "programName": "국가혁신클러스터육성(비R＆D)사업(기업)",
         "year": 2022,
         "startDate": "2022-07-25",
-        "endDate": "2022-11-30"
+        "endDate": "2022-11-30",
+        "supportDetailMain": "시제품제작",
+        "supportDetailOther": "연구장비 활용지원, 시제품제작지원",
+        "supportItem": "전시장 및 주요 관광지 전망대용 증강현실(AR) 기반 망원경 기술사업화"
       }
     ],
     "passthrough": {
@@ -8371,6 +9108,43 @@
           "가입": 71,
           "취업": 37,
           "퇴직": 40
+        }
+      ],
+      "종업원수_최근": null,
+      "종업원수_CAGR": null,
+      "종업원수_증감_5년": null,
+      "종업원수증가_백분위": null,
+      "급여_최근_원": null,
+      "급여_CAGR": null,
+      "급여_백분위": null,
+      "인당매출_최근_천원": null,
+      "인당매출_백분위": null,
+      "인당영업이익_최근_천원": null,
+      "scaleSeries": [
+        {
+          "year": 2020,
+          "종업원수": 40.0,
+          "급여_원": 32853804.0
+        },
+        {
+          "year": 2021,
+          "종업원수": 10.0,
+          "급여_원": 34479077.0
+        },
+        {
+          "year": 2022,
+          "종업원수": 11.0,
+          "급여_원": 35220833.0
+        },
+        {
+          "year": 2023,
+          "종업원수": 13.0,
+          "급여_원": 38459053.0
+        },
+        {
+          "year": 2024,
+          "종업원수": 18.0,
+          "급여_원": 42365596.0
         }
       ]
     },
@@ -8425,7 +9199,7 @@
         {
           "programCode": "B2_304",
           "year": 2022,
-          "programName": null,
+          "programName": "국가혁신클러스터육성(비R＆D)사업(기업)",
           "businessType": "사업화지원",
           "score": null,
           "matchType": "판단유보",
@@ -8436,7 +9210,7 @@
         {
           "programCode": "X1_312",
           "year": 2022,
-          "programName": null,
+          "programName": "메타버스콘텐츠다양화를위한기업지원사업",
           "businessType": "패키지지원",
           "score": null,
           "matchType": "판단유보",
@@ -8447,7 +9221,7 @@
         {
           "programCode": "X1_312",
           "year": 2023,
-          "programName": null,
+          "programName": "메타버스콘텐츠다양화를위한기업지원사업",
           "businessType": "패키지지원",
           "score": null,
           "matchType": "판단유보",

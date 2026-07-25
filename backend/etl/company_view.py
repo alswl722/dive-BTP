@@ -628,7 +628,7 @@ def build_companies(
     missing_ymaps = {hint: col_year_map(master, hint) for hint in ["매출액", "영업이익손실", "자본총계"]}
     patent_reg_ymap = col_year_map(master, "특허등록건수")
     patent_app_ymap = col_year_map(master, "특허출원건수")
-    trend_ymaps = {hint: col_year_map(master, hint) for hint in ["매출액", "영업이익률", "부채총계", "자본총계"]}
+    trend_ymaps = {hint: col_year_map(master, hint) for hint in ["매출액", "영업이익률", "부채총계", "자본총계", "자산총계", "영업이익손실"]}
     cert_cols = {c: mcol(c) for c in CERTS}  # mcol도 master 컬럼명만 훑는 순수 함수 — 기업마다 재탐색 불필요
     prog_lookup = _build_prog_lookup(sp)  # 축8 프로그램명 조인용 — 전역 lookup, 기업마다 재조립 불필요
 
@@ -732,6 +732,9 @@ def build_companies(
             "rawMetrics": {c: clean(f[c]) for c in feat.columns if c != KEY},
             "trends": {
                 "매출액": trend(m, master, "매출액", ymap=trend_ymaps["매출액"]),
+                "자산총계": trend(m, master, "자산총계", ymap=trend_ymaps["자산총계"]),
+                # 영업이익 절대값 — 원본 컬럼 헤더는 "영업이익손실". 출력 키는 "영업이익"으로 노출.
+                "영업이익": trend(m, master, "영업이익", ymap=trend_ymaps["영업이익손실"]),
                 "영업이익률": trend(m, master, "영업이익률", ymap=trend_ymaps["영업이익률"]),
                 "부채총계": trend(m, master, "부채총계", ymap=trend_ymaps["부채총계"]),
                 "자본총계": trend(m, master, "자본총계", ymap=trend_ymaps["자본총계"]),

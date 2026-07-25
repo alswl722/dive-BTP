@@ -50,5 +50,6 @@
       "count": 1
     }
   ],
-  "dataQualityIssues": 0
+  "dataQualityIssues": 0,
+  "unmatchedSupportRecords": 0
 }

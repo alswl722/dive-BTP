@@ -164,7 +164,7 @@ export interface Company {
     series: { year: number; 영업이익: number | null; 당기순이익: number | null }[] | null;
   } | null;
   percentileBasis: string | null; // "업종내" | "전체fallback"
-  dataQuality: { missing: string[]; inconsistencies?: { rule: string; detail: string }[]; ok: boolean };
+  dataQuality: { missing: string[]; inconsistencies?: { rule: string; detail: string; category?: string }[]; ok: boolean };
   _mock: string[]; // 목업으로 채운 필드(투명성)
   reviewStatus: ReviewStatus; // 찜 상태. company_review_status 테이블에 영속화(PATCH /companies/{id}/review-status)
   businessFit: BusinessFit | null;     // 축8 (LLM 정합성 판정)
@@ -284,6 +284,9 @@ export interface Dashboard {
   regionDist: { region: string; count: number }[];
   resultDist: { result: string; count: number }[];
   dataQualityIssues: number;
+  // company_id 매칭 실패로 어느 기업에도 집계되지 못한 지원 레코드 수
+  // (원본 기업일련번호="매칭정보없음" — BTP-KODATA 조인 실패, docs/축9_설계노트.md §6-2)
+  unmatchedSupportRecords: number;
 }
 
 // 메모 — 담당자가 심사하며 남기는 기록. 본문에 @기업·#사업 멘션을 인라인 마크업으로 포함.

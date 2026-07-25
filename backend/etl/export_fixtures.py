@@ -48,7 +48,10 @@ def main():
     companies = build_companies(score, feat, master, sr, sp=sp,
                                 tech_tables=_load_tech_tables())
     rankings = build_rankings(companies)
-    dashboard = build_dashboard(companies)
+    # company_id가 NULL인 support_records 행(원본 기업일련번호='매칭정보없음' — BTP-KODATA
+    # 조인 실패, 축9_설계노트.md §6-2)은 companies 리스트에 흔적이 없어 대시보드 각주로 별도 표기.
+    unmatched = int(sr["company_id"].isna().sum())
+    dashboard = build_dashboard(companies, unmatched_support_records=unmatched)
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     for name, data in [("companies", companies), ("rankings", rankings), ("dashboard", dashboard)]:

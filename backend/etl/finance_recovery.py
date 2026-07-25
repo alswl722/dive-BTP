@@ -31,6 +31,47 @@ COLS = [ASSET, DEBT, EQUITY, OPPROFIT, REVENUE, OPMARGIN]
 # 복원값이 항등식에서 나왔음을 나타내는 감사 규칙 키
 RULES = [f"{c}_복원" for c in (ASSET, DEBT, EQUITY, OPMARGIN, OPPROFIT, REVENUE)]
 
+# 신고 영업이익률 ↔ 손익(영업이익÷매출) 불일치 허용오차(%p). 반올림(본선 실측 ~1.5%p)은
+# 정상으로 넘기고, 그 이상만 원본 오류로 본다. 본선 실측상 반올림 최대 ~1.5%p, gross 오류는
+# 474%p+라 3%p면 두 부류를 깨끗이 가른다. (튜닝값이라 추후 config 이관 여지 있으나 지금은 단일
+# 상수로 SSOT 유지 — EDA·배지가 이 값을 공유.)
+MARGIN_INCONSISTENCY_TOLERANCE_PP = 3.0
+
+
+def _scalar_num(v) -> float | None:
+    """스칼라 → float 또는 None(결측/변환불가). check_margin_consistency용."""
+    x = pd.to_numeric(v, errors="coerce")
+    return None if pd.isna(x) else float(x)
+
+
+def check_margin_consistency(op_by_year: dict, rev_by_year: dict, margin_by_year: dict,
+                             tol_pp: float = MARGIN_INCONSISTENCY_TOLERANCE_PP) -> list[dict]:
+    """신고 영업이익률이 손익(영업이익÷매출)과 tol_pp 초과로 어긋나는 연도를 찾는다.
+
+    값은 고치지 않고 '사실만' 반환한다(추측/변조 금지 원칙). 판정식은 identity_violations
+    (op/rev*100 vs 신고, rev≠0 가드)과 동일 — SSOT.
+
+    입력: {연도: 값} dict 3개(영업이익손실/매출액/영업이익률). 위반 연도들을 모아
+    기업당 최대 1개 항목 [{"rule","detail"}] 반환(위반 없으면 []).
+    """
+    bad = []  # (year, 신고, 계산)
+    for y in sorted(margin_by_year):
+        op = _scalar_num(op_by_year.get(y))
+        rev = _scalar_num(rev_by_year.get(y))
+        mgn = _scalar_num(margin_by_year.get(y))
+        if op is None or rev is None or mgn is None or rev == 0:
+            continue
+        computed = op / rev * 100
+        if abs(mgn - computed) > tol_pp:
+            bad.append((y, mgn, computed))
+    if not bad:
+        return []
+    parts = "; ".join(f"{y}년 신고 {m:.0f}% vs 손익 {c:.0f}%" for y, m, c in bad)
+    return [{
+        "rule": "영업이익률_손익불일치",
+        "detail": f"신고 영업이익률이 손익 계산과 불일치 — {parts}",
+    }]
+
 
 def _num(df: pd.DataFrame, c: str) -> pd.Series:
     """숫자 강제(원본이 문자열 dtype일 수 있음). 없는 컬럼은 전부 NaN."""
@@ -87,10 +128,12 @@ def recover_financial_identities(df: pd.DataFrame) -> tuple[pd.DataFrame, dict[s
 
 
 def identity_violations(df: pd.DataFrame, atol_asset: float = 1.0,
-                        rtol_margin: float = 0.5) -> dict[str, int]:
+                        rtol_margin: float = MARGIN_INCONSISTENCY_TOLERANCE_PP) -> dict[str, int]:
     """값이 모두 있는 행에서 항등식이 깨진 건수 — 데이터 품질 신호(복원과 별개).
 
     atol_asset: 자산=부채+자본 허용 절대오차(천원). rtol_margin: 영업이익률 허용오차(%p).
+    영업이익률 허용오차는 배지 판정(check_margin_consistency)과 같은 상수를 기본값으로 써서
+    EDA·스코어카드가 동일 임계값을 공유한다(반올림은 위반으로 세지 않음).
     """
     a, d, e = _num(df, ASSET), _num(df, DEBT), _num(df, EQUITY)
     op, rev, mgn = _num(df, OPPROFIT), _num(df, REVENUE), _num(df, OPMARGIN)

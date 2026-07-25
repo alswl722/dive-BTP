@@ -4,11 +4,16 @@
     결측치 처리 전략 문서(§NTIS 지역구분명)의 "최빈값 대체 vs '기타 기타' 대체"
     판단 근거. 기업당 지역 종류수·최빈값 점유율을 실측한다.
 
+    config/region_map.yaml(transforms.normalize_region)로 시도 롤업(부산은 구
+    유지) 정규화를 먼저 적용한 뒤 집계한다 — 원본 그대로 보면 표기 편차(126종,
+    처리노트 §2)만으로 종류수가 부풀어 최빈값 대체 손실이 과대평가된다.
+
     ⚠️ 읽기 전용. 대체 규칙은 이 EDA 결과 검토 후 팀 합의.
 
-두 가지를 본다:
-    1. 기업당 지역구분 종류 개수 분포 (1개인 기업 vs 여러개인 기업 비율)
-    2. 여러 값 가진 기업의 최빈값 점유율 (최빈값 대체 손실 정량화)
+세 가지를 본다:
+    0. 정규화 전/후 고유 지역명 개수 비교 (표기 편차 제거 효과)
+    1. 기업당 지역구분 종류 개수 분포 (1개인 기업 vs 여러개인 기업 비율, 정규화 후)
+    2. 여러 값 가진 기업의 최빈값 점유율 (최빈값 대체 손실 정량화, 정규화 후)
 
 사용:
     python scripts/eda_ntis_region.py [--kodata <path.xlsx>]
@@ -30,6 +35,7 @@ import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
 from parsers import parse_simple_sheet  # noqa: E402
+from transforms import normalize_region  # noqa: E402
 from eda_viz import PALETTE, save_fig, setup as viz_setup, write_meta  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
 
@@ -76,8 +82,22 @@ def main() -> None:
     df = df.dropna(subset=[col_key])
     df[col_key] = df[col_key].astype(int)
 
+    # ── 0. 정규화 전/후 고유 지역명 개수 비교 ───────────────────
+    _head("[0] region_map.yaml 정규화 전/후 비교")
+    before_n = df[col_region].nunique(dropna=False)
+    df["_region_norm"] = df[col_region].map(normalize_region)
+    after_n = df["_region_norm"].nunique(dropna=False)
+    print(f"  정규화 전 고유 지역명: {before_n}종 (표기 편차 포함)")
+    print(f"  정규화 후 고유 지역명: {after_n}종 (시도 롤업, 부산은 구 유지)")
+    print("  → 이하 [1][2]는 정규화된 지역명 기준으로 집계")
+    # normalize_region은 결측을 "미상" 문자열로 채운다(ministry_map과 동일 원칙).
+    # 종류수/최빈값 집계에서는 "미상"도 결측과 똑같이 다뤄야 한다(실재 지역이 아니므로
+    # 다중지역 판정에 가짜 종류로 섞이면 안 됨) → NaN으로 되돌려 dropna()가 걸러지게 한다.
+    col_region = "_region_norm"
+    df[col_region] = df[col_region].where(df[col_region] != "미상")
+
     # ── 1. 기업당 지역 종류 개수 분포 ────────────────────────────
-    _head("[1] 기업당 지역구분 종류 개수 분포")
+    _head("[1] 기업당 지역구분 종류 개수 분포 (정규화 후)")
     per_company = df.groupby(col_key)[col_region].agg(lambda s: s.dropna().nunique())
     n_companies = len(per_company)
     variety_counts = per_company.value_counts().sort_index()
@@ -89,7 +109,7 @@ def main() -> None:
         print(f"    {k}종류: {v}개 기업 ({pct:.1f}%){marker}")
 
     # ── 2. 최빈값 점유율 (여러 값 가진 기업) ────────────────────
-    _head("[2] 여러 지역 가진 기업의 최빈값 점유율")
+    _head("[2] 여러 지역 가진 기업의 최빈값 점유율 (정규화 후)")
     multi = per_company[per_company > 1].index
     if len(multi) > 0:
         multi_df = df[df[col_key].isin(multi)]
@@ -111,10 +131,10 @@ def main() -> None:
         shares = pd.DataFrame()
         print("  여러 지역 가진 기업 없음 — 최빈값 대체가 항상 안전")
 
-    _render_visualizations(variety_counts, shares, n_companies)
+    _render_visualizations(variety_counts, shares, n_companies, before_n, after_n)
 
 
-def _render_visualizations(variety_counts, shares, n_companies) -> None:
+def _render_visualizations(variety_counts, shares, n_companies, before_n, after_n) -> None:
     viz_setup()
     CAT = "07_ntis_region"
 
@@ -154,14 +174,19 @@ def _render_visualizations(variety_counts, shares, n_companies) -> None:
         images.append({"file": "mode_dominance.png",
                        "caption": f"여러 지역 기업 {len(shares)}개의 최빈값 점유율"})
 
-    highlights = []
+    highlights = [f"region_map.yaml 정규화: 고유 지역명 {before_n}종 → {after_n}종 (시도 롤업, 부산은 구 유지)"]
+    missing = int(variety_counts.get(0, 0))
     single = int(variety_counts.get(1, 0))
+    multi = n_companies - missing - single
     if n_companies > 0:
-        pct_single = 100 * single / n_companies
-        if pct_single >= 80:
-            highlights.append(f"단일 지역 기업 {pct_single:.0f}% — 최빈값 대체 대부분 안전")
-        else:
-            highlights.append(f"다중 지역 기업 {100 - pct_single:.0f}% — 최빈값 대체 시 정보 손실 고려")
+        pct_missing = 100 * missing / n_companies
+        pct_multi = 100 * multi / n_companies
+        highlights.append(
+            f"지역 결측 {pct_missing:.0f}% · 단일지역 {100 * single / n_companies:.0f}% · "
+            f"다중지역 {pct_multi:.0f}%"
+        )
+        if pct_multi >= 20:
+            highlights.append(f"⚠️ 다중 지역 기업 {pct_multi:.0f}% — 최빈값 대체 시 정보 손실 고려")
 
     if len(shares) > 0:
         low = int((shares["mode_share"] < 0.5).sum())
@@ -170,7 +195,8 @@ def _render_visualizations(variety_counts, shares, n_companies) -> None:
 
     status = "warn" if any("⚠️" in h for h in highlights) else "good"
     write_meta(CAT, title="NTIS 지역구분명 분포",
-               description="기업당 지역 종류수·최빈값 점유율로 최빈값 대체 vs '기타 기타' 대체 판단 근거.",
+               description="region_map.yaml 정규화 후 기업당 지역 종류수·최빈값 점유율로 "
+                            "최빈값 대체 vs '기타 기타' 대체 판단 근거.",
                images=images, highlights=highlights, status=status)
 
 

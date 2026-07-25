@@ -13,17 +13,23 @@
 //    않았으므로 화면에서는 '사업군'으로 표기하고 확정 표현을 피한다.
 
 import type { Company, SupportRecord } from "@/types";
+import deptMapFile from "@/lib/data/program-dept-map.json";
+
+const DEPT_MAP: Record<string, string> = (deptMapFile as { map: Record<string, string> }).map;
+const CANONICAL_YEAR = 2024; // program-dept-map.json이 이 연도 코드 기준으로 부서를 뽑음(build_program_dept_map.py와 동일)
 
 export interface ConcurrentPair {
   a: SupportRecord;
   b: SupportRecord;
   /**
    * 사업군 비교가 가능한 쌍인가.
-   * 2024년에 사업코드 체계가 개편돼(B1_311 → B1_1_3) **연도가 다르면 접두사가 달라도
-   * 같은 부서일 수 있다.** 같은 연도일 때만 비교해야 과대 판정을 피한다.
+   * 2024년에 사업코드 체계가 개편돼(B1_311 → B1_1_3) 접두사만으론 연도가 다르면
+   * 비교가 안 됐지만, program-dept-map.json(사업명 기준 구→신 매핑, 정확매칭만
+   * 채택 — backend/etl/build_program_dept_map.py)으로 풀리면 연도 달라도 비교한다.
+   * 매핑에 없는 사업명은 기존처럼 같은 연도일 때만(원본 접두사로) 비교한다.
    */
   deptComparable: boolean;
-  /** 사업코드 접두사가 다름 = 다른 부서(추정). deptComparable일 때만 의미 있음 */
+  /** 부서가 다름(추정). deptComparable일 때만 의미 있음 */
   crossDept: boolean;
   /** 지원 성격(사업유형)까지 동일 = 실질적 중복 */
   sameType: boolean;
@@ -32,12 +38,40 @@ export interface ConcurrentPair {
 /**
  * 사업코드 접두사 = 부서/사업군 추정 키.
  * 예: "B1_311" → "B1", "E2_1_8" → "E2"
- * ⚠️ 2024년 코드 체계가 개편돼(B1_311 → B1_1_3) 연도 간 비교에는 쓰지 않는다.
+ * ⚠️ 2024년 코드 체계가 개편돼(B1_311 → B1_1_3) **같은 연도끼리 비교할 때만** 이 값을
+ * 직접 써야 한다. 연도가 다르면 resolveDept()를 대신 쓸 것.
  */
 export function deptKey(programCode: string | null): string | null {
   if (!programCode) return null;
   const m = /^([A-Za-z]+\d*)/.exec(programCode);
   return m ? m[1].toUpperCase() : null;
+}
+
+/**
+ * 사업명 정규화 — build_program_dept_map.py의 norm_name()과 반드시 동일하게 유지.
+ * (공백·괄호·하이픈·언더스코어·쉼표·가운뎃점 제거, 대소문자·㈜ 표기 통일)
+ */
+function normProgramName(name: string): string {
+  return name
+    .trim()
+    .toLowerCase()
+    .replace(/[\s()\-_,·]/g, "")
+    .replace(/&/g, "＆")
+    .replace(/㈜/g, "주")
+    .replace(/\(주\)/g, "주");
+}
+
+/**
+ * 레코드의 "2024년 기준 캐노니컬 부서"를 구한다.
+ * - 2024년 레코드면 코드 접두사 그대로(이미 신 체계).
+ * - 그 이전 연도면 사업명으로 program-dept-map.json을 찾아본다 — 있으면 연도 경계를
+ *   넘어 비교 가능(resolveDept가 null 아닌 값을 반환). 매핑에 없으면 null — 호출부가
+ *   같은 연도 raw 접두사 비교로 폴백한다(과대 판정 방지, 억지 추정 안 함).
+ */
+function resolveDept(programCode: string | null, programName: string | null, year: number | null): string | null {
+  if (year === CANONICAL_YEAR) return deptKey(programCode);
+  if (!programName) return null;
+  return DEPT_MAP[normProgramName(programName)] ?? null;
 }
 
 function overlaps(a: SupportRecord, b: SupportRecord): boolean {
@@ -57,15 +91,27 @@ export function findConcurrentPairs(company: Company): ConcurrentPair[] {
       const b = selected[j];
       if (a.programCode && a.programCode === b.programCode) continue; // 같은 사업의 분할 행
       if (!overlaps(a, b)) continue;
-      const da = deptKey(a.programCode);
-      const db = deptKey(b.programCode);
-      // 연도가 같아야 사업군(코드 접두사) 비교가 성립한다 — 2024년 체계 개편 때문.
-      const deptComparable = da != null && db != null && a.year != null && a.year === b.year;
+
+      // 1순위: 사업명 매핑으로 "2024년 기준 캐노니컬 부서"가 둘 다 풀리면 연도 무관 비교.
+      const resolvedA = resolveDept(a.programCode, a.programName, a.year);
+      const resolvedB = resolveDept(b.programCode, b.programName, b.year);
+      let deptComparable: boolean;
+      let crossDept: boolean;
+      if (resolvedA != null && resolvedB != null) {
+        deptComparable = true;
+        crossDept = resolvedA !== resolvedB;
+      } else {
+        // 폴백: 매핑에 없는 사업명 — 같은 연도일 때만 원본 접두사로 비교(기존 동작 유지).
+        const rawA = deptKey(a.programCode);
+        const rawB = deptKey(b.programCode);
+        deptComparable = rawA != null && rawB != null && a.year != null && a.year === b.year;
+        crossDept = deptComparable && rawA !== rawB;
+      }
       pairs.push({
         a,
         b,
         deptComparable,
-        crossDept: deptComparable && da !== db,
+        crossDept,
         sameType: a.bizType === b.bizType,
       });
     }
@@ -75,11 +121,12 @@ export function findConcurrentPairs(company: Company): ConcurrentPair[] {
 
 export interface ConcurrentSummary {
   total: number;       // 겹치는 쌍 전체
-  crossDept: number;   // 그중 사업군이 다른 쌍 (같은 연도 = 비교 가능한 쌍만)
-  /** 사업군이 다르면서 지원 성격도 같은 쌍 = 실질적 중복.
+  crossDept: number;   // 그중 부서가 다른 쌍 (비교 가능한 쌍만)
+  /** 부서가 다르면서 지원 성격도 같은 쌍 = 실질적 중복.
    *  ConcurrentPair.sameType(성격 일치만)과 조건이 다르므로 이름을 구분한다. */
   crossDeptSameType: number;
-  /** 연도가 달라 사업군을 비교할 수 없는 쌍 — 판정 유보(과소 판정 가능성) */
+  /** 사업명 매핑도 없고 연도도 달라 부서를 비교할 수 없는 쌍 — 판정 유보(과소 판정 가능성).
+   *  program-dept-map.json 커버리지(72.8%) 밖의 사업이거나 진짜 신규 사업. */
   deptUnknown: number;
   /** 기간 정보가 없어 판정에서 빠진 선정 건수 — 과소 판정 가능성 표기용 */
   missingPeriod: number;

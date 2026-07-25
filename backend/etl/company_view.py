@@ -588,6 +588,11 @@ def build_companies(
     _emp_cols = col_year_map(master, "종업원수")
     _rev_cols = col_year_map(master, "매출액")
     _asset_cols = col_year_map(master, "자산총계")
+    # 재무 신고 불일치 판정 SSOT — EDA(finance_recovery)와 같은 원본 공유. 영업이익률 ymap은
+    # 아래 trend_ymaps["영업이익률"]로도 있으나, 정의 순서상 여기서 직접 준비.
+    import finance_recovery as fin_chk
+    _op_cols = col_year_map(master, "영업이익손실")
+    _opm_cols = col_year_map(master, "영업이익률")
 
     # 축8·축9 사전 준비 (배치)
     whitelist = axis8_svc.load_whitelist()
@@ -669,14 +674,24 @@ def build_companies(
                 if pd.isna(pd.to_numeric(m[c], errors="coerce")):
                     missing.append(f"{hint}_{y}")
 
-        # 데이터 품질: 신고 기업규모 vs 실측 정합성(법정 기준 위반만). 값은 안 고침 — 사실만 밝힘.
-        inconsistencies = size_chk.check_company_size(
+        # 데이터 품질: 신고값 vs 실측 정합성(값은 안 고침 — 사실만 밝힘). 규모/재무 2종을
+        # category 태깅해 한 리스트로 합친다(프론트가 배지를 종류별로 나눠 렌더).
+        size_incons = size_chk.check_company_size(
             clean(m[size_col]) if size_col else None,
             clean(m[ksic_col]) if ksic_col else None,
             size_chk.latest_valid({y: pd.to_numeric(m[c], errors="coerce") for y, c in _emp_cols.items()}),
             size_chk.recent3_mean({y: pd.to_numeric(m[c], errors="coerce") for y, c in _rev_cols.items()}),
             size_chk.latest_valid({y: pd.to_numeric(m[c], errors="coerce") for y, c in _asset_cols.items()}),
         )
+        # 재무: 신고 영업이익률이 손익(영업이익÷매출)과 어긋나는 기업. 스코어링은 이미 재계산값을
+        # 쓰지만 화면은 원본을 그대로 보여주므로, 심사자에게 배지로 경고.
+        fin_incons = fin_chk.check_margin_consistency(
+            {y: pd.to_numeric(m[c], errors="coerce") for y, c in _op_cols.items()},
+            {y: pd.to_numeric(m[c], errors="coerce") for y, c in _rev_cols.items()},
+            {y: pd.to_numeric(m[c], errors="coerce") for y, c in _opm_cols.items()},
+        )
+        inconsistencies = ([{**i, "category": "규모"} for i in size_incons]
+                           + [{**i, "category": "재무"} for i in fin_incons])
 
         business_fit = build_business_fit(
             cid, clean(m[ksic_col]) if ksic_col else None,
@@ -847,8 +862,13 @@ def build_rankings(companies: list[dict]) -> dict:
     }
 
 
-def build_dashboard(companies: list[dict]) -> dict:
-    """대시보드 집계 — 사업유형 분포(실 지원이력 기반)·지역 분포·데이터품질."""
+def build_dashboard(companies: list[dict], unmatched_support_records: int = 0) -> dict:
+    """대시보드 집계 — 사업유형 분포(실 지원이력 기반)·지역 분포·데이터품질.
+
+    unmatched_support_records: company_id가 NULL인 support_records 행 수(원본
+    기업일련번호='매칭정보없음' — BTP-KODATA 조인 실패, 축9_설계노트.md §6-2). 어느
+    기업 객체에도 못 붙어 companies 리스트·집계 전체에서 조용히 빠지므로 화면 각주로 노출.
+    """
     biz_counter, region_counter, result_counter = Counter(), Counter(), Counter()
     for c in companies:
         if c["region"]:
@@ -862,4 +882,5 @@ def build_dashboard(companies: list[dict]) -> dict:
         "regionDist": [{"region": k, "count": v} for k, v in region_counter.most_common()],
         "resultDist": [{"result": k, "count": v} for k, v in result_counter.items()],
         "dataQualityIssues": sum(len(c["dataQuality"]["missing"]) for c in companies),
+        "unmatchedSupportRecords": unmatched_support_records,
     }

@@ -157,12 +157,36 @@ def main() -> None:
             codes = sorted(btp[btp[key_col] == cid]["_ksic3"].dropna().unique())
             print(f"    기업 {cid}: {cnt}종류 ({', '.join(codes)})")
 
+    # ── 4. 사업유형별 일치율 세분화 ────────────────────────────────
+    _head("[4] 사업유형별 KSIC 일치율 — 어떤 유형에서 특히 불일치가 심한가")
+    biz_col = next((c for c in btp.columns if c == "사업유형"), None)
+    biz_break = None
+    if biz_col is None:
+        print("  ⚠️ BTP에 사업유형 컬럼 없음 — 세분화 불가")
+    else:
+        by_biz = (
+            dual.groupby(biz_col)["_match"]
+            .agg(건수="count", 일치="sum")
+            .assign(일치율=lambda d: 100 * d["일치"] / d["건수"])
+            .sort_values("건수", ascending=False)
+        )
+        biz_break = by_biz
+        print(f"  {'사업유형':<16} {'건수':>6} {'일치':>6} {'일치율':>8}")
+        for biz, r in by_biz.iterrows():
+            print(f"  {str(biz):<16} {int(r['건수']):>6} {int(r['일치']):>6} {r['일치율']:>7.1f}%")
+        worst = by_biz[by_biz["건수"] >= 10].sort_values("일치율").head(3)
+        if len(worst) > 0:
+            print("\n  일치율 최저 (건수 10건 이상 중):")
+            for biz, r in worst.iterrows():
+                print(f"    {biz}: {r['일치율']:.1f}% ({int(r['건수'])}건)")
+
     _render_visualizations(kodata_miss, btp_miss, n_kodata, n_btp,
-                            n_match, n_mismatch, per_company, multi)
+                            n_match, n_mismatch, per_company, multi, biz_break)
 
 
 def _render_visualizations(kodata_miss, btp_miss, n_kodata, n_btp,
-                            n_match, n_mismatch, per_company, multi) -> None:
+                            n_match, n_mismatch, per_company, multi,
+                            biz_break=None) -> None:
     viz_setup()
     CAT = "08_ksic_consistency"
 
@@ -203,6 +227,21 @@ def _render_visualizations(kodata_miss, btp_miss, n_kodata, n_btp,
         ax.set_title(f"BTP 안에서 다중 KSIC 사용 기업 분포 (BTP 참여 {len(per_company)}개)")
         save_fig(fig, CAT, "multi_code_companies", "다중 KSIC 기업")
 
+    # (3) 사업유형별 일치율
+    if biz_break is not None and len(biz_break) > 0:
+        top = biz_break.sort_values("건수", ascending=False).head(10).sort_values("일치율")
+        fig, ax = plt.subplots(figsize=(10, max(4.5, 0.45 * len(top))))
+        colors = [PALETTE["bad"] if r < 30 else PALETTE["warn"] if r < 70 else PALETTE["good"]
+                  for r in top["일치율"]]
+        bars = ax.barh(top.index.astype(str), top["일치율"], color=colors)
+        for b, (_, r) in zip(bars, top.iterrows()):
+            ax.text(b.get_width() + 1.5, b.get_y() + b.get_height()/2,
+                    f"{r['일치율']:.0f}% ({int(r['건수'])}건)", va="center", fontsize=9)
+        ax.set_xlabel("KSIC 일치율 (%)")
+        ax.set_xlim(0, 110)
+        ax.set_title("사업유형별 KSIC 일치율 (건수 상위 10개 유형)")
+        save_fig(fig, CAT, "match_rate_by_biz_type", "사업유형별 일치율")
+
     # meta
     images = [
         {"file": "ksic_match_rate.png", "caption": f"KSIC 대조 (일치율 {100 * n_match / max(n_match + n_mismatch, 1):.1f}%)"},
@@ -210,6 +249,9 @@ def _render_visualizations(kodata_miss, btp_miss, n_kodata, n_btp,
     if len(per_company) > 0:
         images.append({"file": "multi_code_companies.png",
                        "caption": f"다중 KSIC 사용 기업 {len(multi)}개"})
+    if biz_break is not None and len(biz_break) > 0:
+        images.append({"file": "match_rate_by_biz_type.png",
+                       "caption": "사업유형별 KSIC 일치율"})
 
     highlights = []
     match_rate = n_match / max(n_match + n_mismatch, 1)
@@ -220,6 +262,11 @@ def _render_visualizations(kodata_miss, btp_miss, n_kodata, n_btp,
     if len(multi) > 0:
         pct = 100 * len(multi) / len(per_company)
         highlights.append(f"BTP에서 다중 KSIC 사용 기업 {len(multi)}개 ({pct:.0f}%) — 대체 규칙 신중")
+    if biz_break is not None and len(biz_break) > 0:
+        worst = biz_break[biz_break["건수"] >= 10].sort_values("일치율")
+        if len(worst) > 0:
+            w = worst.iloc[0]
+            highlights.append(f"사업유형별 최저 일치율: {worst.index[0]} {w['일치율']:.0f}% ({int(w['건수'])}건)")
 
     status = "bad" if match_rate < 0.5 else "warn" if match_rate < 0.9 else "good"
     write_meta(CAT, title="KSIC 코드 정합성",

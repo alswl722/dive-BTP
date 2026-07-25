@@ -15,8 +15,9 @@ import type { Axis, Company, CompositeGroup } from "@/types";
 // 개요 탭은 해체됨 — 종합점수·7축 그래프는 상단(심사요약 자리)으로 승격, 나머지 박스는
 // 재무/R&D/사업정체성 탭으로 이동(재무추세·핵심재무지표→재무, 인증→R&D, 정합성→사업정체성).
 // 지원이력 탭은 중복수혜로 통합됐다. 고용 탭은 재무 4축과 별도 축(스코어링 미포함).
-const TAB_LIST = ["재무", "R&D", "고용", "중복수혜", "사업정체성"] as const;
-type Tab = (typeof TAB_LIST)[number];
+// export인 이유 — 리포트 편집 빌더가 "전체 담기"에서 이 목록대로 탭을 순회한다.
+export const TAB_LIST = ["재무", "R&D", "고용", "중복수혜", "사업정체성"] as const;
+export type Tab = (typeof TAB_LIST)[number];
 
 import { DEFAULT_TECH_WEIGHTS, type TechAxis } from "@/lib/scoring";
 
@@ -29,6 +30,8 @@ export function ScorecardPanel({
   techWeights = DEFAULT_TECH_WEIGHTS,
   onClose,
   onExpand,
+  tab: tabProp,
+  onTabChange,
 }: {
   company: Company;
   latestYear: number;
@@ -38,8 +41,13 @@ export function ScorecardPanel({
   techWeights?: Record<TechAxis, number>;
   onClose?: () => void;
   onExpand?: () => void;
+  // 리포트 편집기에서 탭을 제어하며 각 탭을 순회 캡처하기 위한 선택적 controlled 모드
+  tab?: Tab;
+  onTabChange?: (t: Tab) => void;
 }) {
-  const [tab, setTab] = useState<Tab>("재무");
+  const [tabState, setTabState] = useState<Tab>("재무");
+  const tab = tabProp ?? tabState;
+  const setTab = (t: Tab) => (onTabChange ? onTabChange(t) : setTabState(t));
 
   return (
     <div className="space-y-5">

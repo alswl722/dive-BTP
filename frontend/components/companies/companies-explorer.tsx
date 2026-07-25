@@ -241,7 +241,13 @@ export function CompaniesExplorer({ companies, programs }: { companies: Company[
 
           <AdvancedFilterPopover filters={filters} onChange={setFilters} />
 
-          <CompanyBatchExport companies={companies} programs={programs} />
+          {/* 지금 보고 있는 사업·기업을 리포트 편집기가 그대로 이어받게 넘긴다 */}
+          <CompanyBatchExport
+            companies={companies}
+            programs={programs}
+            currentProgKey={filters.programKey}
+            currentCompanyId={openId}
+          />
 
           <label className="flex shrink-0 cursor-pointer items-center gap-1.5 text-[12px] text-muted-foreground">
             <input

@@ -15,6 +15,7 @@ import {
 } from "@/lib/duplicate-risk";
 import { deptKey, findConcurrentPairs, summarizeConcurrent } from "@/lib/concurrent-support";
 import { DuplicateFlagDetailPanel } from "@/components/axis9/DuplicateFlagBadge";
+import { Selectable } from "@/lib/report-select";
 
 const resultVariant = { 선정: "good", 탈락: "bad", 포기: "secondary" } as const;
 
@@ -35,44 +36,50 @@ export function DuplicateRiskTab({ company, latestYear }: { company: Company; la
           이 탭은 다른 탭과 달리 AxisSignals(요약 문장)를 쓰지 않는다 — 아래
           flag 판정·동시수혜 패널·연도별 카드가 이미 같은 내용을 근거와 함께
           보여주므로, 요약 문장을 더 얹으면 같은 정보가 두 번 반복된다. */}
-      <DuplicateFlagDetailPanel flag={company.duplicateFlag} />
+      <Selectable id="dup-flag"><DuplicateFlagDetailPanel flag={company.duplicateFlag} /></Selectable>
 
       {/* 동시 수행 지원 (기간 겹침) — flag 판정의 부가 근거 성격 */}
       <ConcurrentPanel summary={concurrent} pairs={crossDeptSameTypePairs} />
 
       <div className="border-t pt-4" />
 
-      <div className="flex items-center justify-between">
-        <p className="text-[14px] font-bold">
-          최근 {byYear.length}개년 선정 분석 <span className="font-normal text-muted-foreground">({from}~{latestYear})</span>
-        </p>
-        <Badge variant={RISK_LEVEL_BADGE[level]} className="text-[12px]">
-          중복 위험도: {level}
-        </Badge>
-      </div>
-
-      <div className="grid grid-cols-3 gap-3">
-        {byYear.map(({ year, count }) => (
-          <div key={year} className="rounded-lg bg-subtle py-4 text-center">
-            <p className="text-[12px] text-muted-foreground">{year}년</p>
-            <p className="mt-1 text-[22px] font-extrabold tabular-nums">{count}</p>
-            <p className="text-[11px] text-muted-foreground">선정</p>
+      {/* space-y-5 — 이 탭의 다른 형제 블록과 같은 간격. Selectable은 선택모드가 아니어도
+          children(이 래퍼 div)을 그대로 렌더하므로, 여기 간격을 좁히면 실제 상세페이지가 바뀐다. */}
+      <Selectable id="dup-recent">
+        <div className="space-y-5">
+          <div className="flex items-center justify-between">
+            <p className="text-[14px] font-bold">
+              최근 {byYear.length}개년 선정 분석 <span className="font-normal text-muted-foreground">({from}~{latestYear})</span>
+            </p>
+            <Badge variant={RISK_LEVEL_BADGE[level]} className="text-[12px]">
+              중복 위험도: {level}
+            </Badge>
           </div>
-        ))}
-      </div>
 
-      {count >= DUPLICATE_RISK_THRESHOLD && (
-        <div className="flex items-start gap-2 rounded-lg bg-warn-bg px-3.5 py-3 text-[12px] text-[hsl(30_75%_38%)]">
-          <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-          <p>
-            최근 {byYear.length}년 내 {count}회 선정됨. 중복수혜 가이드라인 검토 필요.
-          </p>
+          <div className="grid grid-cols-3 gap-3">
+            {byYear.map(({ year, count }) => (
+              <div key={year} className="rounded-lg bg-subtle py-4 text-center">
+                <p className="text-[12px] text-muted-foreground">{year}년</p>
+                <p className="mt-1 text-[22px] font-extrabold tabular-nums">{count}</p>
+                <p className="text-[11px] text-muted-foreground">선정</p>
+              </div>
+            ))}
+          </div>
+
+          {count >= DUPLICATE_RISK_THRESHOLD && (
+            <div className="flex items-start gap-2 rounded-lg bg-warn-bg px-3.5 py-3 text-[12px] text-[hsl(30_75%_38%)]">
+              <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+              <p>
+                최근 {byYear.length}년 내 {count}회 선정됨. 중복수혜 가이드라인 검토 필요.
+              </p>
+            </div>
+          )}
         </div>
-      )}
+      </Selectable>
 
       {/* 전체 지원이력 (기본 접힘) — flag/중복위험 판정 근거를 담당자가 원본 시간축으로
           확인하고 싶을 때 열어보는 상세. 최근 3년 요약(위)과 겹치지 않도록 기본 닫힘. */}
-      <FullHistoryDisclosure company={company} />
+      <Selectable id="dup-history"><FullHistoryDisclosure company={company} /></Selectable>
     </div>
   );
 }
@@ -91,50 +98,53 @@ function ConcurrentPanel({
 }) {
   if (summary.total === 0 && summary.missingPeriod === 0) return null;
 
+  // 널 가드 뒤에 감싼다 — 겹치는 건이 없으면 아예 렌더되지 않아야 하므로.
   return (
-    <div className="space-y-2">
-      {summary.total > 0 && (
-        <div className="rounded-lg border p-3.5">
-          <div className="flex items-center gap-2">
-            <Layers className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-            <p className="text-[12.5px] font-bold">동시 수행 지원</p>
-          </div>
-          <p className="mt-1.5 text-[12px] text-muted-foreground">
-            수행 기간이 겹치는 건 <b className="text-foreground">{summary.total}쌍</b>
-            {summary.crossDept > 0 && <> · 그중 다른 사업군 <b className="text-foreground">{summary.crossDept}쌍</b></>}
-            {summary.crossDeptSameType > 0 && <> · 같은 성격 <b className="text-bad">{summary.crossDeptSameType}쌍</b></>}
-          </p>
-          {summary.deptUnknown > 0 && (
-            <p className="mt-1 text-[11px] text-muted-foreground">
-              ※ {summary.deptUnknown}쌍은 연도가 달라 사업군을 비교할 수 없습니다(2024년 사업코드 체계 개편).
+    <Selectable id="dup-concurrent">
+      <div className="space-y-2">
+        {summary.total > 0 && (
+          <div className="rounded-lg border p-3.5">
+            <div className="flex items-center gap-2">
+              <Layers className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+              <p className="text-[12.5px] font-bold">동시 수행 지원</p>
+            </div>
+            <p className="mt-1.5 text-[12px] text-muted-foreground">
+              수행 기간이 겹치는 건 <b className="text-foreground">{summary.total}쌍</b>
+              {summary.crossDept > 0 && <> · 그중 다른 사업군 <b className="text-foreground">{summary.crossDept}쌍</b></>}
+              {summary.crossDeptSameType > 0 && <> · 같은 성격 <b className="text-bad">{summary.crossDeptSameType}쌍</b></>}
             </p>
-          )}
-        </div>
-      )}
-
-      {pairs.length > 0 && (
-        <div className="flex items-start gap-2 rounded-lg bg-bad-bg px-3.5 py-3 text-[12px] text-bad">
-          <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-          <div className="min-w-0">
-            <p className="font-bold">같은 성격의 지원을 다른 사업군에서 동시 수령</p>
-            <ul className="mt-1 space-y-0.5 text-[11.5px] opacity-90">
-              {pairs.slice(0, 4).map((p, i) => (
-                <li key={i}>
-                  {p.a.bizType} — {p.a.programName ?? p.a.programCode} + {p.b.programName ?? p.b.programCode}
-                </li>
-              ))}
-              {pairs.length > 4 && <li>외 {pairs.length - 4}건</li>}
-            </ul>
+            {summary.deptUnknown > 0 && (
+              <p className="mt-1 text-[11px] text-muted-foreground">
+                ※ {summary.deptUnknown}쌍은 연도가 달라 사업군을 비교할 수 없습니다(2024년 사업코드 체계 개편).
+              </p>
+            )}
           </div>
-        </div>
-      )}
+        )}
 
-      {summary.missingPeriod > 0 && (
-        <p className="text-[11px] text-muted-foreground">
-          ※ 수행 기간이 없는 선정 건 {summary.missingPeriod}건은 판정에서 제외됐습니다(과소 판정 가능).
-        </p>
-      )}
-    </div>
+        {pairs.length > 0 && (
+          <div className="flex items-start gap-2 rounded-lg bg-bad-bg px-3.5 py-3 text-[12px] text-bad">
+            <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+            <div className="min-w-0">
+              <p className="font-bold">같은 성격의 지원을 다른 사업군에서 동시 수령</p>
+              <ul className="mt-1 space-y-0.5 text-[11.5px] opacity-90">
+                {pairs.slice(0, 4).map((p, i) => (
+                  <li key={i}>
+                    {p.a.bizType} — {p.a.programName ?? p.a.programCode} + {p.b.programName ?? p.b.programCode}
+                  </li>
+                ))}
+                {pairs.length > 4 && <li>외 {pairs.length - 4}건</li>}
+              </ul>
+            </div>
+          </div>
+        )}
+
+        {summary.missingPeriod > 0 && (
+          <p className="text-[11px] text-muted-foreground">
+            ※ 수행 기간이 없는 선정 건 {summary.missingPeriod}건은 판정에서 제외됐습니다(과소 판정 가능).
+          </p>
+        )}
+      </div>
+    </Selectable>
   );
 }
 

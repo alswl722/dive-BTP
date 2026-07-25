@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { AlertTriangle, ChevronDown, Info, ShieldAlert } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Selectable } from "@/lib/report-select";
 import { deriveReviewSignals, type AxisKey, type Severity } from "@/lib/review-summary";
 import type { Company } from "@/types";
 
@@ -21,33 +22,37 @@ export function AxisSignals({ company, latestYear, axis }: { company: Company; l
   const signals = deriveReviewSignals(company, latestYear).filter((s) => s.axis === axis);
   if (signals.length === 0) return null;
 
+  // Selectable을 호출부가 아니라 여기(널 가드 뒤)에 두는 이유 — 신호가 없으면 이 컴포넌트가
+  // null을 반환하는데, 밖에서 감싸면 선택모드에서 빈 체크박스 상자만 남는다.
   return (
-    <div className="space-y-1.5">
-      {signals.map((s, i) => {
-        if (s.kind === "employment") {
-          return <EmploymentSignal key={`${s.title}-${i}`} company={company} sev={s.sev} title={s.title} detail={s.detail} />;
-        }
-        if (s.kind === "lifeline") {
-          return <LifelineSignal key={`${s.title}-${i}`} company={company} sev={s.sev} title={s.title} detail={s.detail} />;
-        }
-        const style = SEV_STYLE[s.sev];
-        const Icon = style.icon;
-        return (
-          <div key={`${s.title}-${i}`} className={cn("flex items-start gap-2 rounded-lg px-2.5 py-1.5", style.wrap)}>
-            <Icon
-              className={cn(
-                "mt-[3px] h-3.5 w-3.5 shrink-0",
-                s.sev === "위험" ? "text-bad" : s.sev === "주의" ? "text-[hsl(30_75%_38%)]" : "text-muted-foreground"
-              )}
-            />
-            <span className="min-w-0 flex-1">
-              <span className="block text-[12px] font-bold leading-tight">{s.title}</span>
-              <span className="mt-0.5 block text-[11px] leading-snug text-muted-foreground">{s.detail}</span>
-            </span>
-          </div>
-        );
-      })}
-    </div>
+    <Selectable id={`sig-${axis}`}>
+      <div className="space-y-1.5">
+        {signals.map((s, i) => {
+          if (s.kind === "employment") {
+            return <EmploymentSignal key={`${s.title}-${i}`} company={company} sev={s.sev} title={s.title} detail={s.detail} />;
+          }
+          if (s.kind === "lifeline") {
+            return <LifelineSignal key={`${s.title}-${i}`} company={company} sev={s.sev} title={s.title} detail={s.detail} />;
+          }
+          const style = SEV_STYLE[s.sev];
+          const Icon = style.icon;
+          return (
+            <div key={`${s.title}-${i}`} className={cn("flex items-start gap-2 rounded-lg px-2.5 py-1.5", style.wrap)}>
+              <Icon
+                className={cn(
+                  "mt-[3px] h-3.5 w-3.5 shrink-0",
+                  s.sev === "위험" ? "text-bad" : s.sev === "주의" ? "text-[hsl(30_75%_38%)]" : "text-muted-foreground"
+                )}
+              />
+              <span className="min-w-0 flex-1">
+                <span className="block text-[12px] font-bold leading-tight">{s.title}</span>
+                <span className="mt-0.5 block text-[11px] leading-snug text-muted-foreground">{s.detail}</span>
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </Selectable>
   );
 }
 

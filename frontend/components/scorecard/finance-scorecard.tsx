@@ -5,6 +5,7 @@ import { AlertTriangle, ArrowDown, ChevronDown } from "lucide-react";
 import { Area, AreaChart, ReferenceDot, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Badge } from "@/components/ui/badge";
 import { AxisRadar } from "@/components/charts/axis-radar";
+import { Selectable } from "@/lib/report-select";
 import { cn, formatKRW } from "@/lib/utils";
 import { scoreBand, SCORE_BAND_BADGE } from "@/lib/scoring";
 import { AXES, type Axis, type Company, type SupportRecord, type TrendPoint } from "@/types";
@@ -90,23 +91,26 @@ function fireRiskRules(company: Company): string[] {
 
 function RiskGate({ rules }: { rules: string[] }) {
   if (rules.length === 0) return null;
+  // 널 가드 뒤에 감싼다 — 위험 신호가 없으면 아예 렌더되지 않아야 하므로.
   return (
-    <div className="rounded-xl bg-bad-bg p-4">
-      <div className="flex items-start gap-2.5">
-        <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-bad" aria-hidden />
-        <div className="min-w-0">
-          <p className="text-[13.5px] font-bold text-bad">재무 위험 신호 — 결격 검토 필요</p>
-          <ul className="mt-1.5 space-y-1">
-            {rules.map((r) => (
-              <li key={r} className="flex gap-1.5 text-[12.5px] leading-snug text-bad">
-                <span aria-hidden>·</span>
-                <span>{r}</span>
-              </li>
-            ))}
-          </ul>
+    <Selectable id="fin-risk">
+      <div className="rounded-xl bg-bad-bg p-4">
+        <div className="flex items-start gap-2.5">
+          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-bad" aria-hidden />
+          <div className="min-w-0">
+            <p className="text-[13.5px] font-bold text-bad">재무 위험 신호 — 결격 검토 필요</p>
+            <ul className="mt-1.5 space-y-1">
+              {rules.map((r) => (
+                <li key={r} className="flex gap-1.5 text-[12.5px] leading-snug text-bad">
+                  <span aria-hidden>·</span>
+                  <span>{r}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
+    </Selectable>
   );
 }
 
@@ -380,28 +384,34 @@ export function FinanceScorecard({ company }: { company: Company }) {
     <div className="space-y-5">
       <RiskGate rules={riskRules} />
 
-      <div>
-        <p className="mb-2.5 text-[12.5px] font-bold">업종 평균 대비</p>
-        <AxisRadar scores={company.scores} />
-      </div>
-
-      <div>
-        <p className="mb-2 text-[12.5px] font-bold">재무 4축</p>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {AXES.map((axis) => (
-            <AxisTile key={axis} company={company} axis={axis} supportsByYear={supportsByYear} />
-          ))}
+      <Selectable id="fin-radar">
+        <div>
+          <p className="mb-2.5 text-[12.5px] font-bold">업종 평균 대비</p>
+          <AxisRadar scores={company.scores} />
         </div>
-      </div>
+      </Selectable>
 
-      <div>
-        <p className="mb-1 text-[12.5px] font-bold">축별 세부지표 <span className="font-normal text-muted-foreground">· 서류 검증용 원값</span></p>
-        <div className="rounded-lg bg-subtle px-3.5">
-          {AXES.map((axis) => (
-            <DrillDownRow key={axis} company={company} axis={axis} open={openAxis === axis} onToggle={() => setOpenAxis((cur) => (cur === axis ? null : axis))} />
-          ))}
+      <Selectable id="fin-axes">
+        <div>
+          <p className="mb-2 text-[12.5px] font-bold">재무 4축</p>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {AXES.map((axis) => (
+              <AxisTile key={axis} company={company} axis={axis} supportsByYear={supportsByYear} />
+            ))}
+          </div>
         </div>
-      </div>
+      </Selectable>
+
+      <Selectable id="fin-drill">
+        <div>
+          <p className="mb-1 text-[12.5px] font-bold">축별 세부지표 <span className="font-normal text-muted-foreground">· 서류 검증용 원값</span></p>
+          <div className="rounded-lg bg-subtle px-3.5">
+            {AXES.map((axis) => (
+              <DrillDownRow key={axis} company={company} axis={axis} open={openAxis === axis} onToggle={() => setOpenAxis((cur) => (cur === axis ? null : axis))} />
+            ))}
+          </div>
+        </div>
+      </Selectable>
     </div>
   );
 }

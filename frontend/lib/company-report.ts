@@ -10,15 +10,7 @@ import { resolveOverallScore, techGroupScore } from "@/lib/scoring";
 import { deriveRiskGrade } from "@/lib/review-summary";
 import { recentSelectionCount, riskLevel, DUPLICATE_RISK_WINDOW_YEARS } from "@/lib/duplicate-risk";
 import { formatKRW } from "@/lib/utils";
-
-type Cell = string | number;
-
-const scoreOr = (v: number | null | undefined) => (v == null ? "-" : `${Math.round(v)}점`);
-const ratioPct = (v: number | null | undefined) => (v == null ? "-" : `${(v * 100).toFixed(1)}%`);
-const roundPct = (v: number | null | undefined) => (v == null ? "-" : `${Math.round(v * 100)}%`);
-const yesNo = (v: boolean | null | undefined) => (v ? "예" : "아니오");
-/** 정부연구비 단위는 '원' → 천원으로 맞춰 formatKRW 재사용. */
-const gov = (won: number | null | undefined) => (won == null ? "-" : won === 0 ? "0원" : formatKRW(won / 1000));
+import { gov, ratioPct, roundPct, scoreOr, yesNo, type Cell, type ReportSection } from "@/lib/report-format";
 
 /** 설립일(YYYY-MM-DD) → 업력(년). 기준연도는 데이터 최신연도(latestYear). */
 function bizAge(foundedDate: string | null, latestYear: number): string {
@@ -42,11 +34,6 @@ function revenueTrend(company: Company): string {
 function heldCerts(company: Company): string {
   const held = Object.entries(company.certifications ?? {}).filter(([, v]) => v).map(([k]) => k);
   return held.length ? held.join(", ") : "없음";
-}
-
-export interface ReportSection {
-  heading: string;
-  rows: [string, Cell][];
 }
 
 /** PDF/인쇄 리포트용 — 상세페이지 핵심을 6~7개 섹션(라벨/값)으로. 심사 결정이 있으면 맨 앞. */

@@ -5,7 +5,10 @@
 // Noto Sans KR(var(--font-sans))을 그대로 쓴다. 인쇄도 새 창(window.open) 대신 앱 문서
 // 안에서 @media print로 처리해, 어떤 OS/브라우저에서도 화면과 같은 폰트로 출력된다.
 
-type Cell = string | number | null | undefined;
+import type { Cell, ReportSection } from "@/lib/report-format";
+
+// 렌더러 시그니처에 쓰이므로 여기서도 재노출한다(pdf.ts 등 기존 import 경로 유지).
+export type { Cell, ReportSection };
 
 const esc = (v: Cell): string => {
   const s = v == null ? "" : String(v);
@@ -30,11 +33,6 @@ export function downloadCsv(fileName: string, csv: string) {
 
 export const escHtml = (v: Cell): string =>
   (v == null ? "" : String(v)).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]!));
-
-export interface ReportSection {
-  heading: string;
-  rows: [string, Cell][];
-}
 
 // 앱 번들 폰트를 최우선으로, OS 폰트는 뒤 fallback으로만. var(--font-sans)는 <html>에
 // 항상 세팅돼 있어 어느 환경에서든 동일하게 해석된다(next/font 자체 호스팅).

@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/ui/stat-card";
 import { AxisSignals } from "@/components/scorecard/axis-signals";
 import { ExternalTechSignals } from "@/components/scorecard/external-tech-signals";
+import { Selectable } from "@/lib/report-select";
 import type { Company, Tech } from "@/types";
 import { cn, formatKRW } from "@/lib/utils";
 // 임계값 단일 출처 — 심사 요약과 같은 기준으로 판정해야 화면끼리 어긋나지 않는다.
@@ -45,113 +46,119 @@ export function RndTab({ company, latestYear }: { company: Company; latestYear: 
       <AxisSignals company={company} latestYear={latestYear} axis="R&D" />
 
       {/* 기술 분야 — "얼마나"가 아니라 "어느 분야에서" */}
-      {tech && <DomainSection domain={tech.domain} />}
+      {tech && <Selectable id="rnd-domain"><DomainSection domain={tech.domain} /></Selectable>}
 
       {/* 외부 공공데이터 보강(목업) — 벤처확인 유형·특허 기술분류·정부지원 대비 성과 */}
-      {tech && <ExternalTechSignals company={company} />}
+      {tech && <Selectable id="rnd-external"><ExternalTechSignals company={company} /></Selectable>}
 
       {/* 특허 실적 — 규모(등록·출원)와 질·활동(전환율·최근출원)을 한 묶음으로 */}
-      <section className="space-y-2">
-        <SectionLabel>특허</SectionLabel>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <StatCard
-            label="특허 등록"
-            value={`${company.patents.등록 ?? 0}건`}
-            sub={rankText(tech?.percentiles["특허등록"], basis) ?? undefined}
-          />
-          <StatCard
-            label="특허 출원"
-            value={`${company.patents.출원 ?? 0}건`}
-            sub={rankText(tech?.percentiles["특허출원"], basis) ?? undefined}
-          />
-          <StatCard
-            label="특허 전환율"
-            value={pct(tech?.patents.등록전환율)}
-            sub={applied > 0 ? `출원 ${applied} · 등록 ${registered}` : undefined}
-          />
-          <StatCard
-            label="최근 3년 출원"
-            value={`${tech?.patents.최근3년출원 ?? 0}건`}
-            sub={tech?.patents.최근출원비중 != null ? `전체의 ${pct(tech.patents.최근출원비중)}` : undefined}
-          />
-        </div>
+      <Selectable id="rnd-patent">
+        <section className="space-y-2">
+          <SectionLabel>특허</SectionLabel>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <StatCard
+              label="특허 등록"
+              value={`${company.patents.등록 ?? 0}건`}
+              sub={rankText(tech?.percentiles["특허등록"], basis) ?? undefined}
+            />
+            <StatCard
+              label="특허 출원"
+              value={`${company.patents.출원 ?? 0}건`}
+              sub={rankText(tech?.percentiles["특허출원"], basis) ?? undefined}
+            />
+            <StatCard
+              label="특허 전환율"
+              value={pct(tech?.patents.등록전환율)}
+              sub={applied > 0 ? `출원 ${applied} · 등록 ${registered}` : undefined}
+            />
+            <StatCard
+              label="최근 3년 출원"
+              value={`${tech?.patents.최근3년출원 ?? 0}건`}
+              sub={tech?.patents.최근출원비중 != null ? `전체의 ${pct(tech.patents.최근출원비중)}` : undefined}
+            />
+          </div>
 
-        {/* 권리 귀속 — 등록 특허 중 대표·임원 개인 명의가 있으면 알린다.
-            법인 자산이 아니라 대표 이탈 시 회사에 남지 않으므로 심사자가 알아야 한다.
-            (점수에서 빼진 않는다 — 직무발명 승계 여부를 알 수 없어 일괄 제외는 과함) */}
-        {tech && (tech.patents.대표개인명의_등록 ?? 0) > 0 && (
-          <p className="flex items-start gap-1.5 text-[11.5px] text-muted-foreground">
-            <UserRound className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-            <span>
-              등록 특허 {tech.patents.등록 ?? 0}건 중{" "}
-              <b className="text-foreground">{tech.patents.대표개인명의_등록}건이 대표·임원 개인 명의</b>입니다. 법인 자산이 아니라
-              대표 이탈 시 회사에 남지 않습니다. (아래 특허 목록에서 확인)
-            </span>
-          </p>
-        )}
-      </section>
+          {/* 권리 귀속 — 등록 특허 중 대표·임원 개인 명의가 있으면 알린다.
+              법인 자산이 아니라 대표 이탈 시 회사에 남지 않으므로 심사자가 알아야 한다.
+              (점수에서 빼진 않는다 — 직무발명 승계 여부를 알 수 없어 일괄 제외는 과함) */}
+          {tech && (tech.patents.대표개인명의_등록 ?? 0) > 0 && (
+            <p className="flex items-start gap-1.5 text-[11.5px] text-muted-foreground">
+              <UserRound className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+              <span>
+                등록 특허 {tech.patents.등록 ?? 0}건 중{" "}
+                <b className="text-foreground">{tech.patents.대표개인명의_등록}건이 대표·임원 개인 명의</b>입니다. 법인 자산이 아니라
+                대표 이탈 시 회사에 남지 않습니다. (아래 특허 목록에서 확인)
+              </span>
+            </p>
+          )}
+        </section>
+      </Selectable>
 
       {/* 정부 R&D·투자 — 정부가 투입한 규모 + 회사 자체 투자 의지 + 현재 활동성 */}
       {tech && (
-        <section className="space-y-2">
-          <SectionLabel>정부 R&D · 투자</SectionLabel>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-            <StatCard
-              label="NTIS 주관"
-              value={`${tech.ntis.주관과제수 ?? 0}건`}
-              sub={rankText(tech.percentiles["NTIS과제수"], basis) ?? (tech.ntis.부처다양성 != null ? `${tech.ntis.부처다양성}개 부처` : undefined)}
-            />
-            <StatCard
-              label="누적 정부연구비"
-              value={govFunding(tech.ntis.정부연구비_원)}
-              sub="정부 R&D 수주 총액"
-            />
-            {/* 민간부담률 — 정부 과제에 회사가 자기 돈을 얼마나 매칭했나(지원금만 vs 자기투자) */}
-            <StatCard
-              label="민간부담률"
-              value={tech.ntis.민간부담률 != null ? pct(tech.ntis.민간부담률) : "—"}
-              sub={
-                tech.ntis.민간부담률 != null
-                  ? `자체 R&D ${govFunding(tech.ntis.민간연구비_원)}`
-                  : "정부 R&D 없음"
-              }
-            />
-            {/* 정부 R&D 진행중 — '과거의 영광'인지 '현재도 수행 중'인지 */}
-            <StatCard
-              label="정부 R&D 진행중"
-              value={`${tech.ntis.진행중과제수 ?? 0}건`}
-              sub={tech.ntis.최근수주연도 != null ? `최근 수주 ${tech.ntis.최근수주연도}` : "정부 R&D 없음"}
-            />
-            <StatCard label="NTIS 위탁" value={`${tech.ntis.위탁과제수 ?? 0}건`} sub="공동연구 참여" />
-            <StatCard
-              label="R&D 집약도"
-              value={pct(tech.rnd.집약도)}
-              sub={intensityTrend(tech.rnd.집약도추세) ?? rankText(tech.percentiles["R&D집약도"], basis) ?? "연구개발비 ÷ 매출"}
-            />
-          </div>
-        </section>
+        <Selectable id="rnd-gov">
+          <section className="space-y-2">
+            <SectionLabel>정부 R&D · 투자</SectionLabel>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              <StatCard
+                label="NTIS 주관"
+                value={`${tech.ntis.주관과제수 ?? 0}건`}
+                sub={rankText(tech.percentiles["NTIS과제수"], basis) ?? (tech.ntis.부처다양성 != null ? `${tech.ntis.부처다양성}개 부처` : undefined)}
+              />
+              <StatCard
+                label="누적 정부연구비"
+                value={govFunding(tech.ntis.정부연구비_원)}
+                sub="정부 R&D 수주 총액"
+              />
+              {/* 민간부담률 — 정부 과제에 회사가 자기 돈을 얼마나 매칭했나(지원금만 vs 자기투자) */}
+              <StatCard
+                label="민간부담률"
+                value={tech.ntis.민간부담률 != null ? pct(tech.ntis.민간부담률) : "—"}
+                sub={
+                  tech.ntis.민간부담률 != null
+                    ? `자체 R&D ${govFunding(tech.ntis.민간연구비_원)}`
+                    : "정부 R&D 없음"
+                }
+              />
+              {/* 정부 R&D 진행중 — '과거의 영광'인지 '현재도 수행 중'인지 */}
+              <StatCard
+                label="정부 R&D 진행중"
+                value={`${tech.ntis.진행중과제수 ?? 0}건`}
+                sub={tech.ntis.최근수주연도 != null ? `최근 수주 ${tech.ntis.최근수주연도}` : "정부 R&D 없음"}
+              />
+              <StatCard label="NTIS 위탁" value={`${tech.ntis.위탁과제수 ?? 0}건`} sub="공동연구 참여" />
+              <StatCard
+                label="R&D 집약도"
+                value={pct(tech.rnd.집약도)}
+                sub={intensityTrend(tech.rnd.집약도추세) ?? rankText(tech.percentiles["R&D집약도"], basis) ?? "연구개발비 ÷ 매출"}
+              />
+            </div>
+          </section>
+        </Selectable>
       )}
 
       {tech && <TechWarnings tech={tech} />}
       {tech && <PatentDrilldown patents={tech.patentList} />}
 
       {/* 인증 — 실체와 교차해서 본다 */}
-      <div>
-        <div className="mb-2.5 flex items-center justify-between">
-          <p className="text-[12.5px] font-bold">인증 취득현황</p>
-          {tech?.certification.실체괴리 && (
-            <Badge variant="bad" className="text-[11px]">서류 vs 실체 불일치</Badge>
-          )}
+      <Selectable id="rnd-cert">
+        <div>
+          <div className="mb-2.5 flex items-center justify-between">
+            <p className="text-[12.5px] font-bold">인증 취득현황</p>
+            {tech?.certification.실체괴리 && (
+              <Badge variant="bad" className="text-[11px]">서류 vs 실체 불일치</Badge>
+            )}
+          </div>
+          {/* 개요 탭과 동일한 뱃지 톤 — 보유는 초록, 미보유는 회색(흐리게) */}
+          <div className="flex flex-wrap gap-1.5">
+            {Object.entries(company.certifications).map(([k, has]) => (
+              <Badge key={k} variant={has ? "good" : "secondary"} className={!has ? "opacity-50" : undefined}>
+                {k}
+              </Badge>
+            ))}
+          </div>
         </div>
-        {/* 개요 탭과 동일한 뱃지 톤 — 보유는 초록, 미보유는 회색(흐리게) */}
-        <div className="flex flex-wrap gap-1.5">
-          {Object.entries(company.certifications).map(([k, has]) => (
-            <Badge key={k} variant={has ? "good" : "secondary"} className={!has ? "opacity-50" : undefined}>
-              {k}
-            </Badge>
-          ))}
-        </div>
-      </div>
+      </Selectable>
 
       {!company.dataQuality.ok && (
         <div className="flex items-start gap-2 rounded-lg bg-warn-bg px-3.5 py-3 text-[12px] text-[hsl(30_75%_38%)]">
@@ -226,58 +233,61 @@ function PatentDrilldown({ patents }: { patents: Tech["patentList"] }) {
   const [open, setOpen] = useState(false);
   if (!patents || patents.length === 0) return null;
 
+  // 널 가드 뒤에 감싼다 — 특허가 없으면 아예 렌더되지 않아야 하므로.
   return (
-    <div>
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-center justify-between rounded-lg border px-3.5 py-2.5 text-[12.5px] transition-colors hover:bg-muted/50"
-      >
-        <span className="font-bold">
-          특허 목록 <span className="font-normal text-muted-foreground">{patents.length}건 · 근거 확인</span>
-        </span>
-        <ChevronDown className={cn("h-4 w-4 text-muted-foreground transition-transform", open && "rotate-180")} />
-      </button>
+    <Selectable id="rnd-patent-list">
+      <div>
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          className="flex w-full items-center justify-between rounded-lg border px-3.5 py-2.5 text-[12.5px] transition-colors hover:bg-muted/50"
+        >
+          <span className="font-bold">
+            특허 목록 <span className="font-normal text-muted-foreground">{patents.length}건 · 근거 확인</span>
+          </span>
+          <ChevronDown className={cn("h-4 w-4 text-muted-foreground transition-transform", open && "rotate-180")} />
+        </button>
 
-      {open && (
-        <div className="mt-2 overflow-hidden rounded-lg border">
-          <div className="grid grid-cols-[1fr_auto_auto_auto] gap-2 border-b bg-subtle px-3 py-2 text-[11px] font-medium text-muted-foreground">
-            <span>종류 · 상태</span>
-            <span className="text-right">출원일</span>
-            <span className="text-right">등록일</span>
-            <span className="text-right">권리</span>
-          </div>
-          <div className="max-h-[280px] divide-y overflow-y-auto">
-            {patents.map((p, i) => (
-              <div key={i} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-2 px-3 py-2 text-[11.5px]">
-                <span className="flex flex-wrap items-center gap-1.5">
-                  <span>{p.type}</span>
-                  <Badge variant={p.status === "등록" ? "good" : "secondary"} className="text-[10px]">
-                    {p.status}
-                  </Badge>
-                  {/* 개인 명의(대표이사·임원)만 표시 — 법인 명의는 정상이라 뱃지 없음 */}
-                  {(p.relation === "대표이사" || p.relation === "임원") && (
-                    <Badge variant="warn" className="gap-0.5 text-[10px]">
-                      <UserRound className="h-2.5 w-2.5" />
-                      {p.relation} 명의
+        {open && (
+          <div className="mt-2 overflow-hidden rounded-lg border">
+            <div className="grid grid-cols-[1fr_auto_auto_auto] gap-2 border-b bg-subtle px-3 py-2 text-[11px] font-medium text-muted-foreground">
+              <span>종류 · 상태</span>
+              <span className="text-right">출원일</span>
+              <span className="text-right">등록일</span>
+              <span className="text-right">권리</span>
+            </div>
+            <div className="max-h-[280px] divide-y overflow-y-auto">
+              {patents.map((p, i) => (
+                <div key={i} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-2 px-3 py-2 text-[11.5px]">
+                  <span className="flex flex-wrap items-center gap-1.5">
+                    <span>{p.type}</span>
+                    <Badge variant={p.status === "등록" ? "good" : "secondary"} className="text-[10px]">
+                      {p.status}
                     </Badge>
-                  )}
-                </span>
-                <span className="text-right tabular-nums text-muted-foreground">{p.applied ?? "—"}</span>
-                <span className="text-right tabular-nums text-muted-foreground">{p.registered ?? "—"}</span>
-                <span className={cn("text-right text-[10.5px]", p.valid === false ? "text-bad" : "text-muted-foreground")}>
-                  {p.status !== "등록" ? "—" : p.valid === false ? "소멸" : "유효"}
-                </span>
-              </div>
-            ))}
+                    {/* 개인 명의(대표이사·임원)만 표시 — 법인 명의는 정상이라 뱃지 없음 */}
+                    {(p.relation === "대표이사" || p.relation === "임원") && (
+                      <Badge variant="warn" className="gap-0.5 text-[10px]">
+                        <UserRound className="h-2.5 w-2.5" />
+                        {p.relation} 명의
+                      </Badge>
+                    )}
+                  </span>
+                  <span className="text-right tabular-nums text-muted-foreground">{p.applied ?? "—"}</span>
+                  <span className="text-right tabular-nums text-muted-foreground">{p.registered ?? "—"}</span>
+                  <span className={cn("text-right text-[10.5px]", p.valid === false ? "text-bad" : "text-muted-foreground")}>
+                    {p.status !== "등록" ? "—" : p.valid === false ? "소멸" : "유효"}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <p className="border-t bg-subtle px-3 py-2 text-[10.5px] text-muted-foreground">
+              기술 IP(특허권·실용신안)만 표시 — 상표권·디자인권은 R&amp;D 산출물이 아니라 집계·목록에서 제외됩니다.
+              <span className="text-warn"> · ‘대표이사/임원 명의’는 법인이 아닌 개인 자산(대표 이탈 시 회사에 남지 않음).</span>
+            </p>
           </div>
-          <p className="border-t bg-subtle px-3 py-2 text-[10.5px] text-muted-foreground">
-            기술 IP(특허권·실용신안)만 표시 — 상표권·디자인권은 R&amp;D 산출물이 아니라 집계·목록에서 제외됩니다.
-            <span className="text-warn"> · ‘대표이사/임원 명의’는 법인이 아닌 개인 자산(대표 이탈 시 회사에 남지 않음).</span>
-          </p>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </Selectable>
   );
 }
 
@@ -328,24 +338,27 @@ function TechWarnings({ tech }: { tech: Tech }) {
 
   if (warnings.length === 0) return null;
 
+  // 널 가드 뒤에 감싼다 — 경고가 없으면 아예 렌더되지 않아야 하므로.
   return (
-    <div className="space-y-2">
-      {warnings.map((w) => (
-        <div
-          key={w.key}
-          className={cn(
-            "flex items-start gap-2 rounded-lg px-3.5 py-3 text-[12px]",
-            w.tone === "bad" ? "bg-bad-bg text-bad" : "bg-warn-bg text-[hsl(30_75%_38%)]"
-          )}
-        >
-          {w.tone === "bad" ? (
-            <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-          ) : (
-            <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-          )}
-          <p>{w.text}</p>
-        </div>
-      ))}
-    </div>
+    <Selectable id="rnd-warnings">
+      <div className="space-y-2">
+        {warnings.map((w) => (
+          <div
+            key={w.key}
+            className={cn(
+              "flex items-start gap-2 rounded-lg px-3.5 py-3 text-[12px]",
+              w.tone === "bad" ? "bg-bad-bg text-bad" : "bg-warn-bg text-[hsl(30_75%_38%)]"
+            )}
+          >
+            {w.tone === "bad" ? (
+              <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+            ) : (
+              <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+            )}
+            <p>{w.text}</p>
+          </div>
+        ))}
+      </div>
+    </Selectable>
   );
 }

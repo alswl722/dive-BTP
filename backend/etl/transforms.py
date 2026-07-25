@@ -10,6 +10,8 @@
 - blank_to_none(v)        : 공백 문자열(" ")을 None으로 통일 (원본에 자주 등장).
 - normalize_ministry(v)   : 부처 약칭/오탈자 → 정식명칭(config/ministry_map.yaml).
                             결측 → "미상". 매핑에 없는 값은 원본 유지(임의 추정 금지).
+- normalize_region(v)     : NTIS 지역구분명 표기편차 → 시도 롤업(부산은 구 유지,
+                            config/region_map.yaml). 결측 → "미상".
 """
 
 from __future__ import annotations
@@ -124,3 +126,36 @@ def normalize_ministry(v):
         return missing_label
     key = str(v).strip().replace(" ", "")
     return alias.get(key, str(v).strip())
+
+
+@lru_cache(maxsize=1)
+def _region_map() -> tuple[dict[str, str], tuple[str, ...], str]:
+    with open(CONFIG_DIR / "region_map.yaml", encoding="utf-8") as f:
+        cfg = yaml.safe_load(f)
+    alias = {
+        str(k).strip().replace(" ", ""): v
+        for k, v in (cfg.get("alias_to_canonical") or {}).items()
+    }
+    keep_prefix = tuple(cfg.get("keep_district_prefix") or ())
+    return alias, keep_prefix, cfg.get("missing_label", "미상")
+
+
+def normalize_region(v):
+    """NTIS 지역구분명 표기 편차 → 시도 레벨 롤업(부산은 구 단위 유지). 결측은 missing_label.
+
+    config/region_map.yaml에 없는 값은 시도 롤업 규칙(첫 토큰만 취함)을 적용한다.
+    keep_district_prefix에 속한 시도(부산광역시)는 "시도 구" 2단을 그대로 보존한다
+    (부산TP 발제 데이터 특성상 구 단위 분석이 의미 있음 — 처리노트 §2).
+    임의로 새 별칭을 추정해 합치지 않는다(normalize_ministry와 동일 원칙).
+    """
+    alias, keep_prefix, missing_label = _region_map()
+    v = blank_to_none(v)
+    if v is None:
+        return missing_label
+    s = str(v).strip()
+    key = s.replace(" ", "")
+    if key in alias:
+        return alias[key]
+    if s.startswith(keep_prefix):
+        return s
+    return s.split(" ")[0]

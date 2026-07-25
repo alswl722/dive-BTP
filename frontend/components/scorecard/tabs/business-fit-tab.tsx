@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AlertTriangle, Check, ChevronDown, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { AxisSignals } from "@/components/scorecard/axis-signals";
+import { Selectable } from "@/lib/report-select";
 import { cn } from "@/lib/utils";
 import type { Company, MatchType, AlignmentJudgment } from "@/types";
 
@@ -46,43 +47,45 @@ export function BusinessFitTab({ company, latestYear }: { company: Company; late
 
       {/* 종합 판정 — 다른 탭(중복수혜의 DuplicateFlagDetailPanel)과 동일한 톤: 일반 border 카드.
           이전엔 파란 gradient bg 를 써서 사업정체성 탭만 시각적으로 튀었다. */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-[16px] leading-none" role="img" aria-label="AI">🤖</span>
-            <p className="text-[13px] font-bold">종합 판정</p>
-            <Badge variant="slate" className="text-[10px]">AI 판정</Badge>
-          </div>
-          {fit.score !== null && (
-            <div className="flex items-baseline gap-2 rounded-lg border bg-card px-3.5 py-2">
-              <span className="text-[12.5px] text-muted-foreground">정합성</span>
-              <span className="text-[24px] font-extrabold tabular-nums leading-none">
-                {fit.score.toFixed(0)}
-                <span className="text-[13px] font-normal text-muted-foreground ml-0.5">/100</span>
-              </span>
+      <Selectable id="bf-summary">
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="text-[16px] leading-none" role="img" aria-label="AI">🤖</span>
+              <p className="text-[13px] font-bold">종합 판정</p>
+              <Badge variant="slate" className="text-[10px]">AI 판정</Badge>
             </div>
-          )}
-        </div>
-
-        {/* 매치타입별 카운트 — 4카드 그리드 (다른 탭 StatCard 톤과 일치)
-            이전엔 위에 fit.summary 문장("20건 정합성 판정: 직접일치 18건, …")도 있었지만
-            바로 아래 4카운트 카드와 정보가 완전 중복이라 제거. */}
-        <div className="grid grid-cols-4 gap-3">
-          {(["직접일치", "간접관련", "무관", "판단유보"] as MatchType[]).map((mt) => {
-            const count = fit.breakdown[mt] ?? 0;
-            const pct = total > 0 ? (count / total * 100) : 0;
-            const s = MATCH_STYLE[mt];
-            return (
-              <div key={mt} className="rounded-lg bg-subtle p-3 text-center">
-                <div className={cn("mx-auto mb-1 h-2 w-2 rounded-full", s.dot)} />
-                <p className={cn("text-[10.5px] font-medium", s.text)}>{mt}</p>
-                <p className="text-[19px] font-extrabold tabular-nums mt-0.5">{count}</p>
-                <p className="text-[10px] text-muted-foreground">{pct.toFixed(0)}%</p>
+            {fit.score !== null && (
+              <div className="flex items-baseline gap-2 rounded-lg border bg-card px-3.5 py-2">
+                <span className="text-[12.5px] text-muted-foreground">정합성</span>
+                <span className="text-[24px] font-extrabold tabular-nums leading-none">
+                  {fit.score.toFixed(0)}
+                  <span className="text-[13px] font-normal text-muted-foreground ml-0.5">/100</span>
+                </span>
               </div>
-            );
-          })}
+            )}
+          </div>
+
+          {/* 매치타입별 카운트 — 4카드 그리드 (다른 탭 StatCard 톤과 일치)
+              이전엔 위에 fit.summary 문장("20건 정합성 판정: 직접일치 18건, …")도 있었지만
+              바로 아래 4카운트 카드와 정보가 완전 중복이라 제거. */}
+          <div className="grid grid-cols-4 gap-3">
+            {(["직접일치", "간접관련", "무관", "판단유보"] as MatchType[]).map((mt) => {
+              const count = fit.breakdown[mt] ?? 0;
+              const pct = total > 0 ? (count / total * 100) : 0;
+              const s = MATCH_STYLE[mt];
+              return (
+                <div key={mt} className="rounded-lg bg-subtle p-3 text-center">
+                  <div className={cn("mx-auto mb-1 h-2 w-2 rounded-full", s.dot)} />
+                  <p className={cn("text-[10.5px] font-medium", s.text)}>{mt}</p>
+                  <p className="text-[19px] font-extrabold tabular-nums mt-0.5">{count}</p>
+                  <p className="text-[10px] text-muted-foreground">{pct.toFixed(0)}%</p>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      </Selectable>
 
       {/* 판정 대기 알림 — 정보성 카드는 제거했지만 액션 필요 케이스는 유지 */}
       {fit.totalPending > 0 && (
@@ -98,16 +101,18 @@ export function BusinessFitTab({ company, latestYear }: { company: Company; late
 
       {/* 판정 상세 — 매치타입별 접힘. 확인이 시급한 것(무관·판단유보)만 기본 펼침.
           이전엔 전 판정을 다 펼쳐 놓아 탭이 세로로 크게 늘어졌었다(20건 × 각 3~4줄). */}
-      <div>
-        <p className="mb-1 text-[12.5px] font-bold">판정 상세</p>
-        <div className="rounded-lg border bg-card">
-          {(["무관", "판단유보", "간접관련", "직접일치"] as MatchType[]).map((mt) => {
-            const items = grouped[mt];
-            if (items.length === 0) return null;
-            return <MatchTypeGroup key={mt} matchType={mt} items={items} />;
-          })}
+      <Selectable id="bf-detail">
+        <div>
+          <p className="mb-1 text-[12.5px] font-bold">판정 상세</p>
+          <div className="rounded-lg border bg-card">
+            {(["무관", "판단유보", "간접관련", "직접일치"] as MatchType[]).map((mt) => {
+              const items = grouped[mt];
+              if (items.length === 0) return null;
+              return <MatchTypeGroup key={mt} matchType={mt} items={items} />;
+            })}
+          </div>
         </div>
-      </div>
+      </Selectable>
     </div>
   );
 }

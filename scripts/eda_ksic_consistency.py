@@ -129,6 +129,15 @@ def main() -> None:
     print(f"    중분류 일치: {n_match} ({100 * n_match / n_dual:.1f}%)")
     print(f"    중분류 불일치: {n_mismatch} ({100 * n_mismatch / n_dual:.1f}%)")
 
+    # 위 일치율은 "행" 기준이라 한 기업이 여러 건 지원하면 과소평가될 수 있음.
+    # "기업당 하나라도 일치하는 행이 있는가" 기준으로 재계산.
+    per_company_match = dual.groupby(key_col)["_match"].any()
+    n_company_dual = len(per_company_match)
+    n_company_match = int(per_company_match.sum())
+    print(f"\n  [기업 단위 재계산] 두 소스 모두 있는 기업: {n_company_dual}개")
+    print(f"    하나라도 일치하는 행 존재: {n_company_match} "
+          f"({100 * n_company_match / n_company_dual:.1f}%)")
+
     # 불일치 예시 (기업당 1개씩만)
     if n_mismatch > 0:
         print("\n  불일치 사례 (기업당 첫 1건):")

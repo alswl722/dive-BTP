@@ -117,12 +117,19 @@ _run_kodata_eda() {
 }
 
 # KSIC 정합성·종합 커버리지는 KODATA + BTP 둘 다 필요
+# bash 3.2(macOS 기본)는 set -u에서 빈 배열 "${args[@]}" 확장 시 unbound variable 에러 —
+# run_etl_step과 동일하게 배열 대신 인자 유무 분기로 회피한다.
 _run_dual_eda() {
     local script="$1"
-    local args=()
-    [[ -n "$KODATA" ]] && args+=(--kodata "$KODATA")
-    [[ -n "$BTP" ]] && args+=(--btp "$BTP")
-    python3 "$script" "${args[@]}"
+    if [[ -n "$KODATA" && -n "$BTP" ]]; then
+        python3 "$script" --kodata "$KODATA" --btp "$BTP"
+    elif [[ -n "$KODATA" ]]; then
+        python3 "$script" --kodata "$KODATA"
+    elif [[ -n "$BTP" ]]; then
+        python3 "$script" --btp "$BTP"
+    else
+        python3 "$script"
+    fi
 }
 
 # ── 0단계: 합성데이터 자체 테스트 (데이터 무관, 로직 검증) ──────────────

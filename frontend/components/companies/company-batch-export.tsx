@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Download, FileSpreadsheet, FileText, Printer, X } from "lucide-react";
+import { ArrowLeft, Download, FileSpreadsheet, FileText, Pencil, Printer, X } from "lucide-react";
 import type { Company, Program } from "@/types";
 import { useAdminState } from "@/lib/admin-state";
 import { useAuth, isAdmin } from "@/lib/auth";
@@ -13,6 +13,7 @@ import { toCsv, downloadCsv, printReports } from "@/lib/export";
 import { savePdfReports } from "@/lib/pdf";
 import { useToast } from "@/lib/toast";
 import { cn } from "@/lib/utils";
+import { CompanyReportBuilder } from "@/components/companies/company-report-builder";
 
 type Format = "csv" | "pdf" | "print";
 
@@ -32,6 +33,7 @@ const EXT: Record<Format, string> = { pdf: ".pdf", csv: ".csv", print: "" };
  */
 export function CompanyBatchExport({ companies, programs }: { companies: Company[]; programs: Program[] }) {
   const [open, setOpen] = useState(false);
+  const [builder, setBuilder] = useState(false);
   return (
     <>
       <button
@@ -41,12 +43,20 @@ export function CompanyBatchExport({ companies, programs }: { companies: Company
         <Download className="h-3.5 w-3.5" />
         내보내기
       </button>
-      {open && <BatchDialog companies={companies} programs={programs} onClose={() => setOpen(false)} />}
+      {open && (
+        <BatchDialog
+          companies={companies}
+          programs={programs}
+          onClose={() => setOpen(false)}
+          onEdit={() => { setOpen(false); setBuilder(true); }}
+        />
+      )}
+      {builder && <CompanyReportBuilder companies={companies} programs={programs} onClose={() => setBuilder(false)} />}
     </>
   );
 }
 
-function BatchDialog({ companies, programs, onClose }: { companies: Company[]; programs: Program[]; onClose: () => void }) {
+function BatchDialog({ companies, programs, onClose, onEdit }: { companies: Company[]; programs: Program[]; onClose: () => void; onEdit: () => void }) {
   const { assigns } = useAdminState();
   const { user } = useAuth();
   const { statusOf, reasonOf } = useReviewStatus();
@@ -148,6 +158,17 @@ function BatchDialog({ companies, programs, onClose }: { companies: Company[]; p
             <X className="h-3.5 w-3.5" />
           </button>
         </div>
+
+        {phase === "options" && (
+          <button
+            type="button"
+            onClick={onEdit}
+            className="mb-3 flex w-full items-center justify-center gap-1.5 rounded-md border border-dashed border-primary/50 px-3 py-2 text-[12px] font-medium text-primary hover:bg-info-bg"
+          >
+            <Pencil className="h-3.5 w-3.5" />
+            직접 편집 — 원하는 항목만 골라 담기
+          </button>
+        )}
 
         {phase === "options" ? (
         <>

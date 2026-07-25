@@ -67,16 +67,16 @@ def main() -> None:
 
     # ── 1. 분포·결측 ─────────────────────────────────────────────
     _head("[1] 선정결과 값 분포 · 결측률")
-    miss = int(d[si.COL_RESULT].apply(si._missing).sum())
+    miss = int(d[si.COL_RESULT].apply(si._result_missing).sum())
     print(f"  선정결과 결측: {miss}/{n} ({100 * miss / n:.1f}%) → 추론 대상")
-    print("\n  값 분포:")
+    print("\n  값 분포 (원본 그대로 — 날짜 타입 오염값도 결측에 포함되어 위 결측 건수와 다를 수 있음):")
     print(d[si.COL_RESULT].value_counts(dropna=False).to_string().replace("\n", "\n    "))
 
     # ── 2. 규칙 검증 (라벨 대조) ─────────────────────────────────
     _head("[2] 규칙 검증 — 라벨 가리고 추론해 실제와 대조 (오분류 0이어야)")
     fire = correct = abstain = 0
     wrong = []
-    labeled = d[~d[si.COL_RESULT].apply(si._missing)]
+    labeled = d[~d[si.COL_RESULT].apply(si._result_missing)]
     for _, r in labeled.iterrows():
         pred, reason = si.infer_one(None, r.get(si.COL_START), r.get(si.COL_END))
         if reason is None:
@@ -133,7 +133,7 @@ def _render_visualizations(d: pd.DataFrame, frames: list,
     fig, ax = plt.subplots(figsize=(11, 5))
     labels, rates, totals = [], [], []
     for sh, df in zip(SHEETS, frames):
-        m = int(df[si.COL_RESULT].apply(si._missing).sum())
+        m = int(df[si.COL_RESULT].apply(si._result_missing).sum())
         labels.append(sh.replace("_기업지원목록", "").replace("_", ""))
         rates.append(100 * m / len(df) if len(df) else 0)
         totals.append(len(df))

@@ -5,6 +5,7 @@ import { AlertTriangle, ArrowDown, ChevronDown } from "lucide-react";
 import { Area, AreaChart, ReferenceDot, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Badge } from "@/components/ui/badge";
 import { AxisRadar } from "@/components/charts/axis-radar";
+import { Selectable } from "@/lib/report-select";
 import { cn, formatKRW } from "@/lib/utils";
 import { scoreBand, SCORE_BAND_BADGE } from "@/lib/scoring";
 import { AXES, type Axis, type Company, type SupportRecord, type TrendPoint } from "@/types";
@@ -380,11 +381,14 @@ export function FinanceScorecard({ company }: { company: Company }) {
     <div className="space-y-5">
       <RiskGate rules={riskRules} />
 
+      <Selectable id="fin-radar" label="업종 평균 대비(레이더)" kind="chart">
       <div>
         <p className="mb-2.5 text-[12.5px] font-bold">업종 평균 대비</p>
         <AxisRadar scores={company.scores} />
       </div>
+      </Selectable>
 
+      <Selectable id="fin-axes" label="재무 4축" kind="chart">
       <div>
         <p className="mb-2 text-[12.5px] font-bold">재무 4축</p>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -393,7 +397,9 @@ export function FinanceScorecard({ company }: { company: Company }) {
           ))}
         </div>
       </div>
+      </Selectable>
 
+      <Selectable id="fin-drill" label="재무 세부지표" kind="chart">
       <div>
         <p className="mb-1 text-[12.5px] font-bold">축별 세부지표 <span className="font-normal text-muted-foreground">· 서류 검증용 원값</span></p>
         <div className="rounded-lg bg-subtle px-3.5">
@@ -402,6 +408,7 @@ export function FinanceScorecard({ company }: { company: Company }) {
           ))}
         </div>
       </div>
+      </Selectable>
     </div>
   );
 }

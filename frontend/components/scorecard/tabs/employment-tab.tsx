@@ -15,6 +15,7 @@ import { AlertTriangle, ChevronDown, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/ui/stat-card";
 import { AxisSignals } from "@/components/scorecard/axis-signals";
+import { Selectable } from "@/lib/report-select";
 import { cn, formatKRW } from "@/lib/utils";
 import type { Company } from "@/types";
 
@@ -81,16 +82,16 @@ export function EmploymentTab({ company, latestYear }: { company: Company; lates
       <AxisSignals company={company} latestYear={latestYear} axis="고용" />
 
       {/* 1. 인력 규모 · 변화 — 지원사업 심사에서 '고용창출' KPI 핵심 */}
-      <ScaleSection company={company} />
+      <Selectable id="emp-scale" label="인력 규모·변화" kind="chart"><ScaleSection company={company} /></Selectable>
 
       {/* 2. 처우 — 서류상 우수 고용 주장을 실측 급여로 감사 */}
-      <SalarySection company={company} />
+      <Selectable id="emp-salary" label="처우·급여 수준" kind="chart"><SalarySection company={company} /></Selectable>
 
       {/* 3. 인력 생산성 — 성장·수익축과 독립적으로 자본 효율 진단 */}
-      <ProductivitySection company={company} />
+      <Selectable id="emp-productivity" label="인력 생산성" kind="chart"><ProductivitySection company={company} /></Selectable>
 
       {/* 4. 인력 안정성 — 국민연금 3종 기반 이직·회전 */}
-      <StabilitySection company={company} />
+      <Selectable id="emp-stability" label="인력 안정성" kind="chart"><StabilitySection company={company} /></Selectable>
     </div>
   );
 }

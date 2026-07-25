@@ -4,6 +4,7 @@ import { ScoreBadge } from "@/components/ui/score-badge";
 import { BusinessFitCard } from "@/components/axis8/BusinessFitCard";
 import { COMPOSITE_AXES, type Company } from "@/types";
 import { formatKRW, cn } from "@/lib/utils";
+import { Selectable } from "@/lib/report-select";
 
 export function OverviewTab({ company }: { company: Company }) {
   const lastSelectedYear = company.supportHistory.filter((h) => h.result === "선정").map((h) => h.date.slice(0, 4)).sort().at(-1);
@@ -15,6 +16,7 @@ export function OverviewTab({ company }: { company: Company }) {
           나왔는지 한곳에서 확인. 헤더의 종합점수 배지는 커스텀 가중치 반영 값이라 다를 수 있어
           여기서는 항상 서버 원본(compositeScore, 최저축 캡 적용)을 보여준다. */}
       {cs && (
+        <Selectable id="ov-composite" label="종합점수" kind="chart">
         <div className="rounded-lg border p-3.5">
           <p className="mb-2.5 text-[12.5px] font-bold">
             종합점수 <span className="font-normal text-muted-foreground">(재무4축·기술2축·정합성)</span>
@@ -66,15 +68,19 @@ export function OverviewTab({ company }: { company: Company }) {
             ))}
           </div>
         </div>
+        </Selectable>
       )}
 
+      <Selectable id="ov-stats" label="핵심 지표" kind="data">
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <StatCard label="최근 매출" value={formatKRW(company.revenueLatest)} />
         <StatCard label="누적 지원금" value={formatKRW(company.support.총지원금_천원)} sub={`${company.support.건수 ?? 0}건`} />
         <StatCard label="1인당 평균급여" value={formatKRW(company.avgSalaryLatest)} />
         <StatCard label="마지막 선정연도" value={lastSelectedYear ?? "-"} />
       </div>
+      </Selectable>
 
+      <Selectable id="ov-certs" label="보유 인증" kind="data">
       <div>
         <p className="mb-2.5 text-[12.5px] font-bold">보유 인증</p>
         <div className="flex flex-wrap gap-1.5">
@@ -85,18 +91,23 @@ export function OverviewTab({ company }: { company: Company }) {
           ))}
         </div>
       </div>
+      </Selectable>
 
+      <Selectable id="ov-tech-stats" label="특허·NTIS·지원 이력" kind="data">
       <div className="grid grid-cols-3 gap-3">
         <StatCard label="특허(등록/출원)" value={`${company.patents.등록 ?? 0} / ${company.patents.출원 ?? 0}`} />
         <StatCard label="NTIS(주관/위탁)" value={`${company.ntis.주관 ?? 0} / ${company.ntis.위탁 ?? 0}`} />
         <StatCard label="지원 이력" value={`${company.support.건수 ?? 0}건`} sub={`${company.support.지원연도수 ?? 0}개년`} />
       </div>
+      </Selectable>
 
+      <Selectable id="ov-fit" label="사업정체성 정합성" kind="data">
       <BusinessFitCard
         fit={company.businessFit}
         compact
         hasSupportHistory={(company.supportHistory ?? []).length > 0}
       />
+      </Selectable>
     </div>
   );
 }

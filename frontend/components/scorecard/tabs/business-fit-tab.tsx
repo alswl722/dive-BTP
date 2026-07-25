@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AlertTriangle, Check, ChevronDown, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { AxisSignals } from "@/components/scorecard/axis-signals";
+import { Selectable } from "@/lib/report-select";
 import { cn } from "@/lib/utils";
 import type { Company, MatchType, AlignmentJudgment } from "@/types";
 
@@ -46,6 +47,7 @@ export function BusinessFitTab({ company, latestYear }: { company: Company; late
 
       {/* 종합 판정 — 다른 탭(중복수혜의 DuplicateFlagDetailPanel)과 동일한 톤: 일반 border 카드.
           이전엔 파란 gradient bg 를 써서 사업정체성 탭만 시각적으로 튀었다. */}
+      <Selectable id="bf-summary" label="정합성 종합 판정" kind="chart">
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -83,6 +85,7 @@ export function BusinessFitTab({ company, latestYear }: { company: Company; late
           })}
         </div>
       </div>
+      </Selectable>
 
       {/* 판정 대기 알림 — 정보성 카드는 제거했지만 액션 필요 케이스는 유지 */}
       {fit.totalPending > 0 && (
@@ -98,6 +101,7 @@ export function BusinessFitTab({ company, latestYear }: { company: Company; late
 
       {/* 판정 상세 — 매치타입별 접힘. 확인이 시급한 것(무관·판단유보)만 기본 펼침.
           이전엔 전 판정을 다 펼쳐 놓아 탭이 세로로 크게 늘어졌었다(20건 × 각 3~4줄). */}
+      <Selectable id="bf-detail" label="정합성 판정 상세" kind="chart">
       <div>
         <p className="mb-1 text-[12.5px] font-bold">판정 상세</p>
         <div className="rounded-lg border bg-card">
@@ -108,6 +112,7 @@ export function BusinessFitTab({ company, latestYear }: { company: Company; late
           })}
         </div>
       </div>
+      </Selectable>
     </div>
   );
 }

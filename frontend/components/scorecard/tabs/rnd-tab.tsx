@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/ui/stat-card";
 import { AxisSignals } from "@/components/scorecard/axis-signals";
 import { ExternalTechSignals } from "@/components/scorecard/external-tech-signals";
+import { Selectable } from "@/lib/report-select";
 import type { Company, Tech } from "@/types";
 import { cn, formatKRW } from "@/lib/utils";
 // 임계값 단일 출처 — 심사 요약과 같은 기준으로 판정해야 화면끼리 어긋나지 않는다.
@@ -45,12 +46,13 @@ export function RndTab({ company, latestYear }: { company: Company; latestYear: 
       <AxisSignals company={company} latestYear={latestYear} axis="R&D" />
 
       {/* 기술 분야 — "얼마나"가 아니라 "어느 분야에서" */}
-      {tech && <DomainSection domain={tech.domain} />}
+      {tech && <Selectable id="rnd-domain" label="기술 분야" kind="data"><DomainSection domain={tech.domain} /></Selectable>}
 
       {/* 외부 공공데이터 보강(목업) — 벤처확인 유형·특허 기술분류·정부지원 대비 성과 */}
-      {tech && <ExternalTechSignals company={company} />}
+      {tech && <Selectable id="rnd-external" label="외부 공공데이터" kind="data"><ExternalTechSignals company={company} /></Selectable>}
 
       {/* 특허 실적 — 규모(등록·출원)와 질·활동(전환율·최근출원)을 한 묶음으로 */}
+      <Selectable id="rnd-patent" label="특허 실적" kind="data">
       <section className="space-y-2">
         <SectionLabel>특허</SectionLabel>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -90,9 +92,11 @@ export function RndTab({ company, latestYear }: { company: Company; latestYear: 
           </p>
         )}
       </section>
+      </Selectable>
 
       {/* 정부 R&D·투자 — 정부가 투입한 규모 + 회사 자체 투자 의지 + 현재 활동성 */}
       {tech && (
+        <Selectable id="rnd-gov" label="정부 R&D · 투자" kind="data">
         <section className="space-y-2">
           <SectionLabel>정부 R&D · 투자</SectionLabel>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -130,12 +134,14 @@ export function RndTab({ company, latestYear }: { company: Company; latestYear: 
             />
           </div>
         </section>
+        </Selectable>
       )}
 
       {tech && <TechWarnings tech={tech} />}
       {tech && <PatentDrilldown patents={tech.patentList} />}
 
       {/* 인증 — 실체와 교차해서 본다 */}
+      <Selectable id="rnd-cert" label="인증 취득현황" kind="data">
       <div>
         <div className="mb-2.5 flex items-center justify-between">
           <p className="text-[12.5px] font-bold">인증 취득현황</p>
@@ -155,6 +161,7 @@ export function RndTab({ company, latestYear }: { company: Company; latestYear: 
           ))}
         </div>
       </div>
+      </Selectable>
 
       {!company.dataQuality.ok && (
         <div className="flex items-start gap-2 rounded-lg bg-warn-bg px-3.5 py-3 text-[12px] text-[hsl(30_75%_38%)]">

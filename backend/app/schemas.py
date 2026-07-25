@@ -224,16 +224,17 @@ class NonopIncome(BaseModel):
     series: list[NonopYear] | None = None
 
 
-class SizeInconsistency(BaseModel):
-    """신고 기업규모 vs 실측의 법정 기준 위반 (값은 안 고침, 사실만 노출)."""
+class Inconsistency(BaseModel):
+    """신고값 vs 실측 불일치 (값은 안 고침, 사실만 노출). 규모·재무 공용."""
 
-    rule: str      # 소상공인_종업원초과 | 중소_졸업선_매출초과 | 중소_졸업선_자산초과
-    detail: str    # 사람이 읽는 근거 문장
+    rule: str          # 소상공인_종업원초과 | 중소_졸업선_매출초과 | 영업이익률_손익불일치 ...
+    detail: str        # 사람이 읽는 근거 문장
+    category: str = "규모"  # "규모" | "재무" — 프론트가 배지를 종류별로 분기. 기본 규모(하위호환)
 
 
 class DataQuality(BaseModel):
     missing: list[str]
-    inconsistencies: list[SizeInconsistency] = []
+    inconsistencies: list[Inconsistency] = []
     ok: bool
 
 

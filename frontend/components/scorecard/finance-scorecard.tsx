@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AlertTriangle, ArrowDown, ChevronDown } from "lucide-react";
 import { Area, AreaChart, ReferenceDot, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Badge } from "@/components/ui/badge";
+import { AxisRadar } from "@/components/charts/axis-radar";
 import { cn, formatKRW } from "@/lib/utils";
 import { scoreBand, SCORE_BAND_BADGE } from "@/lib/scoring";
 import { AXES, type Axis, type Company, type SupportRecord, type TrendPoint } from "@/types";
@@ -378,6 +379,11 @@ export function FinanceScorecard({ company }: { company: Company }) {
   return (
     <div className="space-y-5">
       <RiskGate rules={riskRules} />
+
+      <div>
+        <p className="mb-2.5 text-[12.5px] font-bold">업종 평균 대비</p>
+        <AxisRadar scores={company.scores} />
+      </div>
 
       <div>
         <p className="mb-2 text-[12.5px] font-bold">재무 4축</p>

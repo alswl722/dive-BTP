@@ -34,7 +34,8 @@ class SupportMetrics:
     """기업별 3축 요약 + 다양성."""
 
     company_id: int
-    support_count: int
+    support_count: int          # 선정된 사업 수 (DISTINCT year+program_code) — 반복 판정 기준
+    item_count: int             # 지원 항목수(행 수, 패키지 세부품목 포함) — 표시·근거용
     total_amount_thousand_krw: float
     years_present: int
     max_consecutive_years: int
@@ -110,8 +111,15 @@ def compute_support_metrics(sr: pd.DataFrame) -> pd.DataFrame:
         df["support_amount_thousand_krw"], errors="coerce"
     ).fillna(0)
 
+    # ⚠️ support_count는 행 수가 아니라 **선정된 사업 수**(= DISTINCT (year, program_code))다.
+    # 패키지지원은 한 번 선정되고도 세부품목(시제품제작·컨설팅·특허지원 …)마다 행이 따로
+    # 생겨서, 행을 세면 한 사업 1회 선정이 3건으로 잡힌다(샘플 1878: 3행 = B1_1_3 1건).
+    # 축9는 "몇 번 반복해서 뽑혔나"를 보는 축이므로 선정 단위로 세야 과대 flag를 막는다.
+    df["_selection_key"] = df["year"].astype(str) + "|" + df["program_code"].astype(str)
+
     grouped = df.groupby("company_id").agg(
-        support_count=("program_code", "count"),
+        support_count=("_selection_key", "nunique"),
+        item_count=("program_code", "count"),   # 행 수(= 지원 항목수) — 화면 표시·근거용
         total_amount_thousand_krw=("support_amount_thousand_krw", "sum"),
         years_present=("year", "nunique"),
         business_type_diversity=("business_type", "nunique"),
@@ -127,6 +135,7 @@ def compute_support_metrics(sr: pd.DataFrame) -> pd.DataFrame:
         [
             "company_id",
             "support_count",
+            "item_count",
             "total_amount_thousand_krw",
             "years_present",
             "max_consecutive_years",
@@ -145,6 +154,12 @@ def _percentile_threshold(series: pd.Series, percentile: float) -> float:
 
 def classify_segments(metrics_df: pd.DataFrame, config: dict) -> pd.DataFrame:
     """batch 세그먼트 분류. metrics_df는 compute_support_metrics 결과."""
+    if metrics_df.empty:
+        # quantile()이 빈 Series에서 NaN을 반환하면 >= 비교가 전부 False가 되어
+        # 전 기업이 조용히 "소액소수"(정상)로 오분류된다 — 에러 없이 틀리는 게 더
+        # 위험하므로 빈 입력은 빈 결과로 명시 처리한다.
+        return pd.DataFrame(columns=["company_id", "segment", "is_high_diversity"])
+
     cfg = config["segment_thresholds"]
     diversity_cfg = config["diversity"]
 
@@ -224,6 +239,8 @@ def growth_signals_from_axis1(axis1_df: pd.DataFrame) -> dict[int, GrowthSignal]
 
     out: dict[int, GrowthSignal] = {}
     for _, row in axis1_df.iterrows():
+        if pd.isna(row[KEY_COL]):  # 조인 키 결측 행은 어느 기업인지 알 수 없어 int() 변환 불가
+            continue
         cid = int(row[KEY_COL])
         score = None if pd.isna(row[SCORE_COL]) else float(row[SCORE_COL])
         cagr = float(row[CAGR_COL]) if has_cagr and pd.notna(row[CAGR_COL]) else None

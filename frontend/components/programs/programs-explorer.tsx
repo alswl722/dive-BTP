@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { AlertTriangle, ChevronRight, ChevronUp, Download, Search, X } from "lucide-react";
+import { AlertTriangle, ChevronLeft, ChevronRight, ChevronUp, Download, Search, X } from "lucide-react";
 import type { Company, Note, Program } from "@/types";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -50,6 +50,33 @@ export function ProgramsExplorer({
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [page, setPage] = useState(0);
   const [openKey, setOpenKey] = useState<string | null>(null);
+
+  // 상세 패널 폭 — 왼쪽 라인 드래그로 조절 (기업 상세 패널과 동일한 방식)
+  const PANEL_MIN = 320;
+  const PANEL_MAX = 640;
+  const [panelWidth, setPanelWidth] = useState(380);
+  const panelDrag = useRef<{ startX: number; startW: number } | null>(null);
+
+  const startPanelResize = (e: React.MouseEvent) => {
+    e.preventDefault();
+    panelDrag.current = { startX: e.clientX, startW: panelWidth };
+    const onMove = (ev: MouseEvent) => {
+      if (!panelDrag.current) return;
+      const w = panelDrag.current.startW + (panelDrag.current.startX - ev.clientX);
+      setPanelWidth(Math.min(PANEL_MAX, Math.max(PANEL_MIN, w)));
+    };
+    const onUp = () => {
+      panelDrag.current = null;
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
+    };
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    document.body.style.cursor = "col-resize";
+    document.body.style.userSelect = "none";
+  };
 
   // /programs에 머무른 채 연도만 다른 링크(대시보드 "마감 임박 사업" 등)를 다시 누르면
   // 컴포넌트가 리마운트되지 않아 위 useState 초기값이 재실행되지 않는다 — 매번 동기화.
@@ -156,6 +183,10 @@ export function ProgramsExplorer({
     () => (openKey ? programs.find((p) => programKeyOf(p) === openKey) ?? null : null),
     [openKey, programs]
   );
+  // 상세 패널에서 목록을 오가며 확인할 수 있도록 — 현재 정렬 순서 기준 이전/다음 사업
+  const openIndex = openKey ? sorted.findIndex((p) => programKeyOf(p) === openKey) : -1;
+  const prevProgram = openIndex > 0 ? sorted[openIndex - 1] : undefined;
+  const nextProgram = openIndex >= 0 ? sorted[openIndex + 1] : undefined;
 
   function update(patch: Partial<ProgramFilters>) {
     setFilters((f) => ({ ...f, ...patch }));
@@ -410,7 +441,15 @@ export function ProgramsExplorer({
 
       {/* 상세 패널: relative 영역 위에 겹쳐 뜬다(absolute). 필터 박스는 밀리지 않고 오른쪽만 덮인다 */}
       {openProgram && (
-        <div className="absolute inset-y-0 right-0 z-10 w-[380px]">
+        <div className="absolute inset-y-0 right-0 z-10" style={{ width: panelWidth }}>
+          {/* 왼쪽 라인 드래그 핸들 — 스크롤 컨테이너 밖에 둬야 스크롤해도 핸들이 따라 내려가지 않음 */}
+          <div
+            onMouseDown={startPanelResize}
+            className="absolute -left-1.5 top-0 z-10 h-full w-3 cursor-col-resize rounded-full transition-colors hover:bg-primary/15 active:bg-primary/25"
+            role="separator"
+            aria-orientation="vertical"
+            aria-label="상세 패널 폭 조절"
+          />
           <div className="sticky top-6 max-h-[calc(100vh-100px)] overflow-y-auto rounded-xl bg-card p-5 shadow-modal">
             <ProgramDetailPanel
               program={openProgram}
@@ -419,8 +458,29 @@ export function ProgramsExplorer({
               notes={notes}
               referenceDate={referenceDate}
               onClose={() => setOpenKey(null)}
+              onSelectProgram={setOpenKey}
             />
           </div>
+          {/* 목록으로 안 돌아가고 바로 이전/다음 사업으로 — 내용을 가리지 않도록 반투명 원형 버튼.
+              왼쪽은 폭 조절 핸들과 같은 자리라 z-index를 더 높여 버튼 클릭이 우선되게 한다. */}
+          {prevProgram && (
+            <button
+              onClick={() => setOpenKey(programKeyOf(prevProgram))}
+              title={`이전 사업: ${prevProgram.name ?? prevProgram.programCode}`}
+              className="absolute -left-3 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-foreground/10 text-foreground/60 shadow-sm backdrop-blur-sm transition-colors hover:bg-foreground/20 hover:text-foreground"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+          )}
+          {nextProgram && (
+            <button
+              onClick={() => setOpenKey(programKeyOf(nextProgram))}
+              title={`다음 사업: ${nextProgram.name ?? nextProgram.programCode}`}
+              className="absolute -right-3 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-foreground/10 text-foreground/60 shadow-sm backdrop-blur-sm transition-colors hover:bg-foreground/20 hover:text-foreground"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          )}
         </div>
       )}
       </div>

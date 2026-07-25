@@ -143,11 +143,11 @@ export function ScorecardHeader({
             <FavoriteToggle companyId={company.id} size="md" className="-ml-1" />
             <h2 className="truncate text-[18px] font-extrabold tracking-tight">{company.name}</h2>
           </div>
-          <p className="mt-0.5 truncate text-[12px] text-muted-foreground">
+          <p className="mt-0.5 truncate text-[13px] font-medium text-foreground/80">
             {company.industry ?? "업종 미상"} {company.industryCode && `· ${company.industryCode}`}
           </p>
           {basicInfo.length > 0 && (
-            <p className="mt-0.5 truncate text-[11.5px] text-muted-foreground">
+            <p className="mt-1 truncate text-[12.5px] font-medium text-foreground/70">
               {basicInfo.join(" · ")}
               {company.companyStatus && !company.isClosed && <span className="text-good"> · {company.companyStatus}</span>}
             </p>

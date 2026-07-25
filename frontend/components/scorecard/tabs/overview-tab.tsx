@@ -1,69 +1,78 @@
 import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/ui/stat-card";
-import { AxisRadar } from "@/components/charts/axis-radar";
+import { ScoreBadge } from "@/components/ui/score-badge";
 import { BusinessFitCard } from "@/components/axis8/BusinessFitCard";
-import { AXES, type Company } from "@/types";
+import { COMPOSITE_AXES, type Company } from "@/types";
 import { formatKRW, cn } from "@/lib/utils";
-
-// 톤온톤(프라이머리 블루 계열) — 축 구분은 아래 라벨이 하므로 색은 채도 대신 명도 단계로만.
-const AXIS_BAR_COLOR: Record<(typeof AXES)[number], string> = {
-  성장성: "bg-primary",
-  수익성: "bg-primary/75",
-  효율성: "bg-primary/55",
-  안정성: "bg-primary/35",
-};
 
 export function OverviewTab({ company }: { company: Company }) {
   const lastSelectedYear = company.supportHistory.filter((h) => h.result === "선정").map((h) => h.date.slice(0, 4)).sort().at(-1);
+  const cs = company.compositeScore;
 
   return (
     <div className="space-y-5">
+      {/* 종합점수 breakdown — 재무4축+기술2축+정합성 7개 축이 각각 몇 점이라 이 종합점수가
+          나왔는지 한곳에서 확인. 헤더의 종합점수 배지는 커스텀 가중치 반영 값이라 다를 수 있어
+          여기서는 항상 서버 원본(compositeScore, 최저축 캡 적용)을 보여준다. */}
+      {cs && (
+        <div className="rounded-lg border p-3.5">
+          <p className="mb-2.5 text-[12.5px] font-bold">
+            종합점수 <span className="font-normal text-muted-foreground">(재무4축·기술2축·정합성)</span>
+          </p>
+          <div className="flex items-center gap-4">
+            <ScoreBadge score={cs.score} size="lg" title="종합점수(최저축 캡 적용)" />
+            {/* 세로 막대 + 중앙값 50 기준선 — 4축 그래프와 같은 톤. 위 20px(top-5)는
+                점수 라벨 여백 — 막대 높이(%)와 50 점선이 같은 스케일을 공유해야 하므로
+                라벨은 막대 위 절대배치로 뺀다. */}
+            <div className="relative h-[140px] flex-1">
+              <div className="absolute inset-x-0 bottom-0 top-5 border-b border-muted-foreground/30">
+                <div className="pointer-events-none absolute inset-x-0 bottom-1/2 border-t border-dashed border-muted-foreground/40" />
+                <div className="absolute inset-0 flex items-end gap-2 px-1">
+                  {COMPOSITE_AXES.map((axis) => {
+                    const v = cs.breakdown[axis];
+                    const isLowest = cs.lowestAxis === axis;
+                    const h = v == null ? 2 : Math.max(2, Math.min(100, v));
+                    return (
+                      <div key={axis} className="flex h-full flex-1 items-end justify-center">
+                        <div
+                          className={cn(
+                            "relative w-[70%] max-w-[28px] rounded-t-[4px]",
+                            v == null ? "bg-muted" : isLowest ? "bg-warn" : "bg-primary/60"
+                          )}
+                          style={{ height: `${h}%` }}
+                        >
+                          <span className="absolute -top-[16px] left-1/2 -translate-x-1/2 text-[11px] font-bold tabular-nums">
+                            {v == null ? "—" : Math.round(v)}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-2 pl-20 pr-1 pt-1.5">
+            {COMPOSITE_AXES.map((axis) => (
+              <span
+                key={axis}
+                className={cn(
+                  "flex-1 text-center text-[10px]",
+                  cs.lowestAxis === axis ? "font-bold text-warn" : "text-muted-foreground"
+                )}
+              >
+                {axis}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <StatCard label="최근 매출" value={formatKRW(company.revenueLatest)} />
         <StatCard label="누적 지원금" value={formatKRW(company.support.총지원금_천원)} sub={`${company.support.건수 ?? 0}건`} />
         <StatCard label="1인당 평균급여" value={formatKRW(company.avgSalaryLatest)} />
         <StatCard label="마지막 선정연도" value={lastSelectedYear ?? "-"} />
-      </div>
-
-      <div className="grid gap-6 sm:grid-cols-2">
-        <div>
-          <p className="mb-2.5 text-[12.5px] font-bold">4축 점수 <span className="font-normal text-muted-foreground">(업종 내 백분위)</span></p>
-          {/* 세로 막대 + 중앙값 50 기준선 — 높이 대비로 축 어긋남(예: 효율 91 vs 안정 13)이 즉각 보이게.
-              위 20px(top-5)는 점수 라벨 여백 — 막대 높이(%)와 50 점선이 같은 스케일을 공유해야 하므로
-              라벨은 막대 위 절대배치로 뺀다. */}
-          <div className="relative h-[168px] max-w-[300px]">
-            <div className="absolute inset-x-0 bottom-0 top-5 border-b border-muted-foreground/30">
-              <div className="pointer-events-none absolute inset-x-0 bottom-1/2 border-t border-dashed border-muted-foreground/40" />
-              <div className="absolute inset-0 flex items-end gap-3 px-1">
-                {AXES.map((axis) => {
-                  const v = company.scores[axis];
-                  const h = v == null ? 2 : Math.max(2, Math.min(100, v));
-                  return (
-                    <div key={axis} className="flex h-full flex-1 items-end justify-center">
-                      <div
-                        className={cn("relative w-[70%] max-w-[44px] rounded-t-[5px]", v == null ? "bg-muted" : AXIS_BAR_COLOR[axis])}
-                        style={{ height: `${h}%` }}
-                      >
-                        <span className="absolute -top-[18px] left-1/2 -translate-x-1/2 text-[12px] font-bold tabular-nums">
-                          {v == null ? "—" : Math.round(v)}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-          <div className="flex max-w-[300px] gap-3 px-1 pt-1.5">
-            {AXES.map((axis) => (
-              <span key={axis} className="flex-1 text-center text-[11px] text-muted-foreground">{axis}</span>
-            ))}
-          </div>
-        </div>
-        <div>
-          <p className="mb-2.5 text-[12.5px] font-bold">업종 평균 대비</p>
-          <AxisRadar scores={company.scores} />
-        </div>
       </div>
 
       <div>

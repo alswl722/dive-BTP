@@ -21,17 +21,20 @@ KODATA=""
 BTP=""
 SKIP_TESTS=0
 FROM_STAGE=1
+EDA_ONLY=0
 
 usage() {
     cat <<EOF
-사용법: $0 [--kodata PATH] [--btp PATH] [--skip-tests] [--from-stage N]
+사용법: $0 [--kodata PATH] [--btp PATH] [--skip-tests] [--from-stage N] [--eda-only]
 
   --kodata PATH     KODATA 기업데이터 xlsx (기본: backend/etl/data/ 샘플)
   --btp PATH        부산TP 사업기업목록 xlsx (기본: backend/etl/data/ 샘플)
   --skip-tests      0단계(합성데이터 자체테스트) 건너뛰기
   --from-stage N    N단계부터 시작 (1~6, 재시도용)
+  --eda-only        0~2단계(자체테스트·스키마진단·EDA)만 실행 후 종료.
+                     읽기 전용이라 DB 마이그레이션/ETL 적재 없이 DATABASE_URL도 불필요.
 
-DATABASE_URL 환경변수 필요 (예: postgresql://foedev:foedev@localhost:5432/foedev)
+DATABASE_URL 환경변수 필요 (--eda-only 사용 시 불필요)
 EOF
     exit 1
 }
@@ -42,12 +45,17 @@ while [[ $# -gt 0 ]]; do
         --btp) BTP="$2"; shift 2 ;;
         --skip-tests) SKIP_TESTS=1; shift ;;
         --from-stage) FROM_STAGE="$2"; shift 2 ;;
+        --eda-only) EDA_ONLY=1; shift ;;
         -h|--help) usage ;;
         *) echo "알 수 없는 인자: $1"; usage ;;
     esac
 done
 
-: "${DATABASE_URL:?DATABASE_URL 환경변수 필요 (예: postgresql://foedev:foedev@localhost:5432/foedev)}"
+# --eda-only는 0~2단계(읽기 전용)만 돌고 3단계(DB 마이그레이션) 이전에 종료하므로
+# DATABASE_URL이 필요 없다. 그 외에는 3단계부터 DB에 쓰므로 필수.
+if [[ $EDA_ONLY -eq 0 ]]; then
+    : "${DATABASE_URL:?DATABASE_URL 환경변수 필요 (예: postgresql://foedev:foedev@localhost:5432/foedev)}"
+fi
 
 step() {
     echo ""
@@ -182,6 +190,12 @@ if [[ $FROM_STAGE -le 2 ]]; then
 
     step "2/6  EDA — 리포트 인덱스 (eda_reports/INDEX.md)"
     python3 scripts/eda_index.py
+fi
+
+if [[ $EDA_ONLY -eq 1 ]]; then
+    echo ""
+    echo "✅ EDA 완료 (--eda-only) — eda_reports/INDEX.md에서 GO/NO-GO 판정 확인"
+    exit 0
 fi
 
 # ── 3단계: 마이그레이션 (재실행 안전) ───────────────────────────────────

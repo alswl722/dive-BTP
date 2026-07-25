@@ -2,7 +2,7 @@
 
 import { AlertTriangle, CheckCircle2, Eye, Info, HelpCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
+import { cn, formatKRW } from "@/lib/utils";
 import type { DuplicateFlag, FlagStatus } from "@/types";
 
 const FLAG_STYLE: Record<FlagStatus, {
@@ -68,9 +68,9 @@ export function DuplicateFlagDetailPanel({ flag }: { flag: DuplicateFlag | null 
           <p className="text-[19px] font-extrabold tabular-nums mt-0.5">{flag.supportCount}</p>
         </div>
         <div className="rounded-lg bg-subtle p-3 text-center">
-          <p className="text-[10.5px] text-muted-foreground">총 지원금 (천원)</p>
+          <p className="text-[10.5px] text-muted-foreground">총 지원금</p>
           <p className="text-[19px] font-extrabold tabular-nums mt-0.5">
-            {flag.totalAmountThousand.toLocaleString()}
+            {formatKRW(flag.totalAmountThousand)}
           </p>
         </div>
         <div className="rounded-lg bg-subtle p-3 text-center">
@@ -89,40 +89,58 @@ export function DuplicateFlagDetailPanel({ flag }: { flag: DuplicateFlag | null 
       {/* 성장 판정 근거 카드 — 임계값(하위 30%) 대비 실측 수치 노출 */}
       <GrowthEvidenceCard flag={flag} />
 
-      {/* 성장률 상태 + 반복 지원 요약 라인 */}
-      <div className="flex items-center gap-2 rounded-lg border p-3 text-[12.5px]">
-        <Info className="h-4 w-4 shrink-0 text-muted-foreground" />
-        <p className="text-muted-foreground">
-          성장 상태:{" "}
-          <span className="font-medium text-foreground">
-            {flag.growthState === "stagnant" ? "정체 (성장률 하위 30%)" :
-             flag.growthState === "growing" ? "성장" : "판정 불가 (데이터 부족)"}
-          </span>
-          {" · "}
-          반복 지원:{" "}
-          <span className="font-medium text-foreground">
-            {flag.isRepeat ? "예" : "아니오"}
-          </span>
-        </p>
-      </div>
+      {/* 판정 요약 — "반복 지원 예/아니오 × 성장/정체" 사실과 그 결론을 한 문장·한 박스로.
+          예전엔 값 나열 박스(중립)와 결론 설명 박스(flag/cleared만 존재)가 따로 있어서
+          같은 판정을 두 번 읽어야 했고, observe/normal은 설명이 아예 없었다. */}
+      <VerdictSummary flag={flag} />
+    </div>
+  );
+}
 
-      {/* 판정 로직 설명 */}
-      {flag.status === "flag" && (
-        <div className="flex items-start gap-2 rounded-lg bg-warn-bg px-3 py-3 text-[12px] text-[hsl(30_75%_38%)]">
-          <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-          <p>
-            반복적으로 지원받았으나 성과 정체 신호. 중복수혜 가이드라인 검토 대상.
-          </p>
-        </div>
-      )}
-      {flag.status === "cleared" && (
-        <div className="flex items-start gap-2 rounded-lg bg-[hsl(140_55%_95%)] px-3 py-3 text-[12px] text-[hsl(140_55%_25%)]">
-          <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-          <p>
-            반복 지원 후 성장 확인. 지원 효과가 있는 케이스로 판단.
-          </p>
-        </div>
-      )}
+/** 상태별 톤(배경·글자색) — DuplicateFlagBadge 배지 색과 계열 통일. */
+const VERDICT_TONE: Record<FlagStatus, { bg: string; text: string; icon: typeof AlertTriangle }> = {
+  flag:    { bg: "bg-warn-bg",              text: "text-[hsl(30_75%_38%)]",  icon: AlertTriangle },
+  cleared: { bg: "bg-[hsl(140_55%_95%)]",   text: "text-[hsl(140_55%_25%)]", icon: CheckCircle2 },
+  observe: { bg: "bg-info-bg",              text: "text-info",               icon: Eye },
+  normal:  { bg: "bg-subtle",               text: "text-muted-foreground",   icon: CheckCircle2 },
+  unknown: { bg: "bg-subtle",               text: "text-muted-foreground",   icon: HelpCircle },
+};
+
+/**
+ * 성장×반복 truth table의 사실(성장상태·반복여부)과 결론을 한 문장·한 박스로.
+ *
+ * 이전엔 "성장 상태: 성장 · 반복 지원: 예"(중립 박스)와 "반복 지원 후 성장 확인…"
+ * (색깔 박스, flag/cleared만 존재)이 따로 있어 같은 판정을 두 번 읽어야 했고
+ * observe·normal은 설명 자체가 없었다. 사실을 문장 안에 녹여 5개 상태 모두 채운다.
+ */
+function VerdictSummary({ flag }: { flag: DuplicateFlag }) {
+  const tone = VERDICT_TONE[flag.status];
+  const Icon = tone.icon;
+  const repeatLabel = flag.isRepeat ? "반복 지원" : "단발 지원";
+  const growthLabel =
+    flag.growthState === "stagnant" ? "성장 정체" :
+    flag.growthState === "growing" ? "성장 중" : "성장률 데이터 없음";
+
+  const sentence = (() => {
+    switch (flag.status) {
+      case "flag":
+        return `${repeatLabel} 중 ${growthLabel} — 중복수혜 가이드라인 검토 대상.`;
+      case "cleared":
+        return `${repeatLabel} 후 ${growthLabel} 확인 — 지원 효과가 있는 케이스로 판단.`;
+      case "observe":
+        return `${repeatLabel}이지만 ${growthLabel} — 반복 여부는 계속 관측 필요.`;
+      case "normal":
+        return `${repeatLabel} · ${growthLabel} — 특이사항 없음.`;
+      case "unknown":
+      default:
+        return `${growthLabel}(축1 대기)라 판정할 수 없습니다. (${repeatLabel})`;
+    }
+  })();
+
+  return (
+    <div className={cn("flex items-start gap-2 rounded-lg px-3 py-3 text-[12.5px]", tone.bg, tone.text)}>
+      <Icon className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+      <p>{sentence}</p>
     </div>
   );
 }
@@ -144,7 +162,7 @@ function GrowthEvidenceCard({ flag }: { flag: DuplicateFlag }) {
   const STAGNANT_THRESHOLD = 30;    // axis9_thresholds.yaml flag_logic.growth_score_stagnant
   const cagrPct = flag.revenueCagr != null ? `${(flag.revenueCagr * 100).toFixed(1)}%` : "—";
   const deltaKrw = flag.revenueDelta != null
-    ? `${flag.revenueDelta >= 0 ? "+" : ""}${flag.revenueDelta.toLocaleString()} 천원`
+    ? `${flag.revenueDelta >= 0 ? "+" : ""}${formatKRW(flag.revenueDelta)}`
     : "—";
   const percentileLabel = score < STAGNANT_THRESHOLD
     ? `하위 ${Math.round(score)}% (정체 임계선 이내)`

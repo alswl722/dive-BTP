@@ -173,7 +173,15 @@ SELECT
     MAX(CASE WHEN ym.year = 2021 THEN ym.pension_retired END) AS "국민연금퇴직자수_2021",
     MAX(CASE WHEN ym.year = 2022 THEN ym.pension_retired END) AS "국민연금퇴직자수_2022",
     MAX(CASE WHEN ym.year = 2023 THEN ym.pension_retired END) AS "국민연금퇴직자수_2023",
-    MAX(CASE WHEN ym.year = 2024 THEN ym.pension_retired END) AS "국민연금퇴직자수_2024"
+    MAX(CASE WHEN ym.year = 2024 THEN ym.pension_retired END) AS "국민연금퇴직자수_2024",
+
+    -- 선정건수 = 실제 "선정된 사업" 수(= DISTINCT (연도, 사업코드)).
+    -- ⚠️ 지원건수(support_count)는 support_records의 **행 수**라 패키지지원의 세부품목
+    --    (시제품제작+컨설팅+특허지원 …)이 각각 1건으로 잡힌다. 실제로는 한 사업에 한 번
+    --    선정된 것이므로 반복·중복수혜 판정에 행 수를 쓰면 과대계상(false positive)된다.
+    --    (샘플 실측: 1878은 3행이지만 선정은 B1_1_3 1건. 74개 조합 중 15건이 다행 패키지)
+    -- → 화면 표시용 항목수는 지원건수, **반복/중복 판정은 선정건수**를 쓸 것.
+    sup.selection_count AS "선정건수"
 
 FROM companies c
 LEFT JOIN company_yearly_metrics ym ON ym.company_id = c.company_id
@@ -186,7 +194,9 @@ LEFT JOIN (
 ) ntis_consigned ON ntis_consigned.company_id = c.company_id
 LEFT JOIN (
     SELECT company_id,
-           COUNT(*) AS support_count,
+           COUNT(*) AS support_count,                             -- 행 수(= 지원 항목수, 패키지 세부품목 포함, 탈락·포기 포함)
+           -- 선정건수: "반복선정"을 세는 값이므로 선정건(지원대상)만 + 패키지 분할 행 합산
+           COUNT(DISTINCT (year, program_code)) FILTER (WHERE selection_result = '지원대상') AS selection_count,
            COALESCE(SUM(support_amount_thousand_krw), 0) AS support_amount_sum,
            COUNT(DISTINCT year) AS support_years
     FROM support_records
@@ -195,7 +205,7 @@ LEFT JOIN (
 GROUP BY c.company_id, c.region, c.founded_date, c.corp_type, c.company_size,
          c.listing_type, c.corp_form, c.ksic_code, c.industry_name, c.main_products,
          c.company_status, ntis_lead.n, ntis_consigned.n,
-         sup.support_count, sup.support_amount_sum, sup.support_years;
+         sup.support_count, sup.selection_count, sup.support_amount_sum, sup.support_years;
 
 COMMENT ON VIEW master_table IS
 '팀원A(finance_utils/features_finance/scoring_finance)·프론트(export_fixtures)가 이미 의존 중인

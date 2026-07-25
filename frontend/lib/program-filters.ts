@@ -116,6 +116,10 @@ export interface CoSupportedProgram {
   years: number[];
   /** 이 사업 선정자 중 해당 사업(연도 무관)도 받은 기업 수 */
   overlapCount: number;
+  /** 겹치는 기업 id — "몇 개사"라는 숫자 뒤에 실제 어떤 기업인지 화면에서 보여주기 위함 */
+  companyIds: number[];
+  /** 기업 id → 그 기업이 이 사업(명)에 선정된 연도. 기업마다 다를 수 있어 위 `years`(전체 합)와 분리한다. */
+  yearsByCompany: Record<number, number[]>;
 }
 
 /** "의미 있는 겹침" 판정선.
@@ -152,8 +156,11 @@ export function coSupportedPrograms(
   const selfKey = programKeyOf(program);
   const selfNameKey = programNameKey(program.name, program.programCode);
 
-  // 정규화 키 → { 표시용 원본명, 겹친 기업 id 집합, 연도 집합 }.
-  const agg = new Map<string, { label: string; companies: Set<number>; years: Set<number> }>();
+  // 정규화 키 → { 표시용 원본명, 겹친 기업 id 집합, 연도 집합, 기업별 연도 집합 }.
+  const agg = new Map<
+    string,
+    { label: string; companies: Set<number>; years: Set<number>; yearsByCompany: Map<number, Set<number>> }
+  >();
 
   for (const c of selected) {
     for (const h of c.supportHistory) {
@@ -163,9 +170,13 @@ export function coSupportedPrograms(
       const label = nameByKey.get(key) ?? h.programCode;
       const nameKey = programNameKey(label, h.programCode);
       if (nameKey === selfNameKey) continue; // 같은 사업의 다른 연도는 "동일 사업 반복"에서 따로 읽는다
-      const cur = agg.get(nameKey) ?? { label, companies: new Set<number>(), years: new Set<number>() };
+      const cur =
+        agg.get(nameKey) ?? { label, companies: new Set<number>(), years: new Set<number>(), yearsByCompany: new Map<number, Set<number>>() };
       cur.companies.add(c.id);
       cur.years.add(h.year);
+      const companyYears = cur.yearsByCompany.get(c.id) ?? new Set<number>();
+      companyYears.add(h.year);
+      cur.yearsByCompany.set(c.id, companyYears);
       agg.set(nameKey, cur);
     }
   }
@@ -175,6 +186,10 @@ export function coSupportedPrograms(
       name: v.label,
       years: Array.from(v.years).sort((a, b) => a - b),
       overlapCount: v.companies.size,
+      companyIds: Array.from(v.companies),
+      yearsByCompany: Object.fromEntries(
+        Array.from(v.yearsByCompany.entries()).map(([id, s]) => [id, Array.from(s).sort((a, b) => a - b)])
+      ),
     }))
     .sort((a, b) => b.overlapCount - a.overlapCount || (a.name < b.name ? -1 : 1));
 }
@@ -182,7 +197,12 @@ export function coSupportedPrograms(
 export interface SameProgramRepeat {
   /** 이 사업을 다른 연도에도 받은 기업 수 */
   companyCount: number;
+  /** 반복 수혜가 발생한 연도 전체(기업들을 통틀어) — 특정 기업 하나의 반복 연도와는 다를 수 있다 */
   years: number[];
+  /** 반복 수혜 기업 id — "몇 개사"라는 숫자 뒤에 실제 어떤 기업인지 화면에서 보여주기 위함 */
+  companyIds: number[];
+  /** 기업 id → 그 기업이 실제로 반복 수혜받은 연도. 기업마다 다를 수 있어 위 `years`(전체 합)와 분리한다. */
+  yearsByCompany: Record<number, number[]>;
 }
 
 /** 같은 사업을 다른 연도에도 받은 기업 — "매년 같은 기업이 받는가" 신호.
@@ -202,6 +222,7 @@ export function sameProgramRepeat(
 
   const ids = new Set<number>();
   const years = new Set<number>();
+  const yearsByCompany = new Map<number, Set<number>>();
   for (const c of selectedCompanies(program, companies)) {
     for (const h of c.supportHistory) {
       if (h.result !== "선정" || h.year == null || !h.programCode) continue;
@@ -211,9 +232,19 @@ export function sameProgramRepeat(
       if (programNameKey(label, h.programCode) !== selfNameKey) continue;
       ids.add(c.id);
       years.add(h.year);
+      const companyYears = yearsByCompany.get(c.id) ?? new Set<number>();
+      companyYears.add(h.year);
+      yearsByCompany.set(c.id, companyYears);
     }
   }
-  return { companyCount: ids.size, years: Array.from(years).sort((a, b) => a - b) };
+  return {
+    companyCount: ids.size,
+    years: Array.from(years).sort((a, b) => a - b),
+    companyIds: Array.from(ids),
+    yearsByCompany: Object.fromEntries(
+      Array.from(yearsByCompany.entries()).map(([id, s]) => [id, Array.from(s).sort((a, b) => a - b)])
+    ),
+  };
 }
 
 /** 목록 배지용 — 선정자 중 다른 사업도 받은 기업 수(비율 아님). */

@@ -121,7 +121,37 @@ def yn(v):
     return str(v).strip().upper() in {"Y", "1", "TRUE", "유", "T"}
 
 
-def support_history(cid: int, sr: pd.DataFrame):
+def _selection_count(sr: pd.DataFrame) -> int | None:
+    """**선정된** 사업 수 = 선정건 중 DISTINCT (year, program_code).
+
+    두 가지를 함께 방어한다.
+
+    1) 패키지 분할 행: 패키지지원은 한 번 선정돼도 세부품목(시제품제작·컨설팅·특허지원 …)
+       마다 support_records 행이 따로 생긴다. 행을 세면 한 사업 1회 선정이 3건으로 잡혀
+       반복·중복 판정이 과대계상된다(1878: 3행 = B1_1_3 1건, 74개 조합 중 15건이 다행).
+    2) 탈락·포기 혼입: "반복**선정**"을 세는 값이므로 선정건(원본 `지원대상`)만 대상으로
+       한다. 축9(`compute_support_metrics` 호출 전 `지원대상` 필터)와 같은 기준.
+
+    사업코드가 없는 행은 합칠 근거가 없어 각각 별건으로 센다(임의 병합 금지).
+    """
+    if sr is None or sr.empty:
+        return 0
+    selected = sr[sr["selection_result"].astype(str).str.strip() == "지원대상"]
+    if selected.empty:
+        return 0
+    keys = set()
+    for i, (_, r) in enumerate(selected.iterrows()):
+        code = r.get("program_code")
+        year = r.get("year")
+        if pd.isna(code) or str(code).strip() == "":
+            keys.add(f"__nocode_{i}")
+        else:
+            y = int(year) if pd.notna(year) else None
+            keys.add(f"{y}|{str(code).strip()}")
+    return len(keys)
+
+
+def support_history(cid: int, sr: pd.DataFrame, prog_lookup: dict | None = None):
     """support_records(부산TP 2022~2024_기업지원목록 통합)에서 기업별 실제 지원이력 타임라인.
 
     선정일(selected_date)이 없으면 시작일(start_date)로 대체. 둘 다 없는 행은
@@ -129,6 +159,10 @@ def support_history(cid: int, sr: pd.DataFrame):
 
     ⚠️ sr은 호출부(build_companies)에서 이미 해당 기업으로 필터된 서브프레임을 받는다
     (기업 수가 커지면 매 호출마다 전체 스캔하는 비용이 커지므로 groupby로 사전 분할).
+
+    prog_lookup: _build_prog_lookup(sp) 결과 — (year, program_code) → {name, description}.
+    축8(build_business_fit)과 같은 전역 lookup을 재사용해 programName을 채운다
+    (사업코드만으로는 화면에서 어떤 사업인지 알 수 없어 중복/반복 수혜 판정 시 이름이 필요).
     """
     rows = sr
     records = []
@@ -138,17 +172,26 @@ def support_history(cid: int, sr: pd.DataFrame):
             continue
         result = RESULT_MAP.get(str(r["selection_result"]).strip(), str(r["selection_result"]).strip())
         amount = pd.to_numeric(r["support_amount_thousand_krw"], errors="coerce")
+        year = clean(int(r["year"])) if pd.notna(r["year"]) else None
+        program_code = clean(r["program_code"])
+        prog_info = (prog_lookup or {}).get((year, program_code)) or {}
         records.append({
             "date": pd.Timestamp(date).strftime("%Y-%m-%d"),
             "result": result,
             "bizType": clean(r["business_type"]) or "기타",
             "amount": clean(amount) or 0,
-            "programCode": clean(r["program_code"]),
-            "year": clean(int(r["year"])) if pd.notna(r["year"]) else None,
+            "programCode": program_code,
+            "programName": prog_info.get("name"),
+            "year": year,
             # 수행 기간 — 서로 다른 부서 사업을 '동시에' 받고 있는지(중복 수혜) 판정에 필요.
             # 선정일만으로는 동시성을 알 수 없다. 결측이면 None(임의값 대체 안 함).
             "startDate": pd.Timestamp(r["start_date"]).strftime("%Y-%m-%d") if pd.notna(r.get("start_date")) else None,
             "endDate": pd.Timestamp(r["end_date"]).strftime("%Y-%m-%d") if pd.notna(r.get("end_date")) else None,
+            # 지원구분 — 한 사업(선정) 안에서도 여러 지원항목을 동시에 받을 수 있다.
+            # support_detail_other는 패키지지원 유형에서만 채워지는 원본 컬럼(그 외는 결측).
+            "supportDetailMain": clean(r.get("support_detail_main")),
+            "supportDetailOther": clean(r.get("support_detail_other")),
+            "supportItem": clean(r.get("support_item")),
         })
     records.sort(key=lambda x: x["date"], reverse=True)
     return records
@@ -587,6 +630,12 @@ def build_companies(
     companies = []
     for _, s in score.iterrows():
         cid = int(s[KEY])
+        # score에는 있지만 master/feat ETL 단계에서 빠진 기업일 수 있다(본선 데이터가
+        # 샘플과 커버리지가 다를 때 특히). .loc[]는 없으면 KeyError로 배치 전체를
+        # 죽이므로, 해당 기업만 건너뛰고 계속 진행한다.
+        if cid not in master_by_id.index or cid not in feat_by_id.index:
+            print(f"  ⚠️ 기업 {cid}: master/feat 커버리지 없음 — 건너뜀")
+            continue
         m = master_by_id.loc[cid]
         if isinstance(m, pd.DataFrame):  # KEY 중복 행 존재 시 첫 행 사용(기존 .iloc[0]와 동일 동작)
             m = m.iloc[0]
@@ -686,12 +735,21 @@ def build_companies(
                 "위탁": clean(_t.get("NTIS위탁_과제수")) if _t else clean(m.get("NTIS위탁_행수")),
             },
             "tech": _tech_block(_t) if _t else None,
+            # ⚠️ 건수 = 지원 "항목수"(행 수, 패키지 세부품목 포함) / 선정건수 = 실제 선정된 사업 수.
+            # 패키지지원은 한 번 선정돼도 세부품목마다 행이 따로 생긴다(1878: 3행 = B1_1_3 1건).
+            # 화면 표시는 항목수를 쓰되, 반복·중복수혜 판정은 반드시 선정건수를 쓸 것.
+            #
+            # 선정건수는 master_table의 뷰 컬럼이 아니라 **support_records에서 직접** 센다:
+            # parquet 모드의 master_table.parquet은 DB 뷰의 스냅샷이라 뷰를 고쳐도 재덤프
+            # 전까지 컬럼이 없다 → 뷰 값에 의존하면 그동안 조용히 옛 값(행 수)이 나간다.
+            # 원장에서 세면 parquet·DB 어느 경로든 항상 같은 값이 나온다(프론트 duplicate-risk도 동일 기준).
             "support": {
                 "건수": clean(m.get("지원건수")),
+                "선정건수": _selection_count(sr_c),
                 "총지원금_천원": clean(m.get("총지원금_천원")),
                 "지원연도수": clean(m.get("지원연도수")),
             },
-            "supportHistory": support_history(cid, sr_c),
+            "supportHistory": support_history(cid, sr_c, prog_lookup),
             "passthrough": {
                 "영업외손익비중": clean(s.get("영업외손익비중")),
                 "자본잠식_플래그": clean(s.get("자본잠식_플래그")),
@@ -772,9 +830,16 @@ def _compute_mock_flags(build_business_fit_result: dict | None) -> list[str]:
 
 
 def build_rankings(companies: list[dict]) -> dict:
-    """반복선정 랭킹 (건수/금액 분리) — 실 집계."""
+    """반복선정 랭킹 (건수/금액 분리) — 실 집계.
+
+    ⚠️ byCount 정렬 기준은 "선정건수"(선정된 사업 수)다. 행 수(지원 항목수)로 정렬하면
+    패키지지원 세부품목이 각각 1건으로 잡혀 반복선정이 과대계상된다(1878: 3행 = 1건 선정).
+    "건수"(항목수)는 화면 근거 표시용으로 함께 실어 보낸다.
+    """
     rank_base = [{"id": c["id"], "name": c["name"], "industry": c["industry"],
-                  "건수": c["support"]["건수"], "총지원금_천원": c["support"]["총지원금_천원"]}
+                  "건수": c["support"].get("선정건수") or c["support"]["건수"],
+                  "항목수": c["support"]["건수"],
+                  "총지원금_천원": c["support"]["총지원금_천원"]}
                  for c in companies]
     return {
         "byCount": sorted(rank_base, key=lambda x: (x["건수"] or 0), reverse=True),

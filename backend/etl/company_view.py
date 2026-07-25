@@ -847,8 +847,13 @@ def build_rankings(companies: list[dict]) -> dict:
     }
 
 
-def build_dashboard(companies: list[dict]) -> dict:
-    """대시보드 집계 — 사업유형 분포(실 지원이력 기반)·지역 분포·데이터품질."""
+def build_dashboard(companies: list[dict], unmatched_support_records: int = 0) -> dict:
+    """대시보드 집계 — 사업유형 분포(실 지원이력 기반)·지역 분포·데이터품질.
+
+    unmatched_support_records: company_id가 NULL인 support_records 행 수(원본
+    기업일련번호='매칭정보없음' — BTP-KODATA 조인 실패, 축9_설계노트.md §6-2). 어느
+    기업 객체에도 못 붙어 companies 리스트·집계 전체에서 조용히 빠지므로 화면 각주로 노출.
+    """
     biz_counter, region_counter, result_counter = Counter(), Counter(), Counter()
     for c in companies:
         if c["region"]:
@@ -862,4 +867,5 @@ def build_dashboard(companies: list[dict]) -> dict:
         "regionDist": [{"region": k, "count": v} for k, v in region_counter.most_common()],
         "resultDist": [{"result": k, "count": v} for k, v in result_counter.items()],
         "dataQualityIssues": sum(len(c["dataQuality"]["missing"]) for c in companies),
+        "unmatchedSupportRecords": unmatched_support_records,
     }

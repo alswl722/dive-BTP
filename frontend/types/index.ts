@@ -284,6 +284,9 @@ export interface Dashboard {
   regionDist: { region: string; count: number }[];
   resultDist: { result: string; count: number }[];
   dataQualityIssues: number;
+  // company_id 매칭 실패로 어느 기업에도 집계되지 못한 지원 레코드 수
+  // (원본 기업일련번호="매칭정보없음" — BTP-KODATA 조인 실패, docs/축9_설계노트.md §6-2)
+  unmatchedSupportRecords: number;
 }
 
 // 메모 — 담당자가 심사하며 남기는 기록. 본문에 @기업·#사업 멘션을 인라인 마크업으로 포함.

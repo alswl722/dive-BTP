@@ -44,6 +44,12 @@ export default async function DashboardPage() {
           이번 사업 총 지원 기업은 {dash.totalCompanies}개, 진행 중인 사업은 {activeCount}건입니다.
           <span className="ml-1 text-[11px]">(기준일 {formatDate(referenceDate)} · 표본 지원이력 최신연도 기준)</span>
         </p>
+        {dash.unmatchedSupportRecords > 0 && (
+          <p className="mt-1 text-[11px] text-muted-foreground">
+            ⚠️ 기업 매칭 실패로 위 집계에서 제외된 지원 레코드 {dash.unmatchedSupportRecords}건이 있습니다
+            (원본 기업일련번호 미기재 — 중복지원 랭킹·기업 통계에 반영되지 않음).
+          </p>
+        )}
       </div>
 
       <div className="grid gap-5 lg:grid-cols-[2fr_1fr]">

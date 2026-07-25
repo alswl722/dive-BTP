@@ -1,21 +1,21 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Tabs } from "@/components/ui/tabs";
 import { ScorecardHeader } from "@/components/scorecard/scorecard-header";
-import { OverviewTab } from "@/components/scorecard/tabs/overview-tab";
+import { CompositeBreakdown } from "@/components/scorecard/composite-breakdown";
 import { FinanceTab } from "@/components/scorecard/tabs/finance-tab";
 import { RndTab } from "@/components/scorecard/tabs/rnd-tab";
 import { EmploymentTab } from "@/components/scorecard/tabs/employment-tab";
 import { DuplicateRiskTab } from "@/components/scorecard/tabs/duplicate-risk-tab";
 import { BusinessFitTab } from "@/components/scorecard/tabs/business-fit-tab";
-import { ReviewSummary } from "@/components/scorecard/review-summary";
 import { NoteComposer } from "@/components/scorecard/note-composer";
 import type { Axis, Company, CompositeGroup } from "@/types";
 
-// 지원이력 탭은 중복수혜로 통합됐다(전체 이력 접힘·동시수혜 패널 모두 그쪽으로 이동).
-// 고용 탭은 재무 4축과 별도 축(스코어링 미포함) — 지원사업 KPI(고용창출·처우) 실측 시각화용.
-const TAB_LIST = ["개요", "재무", "R&D", "고용", "중복수혜", "사업정체성"] as const;
+// 개요 탭은 해체됨 — 종합점수·7축 그래프는 상단(심사요약 자리)으로 승격, 나머지 박스는
+// 재무/R&D/사업정체성 탭으로 이동(재무추세·핵심재무지표→재무, 인증→R&D, 정합성→사업정체성).
+// 지원이력 탭은 중복수혜로 통합됐다. 고용 탭은 재무 4축과 별도 축(스코어링 미포함).
+const TAB_LIST = ["재무", "R&D", "고용", "중복수혜", "사업정체성"] as const;
 type Tab = (typeof TAB_LIST)[number];
 
 import { DEFAULT_TECH_WEIGHTS, type TechAxis } from "@/lib/scoring";
@@ -39,25 +39,16 @@ export function ScorecardPanel({
   onClose?: () => void;
   onExpand?: () => void;
 }) {
-  const [tab, setTab] = useState<Tab>("개요");
-  const tabsRef = useRef<HTMLDivElement>(null);
-
-  // 심사 요약에서 축을 누르면 탭만 바뀌고 내용은 아래에 숨어 매번 스크롤해야 했다 —
-  // 탭 전환 후 탭 영역을 화면 상단으로 스크롤해 눌린 탭 내용이 바로 보이게 한다.
-  function jumpTo(t: Tab) {
-    setTab(t);
-    requestAnimationFrame(() => tabsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
-  }
+  const [tab, setTab] = useState<Tab>("재무");
 
   return (
     <div className="space-y-5">
       <ScorecardHeader company={company} latestYear={latestYear} programKey={programKey} weights={weights} groupWeights={groupWeights} techWeights={techWeights} onClose={onClose} onExpand={onExpand} />
-      {/* 심사 요약 — 탭에 흩어진 축별 결론·위험 신호를 한곳에. 클릭 시 해당 탭으로 이동 + 자동 스크롤 */}
-      <ReviewSummary company={company} latestYear={latestYear} onJumpTab={(t) => jumpTo(t as Tab)} />
-      <div ref={tabsRef} className="scroll-mt-4 space-y-4">
+      {/* 종합점수 + 7축 breakdown — 개요 탭에서 승격, 탭과 무관하게 항상 노출 */}
+      <CompositeBreakdown company={company} />
+      <div className="scroll-mt-4 space-y-4">
         <Tabs tabs={[...TAB_LIST]} active={tab} onChange={(t) => setTab(t as Tab)} />
         <div>
-          {tab === "개요" && <OverviewTab company={company} />}
           {tab === "재무" && <FinanceTab company={company} latestYear={latestYear} />}
           {tab === "R&D" && <RndTab company={company} latestYear={latestYear} />}
           {tab === "고용" && <EmploymentTab company={company} latestYear={latestYear} />}

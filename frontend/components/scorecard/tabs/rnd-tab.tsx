@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AlertTriangle, Check, ChevronDown, Info, UserRound, X } from "lucide-react";
+import { AlertTriangle, ChevronDown, Info, UserRound } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/ui/stat-card";
 import { AxisSignals } from "@/components/scorecard/axis-signals";
@@ -143,15 +143,12 @@ export function RndTab({ company, latestYear }: { company: Company; latestYear: 
             <Badge variant="bad" className="text-[11px]">서류 vs 실체 불일치</Badge>
           )}
         </div>
-        <div className="divide-y rounded-lg border">
+        {/* 개요 탭과 동일한 뱃지 톤 — 보유는 초록, 미보유는 회색(흐리게) */}
+        <div className="flex flex-wrap gap-1.5">
           {Object.entries(company.certifications).map(([k, has]) => (
-            <div key={k} className="flex items-center justify-between px-3.5 py-2.5 text-[12.5px]">
-              <span>{k}</span>
-              <span className={cn("flex items-center gap-1 font-medium", has ? "text-good" : "text-muted-foreground")}>
-                {has ? <Check className="h-3.5 w-3.5" /> : <X className="h-3.5 w-3.5" />}
-                {has ? "보유" : "미보유"}
-              </span>
-            </div>
+            <Badge key={k} variant={has ? "good" : "secondary"} className={!has ? "opacity-50" : undefined}>
+              {k}
+            </Badge>
           ))}
         </div>
       </div>

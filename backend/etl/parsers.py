@@ -14,6 +14,7 @@ from __future__ import annotations
 import re
 
 import pandas as pd
+from pandas.api import types as ptypes
 
 from transforms import blank_to_none
 
@@ -22,6 +23,30 @@ _WS = re.compile(r"[\n\r]+")
 
 def _clean_label(v) -> str:
     return _WS.sub("", str(v)).strip()
+
+
+def blanks_to_nan(df: pd.DataFrame) -> pd.DataFrame:
+    """object/문자열 컬럼의 공백-only 값(' ')을 NaN으로 통일한다.
+
+    원본 시트는 '값 없음'을 빈 셀이 아니라 공백 한 글자로 채운 곳이 많다. 그 상태로
+    DataFrame에 들어오면 isna()가 False라 결측률을 세는 분석이 전부 0%로 나온다
+    (실측: 기업규모 158건/5.5%, 재무 컬럼 3,000건대/21~26%가 '결측 없음'으로 보고됐다).
+
+    dtype == object로만 거르면 안 된다 — pandas 3.0부터 문자열 컬럼 dtype이 str이라
+    정작 대상 컬럼을 통째로 놓친다. 그래서 '숫자/날짜/불리언이 아닌 것'을 대상으로 뒤집어 판정한다.
+
+    loaders는 셀 단위로 blank_to_none을 태우므로 DB 적재 경로의 결과는 달라지지 않고,
+    raw DataFrame을 그대로 쓰는 EDA·분석 경로만 바로잡힌다.
+    """
+    for col in df.columns:
+        s = df[col]
+        if (ptypes.is_numeric_dtype(s) or ptypes.is_datetime64_any_dtype(s)
+                or ptypes.is_bool_dtype(s)):
+            continue
+        blank = s.astype(str).str.strip().eq("")
+        if blank.any():
+            df[col] = s.mask(blank)
+    return df
 
 
 # ============================================================
@@ -108,7 +133,7 @@ def parse_company_info(xlsx_path: str, sheet_name: str = "1. 기업정보"):
     ).reset_index()
     yearly_long_df = yearly_long_df[yearly_long_df["기업일련번호"].notna()].reset_index(drop=True)
 
-    return static_df, yearly_long_df
+    return blanks_to_nan(static_df), blanks_to_nan(yearly_long_df)
 
 
 # ============================================================
@@ -120,7 +145,7 @@ def parse_simple_sheet(xlsx_path: str, sheet_name: str, header_row: int) -> pd.D
     # 엑셀 왼쪽의 빈 인덱스 컬럼("Unnamed: 0") 제거
     df = df.loc[:, [c for c in df.columns if not str(c).startswith("Unnamed:")]]
     df.columns = [_clean_label(c) for c in df.columns]
-    return df.reset_index(drop=True)
+    return blanks_to_nan(df).reset_index(drop=True)
 
 
 def drop_key_only_rows(df: pd.DataFrame, key_col: str) -> pd.DataFrame:
@@ -155,4 +180,4 @@ def parse_reference_sheet(xlsx_path: str, sheet_name: str = "참고"):
             rows.append({"business_type": bt, "support_type": _clean_label(v)})
     support_types = pd.DataFrame(rows).drop_duplicates().reset_index(drop=True)
 
-    return business_types, support_types
+    return blanks_to_nan(business_types), blanks_to_nan(support_types)

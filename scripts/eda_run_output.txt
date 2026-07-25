@@ -1,5 +1,209 @@
 
 ════════════════════════════════════════════════════════════
+  0/6  자체 테스트 (재무·기술 엣지케이스)
+════════════════════════════════════════════════════════════
+[1] finance_utils
+  ✅ slope 연도 x축: (2020,2022,2024) 간격 반영 → 10/년
+  ✅ slope x 길이 불일치 → NaN
+[2] 컬럼 매핑 (엄격 + fallback)
+  ✅ 가짜 '매출액증가율_2024'가 진짜 매핑을 덮지 못함
+  ⚠️ '특허등록건수' 엄격 매칭 실패 → 부분일치 fallback 사용: ['특허등록건수(최종건수누적)_2024'] — 컬럼명 확인 권장
+  ✅ 장식 붙은 컬럼명은 fallback으로 살림
+  ✅ 컬럼명 변형 시 매칭 0개(무단 오매칭 없음)
+[3] compute_features 방어
+  ⚠️ 기업일련번호 중복 1건 감지 → 각 기업 첫 행만 유지 (ETL 중복 적재 여부 확인 필요)
+  ✅ 중복 ID → 첫 행만 유지
+  ✅ 이익 전결측 → 흑자지속성 NaN (0 아님)
+  ✅ 이익 전결측 → 흑자관측연수 0
+  ✅ 정상 기업 흑자지속성 5
+  ✅ 자본잠식 → 부채비율 NaN
+  ✅ 자본잠식 → 플래그 1
+  ✅ 자본잠식 → 자본잠식정도 음수(의미 유지)
+  ✅ 납입자본금 0 → 자본잠식정도 NaN
+  ✅ 판관비 음수 모순 → 플래그 1
+  ✅ 정상 기업 → 모순 플래그 0
+  ✅ 첫연도 결측 → 유효연도로 CAGR 계산
+  ✅ 유효 전이 <3 → 성장가속도 NaN
+  ✅ 정상 기업 가속도는 산출됨
+  ✅ 연도 컬럼 3개(전이2) → 가속도 NaN(창 겹침 차단)
+  ⚠️ 기업일련번호 중복 1건 감지 → 각 기업 첫 행만 유지 (ETL 중복 적재 여부 확인 필요)
+  ⚠️⚠️ 매핑 실패 지표 1개: ['영업이익손실']
+       → 관련 파생컬럼이 전부 NaN이 됩니다. METRIC_HINTS와 실제 컬럼명을 대조하세요!
+  ✅ 컬럼명 변형 → 영업이익률_최근 전부 NaN
+  ✅ 컬럼명 변형 → 흑자지속성 NaN(0으로 오염되지 않음)
+[4] compute_scores 방어
+  ⚠️ KSIC 포맷 비정상 1건(예: 425) → 전체 fallback 처리
+  ✅ KSIC 숫자 포맷 → __NA__ 강등 + 전체 fallback
+  ✅ KSIC 결측 → __NA__ 라벨(pandas3 대응) + 전체 fallback
+  ✅ 유효컬럼수_* 출력
+  ✅ passthrough에 데이터모순·흑자관측연수 포함
+  ⚠️ KSIC 포맷 비정상 1건(예: 425) → 전체 fallback 처리
+  ⚠️ 'ROE추세' 유효값 1개 < 3 → 백분위 제외
+  ✅ 희소 컬럼(유효 1 < 3) → 백분위 전체 NaN
+  ⚠️ KSIC 포맷 비정상 1건(예: 425) → 전체 fallback 처리
+  ✅ 축 유효 컬럼 < 절반 → 축점수 NaN(부분 데이터 점수 차단)
+  ✅ 유효컬럼수로 사유 확인 가능
+[5] 기업규모 3단 tier 방어
+  ⚠️ '매출_성장안정성' 파생컬럼 없음 — 건너뜀
+  ⚠️ '매출_성장가속도' 파생컬럼 없음 — 건너뜀
+  ⚠️ '자산_CAGR' 파생컬럼 없음 — 건너뜀
+  ⚠️ '자산_성장안정성' 파생컬럼 없음 — 건너뜀
+  ⚠️ '자산_성장가속도' 파생컬럼 없음 — 건너뜀
+  ⚠️ '영업이익률_최근' 파생컬럼 없음 — 건너뜀
+  ⚠️ '순이익률_최근' 파생컬럼 없음 — 건너뜀
+  ⚠️ '매출총이익률_최근' 파생컬럼 없음 — 건너뜀
+  ⚠️ 'ROA' 파생컬럼 없음 — 건너뜀
+  ⚠️ 'ROE' 파생컬럼 없음 — 건너뜀
+  ⚠️ '판관비율' 파생컬럼 없음 — 건너뜀
+  ⚠️ '흑자지속성' 파생컬럼 없음 — 건너뜀
+  ⚠️ '수익성추세' 파생컬럼 없음 — 건너뜀
+  ⚠️ 'ROA추세' 파생컬럼 없음 — 건너뜀
+  ⚠️ 'ROE추세' 파생컬럼 없음 — 건너뜀
+  ⚠️ '총자산회전율' 파생컬럼 없음 — 건너뜀
+  ⚠️ '부채비율_최근' 파생컬럼 없음 — 건너뜀
+  ⚠️ '자기자본비율' 파생컬럼 없음 — 건너뜀
+  ⚠️ '자본잠식정도' 파생컬럼 없음 — 건너뜀
+  ⚠️ '이익잉여금축적' 파생컬럼 없음 — 건너뜀
+  ⚠️ '부채비율추세' 파생컬럼 없음 — 건너뜀
+  ⚠️ '매출_성장안정성' 파생컬럼 없음 — 건너뜀
+  ⚠️ '매출_성장가속도' 파생컬럼 없음 — 건너뜀
+  ⚠️ '자산_CAGR' 파생컬럼 없음 — 건너뜀
+  ⚠️ '자산_성장안정성' 파생컬럼 없음 — 건너뜀
+  ⚠️ '자산_성장가속도' 파생컬럼 없음 — 건너뜀
+  ⚠️ '영업이익률_최근' 파생컬럼 없음 — 건너뜀
+  ⚠️ '순이익률_최근' 파생컬럼 없음 — 건너뜀
+  ⚠️ '매출총이익률_최근' 파생컬럼 없음 — 건너뜀
+  ⚠️ 'ROA' 파생컬럼 없음 — 건너뜀
+  ⚠️ 'ROE' 파생컬럼 없음 — 건너뜀
+  ⚠️ '판관비율' 파생컬럼 없음 — 건너뜀
+  ⚠️ '흑자지속성' 파생컬럼 없음 — 건너뜀
+  ⚠️ '수익성추세' 파생컬럼 없음 — 건너뜀
+  ⚠️ 'ROA추세' 파생컬럼 없음 — 건너뜀
+  ⚠️ 'ROE추세' 파생컬럼 없음 — 건너뜀
+  ⚠️ '총자산회전율' 파생컬럼 없음 — 건너뜀
+  ⚠️ '부채비율_최근' 파생컬럼 없음 — 건너뜀
+  ⚠️ '자기자본비율' 파생컬럼 없음 — 건너뜀
+  ⚠️ '자본잠식정도' 파생컬럼 없음 — 건너뜀
+  ⚠️ '이익잉여금축적' 파생컬럼 없음 — 건너뜀
+  ⚠️ '부채비율추세' 파생컬럼 없음 — 건너뜀
+  ✅ size 미제공 시 하위호환(기존 2단과 동일 시그니처로 호출 가능)
+  ✅ KSIC×규모 표본 충분(대기업 8명) → 업종x규모 tier 채택
+  ✅ 같은 KSIC라도 규모별 표본 부족(소기업 2명 < MIN_GROUP) → KSIC단독으로 자동 강등
+  ✅ 다른 KSIC×규모 조합(중기업 10명)도 독립적으로 업종x규모 채택
+  ⚠️ '매출_성장안정성' 파생컬럼 없음 — 건너뜀
+  ⚠️ '매출_성장가속도' 파생컬럼 없음 — 건너뜀
+  ⚠️ '자산_CAGR' 파생컬럼 없음 — 건너뜀
+  ⚠️ '자산_성장안정성' 파생컬럼 없음 — 건너뜀
+  ⚠️ '자산_성장가속도' 파생컬럼 없음 — 건너뜀
+  ⚠️ '영업이익률_최근' 파생컬럼 없음 — 건너뜀
+  ⚠️ '순이익률_최근' 파생컬럼 없음 — 건너뜀
+  ⚠️ '매출총이익률_최근' 파생컬럼 없음 — 건너뜀
+  ⚠️ 'ROA' 파생컬럼 없음 — 건너뜀
+  ⚠️ 'ROE' 파생컬럼 없음 — 건너뜀
+  ⚠️ '판관비율' 파생컬럼 없음 — 건너뜀
+  ⚠️ '흑자지속성' 파생컬럼 없음 — 건너뜀
+  ⚠️ '수익성추세' 파생컬럼 없음 — 건너뜀
+  ⚠️ 'ROA추세' 파생컬럼 없음 — 건너뜀
+  ⚠️ 'ROE추세' 파생컬럼 없음 — 건너뜀
+  ⚠️ '총자산회전율' 파생컬럼 없음 — 건너뜀
+  ⚠️ '부채비율_최근' 파생컬럼 없음 — 건너뜀
+  ⚠️ '자기자본비율' 파생컬럼 없음 — 건너뜀
+  ⚠️ '자본잠식정도' 파생컬럼 없음 — 건너뜀
+  ⚠️ '이익잉여금축적' 파생컬럼 없음 — 건너뜀
+  ⚠️ '부채비율추세' 파생컬럼 없음 — 건너뜀
+  ✅ size 인자 없으면 전원 기존 업종내 tier(회귀 없음)
+
+✅ 엣지케이스 테스트 33개 전부 통과
+/Users/noeyish/Desktop/dive/dive-BTP/backend/etl/aggregate_tech.py:161: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  out[f"인증_{c}"] = wide[c].fillna(False).astype(bool)
+/Users/noeyish/Desktop/dive/dive-BTP/backend/etl/aggregate_tech.py:161: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  out[f"인증_{c}"] = wide[c].fillna(False).astype(bool)
+/Users/noeyish/Desktop/dive/dive-BTP/backend/etl/aggregate_tech.py:161: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  out[f"인증_{c}"] = wide[c].fillna(False).astype(bool)
+/Users/noeyish/Desktop/dive/dive-BTP/backend/etl/aggregate_tech.py:161: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  out[f"인증_{c}"] = wide[c].fillna(False).astype(bool)
+/Users/noeyish/Desktop/dive/dive-BTP/backend/etl/aggregate_tech.py:161: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  out[f"인증_{c}"] = wide[c].fillna(False).astype(bool)
+/Users/noeyish/Desktop/dive/dive-BTP/backend/etl/aggregate_tech.py:161: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  out[f"인증_{c}"] = wide[c].fillna(False).astype(bool)
+/Users/noeyish/Desktop/dive/dive-BTP/backend/etl/aggregate_tech.py:197: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  out["산학협력_여부"] = out["산학협력_여부"].fillna(False).astype(bool)
+[1] 특허 — 기술 IP만 집계 (상표·디자인 제외)
+  ✅ C1 출원 6건 중 기술 IP 4건만 집계
+  ✅ C1 등록은 기술 IP 중 등록만 3건
+  ✅ C3 상표권만 보유 → 기술 특허 0건
+[2] 특허 — 등록/공개 구분
+  ✅ C1 공개(계류) 1건은 등록에 미포함
+  ✅ C1 소멸 특허 1건 집계
+  ✅ C1 유효 등록 2건
+[3] NTIS — 스냅샷 중복 제거
+  ✅ C1 원본 4행 → 고유 과제 2건
+  ✅ C1 부처다양성 2개
+  ✅ C1 위탁 산학협력 True
+[4] 원장에 없는 기업 방어
+  ✅ C5 특허 0건 (결측 아님)
+  ✅ C4 NTIS 0건
+  ✅ 전체 기업 수 유지 (원장에 없어도 행 존재)
+[5] features — 비율·활동성 방어
+  ✅ C1 등록전환율 = 3/4
+  ✅ C3 출원 0 → 전환율 NaN (0나눗셈 방어)
+  ✅ C2 설립 전 출원 → 업력 음수 0으로 clip
+  ✅ C5 매출 0 → R&D집약도 NaN
+  ✅ C1 소멸률 = 1/3
+[6] 인증-실체 괴리 플래그
+  ✅ C3 핵심인증 보유 + 등록특허 0 + NTIS 0 → 괴리 True
+  ✅ C1 인증 있고 실적도 있음 → 괴리 False
+  ✅ C4 핵심인증 없음 → 괴리 False (인증 없으면 괴리 아님)
+[7] scoring — 백분위·방향
+  ✅ 축 점수 2개 산출
+  ✅ 업종 표본 부족 → 전체 fallback 표기
+  ✅ C1(특허·NTIS 최다)이 NTIS 점수 최상위
+  ✅ 괴리 플래그는 점수 미반영·passthrough 유지
+[8] domain — 기술분야·폴백·외부 참조표
+  ✅ C1 NTIS 표준분류 기반 판정
+  ✅ C4 NTIS 없음 → KSIC 추정 폴백
+  ✅ C4 KSIC C31 → 해양·수산
+  ✅ C2 바이오센서 → 국가전략기술 첨단바이오 매핑
+  ✅ C1 해양 분류 → 우주항공·해양 매핑
+  ✅ C2 KSIC C21(의약품) → 고위기술
+  ✅ C5 KSIC J58(SW) → 지식기반서비스
+  ✅ C1 복수 분야 → 집중도 1 미만(다각화)
+  ✅ C1 KSIC C29199 → 융합부품소재(고유) 매칭
+  ✅ C2 KSIC C21309 → 바이오헬스(고유) 매칭
+  ✅ C4 KSIC C31114 → 미래모빌리티(고유) 매칭
+  ✅ C5 KSIC J58221 → 디지털테크(고유) 매칭
+  ✅ C3 KSIC C25113(9대 산업 코드에 없음) → 미부합(False, NaN 아님)
+
+✅ 기술축 엣지케이스 37건 통과
+
+════════════════════════════════════════════════════════════
+  1/6  스키마 드리프트 사전진단 (config/*.yaml vs 실제 xlsx 헤더)
+════════════════════════════════════════════════════════════
+============================================================
+스키마 진단 — config/*.yaml vs 실제 xlsx
+============================================================
+
+■ 1. 기업정보 시트 (wide→long 피벗, 파서 산출물 기준 대조)
+  ✅ [companies] 일치
+  ✅ [company_certifications] 일치
+  ✅ [company_yearly_metrics] 일치
+
+■ 단순 헤더 시트
+  ✅ [patents] 일치
+  ⚠️  [ntis_lead] 시트 '3-1. NTIS(주관)': xlsx엔 있는데 yaml 매핑 없음(조용히 누락됨) → ['단위 : 원']
+  ⚠️  [ntis_consigned] 시트 '3-2. NTIS(위탁)': xlsx엔 있는데 yaml 매핑 없음(조용히 누락됨) → ['단위 : 원']
+  ✅ [business_purposes] 일치
+  ✅ [support_programs] 일치
+  ⚠️  [support_records] 시트 '2022_기업지원목록': xlsx엔 있는데 yaml 매핑 없음(조용히 누락됨) → ['부산TP 예산서의 사업명']
+  ⚠️  [support_records] 시트 '2023_기업지원목록': xlsx엔 있는데 yaml 매핑 없음(조용히 누락됨) → ['부산TP 예산서의 사업명']
+  ⚠️  [support_records] 시트 '2024_기업지원목록': xlsx엔 있는데 yaml 매핑 없음(조용히 누락됨) → ['부산TP 예산서의 사업명']
+
+============================================================
+⚠️  어긋남 발견 — ❌는 ETL이 즉시 실패하는 항목, ⚠️는 매핑 누락(조용히 버려짐)
+   대응: config/*.yaml의 컬럼명을 실제 시트 헤더에 맞게 수정 (원칙3 — 코드 수정 불필요)
+============================================================
+
+════════════════════════════════════════════════════════════
   2/6  EDA — 기업규모 결측·정합성
 ════════════════════════════════════════════════════════════
 /Users/noeyish/Desktop/dive/dive-BTP/scripts/eda_company_size.py:178: MatplotlibDeprecationWarning: The 'labels' parameter of boxplot() has been renamed 'tick_labels' since Matplotlib 3.9; support for the old name will be dropped in 3.11.
@@ -174,9 +378,9 @@ size
 ────────────────────────────────────────────────────────────────────────
 [1] 선정결과 값 분포 · 결측률
 ────────────────────────────────────────────────────────────────────────
-  선정결과 결측: 4/7733 (0.1%) → 추론 대상
+  선정결과 결측: 8/7733 (0.1%) → 추론 대상
 
-  값 분포:
+  값 분포 (원본 그대로 — 날짜 타입 오염값도 결측에 포함되어 위 결측 건수와 다를 수 있음):
 선정결과
     지원대상                   6306
     탈락                     1355
@@ -187,7 +391,7 @@ size
 ────────────────────────────────────────────────────────────────────────
 [2] 규칙 검증 — 라벨 가리고 추론해 실제와 대조 (오분류 0이어야)
 ────────────────────────────────────────────────────────────────────────
-  라벨 있는 7729건 중 — 규칙 발동 6782, 미상유지(기권) 947
+  라벨 있는 7725건 중 — 규칙 발동 6782, 미상유지(기권) 943
   발동 중 정확: 6743/6782
   ⚠️ 오분류 39건:
      실제=포기 예측=지원대상
@@ -202,16 +406,16 @@ size
      실제=탈락 예측=지원대상
 
   기권(미상유지) 건들의 실제 라벨:
-탈락                     887
-    포기                      47
-    지원대상                     9
-    2024-12-31 00:00:00      4
+탈락      887
+    포기       47
+    지원대상      9
   ⚠️ 지원대상 9건을 기권함 — 규칙이 실제 수혜자를 놓침(재검토)
 
 ────────────────────────────────────────────────────────────────────────
 [3] 모집단 영향 — 추론이 '지원대상'을 몇 건 늘리나 (축9·랭킹 직결)
 ────────────────────────────────────────────────────────────────────────
   지원대상_추론: 4건
+  미상_유지: 4건
 
   → 지원대상 모집단 +4건 변동. 축9 중복탐지·반복선정 랭킹·축8 대상이 그만큼 바뀜.
 
@@ -388,6 +592,9 @@ KSIC 코드 정합성 EDA — KODATA kodata.xlsx vs BTP btp.xlsx
     중분류 일치: 1302 (20.5%)
     중분류 불일치: 5047 (79.5%)
 
+  [기업 단위 재계산] 두 소스 모두 있는 기업: 2365개
+    하나라도 일치하는 행 존재: 745 (31.5%)
+
   불일치 사례 (기업당 첫 1건):
     기업 42: KODATA=C29 vs BTP=J58
     기업 443: KODATA=C14 vs BTP=G46
@@ -417,6 +624,26 @@ KSIC 코드 정합성 EDA — KODATA kodata.xlsx vs BTP btp.xlsx
     기업 2059: 6종류 (221, 271, C22, 고무의, 제조, 제조업)
     기업 77: 6종류 (259, 264, 582, J58, 서비스, 제조업)
     기업 1111: 6종류 (271, 465, C27, G46, 도소매, 제조업)
+
+────────────────────────────────────────────────────────────────────────
+[4] 사업유형별 KSIC 일치율 — 어떤 유형에서 특히 불일치가 심한가
+────────────────────────────────────────────────────────────────────────
+  사업유형                 건수     일치      일치율
+  사업화지원              2058    421    20.5%
+  일자리창출or인력양성        1727     66     3.8%
+  패키지지원              1368    469    34.3%
+  스마트공장               367    150    40.9%
+  기술지원                316     89    28.2%
+  기반구축                224     64    28.6%
+  RnD                 180     22    12.2%
+  기타                   75     15    20.0%
+  복합                   24      6    25.0%
+  사업기획                 10      0     0.0%
+
+  일치율 최저 (건수 10건 이상 중):
+    사업기획: 0.0% (10건)
+    일자리창출or인력양성: 3.8% (1727건)
+    RnD: 12.2% (180건)
 
 ════════════════════════════════════════════════════════════
   2/6  EDA — 결측 커버리지 종합 (GO/NO-GO)
@@ -455,7 +682,7 @@ KSIC 코드 정합성 EDA — KODATA kodata.xlsx vs BTP btp.xlsx
     🟢 GO 설립일자                   결측    0/2886 (  0.0%) → 대체후   0.0%  [미상 유지]
     🟢 GO 기업유형(법인/개인)            결측    0/2886 (  0.0%) → 대체후   0.0%  [기업형태 값으로 유추]
     🟢 GO 기업형태(주식/개인)            결측    0/2886 (  0.0%) → 대체후   0.0%  [기업유형 값으로 유추]
-    🟢 GO KSIC코드(11차)            결측    0/2886 (  0.0%) → 대체후   0.0%  [기업지원목록 업종코드로 대체]
+    🟢 GO KSIC코드(11차)            결측    0/2886 (  0.0%) → 대체후   0.0%  [미상 유지(유추 안 함)]
     🟢 GO 업종명(11차)               결측    0/2886 (  0.0%) → 대체후   0.0%  [동일 KSIC 기업의 업종명으로 대체]
     🟢 GO 주요제품                   결측    0/2886 (  0.0%) → 대체후   0.0%  [기업지원목록 주생산품으로 대체]
     🟢 GO 이노비즈                   결측    0/2886 (  0.0%) → 대체후   0.0%  [결측=무]
@@ -492,6 +719,6 @@ KSIC 코드 정합성 EDA — KODATA kodata.xlsx vs BTP btp.xlsx
   2/6  EDA — 리포트 인덱스 (eda_reports/INDEX.md)
 ════════════════════════════════════════════════════════════
 ✅ INDEX.md 생성: /Users/noeyish/Desktop/dive/dive-BTP/eda_reports/INDEX.md
-   총 9개 리포트 · 25개 이미지
+   총 9개 리포트 · 26개 이미지
 
 ✅ EDA 완료 (--eda-only) — eda_reports/INDEX.md에서 GO/NO-GO 판정 확인

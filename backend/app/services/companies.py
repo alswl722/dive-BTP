@@ -27,12 +27,13 @@ from company_view import KEY, build_companies, build_dashboard, build_rankings  
 # 커진다. 조립 결과(reviewStatus 붙이기 전)를 TTL 동안 캐싱 — reviewStatus(찜 상태)는
 # PATCH로 자주 바뀌므로 캐시 대상에서 제외하고 매 요청 최신값을 별도로 덧붙인다.
 _CACHE_TTL_SECONDS = 300
-_cache: dict = {"companies": None, "loaded_at": 0.0}
+_cache: dict = {"companies": None, "unmatched_support_records": 0, "loaded_at": 0.0}
 
 
 def invalidate_cache() -> None:
     """조립 캐시를 강제로 무효화한다(수동 새로고침·관리용 엔드포인트에서 사용)."""
     _cache["companies"] = None
+    _cache["unmatched_support_records"] = 0
     _cache["loaded_at"] = 0.0
 
 
@@ -42,6 +43,11 @@ def _get_cached_companies() -> list[dict]:
     if _cache["companies"] is None or (now - _cache["loaded_at"]) >= _CACHE_TTL_SECONDS:
         score, feat, master, sr, sp, bp, llm_cache, tech = _load_source()
         _cache["companies"] = build_companies(score, feat, master, sr, sp, bp, llm_cache, tech)
+        # company_id가 NULL인 support_records 행 — 원본 기업일련번호='매칭정보없음'로
+        # BTP-KODATA 조인이 안 된 실제 선정/탈락 기록. 어느 기업 객체에도 못 붙어
+        # companies 리스트에 흔적이 없으므로 대시보드 각주용으로 따로 세어 캐싱.
+        # (축9_설계노트.md §6-2)
+        _cache["unmatched_support_records"] = int(sr["company_id"].isna().sum())
         _cache["loaded_at"] = now
     return _cache["companies"]
 
@@ -179,4 +185,5 @@ def get_rankings() -> dict:
 
 
 def get_dashboard() -> dict:
-    return build_dashboard(list_companies())
+    companies = list_companies()
+    return build_dashboard(companies, unmatched_support_records=_cache["unmatched_support_records"])

@@ -61,7 +61,8 @@ export function applyFilters(
     if (filters.minSupportYears > 0 && (c.support.지원연도수 ?? 0) < filters.minSupportYears) return false;
     if (filters.excludeQualityIssues && !c.dataQuality.ok) return false;
     if (filters.qualityIssueOnly && c.dataQuality.ok) return false;
-    if (filters.sizeMismatchOnly && !c.dataQuality.inconsistencies?.length) return false;
+    // 규모 필터는 규모 category만 본다(재무 불일치가 여기 잘못 걸리지 않게). category 미지정=규모.
+    if (filters.sizeMismatchOnly && !c.dataQuality.inconsistencies?.some((i) => i.category !== "재무")) return false;
     if (filters.dupRiskOnly && !isDuplicateRisk(c, latestYear)) return false;
     if (filters.employmentRiskOnly && !isEmploymentUnstable(c)) return false;
     if (filters.programKey && !programApplicantKeySet(c).has(filters.programKey)) return false;

@@ -111,15 +111,30 @@ export function ScorecardHeader({
             </div>
           )}
           <DuplicateFlagBadge flag={company.duplicateFlag} />
-          {company.dataQuality.inconsistencies && company.dataQuality.inconsistencies.length > 0 && (
-            <span
-              title={`신고 기업규모와 실측이 법정 기준상 맞지 않음:\n${company.dataQuality.inconsistencies.map((i) => `· ${i.detail}`).join("\n")}`}
-              className="inline-flex items-center gap-1 rounded-full bg-warn-bg px-2.5 py-1 text-[11px] font-bold text-[hsl(30_75%_38%)]"
-            >
-              <AlertTriangle className="h-3.5 w-3.5" />
-              신고규모 불일치
-            </span>
-          )}
+          {(() => {
+            const inc = company.dataQuality.inconsistencies ?? [];
+            // category 미지정(구 데이터)은 규모로 취급(하위호환).
+            const size = inc.filter((i) => i.category !== "재무");
+            const fin = inc.filter((i) => i.category === "재무");
+            const badgeCls =
+              "inline-flex items-center gap-1 rounded-full bg-warn-bg px-2.5 py-1 text-[11px] font-bold text-[hsl(30_75%_38%)]";
+            return (
+              <>
+                {size.length > 0 && (
+                  <span title={`신고 기업규모와 실측이 법정 기준상 맞지 않음:\n${size.map((i) => `· ${i.detail}`).join("\n")}`} className={badgeCls}>
+                    <AlertTriangle className="h-3.5 w-3.5" />
+                    신고규모 불일치
+                  </span>
+                )}
+                {fin.length > 0 && (
+                  <span title={`신고 재무값이 손익과 맞지 않음:\n${fin.map((i) => `· ${i.detail}`).join("\n")}`} className={badgeCls}>
+                    <AlertTriangle className="h-3.5 w-3.5" />
+                    재무 신고 불일치
+                  </span>
+                )}
+              </>
+            );
+          })()}
         </div>
         {(onExpand || onClose) && (
           <div className="flex shrink-0 items-center gap-1">

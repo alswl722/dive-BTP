@@ -134,7 +134,7 @@ def main() -> None:
         print("\n  불일치 사례 (기업당 첫 1건):")
         mm = dual[~dual["_match"]].drop_duplicates(subset=[key_col]).head(10)
         for _, r in mm.iterrows():
-            print(f"    기업 {int(r[key_col])}: KODATA={r['_kodata_ksic3']} vs BTP={r['_ksic3']}")
+            print(f"    기업 {r[key_col]}: KODATA={r['_kodata_ksic3']} vs BTP={r['_ksic3']}")
 
     # ── 3. 다중 KSIC 기업 (BTP 내 행마다 다름) ───────────────────
     _head("[3] BTP 안에서 동일 기업이 여러 KSIC 코드 사용")
@@ -146,7 +146,7 @@ def main() -> None:
         print("\n  다중 KSIC 기업 예시 (상위 10):")
         for cid, cnt in multi.sort_values(ascending=False).head(10).items():
             codes = sorted(btp[btp[key_col] == cid]["_ksic3"].dropna().unique())
-            print(f"    기업 {int(cid)}: {cnt}종류 ({', '.join(codes)})")
+            print(f"    기업 {cid}: {cnt}종류 ({', '.join(codes)})")
 
     _render_visualizations(kodata_miss, btp_miss, n_kodata, n_btp,
                             n_match, n_mismatch, per_company, multi)

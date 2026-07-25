@@ -15,7 +15,7 @@ import type { Axis, Company, CompositeGroup } from "@/types";
 
 // 지원이력 탭은 중복수혜로 통합됐다(전체 이력 접힘·동시수혜 패널 모두 그쪽으로 이동).
 // 고용 탭은 재무 4축과 별도 축(스코어링 미포함) — 지원사업 KPI(고용창출·처우) 실측 시각화용.
-const TAB_LIST = ["개요", "재무", "R&D", "고용", "중복수혜", "사업정체성"] as const;
+export const TAB_LIST = ["개요", "재무", "R&D", "고용", "중복수혜", "사업정체성"] as const;
 type Tab = (typeof TAB_LIST)[number];
 
 import { DEFAULT_TECH_WEIGHTS, type TechAxis } from "@/lib/scoring";
@@ -29,6 +29,8 @@ export function ScorecardPanel({
   techWeights = DEFAULT_TECH_WEIGHTS,
   onClose,
   onExpand,
+  tab: tabProp,
+  onTabChange,
 }: {
   company: Company;
   latestYear: number;
@@ -38,8 +40,13 @@ export function ScorecardPanel({
   techWeights?: Record<TechAxis, number>;
   onClose?: () => void;
   onExpand?: () => void;
+  // 리포트 편집기에서 탭을 제어하며 각 탭을 순회 캡처하기 위한 선택적 controlled 모드
+  tab?: string;
+  onTabChange?: (t: string) => void;
 }) {
-  const [tab, setTab] = useState<Tab>("개요");
+  const [tabState, setTabState] = useState<Tab>("개요");
+  const tab = (tabProp as Tab) ?? tabState;
+  const setTab = (t: Tab) => (onTabChange ? onTabChange(t) : setTabState(t));
   const tabsRef = useRef<HTMLDivElement>(null);
 
   // 심사 요약에서 축을 누르면 탭만 바뀌고 내용은 아래에 숨어 매번 스크롤해야 했다 —

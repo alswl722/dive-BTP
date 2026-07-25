@@ -36,13 +36,23 @@ export function CompanyBatchExport({ companies, programs }: { companies: Company
   const [builder, setBuilder] = useState(false);
   return (
     <>
-      <button
-        onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-[12.5px] font-medium hover:bg-muted"
-      >
-        <Download className="h-3.5 w-3.5" />
-        내보내기
-      </button>
+      <div className="inline-flex items-center gap-1.5">
+        {/* 내보내기 = 리포트 편집기 직행 (원하는 블록만 골라 담아 PDF) */}
+        <button
+          onClick={() => setBuilder(true)}
+          className="inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-[12.5px] font-medium hover:bg-muted"
+        >
+          <Download className="h-3.5 w-3.5" />
+          내보내기
+        </button>
+        {/* 여러 기업 일괄 CSV/PDF는 보조로 유지 */}
+        <button
+          onClick={() => setOpen(true)}
+          className="rounded-md px-2 py-1.5 text-[11.5px] text-muted-foreground hover:bg-muted hover:text-foreground"
+        >
+          일괄(CSV/PDF)
+        </button>
+      </div>
       {open && (
         <BatchDialog
           companies={companies}

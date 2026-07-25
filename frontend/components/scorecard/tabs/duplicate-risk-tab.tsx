@@ -15,6 +15,7 @@ import {
 } from "@/lib/duplicate-risk";
 import { deptKey, findConcurrentPairs, summarizeConcurrent } from "@/lib/concurrent-support";
 import { DuplicateFlagDetailPanel } from "@/components/axis9/DuplicateFlagBadge";
+import { Selectable } from "@/lib/report-select";
 
 const resultVariant = { 선정: "good", 탈락: "bad", 포기: "secondary" } as const;
 
@@ -35,13 +36,15 @@ export function DuplicateRiskTab({ company, latestYear }: { company: Company; la
           이 탭은 다른 탭과 달리 AxisSignals(요약 문장)를 쓰지 않는다 — 아래
           flag 판정·동시수혜 패널·연도별 카드가 이미 같은 내용을 근거와 함께
           보여주므로, 요약 문장을 더 얹으면 같은 정보가 두 번 반복된다. */}
-      <DuplicateFlagDetailPanel flag={company.duplicateFlag} />
+      <Selectable id="dup-flag" label="반복지원 판정" kind="chart"><DuplicateFlagDetailPanel flag={company.duplicateFlag} /></Selectable>
 
       {/* 동시 수행 지원 (기간 겹침) — flag 판정의 부가 근거 성격 */}
       <ConcurrentPanel summary={concurrent} pairs={crossDeptSameTypePairs} />
 
       <div className="border-t pt-4" />
 
+      <Selectable id="dup-recent" label="최근 선정 분석" kind="chart">
+      <div className="space-y-3">
       <div className="flex items-center justify-between">
         <p className="text-[14px] font-bold">
           최근 {byYear.length}개년 선정 분석 <span className="font-normal text-muted-foreground">({from}~{latestYear})</span>
@@ -69,10 +72,12 @@ export function DuplicateRiskTab({ company, latestYear }: { company: Company; la
           </p>
         </div>
       )}
+      </div>
+      </Selectable>
 
       {/* 전체 지원이력 (기본 접힘) — flag/중복위험 판정 근거를 담당자가 원본 시간축으로
           확인하고 싶을 때 열어보는 상세. 최근 3년 요약(위)과 겹치지 않도록 기본 닫힘. */}
-      <FullHistoryDisclosure company={company} />
+      <Selectable id="dup-history" label="전체 지원이력" kind="chart"><FullHistoryDisclosure company={company} /></Selectable>
     </div>
   );
 }

@@ -31,6 +31,7 @@ import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
 from parsers import parse_simple_sheet  # noqa: E402
+from transforms import parse_date_yyyymmdd  # noqa: E402
 from eda_viz import PALETTE, save_fig, setup as viz_setup, write_meta  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
 
@@ -93,7 +94,10 @@ def main() -> None:
     # ── 2. 출원경과년수 · 만료 판정 ──────────────────────────────
     _head("[2] 출원경과년수 (지적재산권 종류별) · 존속기간 만료 판정")
     df = df.copy()
-    df["_appl_dt"] = pd.to_datetime(df[col_appl], errors="coerce")
+    # 원본 출원일자는 YYYYMMDD 정수/문자열(예: 20150421.0). pd.to_datetime(errors="coerce")를
+    # 포맷 없이 걸면 이를 epoch 기준 오프셋으로 오인해 전건이 1970년 근처로 튀는 버그가
+    # 있었다(전종류 median 56.6년의 원인). ETL 본 파이프라인과 동일한 파서로 통일.
+    df["_appl_dt"] = pd.to_datetime(df[col_appl].map(parse_date_yyyymmdd))
     today = pd.Timestamp.now()
     df["_years"] = (today - df["_appl_dt"]).dt.days / 365.25
     df["_lifespan"] = df[col_type].map(LIFESPAN) if col_type else np.nan

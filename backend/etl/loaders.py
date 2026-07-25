@@ -25,6 +25,7 @@ _CASTERS = {
     "date": T.parse_date_yyyymmdd,
     "bool": T.yn_to_bool,
     "ministry": T.normalize_ministry,
+    "region": T.normalize_region,
 }
 
 
